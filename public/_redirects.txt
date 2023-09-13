@@ -1,4 +1,0 @@
-/ /  
-/login /login   
-/signup /signup   
-/forgotpassword /forgotpassword   
