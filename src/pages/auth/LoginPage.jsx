@@ -1,4 +1,5 @@
 import { Button, Checkbox, Form, Input } from "antd";
+import { Link } from "react-router-dom";
 const LoginPage = () => {
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -117,10 +118,10 @@ const LoginPage = () => {
         </div>
         <div className="">
           <p className=" xl:dark:text-black dark:text-white">
-            Don{"'"}t have an account?
-            <a href="" className=" text-blue-500">
+            Don{"'"}t have an account ?{" "}
+            <Link to="/signup" className=" text-blue-500">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
