@@ -117,7 +117,7 @@ const LoginPage = () => {
         </div>
         <div className="">
           <p className=" xl:dark:text-black dark:text-white">
-            Don{"'"}t have an account?
+            Don{"'"}t have an account ?{" "}
             <a href="" className=" text-blue-500">
               Sign up
             </a>
