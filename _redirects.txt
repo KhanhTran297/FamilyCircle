@@ -1,0 +1,4 @@
+/*    /index.html   200
+/login/*    /index.html   200
+/signup/*    /index.html   200
+/forgotpassword/*    /index.html   200
