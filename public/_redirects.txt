@@ -1,4 +1,4 @@
-/         /  
-/login    /login   
-/signup    /signup   
-/forgotpassword    /forgotpassword   
+/ /  
+/login /login   
+/signup /signup   
+/forgotpassword /forgotpassword   
