@@ -1,11 +1,5 @@
 [[redirects]]
-from="/login"
-to="/login"
+from="/*"
+to="index.html"
+status=200
 
-[[redirects]]
-from="/signup"
-to="/signup"
-
-[[redirects]]
-from="/signup"
-to="/signup"
