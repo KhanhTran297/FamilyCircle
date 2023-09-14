@@ -3,6 +3,10 @@ import UseCookie from "../../hooks/UseCookie";
 
 const HomePage = () => {
   const { removeToken } = UseCookie();
+  const handleLogout = () => {
+    removeToken();
+    navigate("/");
+  };
   const navigate = useNavigate();
   return (
     <div>
@@ -15,12 +19,7 @@ const HomePage = () => {
       >
         Sign in
       </span>
-      <span
-        className=" cursor-pointer"
-        onClick={() => {
-          removeToken();
-        }}
-      >
+      <span className=" cursor-pointer" onClick={handleLogout}>
         Log out
       </span>
     </div>
