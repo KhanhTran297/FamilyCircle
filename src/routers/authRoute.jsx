@@ -2,6 +2,7 @@ import AuthenticationLayout from "../layouts/AuthenticationLayout";
 import ForgetPassword from "../pages/auth/ForgetPassword";
 import LoginPage from "../pages/auth/LoginPage";
 import SignupPage from "../pages/auth/SignupPage";
+import GuardRoute from "./GuardRoute";
 
 // Xem cấu trúc routes ở https://reactrouter.com/en/main/routers/create-browser-router#routes
 export default function init(routes) {
@@ -14,16 +15,28 @@ export default function init(routes) {
     // Xem thêm ở https://reactrouter.com/en/main/components/outlet
     children: [
       {
-        path: "login",
-        element: <LoginPage />,
+        index: true,
+        element: (
+          <GuardRoute>
+            <LoginPage />
+          </GuardRoute>
+        ),
       },
       {
         path: "signup",
-        element: <SignupPage />,
+        element: (
+          <GuardRoute>
+            <SignupPage />
+          </GuardRoute>
+        ),
       },
       {
         path: "forgotpassword",
-        element: <ForgetPassword />,
+        element: (
+          <GuardRoute>
+            <ForgetPassword />
+          </GuardRoute>
+        ),
       },
     ],
   };
