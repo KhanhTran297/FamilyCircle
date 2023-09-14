@@ -1,10 +1,11 @@
 import useAccount from "../../hooks/useAccount";
 import { Checkbox, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SubmitButton from "../../components/shared/SubmitButton";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 const LoginPage = () => {
   const { handleLogin } = useAccount();
+  const navigate = useNavigate();
   const onFinish = (values) => {
     handleLogin(values);
   };
@@ -45,6 +46,7 @@ const LoginPage = () => {
             <Form.Item
               hasFeedback
               name="email"
+              validateFirst
               rules={[
                 {
                   type: "email",
@@ -87,9 +89,19 @@ const LoginPage = () => {
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked">
-              <Checkbox className=" dark:text-white xl:dark:text-black">
-                Remember me
-              </Checkbox>
+              <Form.Item className=" float-left">
+                <Checkbox className=" dark:text-white xl:dark:text-black">
+                  Remember me
+                </Checkbox>
+              </Form.Item>
+              <p
+                className=" float-right cursor-pointer hover:text-blue-400"
+                onClick={() => {
+                  navigate("forgotpassword");
+                }}
+              >
+                Forgot password
+              </p>
             </Form.Item>
 
             <Form.Item className=" mb-2">
