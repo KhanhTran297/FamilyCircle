@@ -1,10 +1,11 @@
 import MainLayout from "../layouts/MainLayout";
 import HomePage from "../pages/main/HomePage";
+import GuardRoute from "./GuardRoute";
 
 // Xem cấu trúc routes ở https://reactrouter.com/en/main/routers/create-browser-router#routes
 export default function init(routes) {
   const route = {
-    path: "",
+    path: "/",
 
     element: <MainLayout />,
     // Element là AuthenLayout, các children muốn hiển thị được trong AuthenLayout thì trong Layout phải có outlet mới hiển thị được
@@ -12,8 +13,15 @@ export default function init(routes) {
     // Xem thêm ở https://reactrouter.com/en/main/components/outlet
     children: [
       {
-        index: true,
-        element: <HomePage />,
+        path: "/index",
+        element: (
+          // <GuardRouteMain>
+          //   <HomePage />
+          // </GuardRouteMain>
+          <GuardRoute>
+            <HomePage />
+          </GuardRoute>
+        ),
       },
     ],
   };
