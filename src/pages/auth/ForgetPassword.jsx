@@ -91,7 +91,6 @@ const ForgetPassword = () => {
                 <Form.Item
                   hasFeedback
                   validateFirst
-                  label="New password"
                   name="newPassword"
                   rules={[
                     {
@@ -114,7 +113,6 @@ const ForgetPassword = () => {
                 <Form.Item
                   hasFeedback
                   validateDebounce={1000}
-                  label="Confirm new password"
                   name="confirmNewPass"
                   rules={[
                     {
@@ -132,7 +130,7 @@ const ForgetPassword = () => {
                       },
                     }),
                   ]}
-                  className=" relative w-full"
+                  className=" relative w-full dark:text-white"
                 >
                   <Input.Password
                     prefix={<LockOutlined className="site-form-item-icon" />}
@@ -143,7 +141,6 @@ const ForgetPassword = () => {
               </div>
             ) : toggleOtp ? (
               <Form.Item
-                label="Otp"
                 name="otp"
                 className=" relative w-full"
                 rules={[{ required: true, message: "Please input your otp" }]}
@@ -156,7 +153,6 @@ const ForgetPassword = () => {
             ) : (
               <Form.Item
                 hasFeedback
-                label="Email"
                 name="email"
                 validateFirst
                 rules={[
@@ -166,23 +162,16 @@ const ForgetPassword = () => {
                     message: "Please enter a valid gmail address",
                   },
                 ]}
-                className=" relative w-full"
+                className=" relative w-full dark:text-white"
               >
                 <Input
                   prefix={<MailOutlined className="site-form-item-icon" />}
-                  placeholder="Confirm your new password"
+                  placeholder="please input your email"
                   className=" pt-2 pb-2 rounded-xl text-base"
                 />
               </Form.Item>
             )}
             <Form.Item className=" mb-2">
-              {/* <Button
-                type="default"
-                htmlType="submit"
-                className=" w-full text-[20px] pt-2 pb-10 rounded-[30px] xl:bg-white xl:text-black dark:text-black bg-slate-500 text-white dark:bg-white xl:dark:bg-slate-500 xl:dark:text-white"
-              >
-                Sign in
-              </Button> */}
               <SubmitButton
                 form={form}
                 content={nameButton}
