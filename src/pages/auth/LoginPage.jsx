@@ -1,15 +1,20 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import useAccount from "../../hooks/useAccount";
+import { Checkbox, Form, Input } from "antd";
 import { Link } from "react-router-dom";
+import SubmitButton from "../../components/shared/SubmitButton";
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
 const LoginPage = () => {
+  const { handleLogin } = useAccount();
   const onFinish = (values) => {
-    console.log("Success:", values);
+    handleLogin(values);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  const [form] = Form.useForm();
   return (
     <div className=" absolute h-full w-full bg-white dark:bg-black flex justify-center items-center">
-      <div className="flex flex-col gap-4 xl:bg-slate-300 xl:w-[50%] xl:h-[500px] xl:p-8 xl:rounded-2xl xl:dark:bg-white">
+      <div className="flex flex-col gap-4 xl:bg-slate-300 xl:w-[50%] xl:h-max xl:p-8 xl:rounded-2xl xl:dark:bg-white">
         <div className="flex flex-col gap-6">
           <div className=" m-auto ">
             <p className=" text-2xl font-semibold dark:text-white xl:dark:text-black ">
@@ -17,7 +22,9 @@ const LoginPage = () => {
             </p>
           </div>
           <Form
+            form={form}
             name="basic"
+            layout="vertical"
             // labelCol={{
             //   span: 8,
             // }}
@@ -36,24 +43,36 @@ const LoginPage = () => {
             className=" relative"
           >
             <Form.Item
+              hasFeedback
               name="email"
               rules={[
                 {
+                  type: "email",
+                  message: "Please enter a valid email address!",
+                },
+                {
                   required: true,
-                  message: "Please input your email!",
+                  message: "Please input your email! address",
                 },
               ]}
               className=" relative w-full"
             >
               <Input
+                prefix={<MailOutlined className="site-form-item-icon" />}
                 placeholder="Input your email"
                 className=" pt-2 pb-2 rounded-xl text-base "
               />
             </Form.Item>
 
             <Form.Item
+              hasFeedback
               name="password"
+              validateFirst
               rules={[
+                {
+                  min: 8,
+                  message: "Password is at least 8 characters",
+                },
                 {
                   required: true,
                   message: "Please input your password!",
@@ -61,6 +80,7 @@ const LoginPage = () => {
               ]}
             >
               <Input.Password
+                prefix={<LockOutlined className="site-form-item-icon" />}
                 placeholder="Input your password"
                 className=" pt-2 pb-2 rounded-xl text-base"
               />
@@ -73,13 +93,18 @@ const LoginPage = () => {
             </Form.Item>
 
             <Form.Item className=" mb-2">
-              <Button
+              {/* <Button
                 type="default"
                 htmlType="submit"
                 className=" w-full text-[20px] pt-2 pb-10 rounded-[30px] xl:bg-white xl:text-black dark:text-black bg-slate-500 text-white dark:bg-white xl:dark:bg-slate-500 xl:dark:text-white"
               >
                 Sign in
-              </Button>
+              </Button> */}
+              <SubmitButton
+                form={form}
+                content="Sign in"
+                className=" w-full text-[20px] pt-2 pb-10 rounded-[30px] xl:bg-white xl:text-black dark:text-black bg-slate-500 text-white dark:bg-white xl:dark:bg-slate-500 xl:dark:text-white"
+              />
             </Form.Item>
           </Form>
         </div>
