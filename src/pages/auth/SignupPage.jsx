@@ -47,10 +47,10 @@ const SignupPage = () => {
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   return (
     <div className=" absolute h-full w-full bg-white dark:bg-black flex justify-center items-center">
-      <div className="flex flex-col gap-4 xl:bg-slate-300 xl:w-[50%] xl:h-max xl:p-8 xl:rounded-2xl xl:dark:bg-white">
+      <div className="flex flex-col gap-4 md:bg-primary md:p-8 md:rounded-2xl xl:bg-primary lg:bg-primary lg:w-[500px] lg:p-8 lg:rounded-2xl xl:w-[500px] xl:h-max xl:p-8 xl:rounded-2xl lg:dark:bg-white md:dark:bg-white">
         <div className="flex flex-col gap-6">
           <div className=" m-auto ">
-            <p className=" text-2xl font-semibold dark:text-white xl:dark:text-black ">
+            <p className=" text-2xl font-semibold dark:text-white lg:dark:text-black md:dark:text-black ">
               Sign up
             </p>
           </div>
@@ -197,13 +197,13 @@ const SignupPage = () => {
               <SubmitButton
                 form={form}
                 content="Sign up"
-                className="w-full text-[20px] pt-2 pb-10 rounded-[30px] xl:bg-white xl:text-black dark:text-black bg-slate-500 text-white dark:bg-white xl:dark:bg-slate-500 xl:dark:text-white"
+                className="w-full h-max text-base font-semibold pt-2 pb-2 rounded-[30px] xl:bg-white md:bg-white lg:bg-white xl:text-black lg:hover:bg-secondary md:hover:bg-secondary lg:hover:!border-none md:hover:!border-none xl:hover:bg-secondary lg:hover:!text-neutral-800 md:hover:!text-neutral-800 xl:hover:!border-none xl:hover:!text-neutral-800 dark:text-black bg-primary text-black !border-none dark:bg-white lg:dark:bg-slate-500 lg:dark:text-white md:dark:bg-slate-500 md:dark:text-white"
               />
             </Form.Item>
           </Form>
         </div>
         <div className="">
-          <p className=" xl:dark:text-black dark:text-white">
+          <p className=" lg:dark:text-black md:dark:text-black dark:text-white text-sm">
             Already have an account ?{" "}
             <Link to="/" className=" text-blue-500">
               Sign in
