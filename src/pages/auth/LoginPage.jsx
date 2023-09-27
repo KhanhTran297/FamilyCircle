@@ -15,10 +15,10 @@ const LoginPage = () => {
   const [form] = Form.useForm();
   return (
     <div className=" absolute h-full w-full bg-white dark:bg-black flex justify-center items-center">
-      <div className="flex flex-col gap-4 xl:bg-slate-300 xl:w-[50%] xl:h-max xl:p-8 xl:rounded-2xl xl:dark:bg-white">
+      <div className="flex flex-col justify-evenly gap-6 md:bg-primary md:p-8 md:rounded-2xl xl:bg-primary lg:bg-primary lg:w-[500px] lg:p-8 lg:rounded-2xl xl:w-[500px] xl:h-max xl:p-8 xl:rounded-2xl lg:dark:bg-white md:dark:bg-white">
         <div className="flex flex-col gap-6">
           <div className=" m-auto ">
-            <p className=" text-2xl font-semibold dark:text-white xl:dark:text-black ">
+            <p className=" text-2xl font-semibold dark:text-white lg:dark:text-black md:dark:text-black ">
               Sign in
             </p>
           </div>
@@ -89,8 +89,9 @@ const LoginPage = () => {
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked">
+
               <Form.Item className=" float-left">
-                <Checkbox className=" dark:text-white xl:dark:text-black">
+                <Checkbox className=" dark:text-white lg:dark:text-black md:dark:text-black">
                   Remember me
                 </Checkbox>
               </Form.Item>
@@ -105,23 +106,16 @@ const LoginPage = () => {
             </Form.Item>
 
             <Form.Item className=" mb-2">
-              {/* <Button
-                type="default"
-                htmlType="submit"
-                className=" w-full text-[20px] pt-2 pb-10 rounded-[30px] xl:bg-white xl:text-black dark:text-black bg-slate-500 text-white dark:bg-white xl:dark:bg-slate-500 xl:dark:text-white"
-              >
-                Sign in
-              </Button> */}
               <SubmitButton
                 form={form}
                 content="Sign in"
-                className=" w-full text-[20px] pt-2 pb-10 rounded-[30px] xl:bg-white xl:text-black dark:text-black bg-slate-500 text-white dark:bg-white xl:dark:bg-slate-500 xl:dark:text-white"
+                className=" w-full h-max text-base font-semibold pt-2 pb-2 rounded-[30px] xl:bg-white md:bg-white lg:bg-white xl:text-black lg:hover:bg-secondary md:hover:bg-secondary lg:hover:!border-none md:hover:!border-none xl:hover:bg-secondary lg:hover:!text-neutral-800 md:hover:!text-neutral-800 xl:hover:!border-none xl:hover:!text-neutral-800 dark:text-black bg-primary text-black !border-none dark:bg-white lg:dark:bg-slate-500 lg:dark:text-white md:dark:bg-slate-500 md:dark:text-white"
               />
             </Form.Item>
           </Form>
         </div>
-        <div className=" border-t-2 border-t-slate-300 pt-3 xl:border-white xl:dark:border-t-slate-300 dark:border-b-white">
-          <div className=" flex flex-row gap-4 cursor-pointer items-center justify-center place-items-center xl:dark:bg-slate-500 xl:dark:text-white xl:bg-white xl:text-black bg-slate-500 pt-2 pb-2 pl-8 pr-8 rounded-[30px] text-white dark:text-black dark:bg-white ">
+        <div className=" flex flex-col gap-4 border-t-2 border-t-slate-300 pt-3 xl:border-white xl:dark:border-t-slate-300 dark:border-b-white">
+          <div className=" flex flex-row gap-4 cursor-pointer items-center justify-center place-items-center xl:hover:bg-secondary  lg:hover:bg-secondary md:hover:bg-secondary lg:dark:bg-slate-500 lg:dark:text-white md:dark:bg-slate-500 md:dark:text-white xl:bg-white lg:bg-white md:bg-white lg:text-black xl:text-black md:text-black bg-primary pt-2 pb-2 pl-8 pr-8 rounded-[30px] text-black dark:text-black dark:bg-white ">
             <div className="icon google">
               <svg
                 version="1.1"
@@ -150,16 +144,16 @@ const LoginPage = () => {
                 </g>
               </svg>
             </div>
-            <p className="text-[20px] ">Đăng nhập bằng Google</p>
+            <p className="text-base font-semibold  ">Đăng nhập bằng Google</p>
           </div>
-        </div>
-        <div className="">
-          <p className=" xl:dark:text-black dark:text-white">
-            Don{"'"}t have an account ?{" "}
-            <Link to="/signup" className=" text-blue-500">
-              Sign up
-            </Link>
-          </p>
+          <div className="">
+            <p className=" lg:dark:text-black md:dark:text-black dark:text-white text-sm">
+              Don{"'"}t have an account ?{" "}
+              <Link to="/signup" className=" text-blue-500">
+                Sign up
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
