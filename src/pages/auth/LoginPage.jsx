@@ -89,14 +89,13 @@ const LoginPage = () => {
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked">
-
               <Form.Item className=" float-left">
                 <Checkbox className=" dark:text-white lg:dark:text-black md:dark:text-black">
                   Remember me
                 </Checkbox>
               </Form.Item>
               <p
-                className=" float-right cursor-pointer hover:text-blue-400"
+                className=" float-right cursor-pointer hover:text-blue-400 dark:text-white lg:dark:text-black md:dark:text-black  "
                 onClick={() => {
                   navigate("forgotpassword");
                 }}
