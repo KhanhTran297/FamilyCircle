@@ -1,4 +1,5 @@
 import MainLayout from "../layouts/MainLayout";
+import CmsPage from "../pages/admin/CmsPage";
 import HomePage from "../pages/main/HomePage";
 import GuardRoute from "./GuardRoute";
 
@@ -22,6 +23,10 @@ export default function init(routes) {
             <HomePage />
           </GuardRoute>
         ),
+      },
+      {
+        path: "/admin",
+        element: <CmsPage />,
       },
     ],
   };
