@@ -14,21 +14,16 @@ const SignupPage = () => {
   const [form] = Form.useForm();
   const { authSignup } = useAccount();
   const onFinish = async (values) => {
-    // console.log(
-    //   "Success:",
-    //   dayjs(values.userDayOfBirth["$d"]).format("DD-MM-YYYY HH:mm:ss")
-    // );
-    const formatUserDayOfBirth = dayjs(values.userDayOfBirth["$d"]).format(
+    const formatUserDayOfBirth = dayjs(values.dateOfBirth["$d"]).format(
       "DD/MM/YYYY HH:mm:ss"
     );
-    // console.log(formatUserDayOfBirth);
     const data = {
-      userAvatar:
-        "https://i.pinimg.com/236x/19/b8/d6/19b8d6e9b13eef23ec9c746968bb88b1.jpg",
+      avatarPath: "defaultavatar.png",
+      bio: "",
       ...values,
     };
-    data.userDayOfBirth = formatUserDayOfBirth;
-    if (handleCheckValidBirth(values.userDayOfBirth["$y"])) {
+    data.dateOfBirth = formatUserDayOfBirth;
+    if (handleCheckValidBirth(values.dateOfBirth["$y"])) {
       authSignup(data);
     } else {
       message.error("invalid year");
@@ -77,7 +72,7 @@ const SignupPage = () => {
           >
             <Form.Item
               hasFeedback
-              name="userFullName"
+              name="fullName"
               rules={[
                 {
                   required: true,
@@ -94,7 +89,7 @@ const SignupPage = () => {
             </Form.Item>
             <Form.Item
               hasFeedback
-              name="userEmail"
+              name="email"
               rules={[
                 {
                   type: "email",
@@ -115,7 +110,7 @@ const SignupPage = () => {
             </Form.Item>
             <Form.Item
               hasFeedback
-              name="userPhone"
+              name="phone"
               validateDebounce={1000}
               rules={[
                 {
@@ -141,7 +136,7 @@ const SignupPage = () => {
             </Form.Item>
             <Form.Item
               hasFeedback
-              name="userDayOfBirth"
+              name="dateOfBirth"
               rules={[
                 {
                   required: true,
@@ -173,7 +168,7 @@ const SignupPage = () => {
             </Form.Item>
             <Form.Item
               hasFeedback
-              name="userPassword"
+              name="password"
               validateFirst
               rules={[
                 {
