@@ -7,7 +7,12 @@ const LoginPage = () => {
   const { handleLogin } = useAccount();
   const navigate = useNavigate();
   const onFinish = (values) => {
-    handleLogin(values);
+    const newValues = {
+      grant_type: "password",
+      username: values.email,
+      password: values.password,
+    };
+    handleLogin(newValues);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

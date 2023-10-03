@@ -4,7 +4,21 @@ import { useEffect, useState } from "react";
 
 const SubmitButton = ({ form, content, className }) => {
   const [submittable, setSubmittable] = useState(false);
-
+  const [loadings, setLoadings] = useState([]);
+  const enterLoading = (index) => {
+    setLoadings((prevLoadings) => {
+      const newLoadings = [...prevLoadings];
+      newLoadings[index] = true;
+      return newLoadings;
+    });
+    setTimeout(() => {
+      setLoadings((prevLoadings) => {
+        const newLoadings = [...prevLoadings];
+        newLoadings[index] = false;
+        return newLoadings;
+      });
+    }, 6000);
+  };
   // Watch all values
   const values = Form.useWatch([], form);
   useEffect(() => {
@@ -27,6 +41,8 @@ const SubmitButton = ({ form, content, className }) => {
       htmlType="submit"
       disabled={!submittable}
       className={className}
+      loading={loadings[0]}
+      onClick={() => enterLoading(0)}
     >
       {content}
     </Button>

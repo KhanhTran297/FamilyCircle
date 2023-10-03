@@ -39,13 +39,27 @@ function UseCallApi() {
     params = {},
     headers = {},
     requiredToken = false,
+    type = "",
   } = {}) => {
     // Get all header
     let fullHeader = { ...headers };
     // If required TOKEN -> Get Access Token from Cookies
     // console.log("requireToken post", requiredToken);
-    requiredToken &&
-      (fullHeader["Authorization"] = `Bearer ${getToken().access_token}`);
+    const Username = "family_circle_client";
+    const Password = "abc123";
+    const credentials = `${Username}:${Password}`;
+    // Mã hóa thành base64
+    const credentialsBase64 = btoa(credentials);
+    console.log("credentialsBase64", credentialsBase64);
+    {
+      type === "basicAuth" && console.log("type", type);
+    }
+    {
+      type === "basicAuth"
+        ? (fullHeader["Authorization"] = `Basic ${credentialsBase64}`)
+        : requiredToken &&
+          (fullHeader["Authorization"] = `Bearer ${getToken().access_token}`);
+    }
 
     const usedPost = () =>
       instance.post(
