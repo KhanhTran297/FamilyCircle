@@ -36,3 +36,4 @@ const GuardRoute = ({ children }) => {
     </div>
   );
 };
+export default GuardRoute;

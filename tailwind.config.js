@@ -24,6 +24,8 @@ export default {
       boxShadow: {
         search: "0px 1px 3px 1px rgba(0, 0, 0, 0.15)",
         mobile: "0px 4px 16px 1px rgba(8, 53, 141, 0.16)",
+      },
+
       colors: {
         primary: "#FFD8E8",
         secondary: "#FFF8F8",
