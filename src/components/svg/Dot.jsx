@@ -1,0 +1,15 @@
+import PropTypes from "prop-types";
+export const ILocalDot = ({ fill }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="4"
+    height="4"
+    viewBox="0 0 4 4"
+    fill="none"
+  >
+    <circle cx="2" cy="2" r="2" fill={fill} />
+  </svg>
+);
+ILocalDot.propTypes = {
+  fill: PropTypes.string.isRequired,
+};

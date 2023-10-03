@@ -46,11 +46,11 @@ const SignupPage = () => {
   };
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   return (
-    <div className=" absolute h-full w-full bg-white dark:bg-black flex justify-center items-center">
+    <div className="absolute flex items-center justify-center w-full h-full bg-white  dark:bg-black">
       <div className="flex flex-col gap-4 xl:bg-slate-300 xl:w-[50%] xl:h-max xl:p-8 xl:rounded-2xl xl:dark:bg-white">
         <div className="flex flex-col gap-6">
-          <div className=" m-auto ">
-            <p className=" text-2xl font-semibold dark:text-white xl:dark:text-black ">
+          <div className="m-auto ">
+            <p className="text-2xl font-semibold  dark:text-white xl:dark:text-black">
               Sign up
             </p>
           </div>
@@ -73,7 +73,7 @@ const SignupPage = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
-            className=" relative"
+            className="relative "
           >
             <Form.Item
               hasFeedback
@@ -84,12 +84,12 @@ const SignupPage = () => {
                   message: "Please input your username!",
                 },
               ]}
-              className=" relative w-full"
+              className="relative w-full "
             >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder="Input your username"
-                className=" pt-2 pb-2 rounded-xl text-base "
+                className="pt-2 pb-2 text-base  rounded-xl"
               />
             </Form.Item>
             <Form.Item
@@ -105,12 +105,12 @@ const SignupPage = () => {
                   message: "Please input your email!",
                 },
               ]}
-              className=" relative w-full"
+              className="relative w-full "
             >
               <Input
                 prefix={<MailOutlined className="site-form-item-icon" />}
                 placeholder="Input your email"
-                className=" pt-2 pb-2 rounded-xl text-base "
+                className="pt-2 pb-2 text-base  rounded-xl"
               />
             </Form.Item>
             <Form.Item
@@ -131,12 +131,12 @@ const SignupPage = () => {
                   message: "Please input your phonenumber!",
                 },
               ]}
-              className=" relative w-full"
+              className="relative w-full "
             >
               <Input
                 prefix={<PhoneOutlined className="site-form-item-icon" />}
                 placeholder="Input your phonenumber"
-                className=" pt-2 pb-2 rounded-xl text-base "
+                className="pt-2 pb-2 text-base  rounded-xl"
               />
             </Form.Item>
             <Form.Item
@@ -162,11 +162,11 @@ const SignupPage = () => {
                   },
                 }),
               ]}
-              className=" relative w-full"
+              className="relative w-full "
             >
               <DatePicker
                 prefix={<CalendarOutlined className="site-form-item-icon" />}
-                className=" w-full pt-2 pb-2 rounded-xl text-base"
+                className="w-full pt-2 pb-2 text-base  rounded-xl"
                 placeholder="Select date of birth"
                 format={dateFormatList}
               />
@@ -189,11 +189,11 @@ const SignupPage = () => {
               <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 placeholder="Input your password"
-                className=" pt-2 pb-2 rounded-xl text-base"
+                className="pt-2 pb-2 text-base  rounded-xl"
               />
             </Form.Item>
 
-            <Form.Item className=" mb-2">
+            <Form.Item className="mb-2 ">
               <SubmitButton
                 form={form}
                 content="Sign up"
@@ -205,7 +205,7 @@ const SignupPage = () => {
         <div className="">
           <p className=" xl:dark:text-black dark:text-white">
             Already have an account ?{" "}
-            <Link to="/" className=" text-blue-500">
+            <Link to="/" className="text-blue-500 ">
               Sign in
             </Link>
           </p>
