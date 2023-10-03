@@ -29,22 +29,13 @@ function useAccount() {
       removeToken();
       //Luu thong tin account vao client state
       // dispatch(getAccountProfileApi({ requiredToken: true }));
-      if (data.code == "UNAUTHORIZED") {
-        message.error("Wrong password or email");
+      console.log("data", data);
+      saveToken(data?.access_token, data?.refresh_token);
+      if (data?.user_kind === 1) {
+        navigate("/admin");
       } else {
-        saveToken(data?.data?.token);
-        getProfileAccount();
-        if (
-          data.data.role == "ROLE ADMIN" ||
-          data.data.role == "ROLE SUPER ADMIN"
-        ) {
-          navigate("/admin");
-        } else {
-          navigate("/index");
-        }
+        navigate("/index");
       }
-
-      // useSuccess("Login Success!");
     },
     onError: () => {
       message.error("Wrong password or email");
@@ -74,7 +65,7 @@ function useAccount() {
     onSuccess: (data) => {
       console.log("data", data.code);
       {
-        data.code == "ERROR-USER-0002"
+        data.code == "ERROR-ACCOUNT-0000"
           ? message.error("email exist")
           : navigate("/");
       }
