@@ -6,11 +6,11 @@ export const authLoginApi = (params) => {
   return UsePost({ url, params, type: "basicAuth" });
 };
 export const getAccountProfileApi = () => {
-  const url = "/v1/user/profile";
+  const url = "/v1/user-account/profile";
   return UseGet({ url, requiredToken: true });
 };
 export const SignUpApi = (params) => {
-  const url = "/v1/user/register";
+  const url = "v1/user-account/register";
   return UsePost({ url, params });
 };
 //logout

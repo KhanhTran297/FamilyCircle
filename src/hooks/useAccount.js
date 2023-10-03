@@ -65,7 +65,7 @@ function useAccount() {
     onSuccess: (data) => {
       console.log("data", data.code);
       {
-        data.code == "ERROR-USER-0002"
+        data.code == "ERROR-ACCOUNT-0000"
           ? message.error("email exist")
           : navigate("/");
       }
