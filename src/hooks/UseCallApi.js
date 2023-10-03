@@ -50,10 +50,6 @@ function UseCallApi() {
     const credentials = `${Username}:${Password}`;
     // Mã hóa thành base64
     const credentialsBase64 = btoa(credentials);
-    console.log("credentialsBase64", credentialsBase64);
-    {
-      type === "basicAuth" && console.log("type", type);
-    }
     {
       type === "basicAuth"
         ? (fullHeader["Authorization"] = `Basic ${credentialsBase64}`)
