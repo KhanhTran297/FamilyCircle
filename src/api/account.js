@@ -3,7 +3,7 @@ import UseCallApi from "../hooks/UseCallApi";
 const { UseGet, UsePost, UseEdit } = UseCallApi();
 export const authLoginApi = (params) => {
   const url = "/api/token";
-  return UsePost({ url, params });
+  return UsePost({ url, params, type: "basicAuth" });
 };
 export const getAccountProfileApi = () => {
   const url = "/v1/user/profile";
