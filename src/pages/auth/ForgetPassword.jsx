@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import SubmitButton from "../../components/shared/SubmitButton";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import {
   checkOtpApi,
   createNewPasswordApi,
