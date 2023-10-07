@@ -17,6 +17,10 @@ export const getAccountListApi = (params) => {
     params,
   });
 };
+export const getExpertAccountProfileApi = () => {
+  const url = "/v1/expert-account/profile";
+  return UseGet({ url, requiredToken: true });
+};
 export const SignUpApi = (params) => {
   const url = "v1/user-account/register";
   return UsePost({ url, params });
