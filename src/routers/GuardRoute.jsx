@@ -3,15 +3,23 @@ import UseCookie from "../hooks/UseCookie";
 import useAccount from "../hooks/useAccount";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../components/shared/LoadingPage";
+import { getExpertAccountProfileApi } from "../api/account";
 
 const GuardRoute = ({ children }) => {
   const { isLoggedIn } = UseCookie();
-  const { profileAccount, getProfileAccount, loadingPage } = useAccount();
+  const {
+    profileAccount,
+    getProfileAccount,
+    loadingPage,
+    getProfileExpertAccount,
+  } = useAccount();
   const navigate = useNavigate();
   useEffect(() => {
     if (isLoggedIn()) {
       if (!profileAccount?.data) {
-        getProfileAccount();
+        {
+          getProfileAccount() && getProfileExpertAccount();
+        }
         navigate("/index");
       } else {
         navigate("/index");
