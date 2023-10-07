@@ -7,9 +7,10 @@ import {
   sentOtpApi,
   SignUpApi,
   checkOtpApi,
+  getAccountListApi,
 } from "../api/account";
 import { setUser } from "../redux/slice/account";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useCookie from "./UseCookie";
@@ -29,7 +30,6 @@ function useAccount() {
       removeToken();
       //Luu thong tin account vao client state
       // dispatch(getAccountProfileApi({ requiredToken: true }));
-      console.log("data", data);
       saveToken(data?.access_token, data?.refresh_token);
       if (data?.user_kind === 1) {
         navigate("/admin");
@@ -57,6 +57,16 @@ function useAccount() {
     onError: () => {
       removeToken();
       navigate("/");
+    },
+  });
+  //getList user accounts
+  const { data: listUserAccounts, refetch: getListUserAccounts } = useQuery({
+    queryKey: ["listAccount"],
+    queryFn: getAccountListApi,
+    enabled: false,
+    retry: 0,
+    onSuccess: () => {
+      message.success("Get list user success");
     },
   });
   //signup
@@ -140,6 +150,8 @@ function useAccount() {
     sendOtp,
     checkOtp,
     datasendOtp,
+    listUserAccounts,
+    getListUserAccounts,
   };
 }
 export default useAccount;

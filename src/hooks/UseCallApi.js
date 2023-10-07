@@ -18,19 +18,13 @@ function UseCallApi() {
       (fullHeader["Authorization"] = `Bearer ${getToken().access_token}`);
 
     const usedGet = () =>
-      instance.get(
-        url,
-        // { params },
-        {
-          headers: {
-            ...instance.defaults.headers,
-            ...fullHeader,
-          },
+      instance.get(url, {
+        headers: {
+          ...instance.defaults.headers,
+          ...fullHeader,
         },
-        {
-          params,
-        }
-      );
+        params,
+      });
     return usedGet();
   };
   //POST

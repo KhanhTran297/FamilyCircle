@@ -18,7 +18,7 @@ const SignupPage = () => {
       "DD/MM/YYYY HH:mm:ss"
     );
     const data = {
-      avatarPath: "defaultavatar.png",
+      avatarPath: "defaultavatar.jpg",
       bio: "",
       ...values,
     };

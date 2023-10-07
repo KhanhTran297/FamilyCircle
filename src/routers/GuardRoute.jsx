@@ -23,15 +23,15 @@ const GuardRoute = ({ children }) => {
   }, []);
   return (
     <div>
-      {loadingPage ? (
+      {/* {loadingPage ? (
         <LoadingPage
           css={
             "absolute  justify-center items-center place-items-center h-full w-full bg-white dark:bg-black"
           }
         />
-      ) : (
-        <div>{children}</div>
-      )}
+      ) : ( */}
+      <div>{children}</div>
+      {/* )} */}
     </div>
   );
 };

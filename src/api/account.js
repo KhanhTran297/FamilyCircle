@@ -9,6 +9,14 @@ export const getAccountProfileApi = () => {
   const url = "/v1/user-account/profile";
   return UseGet({ url, requiredToken: true });
 };
+export const getAccountListApi = (params) => {
+  const url = "/v1/user-account/list";
+  return UseGet({
+    url,
+    requiredToken: true,
+    params,
+  });
+};
 export const SignUpApi = (params) => {
   const url = "v1/user-account/register";
   return UsePost({ url, params });
