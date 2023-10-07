@@ -17,6 +17,7 @@ export default {
       backgroundColor: {
         tab: "rgba(31, 31, 31)",
         menu: "rgba(167, 53, 116, 0.08)",
+        modal: "rgba(0, 0, 0, 0.32)",
       },
       fontFamily: {
         roboto: ["Roboto", "sans"],
@@ -24,11 +25,14 @@ export default {
       boxShadow: {
         search: "0px 1px 3px 1px rgba(0, 0, 0, 0.15)",
         mobile: "0px 4px 16px 1px rgba(8, 53, 141, 0.16)",
+        modal:
+          "0px 1px 3px 0px rgba(0, 0, 0, 0.30), 0px 4px 8px 3px rgba(0, 0, 0, 0.15)",
       },
 
       colors: {
         primary: "#FFD8E8",
         secondary: "#FFF8F8",
+        light_surface_on_surface: "#1F1A1C",
       },
     },
   },

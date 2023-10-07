@@ -17,9 +17,13 @@
     "axios": "^1.5.0",
     "dayjs": "^1.11.9",
     "js-cookie": "^3.0.5",
+    "quill": "^1.3.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.47.0",
     "react-query": "^3.39.3",
+    "react-quill": "^2.0.0",
+    "react-quilljs": "^1.3.3",
     "react-redux": "^8.1.2",
     "react-router-dom": "^6.15.0",
     "recoil": "^0.7.7"

@@ -3,7 +3,6 @@ import UseCookie from "../hooks/UseCookie";
 import useAccount from "../hooks/useAccount";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../components/shared/LoadingPage";
-import { Spin } from "antd";
 
 const GuardRoute = ({ children }) => {
   const { isLoggedIn } = UseCookie();
