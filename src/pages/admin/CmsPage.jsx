@@ -12,6 +12,7 @@ import UseCookie from "../../hooks/UseCookie";
 import UsersContent from "../../components/admin/UsersContent";
 import ExpertsContent from "../../components/admin/ExpertsContent";
 import PostsContent from "../../components/admin/PostsContent";
+import HospitalContent from "../../components/admin/HospitalContent";
 const { Header, Content, Footer, Sider } = Layout;
 
 const CmsPage = () => {
@@ -33,6 +34,12 @@ const CmsPage = () => {
       case "sub2":
         setContents("sub2");
         break;
+      case "3":
+        setContents(3);
+        break;
+      case "4":
+        setContents(4);
+        break;
       default:
         break;
     }
@@ -50,7 +57,10 @@ const CmsPage = () => {
       getItem("User", "1"),
       getItem("Expert", "2"),
     ]),
-    getItem("Manage posts", "sub2", <FileOutlined />),
+    getItem("Manage category", "sub2", <FileOutlined />, [
+      getItem("Hospital", "3"),
+      getItem("Department", "4"),
+    ]),
     // getItem("", "5", <FileOutlined />),
   ];
   const onClick = ({ key }) => {
@@ -149,7 +159,7 @@ const CmsPage = () => {
         >
           {contents === 1 && <UsersContent bg={colorBgContainer} />}
           {contents === 2 && <ExpertsContent bg={colorBgContainer} />}
-          {contents === "sub2" && <PostsContent bg={colorBgContainer} />}
+          {contents === 3 && <HospitalContent bg={colorBgContainer} />}
         </Content>
         <Footer
           style={{
