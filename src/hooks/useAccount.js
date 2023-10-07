@@ -8,6 +8,7 @@ import {
   SignUpApi,
   checkOtpApi,
   getAccountListApi,
+  getExpertAccountProfileApi,
 } from "../api/account";
 import { setUser } from "../redux/slice/account";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -49,6 +50,24 @@ function useAccount() {
   } = useQuery({
     queryKey: ["profileAccount"],
     queryFn: getAccountProfileApi,
+    enabled: false,
+    retry: 0,
+    onSuccess: (profileAccount) => {
+      dispatch(setUser(profileAccount.data));
+    },
+    onError: () => {
+      removeToken();
+      navigate("/");
+    },
+  });
+  //getList expert accounts
+  const {
+    data: profileExpertAccount,
+    refetch: getProfileExpertAccount,
+    isLoading: loadingExpertPage,
+  } = useQuery({
+    queryKey: ["profileExpertAccount"],
+    queryFn: getExpertAccountProfileApi,
     enabled: false,
     retry: 0,
     onSuccess: (profileAccount) => {
@@ -152,6 +171,9 @@ function useAccount() {
     datasendOtp,
     listUserAccounts,
     getListUserAccounts,
+    profileExpertAccount,
+    getProfileExpertAccount,
+    loadingExpertPage,
   };
 }
 export default useAccount;
