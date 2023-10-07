@@ -1,8 +1,8 @@
-import { useMutation, useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 
 import { setListPost } from "../redux/slice/post";
 import { createPostApi, getListPostApi } from "../api/post";
+import { useMutation, useQuery } from "@tanstack/react-query";
 function UsePost() {
   const dispatch = useDispatch();
   // const postId = useSelector((state) => state.post.postId);
