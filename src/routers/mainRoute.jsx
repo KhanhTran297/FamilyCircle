@@ -25,7 +25,7 @@ export default function init(routes) {
         ),
       },
       {
-        path: "/admin",
+        path: "/admin/:id",
         element: <CmsPage />,
       },
     ],
