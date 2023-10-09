@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import useCookie from "./UseCookie";
 
 import { message } from "antd";
+import { setExpert } from "../redux/slice/expert";
 
 function useAccount() {
   //hooks
@@ -71,7 +72,7 @@ function useAccount() {
     enabled: false,
     retry: 0,
     onSuccess: (profileAccount) => {
-      dispatch(setUser(profileAccount.data));
+      dispatch(setExpert(profileAccount.data));
     },
     onError: () => {
       removeToken();

@@ -1,0 +1,15 @@
+/* Tùy chỉnh font size và line height cho các kích thước văn bản */
+.ql-snow .ql-size-small {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.ql-snow .ql-size-normal {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.ql-snow .ql-size-large {
+  font-size: 22px;
+  line-height: 28px;
+}

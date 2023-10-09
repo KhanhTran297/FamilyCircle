@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-const expertsStore = createSlice({
-  name: "listExpert",
+
+const expertStore = createSlice({
+  name: "expert",
   initialState: {
     expert: [],
+    listExpert: [],
     listExpertAccounts: [],
   },
   reducers: {
@@ -10,6 +12,13 @@ const expertsStore = createSlice({
       return {
         ...state,
         expert: action.payload,
+      };
+    },
+
+    setListExpert: (state, action) => {
+      return {
+        ...state,
+        listExpert: action.payload,
       };
     },
     setListExpertAccounts: (state, action) => {
@@ -21,6 +30,7 @@ const expertsStore = createSlice({
   },
 });
 //Action
-export const { setExpert, setListExpertAccounts } = expertsStore.actions;
+export const { setExpert, setListExpertAccounts, setListExpert } =
+  expertStore.actions;
 //Reducer
-export default expertsStore.reducer;
+export default expertStore.reducer;
