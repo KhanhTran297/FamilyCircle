@@ -16,16 +16,13 @@ export default function init(routes) {
       {
         path: "/index",
         element: (
-          // <GuardRouteMain>
-          //   <HomePage />
-          // </GuardRouteMain>
           <GuardRoute>
             <HomePage />
           </GuardRoute>
         ),
       },
       {
-        path: "/admin",
+        path: "/admin/:id",
         element: <CmsPage />,
       },
     ],
