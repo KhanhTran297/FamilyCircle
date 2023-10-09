@@ -7,38 +7,35 @@ import {
 } from "@ant-design/icons";
 import { Button, Dropdown, Layout, Menu, theme } from "antd";
 import { Avatar } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UseCookie from "../../hooks/UseCookie";
 import UsersContent from "../../components/admin/UsersContent";
 import ExpertsContent from "../../components/admin/ExpertsContent";
-import PostsContent from "../../components/admin/PostsContent";
 import HospitalContent from "../../components/admin/HospitalContent";
 const { Header, Content, Footer, Sider } = Layout;
 
 const CmsPage = () => {
   const { removeToken } = UseCookie();
-  const [contents, setContents] = useState(1);
   const navigate = useNavigate();
   const handleLogout = () => {
     removeToken();
     navigate("/");
   };
+  const params = useParams();
+  console.log(params);
   const handleContents = (data) => {
     switch (data.key) {
       case "1":
-        setContents(1);
+        navigate(`/admin/${data.key}`);
         break;
       case "2":
-        setContents(2);
-        break;
-      case "sub2":
-        setContents("sub2");
+        navigate(`/admin/${data.key}`);
         break;
       case "3":
-        setContents(3);
+        navigate(`/admin/${data.key}`);
         break;
       case "4":
-        setContents(4);
+        navigate(`/admin/${data.key}`);
         break;
       default:
         break;
@@ -54,12 +51,12 @@ const CmsPage = () => {
   }
   const siderItems = [
     getItem("Manage account", "sub1", <UserOutlined />, [
-      getItem("User", "1"),
-      getItem("Expert", "2"),
+      getItem("User", 1),
+      getItem("Expert", 2),
     ]),
     getItem("Manage category", "sub2", <FileOutlined />, [
-      getItem("Hospital", "3"),
-      getItem("Department", "4"),
+      getItem("Hospital", 3),
+      getItem("Department", 4),
     ]),
     // getItem("", "5", <FileOutlined />),
   ];
@@ -99,7 +96,7 @@ const CmsPage = () => {
       >
         <div className="demo-logo-vertical flex justify-center place-items-center relative w-full h-[150px] bg-slate-400 rounded-2xl">
           <img
-            src="logo.jpg"
+            src="../../logo.jpg"
             alt=""
             className=" absolute w-3/4 h-4/4 rounded-full"
           />
@@ -107,7 +104,7 @@ const CmsPage = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={"1"}
+          defaultSelectedKeys={params.id}
           items={siderItems}
           onClick={(e) => handleContents(e)}
         />
@@ -157,9 +154,9 @@ const CmsPage = () => {
             margin: "24px 16px 0",
           }}
         >
-          {contents === 1 && <UsersContent bg={colorBgContainer} />}
-          {contents === 2 && <ExpertsContent bg={colorBgContainer} />}
-          {contents === 3 && <HospitalContent bg={colorBgContainer} />}
+          {params.id === "1" && <UsersContent bg={colorBgContainer} />}
+          {params.id === "2" && <ExpertsContent bg={colorBgContainer} />}
+          {params.id === "3" && <HospitalContent bg={colorBgContainer} />}
         </Content>
         <Footer
           style={{
