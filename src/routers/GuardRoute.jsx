@@ -6,6 +6,7 @@ import LoadingPage from "../components/shared/LoadingPage";
 
 const GuardRoute = ({ children }) => {
   const { isLoggedIn } = UseCookie();
+
   const {
     profileAccount,
     getProfileAccount,
