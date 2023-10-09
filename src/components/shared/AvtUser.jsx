@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 const AvtUser = ({ imageUrl }) => {
-  const defaultImageUrl = "public/defaultavatar.jpg";
+  const defaultImageUrl =
+    "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png";
 
   return (
     <div
