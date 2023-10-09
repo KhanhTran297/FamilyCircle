@@ -1,28 +1,166 @@
-import { Button, Form, Input, Modal } from "antd";
-import { useState } from "react";
-import SubmitButton from "../shared/SubmitButton";
+import { Button, Form, Input, Modal, Popconfirm, Table, message } from "antd";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  createHospitalApi,
+  deleteCategoryApi,
+  getListCategoryApi,
+  updateCategoryApi,
+} from "../../api/category";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 const HospitalContent = (props) => {
   const { bg } = props;
-  const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const showModal = () => {
-    setOpen(true);
-  };
-  const handleOk = () => {
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
+  const [check, setCheck] = useState(1);
+  const [categoryId, setCategoryId] = useState(null);
+  const [form] = Form.useForm();
+  const columns = [
+    {
+      title: "Hospital name",
+      dataIndex: "categoryName",
+      key: "categoryName",
+    },
+    {
+      title: "Hospital description",
+      dataIndex: "categoryDescription",
+      key: "categoryDescription",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      key: "action",
+      width: "30%",
+      className: "flex flex-row justify-center",
+      render: (_, record) => {
+        return (
+          <div className="flex flex-row justify-center">
+            <Button
+              type="default"
+              className="mr-2"
+              onClick={() => handleSetForm(2, record)}
+            >
+              Edit
+            </Button>
+
+            <Popconfirm
+              title="Delete this hospital?"
+              description="Are you sure to delete this hospital?"
+              icon={
+                <QuestionCircleOutlined
+                  style={{
+                    color: "red",
+                  }}
+                />
+              }
+              okType="default"
+              cancelType="danger"
+              onConfirm={() => handleDeleteCategory(record.id)}
+            >
+              <Button danger>Delete</Button>
+            </Popconfirm>
+          </div>
+        );
+      },
+    },
+  ];
+  const { mutate: handleDeleteCategory } = useMutation({
+    mutationFn: deleteCategoryApi,
+    onSuccess: () => {
+      message.success("Delete category success");
+      handleGetListCategory();
+    },
+    onError: () => {
+      message.error("Delete category failed");
+    },
+  });
+  const { mutate: handleUpdateCategory } = useMutation({
+    mutationFn: updateCategoryApi,
+    onSuccess: () => {
+      message.success("Update category success");
+      handleGetListCategory();
+    },
+    onError: () => {
+      message.error("Update category failed");
+    },
+  });
+  const {
+    refetch: handleGetListCategory,
+    data: listHospital,
+    isLoading,
+  } = useQuery({
+    queryKey: ["getListCategory"],
+    queryFn: () => getListCategoryApi({ kind: 1 }),
+    enabled: false,
+    retry: 0,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: () => {
+      console.log("error");
+    },
+  });
+  const { mutate: handleCreateCategory } = useMutation({
+    mutationKey: ["createCategory"],
+    mutationFn: createHospitalApi,
+    onSuccess: () => {
+      message.success("Create category successfully");
+      handleGetListCategory();
+    },
+    onError: () => {
+      message.error("Create category failed");
+    },
+  });
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setOpen(false);
   };
-  const onFinish = async (values) => {
-    console.log("Success:", values);
+  const handleSetForm = (checkValue, values) => {
+    if (checkValue === 1) {
+      setCheck(1);
+      setOpen(true);
+    } else {
+      setCheck(2);
+      setCategoryId(values.id);
+      setOpen(true);
+      form.setFieldValue("categoryName", values.categoryName);
+      form.setFieldValue("categoryDescription", values.categoryDescription);
+    }
   };
+
+  const handleCreate = (values) => {
+    const newvalues = {
+      ...values,
+      categoryImage: "",
+      categoryKind: 1,
+      categoryOrdering: 1,
+      parentId: null,
+      status: 1,
+    };
+    handleCreateCategory(newvalues);
+  };
+  const handleUpdate = (values) => {
+    const newvalues = {
+      ...values,
+      id: categoryId,
+      categoryImage: "",
+      categoryOrdering: 1,
+      status: 1,
+    };
+    handleUpdateCategory(newvalues);
+  };
+  const onFinish = async (values) => {
+    setConfirmLoading(true);
+    if (check === 1) {
+      handleCreate(values);
+    } else {
+      handleUpdate(values);
+    }
+    setConfirmLoading(false);
+    setOpen(false);
+  };
+  useEffect(() => {
+    handleGetListCategory();
+  }, []);
   return (
     <div
       style={{
@@ -32,10 +170,10 @@ const HospitalContent = (props) => {
       }}
       className=" flex flex-col"
     >
-      <div className="">
-        <Button onClick={showModal}>Create</Button>
+      <div className=" pb-2 mb-2 border-b-[1px] border-solid border-black flex flex-row-reverse">
+        <Button onClick={() => handleSetForm(1)}>Create</Button>
         <Modal
-          title="Create Hospital"
+          title={check === 1 ? "Create new hospital" : "Edit hospital"}
           open={open}
           confirmLoading={confirmLoading}
           onCancel={handleCancel}
@@ -43,6 +181,7 @@ const HospitalContent = (props) => {
         >
           <Form
             name="basic"
+            form={form}
             labelCol={{
               span: 8,
             }}
@@ -59,12 +198,12 @@ const HospitalContent = (props) => {
             autoComplete="off"
           >
             <Form.Item
-              label="Username"
-              name="username"
+              label="Category name"
+              name="categoryName"
               rules={[
                 {
                   required: true,
-                  message: "Please input your username!",
+                  message: "Please input category name!",
                 },
               ]}
             >
@@ -72,12 +211,12 @@ const HospitalContent = (props) => {
             </Form.Item>
 
             <Form.Item
-              label="Password"
-              name="password"
+              label="Category description"
+              name="categoryDescription"
               rules={[
                 {
                   required: true,
-                  message: "Please input your password!",
+                  message: "Please input category description!",
                 },
               ]}
             >
@@ -92,7 +231,7 @@ const HospitalContent = (props) => {
               className=" flex flex-col "
             >
               <Button type="default" htmlType="submit">
-                Create
+                {check === 1 ? "Create" : "Edit"}
               </Button>
               <Button
                 type="default"
@@ -106,7 +245,11 @@ const HospitalContent = (props) => {
         </Modal>
       </div>
       <div className="">
-        <Form></Form>
+        <Table
+          loading={isLoading}
+          dataSource={listHospital?.data?.content}
+          columns={columns}
+        ></Table>
       </div>
     </div>
   );
