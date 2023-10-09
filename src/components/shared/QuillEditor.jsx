@@ -30,7 +30,8 @@ const QuillEditor = (props) => {
       onChange={onChange}
       modules={modules}
       readOnly={disabled}
-      className="h-full overflow-auto text-sm "
+      className="h-full overscroll-y-contain"
+      
     />
   );
 };

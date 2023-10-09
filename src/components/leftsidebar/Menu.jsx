@@ -19,7 +19,7 @@ const Menu = () => {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 flex flex-row justify-around text-black  xl:border-y-0 xl:flex-col xl:top-0 xl:left-0 xl:relative shadow-mobile xl:shadow-none xl:w-[196px] bg-white">
+    <nav className="fixed xl:z-0 bottom-0 left-0 right-0 flex flex-row justify-around text-black  xl:border-y-0 xl:flex-col xl:top-0 xl:left-0 xl:relative shadow-mobile xl:shadow-none xl:w-[196px] bg-white">
       <button
         onClick={() => handleNavigation("/index")}
         className="flex items-center flex-shrink-0 gap-4 h-14 xl:h-[48px] px-4 hover:bg-menu active:bg-menu "
