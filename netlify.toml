@@ -1,5 +1,8 @@
+[[plugins]]
+package = "@netlify/plugin-reactjs"
+[build]
+publish = ".next"
 [[redirects]]
 from="/*"
 to="index.html"
 status=200
-
