@@ -19,18 +19,18 @@ const expertStore = createSlice({
       return {
         ...state,
         listExpert: action.payload,
-
+      };
+    },
     setListExpertAccounts: (state, action) => {
       return {
         ...state,
         listExpertAccounts: action.payload,
-
       };
     },
   },
 });
 //Action
-export const { setExpert, setListExpertAccounts,setListExpert } = expertStore.actions;
+export const { setExpert, setListExpertAccounts, setListExpert } =
+  expertStore.actions;
 //Reducer
 export default expertStore.reducer;
-
