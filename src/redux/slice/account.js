@@ -5,6 +5,7 @@ const accountStore = createSlice({
     account: [],
     listAccount: [],
   },
+
   reducers: {
     authLogin: () => {},
     authRegister: () => {},
