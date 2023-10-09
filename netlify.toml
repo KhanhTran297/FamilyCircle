@@ -1,5 +1,6 @@
 [[plugins]]
 package = "@netlify/plugin-reactjs"
+
 [build]
 publish = ".next"
 [[redirects]]
