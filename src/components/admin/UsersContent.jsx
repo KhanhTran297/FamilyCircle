@@ -34,7 +34,11 @@ const UsersContent = (props) => {
   const promise = new Promise((resolve) => {
     resolve(queryParam);
   });
-  const { data: listUserAccounts, refetch: getListUserAccounts } = useQuery({
+  const {
+    data: listUserAccounts,
+    refetch: getListUserAccounts,
+    isLoading,
+  } = useQuery({
     queryKey: ["listUsersAccount", queryParam],
     queryFn: () =>
       promise.then((res) => {
@@ -142,6 +146,7 @@ const UsersContent = (props) => {
       </div>
       <div className="">
         <Table
+          loading={isLoading}
           dataSource={listUserAccounts?.data?.content}
           columns={columns}
         ></Table>
