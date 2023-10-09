@@ -33,7 +33,7 @@ function useAccount() {
       // dispatch(getAccountProfileApi({ requiredToken: true }));
       saveToken(data?.access_token, data?.refresh_token);
       if (data?.user_kind === 1) {
-        navigate("/admin");
+        navigate("/admin/1");
       } else {
         navigate("/index");
       }
