@@ -126,10 +126,10 @@ const UsersContent = (props) => {
       <div className=" mb-2 pb-2 border-b-[1px] border-black border-solid">
         <Form layout="inline" onFinish={handleSearch} form={form}>
           <Form.Item label="Fullname" name="fullName">
-            <Input></Input>
+            <Input defaultValue={searchParams.get("fullName")}></Input>
           </Form.Item>
           <Form.Item label="Email" name="email">
-            <Input></Input>
+            <Input defaultValue={searchParams.get("email")}></Input>
           </Form.Item>
           <Form.Item>
             <Button htmlType="submit">Search</Button>
