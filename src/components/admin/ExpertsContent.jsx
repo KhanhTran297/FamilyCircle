@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Button,
   Form,
@@ -20,7 +20,7 @@ import {
 import dayjs from "dayjs";
 import SubmitButton from "../../components/shared/SubmitButton";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getListCategoryApi } from "../../api/category";
+import { getCategoryByIdApi, getListCategoryApi } from "../../api/category";
 import {
   createExpertAccountApi,
   getListExpertAccountsApi,
@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setListExpertAccounts } from "../../redux/slice/expert";
 import queryString from "query-string";
 import { useLocation, useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 var optionsHospital = [];
 var optionsAcademicDegree = [];
@@ -69,7 +70,7 @@ const ExpertsContent = (props) => {
     searchForm.resetFields();
   };
   const { data: listHospital, refetch: getListHospital } = useQuery({
-    queryKey: ["getListCategory"],
+    queryKey: ["getListHospital"],
     queryFn: () => getListCategoryApi({ kind: 1 }),
     enabled: false,
     retry: 0,
@@ -158,22 +159,61 @@ const ExpertsContent = (props) => {
     retry: 0,
     onSuccess: (data) => {
       const temp = [];
-      for (let i = 0; i < data.data.content.length; i++) {
-        const item = data.data.content[i];
-        const transformedItem = {
-          ...item,
-          hospital: item.hospital.categoryName,
-          hospitalRole: item.hospitalRole.categoryName,
-          department: item.department.categoryName,
-          academicDegree: item.academicDegree.categoryName,
-        };
-        temp.push(transformedItem);
-      }
+      console.log("data", data);
+      if (data.data.totalElements > 0) {
+        for (let i = 0; i < data.data.content.length; i++) {
+          const item = data.data.content[i];
+          const transformedItem = {
+            ...item,
+            key: item.id,
+            hospital: item.hospital.categoryName,
+            hospitalRole: item.hospitalRole.categoryName,
+            department: item.department.categoryName,
+            academicDegree: item.academicDegree.categoryName,
+          };
+          temp.push(transformedItem);
+        }
 
-      dispatch(setListExpertAccounts(temp));
-      message.success("Get list expert success");
+        dispatch(setListExpertAccounts(temp));
+        message.success("Get list expert success");
+      } else {
+        dispatch(setListExpertAccounts([]));
+      }
     },
   });
+  const { data: listCategory, refetch: getListCategory } = useQuery({
+    queryKey: ["getListCategory"],
+    queryFn: () => getListCategoryApi(),
+    enabled: false,
+    retry: 0,
+    onSuccess: () => {
+      console.log(listCategory);
+    },
+  });
+  const handleGetInitialValues = (id) => {
+    console.log(id !== null);
+    console.log(listCategory);
+    return id;
+    // if (id !== null) {
+    //   listCategory?.data?.content.forEach((item) => {
+    //     console.log(item.id === id);
+    //     if (item.id === id) {
+    //       // return item.categoryName;
+    //       console.log(item.categoryName);
+    //     }
+    //   });
+    // }
+    // return "";
+  };
+  // const { data: categorybyID, refetch: getCategoryById } = useQuery({
+  //   queryKey: ["getCatgeoryById",id],
+  //   queryFn: (key, id) => getCategoryByIdApi(key, id),
+  //   enabled: false,
+  //   retry: 0,
+  //   onSuccess: (data) => {
+  //     console.log(data);
+  //   },
+  // });
 
   const columns = [
     {
@@ -234,7 +274,6 @@ const ExpertsContent = (props) => {
     }, 2000);
   };
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setOpen(false);
   };
   const handleCheckValidBirth = (year) => {
@@ -260,14 +299,15 @@ const ExpertsContent = (props) => {
       message.error("invalid year");
     }
   };
-
-  useMemo(() => {
+  console.log("search", searchParams.get("hospital"));
+  useEffect(() => {
     getListHospital();
     getListHospitalRole();
     getListDepartMent();
     getListAcademicDegree();
     getListExpertAccounts();
-  }, []);
+    getListCategory();
+  }, [location.search]);
   return (
     <div
       style={{
@@ -279,27 +319,50 @@ const ExpertsContent = (props) => {
     >
       <div className=" pb-2 mb-2 border-solid border-black border-b-[1px] flex flex-row justify-between">
         <div className="">
-          <Form layout="inline" onFinish={handleSearch} form={searchForm}>
+          <Form
+            layout="inline"
+            onFinish={handleSearch}
+            form={searchForm}
+            // initialValues={searchParams.get("fullName") && ""}
+          >
             <Form.Item label="Fullname" name="fullName">
               <Input></Input>
             </Form.Item>
-            <Form.Item label="Email" name="email">
+            <Form.Item
+              label="Email"
+              name="email"
+              // initialValue={searchParams.get("email") && ""}
+            >
               <Input></Input>
             </Form.Item>
-            <Form.Item label="Hospital" name="hospital">
+            <Form.Item
+              label="Hospital"
+              name="hospital"
+              // initialValue={() =>
+              //   handleGetInitialValues(searchParams.get("hospital"))
+              // }
+            >
               <Select
                 options={optionsHospital}
                 key={optionsHospital.value}
                 placeholder="Select hospital"
                 className=" w-max min-w-[150px]"
+                allowClear={true}
               ></Select>
             </Form.Item>
-            <Form.Item label="Academic degree" name="academicDegree">
+            <Form.Item
+              label="Academic degree"
+              name="academicDegree"
+              // initialValue={() =>
+              //   handleGetInitialValues(location.search.academicDegree)
+              // }
+            >
               <Select
                 options={optionsAcademicDegree}
                 key={optionsAcademicDegree.value}
                 placeholder="Select Academic degree"
                 className=" w-max min-w-[150px]"
+                allowClear={true}
               ></Select>
             </Form.Item>
             <Form.Item>
