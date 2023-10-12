@@ -13,6 +13,13 @@ export default {
             fontWeight: "500",
           },
         ],
+        titleModal: [
+          "24px",
+          {
+            lineHeight: "32px",
+            fontWeight: "400",
+          },
+        ],
       },
       backgroundColor: {
         tab: "rgba(31, 31, 31)",
@@ -20,6 +27,8 @@ export default {
         modal: "rgba(0, 0, 0, 0.32)",
         menuOption: "rgba(31, 26, 28, 0.08)",
         buttonHoverLight: "rgba(167, 53, 116, 0.08)",
+        disableButton: "rgba(0, 0, 0, 0.12)",
+        buttonHoverDark: "rgba(255, 175, 213, 0.08)",
       },
       fontFamily: {
         roboto: ["Roboto", "sans"],
@@ -38,6 +47,7 @@ export default {
         primary: "#FFD8E8",
         secondary: "#FFF8F8",
         light_surface_on_surface: "#1F1A1C",
+        disableButton: "rgba(0, 0, 0, 0.38)",
       },
       textColor: {
         light: "#1F1A1C",
