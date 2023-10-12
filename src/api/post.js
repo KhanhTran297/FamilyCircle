@@ -2,9 +2,13 @@ import UseCallApi from "../hooks/UseCallApi";
 
 const { UseGet, UsePost, UseEdit, UseDelete } = UseCallApi();
 
+export const getListPostExpertApi = ({ pageParam = 0 }) => {
+  const url = `/v1/post/list?size=5&kind=1&page=${pageParam}`;
+  return UseGet({ url, requiredToken: true });
+};
 export const getListPostApi = () => {
   const url = `/v1/post/list`;
-  return UseGet({ url });
+  return UseGet({ url, requiredToken: true });
 };
 
 export const getPostApi = (postId) => {

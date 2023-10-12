@@ -1,17 +1,43 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Post from "../post/Post";
+import UsePost from "../../hooks/UsePost";
+import UseCookie from "../../hooks/UseCookie";
+import { Navigate } from "react-router-dom";
+import { Skeleton } from "antd";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-const Tab = () => {
+const Tab = (props) => {
+  const { isLoggedIn } = UseCookie();
+  const {
+    listPostExpert,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+    error,
+  } = UsePost();
+  // const checkAccount = () => {
+  //   if (isLoggedIn()) {
+  //     getListPost();
+  //   } else {
+  //     Navigate("/");
+  //   }
+  // };
+
   const [activeTab, setActiveTab] = useState("tab1");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
   return (
     <div className="flex flex-col w-full">
       <div className="flex flex-col backdrop-blur-[32px] sticky top-14 xl:top-0">
         <div className="flex items-start self-stretch px-6 py-2 ">
-          <p className="font-medium text-title font-roboto">Home</p>
+          <p className="font-medium text-title font-roboto">
+            {props.kind === 1 ? "Home" : "Forum"}
+          </p>
         </div>
         <div className="flex flex-row items-center w-full h-12 border-b-[1px]  ">
           <div
@@ -50,12 +76,72 @@ const Tab = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-6 overflow-y-auto xl:mt-6 mt-[72px] max-h-100vh">
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-      </div>
+      <InfiniteScroll
+        dataLength={listPostExpert?.pages?.length || 0} // Số lượng mục hiện có
+        next={() => {
+          // Đặt thời gian trễ 1 giây trước khi tải tiếp dữ liệu
+          setTimeout(() => {
+            fetchNextPage();
+          }, 1000);
+        }}
+        hasMore={hasNextPage} // Kiểm tra xem còn nhiều hơn để tải hay không
+        loader={
+          <Skeleton
+            avatar
+            paragraph={{
+              rows: 4,
+            }}
+          />
+        } // Hiển thị thông báo tải
+        className="gap-6"
+      >
+        {listPostExpert &&
+          listPostExpert.pages &&
+          listPostExpert.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              <div className="flex flex-col gap-6 overflow-y-auto xl:mt-6 mt-[72px] max-h-100vh xl:mb-6 w-full ">
+                {Array.isArray(page.data.content) && // Kiểm tra xem page.data là mảng
+                  page.data.content
+                    // .filter((post) => post.kind === 1)
+                    .map((post) => (
+                      // console.log(post.id),
+                      <Post
+                        key={post.id}
+                        id={post.id}
+                        content={post.content}
+                        fullname={post.owner.fullName}
+                        kind={post.owner.kind}
+                        modifiedDate={post.modifiedDate}
+                        createdDate={post.createdDate}
+                      />
+                    ))}
+              </div>
+            </div>
+          ))}
+        {isFetchingNextPage ? (
+          <Skeleton
+            avatar
+            paragraph={{
+              rows: 4,
+            }}
+          />
+        ) : hasNextPage ? (
+          <Skeleton
+            avatar
+            paragraph={{
+              rows: 4,
+            }}
+          />
+        ) : null}
+        {isFetching && !isFetchingNextPage ? (
+          <Skeleton
+            avatar
+            paragraph={{
+              rows: 4,
+            }}
+          />
+        ) : null}
+      </InfiniteScroll>
     </div>
   );
 };

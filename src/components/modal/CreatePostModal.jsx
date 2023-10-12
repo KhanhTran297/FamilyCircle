@@ -3,15 +3,28 @@ import ReactDOM from "react-dom";
 import AvtUser from "../shared/AvtUser";
 import QuillEditor from "../shared/QuillEditor";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import UsePost from "../../hooks/UsePost";
+import { Form, Modal } from "antd";
 
 const CreatePostModal = (props) => {
   const { createPost } = UsePost();
   const [isClosing, setIsClosing] = useState(false);
-  const [contentError, setContentError] = useState(false);
+  const [contentError, setContentError] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const formRef = useRef();
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const handleClose = () => {
     setIsClosing(true);
+    setIsModalOpen(false);
     setTimeout(() => {
       setIsClosing(false);
       props.handleClose();
@@ -30,6 +43,7 @@ const CreatePostModal = (props) => {
     },
     mode: "onSubmit",
   });
+
   const handleCreatePost = (value) => {
     if (props.kind === 2) {
       const data = { ...value, kind: 2, privacy: 1 };
@@ -42,17 +56,21 @@ const CreatePostModal = (props) => {
     reset();
     handleClose();
   };
-
-  const onSubmit = (values) => {
-    const contentValue = values.content;
-
-    const textOnlyContent = contentValue.replace(/<[^>]*>/g, "");
+  const handleContentChange = (html) => {
+    const textOnlyContent = html.replace(/<[^>]*>/g, "");
 
     if (!textOnlyContent.trim()) {
       setContentError(true);
+    } else {
+      setContentError(false);
+    }
+    setValue("content", html);
+  };
+
+  const onSubmit = (values) => {
+    if (contentError) {
       return;
     }
-    setContentError(false);
     if (props.kind === 2) {
       const data = { ...values, kind: 2, privacy: 1 };
       handleCreatePost(data);
@@ -77,11 +95,6 @@ const CreatePostModal = (props) => {
           : ""
       }`}
     >
-      {/* <div
-        className="absolute inset-0 bg-opacity-25 bg-modal overlay"
-        onClick={props.handleClose}
-      ></div> */}
-
       <div className="flex items-center justify-center w-full px-6 shadow-tile h-14 bg-[#FFF8F8]">
         <p className="text-title text-light_surface_on_surface font-roboto">
           {props.selectedKind === "1"
@@ -92,6 +105,7 @@ const CreatePostModal = (props) => {
       <form
         className="relative z-50 w-full h-full shadow-modal bg-[#FFF8F8] px-6 pt-6 xl:p-0 flex flex-col items-start modal-content "
         onSubmit={handleSubmit(onSubmit)}
+        ref={formRef}
       >
         {/* <div className="w-full h-1">
           <div className="w-8 h-full rounded-[2px] m-auto bg-[#504348] opacity-40 xl:hidden "></div>
@@ -119,20 +133,48 @@ const CreatePostModal = (props) => {
                   </p>
                 </button>
                 <button
-                  className="flex items-center h-10 px-4 gap-[7px] rounded-[36px] bg-[#A73574] hover:buttonHover hover:shadow-buttonHover"
-                  type="submit"
+                  className={`flex items-center h-10 px-4 gap-[7px] rounded-[36px]  hover:buttonHover hover:shadow-buttonHover ${
+                    contentError ? "bg-disableButton" : "bg-[#A73574]"
+                  }`}
+                  onClick={showModal}
+                  type="button"
+                  disabled={contentError}
                 >
-                  <p className="text-sm font-medium font-roboto text-[#FFF] ">
+                  <p
+                    className={`text-sm font-medium font-roboto  ${
+                      contentError ? "text-disableButton" : "text-[#FFF]"
+                    }`}
+                  >
                     Publish
                   </p>
                 </button>
+                <Modal
+                  title={
+                    <p className="text-[#1F1A1C]  text-titleModal">
+                      Publish post
+                    </p>
+                  }
+                  open={isModalOpen}
+                  onOk={() => {
+                    formRef.current.requestSubmit();
+                  }}
+                  onCancel={handleCancel}
+                  okText="Publish"
+                  centered
+                  style={{
+                    fontFamily: "Roboto, sans-serif",
+                  }}
+                  className="publish"
+                >
+                  Are you sure to publish this post
+                </Modal>
               </div>
             </div>
             <div className="w-full h-[80%]">
               <QuillEditor
                 name="content"
                 value={getValues("content")}
-                onChange={(html) => setValue("content", html)}
+                onChange={handleContentChange}
                 className="w-full h-full "
               />
             </div>
