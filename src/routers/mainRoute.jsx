@@ -1,7 +1,11 @@
 import MainLayout from "../layouts/MainLayout";
-import CmsPage from "../pages/admin/CmsPage";
+import BookmarkPage from "../pages/main/BookmarkPage";
+import ForumPage from "../pages/main/ForumPage";
 import HomePage from "../pages/main/HomePage";
-import GuardRoute from "./GuardRoute";
+import MessagePage from "../pages/main/MessagePage";
+import NotificationPage from "../pages/main/NotificationPage";
+import PostDetailPage from "../pages/main/PostDetailPage";
+import ProfilePage from "../pages/main/ProfilePage";
 
 // Xem cấu trúc routes ở https://reactrouter.com/en/main/routers/create-browser-router#routes
 export default function init(routes) {
@@ -15,15 +19,31 @@ export default function init(routes) {
     children: [
       {
         path: "/index",
-        element: (
-          <GuardRoute>
-            <HomePage />
-          </GuardRoute>
-        ),
+        element: <HomePage />,
       },
       {
-        path: "/admin/:id",
-        element: <CmsPage />,
+        path: "/post/:id",
+        element: <PostDetailPage />,
+      },
+      {
+        path: "/forum",
+        element: <ForumPage />,
+      },
+      {
+        path: "/profile/:id",
+        element: <ProfilePage />,
+      },
+      {
+        path: "/bookmark",
+        element: <BookmarkPage />,
+      },
+      {
+        path: "/notification",
+        element: <NotificationPage />,
+      },
+      {
+        path: "/message",
+        element: <MessagePage />,
       },
     ],
   };
