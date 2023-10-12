@@ -17,7 +17,6 @@ export const updateCategoryApi = (params) => {
   return UseEdit({ url, requiredToken: true, params });
 };
 export const getCategoryByIdApi = (key, id) => {
-  console.log(id);
   const url = `/v1/category/get/${id}`;
   return UseGet({ url, requiredToken: true });
 };
