@@ -6,9 +6,9 @@ import { ILocalLogo } from "../svg/svg";
 
 const LeftSideBar = () => {
   return (
-    <nav className="xl:top-0 xl:left-0 xl:sticky text-black block w-100vw  xl:max-w-[280px]   xl:h-[100vh]">
+    <nav className="xl:top-0 xl:left-0 xl:sticky text-black block w-100vw  xl:max-w-[280px] dark:bg-black   xl:h-[100vh]">
       <div
-        className="flex justify-between  w-full p-2 text-left h-14 xl:h-[100vh] xl:p-6 xl:gap-6 xl:flex-col fixed top-0 xl:relative
+        className="flex justify-between  w-full p-2 dark:bg-black  text-left h-14 xl:h-[100vh] xl:p-6 xl:gap-6 xl:flex-col fixed top-0 xl:relative
         shadow-mobile xl:shadow-none bg-white z-10"
       >
         <div className="w-[46.337px] h-10 xl:w-[74.139px] xl:h-16 ml-4  ">

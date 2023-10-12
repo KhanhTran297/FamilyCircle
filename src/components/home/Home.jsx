@@ -1,10 +1,9 @@
 import Tab from "../tab/Tab";
 
-const Home = () => {
+const Home = (props) => {
   return (
-    <div className="w-full xl:max-w-[760px]   ">
-     
-      <Tab />
+    <div className="w-full xl:w-[760px]   ">
+      <Tab {...props} />
     </div>
   );
 };

@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* CSS cho nút "Publish" */
+.publish .ant-modal-footer button.ant-btn-primary:hover {
+  background-color: rgba(
+    167,
+    53,
+    116,
+    0.08
+  ) !important; /* Đổi màu nền khi hover */
+  color: #a73574 !important; /* Đổi màu văn bản khi hover */
+}
+
+/* CSS cho nút "Cancel" */
+.publish .ant-modal-footer button.ant-btn:not(.ant-btn-primary):hover {
+  background-color: rgba(167, 53, 116, 0.08); /* Đổi màu nền khi hover */
+  color: #a73574; /* Đổi màu văn bản khi hover */
+}
+.publish .ant-btn {
+  border-radius: 36px;
+  align-items: center;
+  padding-left: 12px;
+  padding-right: 12px;
+  color: #a73574;
+  box-shadow: none !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  font-weight: 500 !important;
+  height: 40px !important;
+  width: 75px !important;
+  border: none !important;
+}
+.publish .ant-modal-content {
+  padding: 24px !important;
+  border-radius: 28px !important;
+}
+.publish .ant-modal-header {
+  margin-bottom: 16px !important;
+}
+.publish .ant-modal-footer {
+  margin-top: 24px !important;
+}

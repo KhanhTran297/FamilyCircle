@@ -15,7 +15,7 @@ const HomePage = () => {
     <div className="flex xl:w-full xl:justify-center dark:bg-[#000]">
       <div className="flex flex-col w-full gap-0 xl:gap-10 xl:flex-row xl:w-auto">
         <LeftSideBar />
-        <Home />
+        <Home kind={1} />
         <RightSiderBar />
       </div>
     </div>
