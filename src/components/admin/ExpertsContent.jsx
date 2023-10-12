@@ -326,14 +326,14 @@ const ExpertsContent = (props) => {
             // initialValues={searchParams.get("fullName") && ""}
           >
             <Form.Item label="Fullname" name="fullName">
-              <Input></Input>
+              <Input defaultValue={searchParams.get("fullName")}></Input>
             </Form.Item>
             <Form.Item
               label="Email"
               name="email"
               // initialValue={searchParams.get("email") && ""}
             >
-              <Input></Input>
+              <Input defaultValue={searchParams.get("email")}></Input>
             </Form.Item>
             <Form.Item
               label="Hospital"
