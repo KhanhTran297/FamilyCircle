@@ -17,7 +17,7 @@ export default function init(routes) {
       {
         index: true,
         element: (
-          <GuardRoute>
+          <GuardRoute path="/index">
             <LoginPage />
           </GuardRoute>
         ),
@@ -25,7 +25,7 @@ export default function init(routes) {
       {
         path: "signup",
         element: (
-          <GuardRoute>
+          <GuardRoute path="/index">
             <SignupPage />
           </GuardRoute>
         ),
@@ -33,7 +33,7 @@ export default function init(routes) {
       {
         path: "forgotpassword",
         element: (
-          <GuardRoute>
+          <GuardRoute path="/index">
             <ForgetPassword />
           </GuardRoute>
         ),

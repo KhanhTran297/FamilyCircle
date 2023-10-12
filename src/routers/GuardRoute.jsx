@@ -4,7 +4,7 @@ import useAccount from "../hooks/useAccount";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../components/shared/LoadingPage";
 
-const GuardRoute = ({ children }) => {
+const GuardRoute = ({ children }, path) => {
   const { isLoggedIn } = UseCookie();
 
   const {
@@ -20,9 +20,9 @@ const GuardRoute = ({ children }) => {
         {
           getProfileAccount() && getProfileExpertAccount();
         }
-        navigate("/index");
+        navigate({ path });
       } else {
-        navigate("/index");
+        navigate({ path });
         return;
       }
     } else {
