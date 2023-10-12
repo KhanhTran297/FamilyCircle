@@ -1,3 +1,4 @@
+// @quokka
 import { useEffect, useMemo, useState } from "react";
 import {
   Button,
@@ -20,7 +21,7 @@ import {
 import dayjs from "dayjs";
 import SubmitButton from "../../components/shared/SubmitButton";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getCategoryByIdApi, getListCategoryApi } from "../../api/category";
+import { getListCategoryApi } from "../../api/category";
 import {
   createExpertAccountApi,
   getListExpertAccountsApi,
@@ -29,7 +30,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setListExpertAccounts } from "../../redux/slice/expert";
 import queryString from "query-string";
 import { useLocation, useSearchParams } from "react-router-dom";
-import axios from "axios";
 
 var optionsHospital = [];
 var optionsAcademicDegree = [];
@@ -69,7 +69,7 @@ const ExpertsContent = (props) => {
     setSearchParams({});
     searchForm.resetFields();
   };
-  const { data: listHospital, refetch: getListHospital } = useQuery({
+  const { refetch: getListHospital } = useQuery({
     queryKey: ["getListHospital"],
     queryFn: () => getListCategoryApi({ kind: 1 }),
     enabled: false,
@@ -86,8 +86,7 @@ const ExpertsContent = (props) => {
       }
     },
   });
-
-  const { data: listHospitalRole, refetch: getListHospitalRole } = useQuery({
+  const { refetch: getListHospitalRole } = useQuery({
     queryKey: ["getListhospitalRole"],
     queryFn: () => getListCategoryApi({ kind: 2 }),
     enabled: false,
@@ -104,7 +103,8 @@ const ExpertsContent = (props) => {
       }
     },
   });
-  const { data: listDepartment, refetch: getListDepartMent } = useQuery({
+
+  const { refetch: getListDepartMent } = useQuery({
     queryKey: ["getListDepartment"],
     queryFn: () => getListCategoryApi({ kind: 3 }),
     enabled: false,
@@ -121,25 +121,23 @@ const ExpertsContent = (props) => {
       }
     },
   });
-  const { data: listAcademicDegree, refetch: getListAcademicDegree } = useQuery(
-    {
-      queryKey: ["getListAcademicDegree"],
-      queryFn: () => getListCategoryApi({ kind: 4 }),
-      enabled: false,
-      retry: 0,
-      onSuccess: (data) => {
-        optionsAcademicDegree = [];
-        for (let i = 0; i < data.data.content.length; i++) {
-          const item = data.data.content[i];
-          const transformedItem = {
-            value: item.id,
-            label: item.categoryName,
-          };
-          optionsAcademicDegree.push(transformedItem);
-        }
-      },
-    }
-  );
+  const { refetch: getListAcademicDegree } = useQuery({
+    queryKey: ["getListAcademicDegree"],
+    queryFn: () => getListCategoryApi({ kind: 4 }),
+    enabled: false,
+    retry: 0,
+    onSuccess: (data) => {
+      optionsAcademicDegree = [];
+      for (let i = 0; i < data.data.content.length; i++) {
+        const item = data.data.content[i];
+        const transformedItem = {
+          value: item.id,
+          label: item.categoryName,
+        };
+        optionsAcademicDegree.push(transformedItem);
+      }
+    },
+  });
 
   const { mutate: createExpert } = useMutation({
     mutationFn: createExpertAccountApi,
@@ -148,18 +146,13 @@ const ExpertsContent = (props) => {
       message.success("Create expert successfully");
     },
   });
-  const {
-    data: listExpertAccounts,
-    refetch: getListExpertAccounts,
-    isLoading,
-  } = useQuery({
+  const { refetch: getListExpertAccounts, isLoading } = useQuery({
     queryKey: ["listExpertAccount", queryParam],
     queryFn: () => getListExpertAccountsApi(queryParam),
     enabled: false,
     retry: 0,
     onSuccess: (data) => {
       const temp = [];
-      console.log("data", data);
       if (data.data.totalElements > 0) {
         for (let i = 0; i < data.data.content.length; i++) {
           const item = data.data.content[i];
@@ -190,31 +183,15 @@ const ExpertsContent = (props) => {
       console.log(listCategory);
     },
   });
-  const handleGetInitialValues = (id) => {
-    console.log(id !== null);
-    console.log(listCategory);
-    return id;
-    // if (id !== null) {
-    //   listCategory?.data?.content.forEach((item) => {
-    //     console.log(item.id === id);
-    //     if (item.id === id) {
-    //       // return item.categoryName;
-    //       console.log(item.categoryName);
-    //     }
-    //   });
-    // }
-    // return "";
-  };
-  // const { data: categorybyID, refetch: getCategoryById } = useQuery({
-  //   queryKey: ["getCatgeoryById",id],
-  //   queryFn: (key, id) => getCategoryByIdApi(key, id),
-  //   enabled: false,
-  //   retry: 0,
-  //   onSuccess: (data) => {
-  //     console.log(data);
-  //   },
-  // });
-
+  // const handleGetInitialValues = (id) => {
+  //   getListCategory().then((data) => {
+  //     const item = data.data.data.content.find((item) => {
+  //       item.id === parseInt(id);
+  //       return item;
+  //     });
+  //     return item.categoryName;
+  //   });
+  // };
   const columns = [
     {
       title: "Avatar",
@@ -299,14 +276,13 @@ const ExpertsContent = (props) => {
       message.error("invalid year");
     }
   };
-  console.log("search", searchParams.get("hospital"));
+
   useEffect(() => {
     getListHospital();
     getListHospitalRole();
     getListDepartMent();
     getListAcademicDegree();
     getListExpertAccounts();
-    getListCategory();
   }, [location.search]);
   return (
     <div
@@ -326,18 +302,18 @@ const ExpertsContent = (props) => {
             // initialValues={searchParams.get("fullName") && ""}
           >
             <Form.Item label="Fullname" name="fullName">
-              <Input></Input>
+              <Input defaultValue={searchParams.get("fullName")}></Input>
             </Form.Item>
             <Form.Item
               label="Email"
               name="email"
               // initialValue={searchParams.get("email") && ""}
             >
-              <Input></Input>
+              <Input defaultValue={searchParams.get("email")}></Input>
             </Form.Item>
             <Form.Item
               label="Hospital"
-              name="hospital"
+              name="hospitalId"
               // initialValue={() =>
               //   handleGetInitialValues(searchParams.get("hospital"))
               // }
@@ -352,7 +328,7 @@ const ExpertsContent = (props) => {
             </Form.Item>
             <Form.Item
               label="Academic degree"
-              name="academicDegree"
+              name="academicDegreeId"
               // initialValue={() =>
               //   handleGetInitialValues(location.search.academicDegree)
               // }

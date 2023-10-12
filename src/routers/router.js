@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import authRoutes from "./authRoute";
+import cmsRoutes from "./cmsRoute";
 import mainRoutes from "./mainRoute";
 const initRoutes = () => {
   // Create routes array
@@ -7,6 +8,7 @@ const initRoutes = () => {
   // Thêm các route liên quan đến AuthLayout bằng cách truyền một mảng vào,
   // sau đó cuối hàm dùng routes.push để push object authRoute
   authRoutes(routes);
+  cmsRoutes(routes);
   mainRoutes(routes);
   // Sau thực thi xong 2 hàm trên thì routes sẽ là mảng gồm
   // [{path:'/' element:... }, {path::'/' element: ...}]
