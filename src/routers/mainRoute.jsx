@@ -6,6 +6,7 @@ import MessagePage from "../pages/main/MessagePage";
 import NotificationPage from "../pages/main/NotificationPage";
 import PostDetailPage from "../pages/main/PostDetailPage";
 import ProfilePage from "../pages/main/ProfilePage";
+import GuardRoute from "./GuardRoute";
 
 // Xem cấu trúc routes ở https://reactrouter.com/en/main/routers/create-browser-router#routes
 export default function init(routes) {
@@ -19,31 +20,59 @@ export default function init(routes) {
     children: [
       {
         path: "/index",
-        element: <HomePage />,
+        element: (
+          <GuardRoute path="/index">
+            <HomePage />
+          </GuardRoute>
+        ),
       },
       {
         path: "/post/:id",
-        element: <PostDetailPage />,
+        element: (
+          <GuardRoute path="/post/:id">
+            <PostDetailPage />
+          </GuardRoute>
+        ),
       },
       {
         path: "/forum",
-        element: <ForumPage />,
+        element: (
+          <GuardRoute path="/forum">
+            <ForumPage />
+          </GuardRoute>
+        ),
       },
       {
         path: "/profile/:id",
-        element: <ProfilePage />,
+        element: (
+          <GuardRoute path="/profile/:id">
+            <ProfilePage />
+          </GuardRoute>
+        ),
       },
       {
         path: "/bookmark",
-        element: <BookmarkPage />,
+        element: (
+          <GuardRoute path="/bookmark">
+            <BookmarkPage />
+          </GuardRoute>
+        ),
       },
       {
         path: "/notification",
-        element: <NotificationPage />,
+        element: (
+          <GuardRoute path="/notification">
+            <NotificationPage />
+          </GuardRoute>
+        ),
       },
       {
         path: "/message",
-        element: <MessagePage />,
+        element: (
+          <GuardRoute path="/message">
+            <MessagePage />
+          </GuardRoute>
+        ),
       },
     ],
   };
