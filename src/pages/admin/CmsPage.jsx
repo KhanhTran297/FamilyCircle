@@ -22,7 +22,6 @@ const CmsPage = () => {
     navigate("/");
   };
   const params = useParams();
-  console.log(params);
   const handleContents = (data) => {
     switch (data.key) {
       case "1":
