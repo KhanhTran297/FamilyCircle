@@ -13,7 +13,7 @@ export const getListPostApi = () => {
 
 export const getPostApi = (postId) => {
   const url = `/v1/post/detail/${postId}`;
-  return UseGet({ url });
+  return UseGet({ url, requiredToken: true });
 };
 
 export const createPostApi = (params) => {
