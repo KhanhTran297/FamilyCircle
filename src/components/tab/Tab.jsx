@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 import { Skeleton } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const Tab = (props) => {
+const Tab = () => {
   const { isLoggedIn } = UseCookie();
   const {
     listPostExpert,
@@ -36,7 +36,8 @@ const Tab = (props) => {
       <div className="flex flex-col backdrop-blur-[32px] sticky top-14 xl:top-0">
         <div className="flex items-start self-stretch px-6 py-2 ">
           <p className="font-medium text-title font-roboto">
-            {props.kind === 1 ? "Home" : "Forum"}
+            {/* {props.kind === 1 ? "Home" : "Forum"} */}
+            Home
           </p>
         </div>
         <div className="flex flex-row items-center w-full h-12 border-b-[1px]  ">
