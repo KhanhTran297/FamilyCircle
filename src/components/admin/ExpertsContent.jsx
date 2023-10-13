@@ -265,7 +265,8 @@ const ExpertsContent = (props) => {
       "DD/MM/YYYY HH:mm:ss"
     );
     const data = {
-      avatarPath: "defaultavatar.jpg",
+      avatarPath:
+        "https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_tB5idnWvVj.jpg",
       bio: "",
       ...values,
     };
@@ -456,7 +457,7 @@ const ExpertsContent = (props) => {
                     required: true,
                     message: "Please input your date of birth!",
                   },
-                  ({ getFieldValue }) => ({
+                  ({}) => ({
                     validator(_, value) {
                       const selectedDate = dayjs(value);
                       const currentDate = dayjs();
