@@ -114,6 +114,7 @@ const Tab = () => {
                         kind={post.owner.kind}
                         modifiedDate={post.modifiedDate}
                         createdDate={post.createdDate}
+                        type={"basic"}
                       />
                     ))}
               </div>

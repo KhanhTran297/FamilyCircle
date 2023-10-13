@@ -18,7 +18,8 @@ const SignupPage = () => {
       "DD/MM/YYYY HH:mm:ss"
     );
     const data = {
-      avatarPath: "defaultavatar.jpg",
+      avatarPath:
+        "https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_tB5idnWvVj.jpg",
       bio: "",
       ...values,
     };
