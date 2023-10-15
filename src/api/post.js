@@ -6,6 +6,10 @@ export const getListPostExpertApi = ({ pageParam = 0 }) => {
   const url = `/v1/post/list?size=5&kind=1&page=${pageParam}`;
   return UseGet({ url, requiredToken: true });
 };
+export const getListPostAccountApi = ({ pageParam = 0 }) => {
+  const url = `/v1/post/list?size=5&kind=2&page=${pageParam}`;
+  return UseGet({ url, requiredToken: true });
+};
 export const getListPostApi = () => {
   const url = `/v1/post/list`;
   return UseGet({ url, requiredToken: true });
