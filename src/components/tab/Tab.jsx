@@ -111,6 +111,7 @@ const Tab = (props) => {
                           modifiedDate={post.modifiedDate}
                           createdDate={post.createdDate}
                           idowner={post.owner.id}
+                          kindPost={post.kind}
                         />
                       ))}
                 </div>
@@ -179,6 +180,7 @@ const Tab = (props) => {
                           modifiedDate={post.modifiedDate}
                           createdDate={post.createdDate}
                           idowner={post.owner.id}
+                          kindPost={post.kind}
                         />
                       ))}
                 </div>
