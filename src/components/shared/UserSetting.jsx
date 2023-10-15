@@ -21,8 +21,6 @@ const UserSetting = () => {
   };
 
   const { theme } = useTheme({});
-  console.log(userAccount);
-  console.log(userExpert);
   const textColor = theme === "dark" ? "#CEC4C6" : "#1F1A1C";
   return (
     <div className="items-center self-stretch hidden gap-2 xl:flex">
