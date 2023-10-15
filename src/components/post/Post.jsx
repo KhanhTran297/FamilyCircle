@@ -9,14 +9,13 @@ import HeaderPost from "./HeaderPost";
 import DOMPurify from "dompurify";
 
 import UsePost from "../../hooks/UsePost";
-
 // import { ILocalDot } from "../svg/Dot";
 // import { ILocalMore } from "../svg/more";
 
 const Post = (props) => {
   // const { theme } = useTheme({});
   // const textColor = theme === "dark" ? "#CEC4C6" : "#1F1A1C";
-  const navigate = useNavigate();
+
   let limit = 1000;
   let content;
   if (props.content.length > limit) {
@@ -24,14 +23,11 @@ const Post = (props) => {
   } else {
     content = props.content;
   }
-
   const { deletePost } = UsePost();
 
   const handleDeletePost = (id) => {
     deletePost(id);
   };
-
-  const sanitizedContent = DOMPurify.sanitize(content);
   return (
     <div className="flex flex-col items-start xl:gap-6 gap-6 p-6 pt-3  rounded-[24px] w-full  bg-[#FFF8F8] cursor-pointer">
 
@@ -71,6 +67,7 @@ const Post = (props) => {
         ) : (
           ""
         )}
+        <FooterPost />
       </div>
 
       <FooterPost />
