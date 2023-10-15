@@ -1,13 +1,18 @@
-import { Avatar, Form, Input } from "antd";
+import { Avatar, Input } from "antd";
 import { ILocalArrowRight } from "../svg/arrow_right";
 import useComment from "../../hooks/useComment";
 import PropTypes from "prop-types";
 import { useState } from "react";
 const CommentForm = (props) => {
-  const { createComment } = useComment(props.id);
+  const { createComment } = useComment(props.parentId, false);
   const [inputValue, setInputValue] = useState("");
   const handleCreateComment = (values) => {
-    const data = { postId: props.id, commentContent: values.target.value };
+    const parentId = props.parentId ? props.parentId : "";
+    const data = {
+      postId: props.id,
+      commentContent: values.target.value,
+      parentId,
+    };
     setInputValue("");
     createComment(data);
   };
@@ -38,5 +43,6 @@ const CommentForm = (props) => {
 };
 CommentForm.propTypes = {
   id: PropTypes.number.isRequired,
+  parentId: PropTypes.any,
 };
 export default CommentForm;
