@@ -76,8 +76,11 @@ const UsersContent = (props) => {
       title: "Date of birth",
       dataIndex: "dateOfBirth",
       key: "dateOfBirth",
-      render: (_, record) =>
-        record.dateOfBirth && dayjs("12/07/2002 10:06:06").format("DD/MM/YYYY"),
+      render: (_, record) => {
+        const rawtime = dayjs(record.dateOfBirth, "DD/MM/YYYY");
+        const formatTime = dayjs(rawtime["$d"]).format("DD/MM/YYYY");
+        return <p>{formatTime}</p>;
+      },
     },
     {
       title: "Status",

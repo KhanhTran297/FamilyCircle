@@ -28,7 +28,7 @@ const PostDetailPage = () => {
   return (
     <div className="w-full xl:w-[760px]   ">
       <div className="flex flex-col w-full">
-        <div className="flex flex-col backdrop-blur-[32px] sticky top-14 xl:top-0">
+        <div className="flex flex-col backdrop-blur-[32px] sticky top-14 xl:top-0 z-20">
           <div className="flex items-start self-stretch px-6 py-2 ">
             <ILocalArrowLeft fill="#1F1A1C" />
             <p className="font-medium text-title font-roboto ml-2">Post</p>

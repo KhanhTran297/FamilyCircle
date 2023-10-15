@@ -3,21 +3,17 @@ import PropTypes from "prop-types";
 import AvtUser from "../shared/AvtUser";
 import FooterPost from "./FooterPost";
 import HeaderPost from "./HeaderPost";
-import CommentBox from "../comment/CommentBox";
 import { Skeleton } from "antd";
 import useComment from "../../hooks/useComment";
-import { useDispatch, useSelector } from "react-redux";
-import { setPostId } from "../../redux/slice/post";
+import CommentForm from "../comment/CommentForm";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Comment from "../comment/Comment";
 // import { ILocalDot } from "../svg/Dot";
 // import { ILocalMore } from "../svg/more";
 const PostDetail = (props) => {
   // const { theme } = useTheme({});
   // const textColor = theme === "dark" ? "#CEC4C6" : "#1F1A1C";
-  const { listComment, isSuccessComment, isloadingComment } = useComment(
-    props.id,
-    "",
-    true
-  );
+  const { listComment, fetchNextPage, hasNextPage } = useComment("", true);
 
   // console.log("Child", listComment[1].data());
   return (
@@ -41,20 +37,37 @@ const PostDetail = (props) => {
       <div className="border-t-[1px] border-b-[1px] border-[#F1DEE4] h-[1px] w-full"></div>
       <FooterPost />
       <div className="border-t-[1px] border-b-[1px] border-[#F1DEE4] h-[1px] w-full"></div>
-      {isSuccessComment ? (
-        <CommentBox
-          commentList={listComment?.data?.content}
-          isLoading={isloadingComment}
-          postId={props.id}
-        />
-      ) : (
-        <Skeleton
-          avatar
-          paragraph={{
-            rows: 4,
+      <div className=" w-full">
+        <InfiniteScroll
+          dataLength={listComment?.pages?.length || 0}
+          next={() => {
+            setTimeout(() => {
+              fetchNextPage();
+            }, 1000);
           }}
-        />
-      )}
+          hasMore={hasNextPage}
+          loader={
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
+              }}
+            />
+          }
+        >
+          {listComment &&
+            listComment?.pages?.map((page, index) => (
+              <div className="flex flex-col" key={index}>
+                {Array.isArray(page.data.content) &&
+                  page.data.content.map((comment) => (
+                    <Comment key={comment.id} data={comment} />
+                  ))}
+              </div>
+            ))}
+        </InfiniteScroll>
+      </div>
+
+      <CommentForm id={props.id} parentId={""} />
     </div>
   );
 };
