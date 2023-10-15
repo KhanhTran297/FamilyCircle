@@ -1,12 +1,14 @@
 import useTheme from "../../hooks/useTheme";
 import AvtUser from "./AvtUser";
 import { ILocalMore } from "../svg/more";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useAccount from "../../hooks/useAccount";
 import UseCookie from "../../hooks/UseCookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "antd";
+import { setUser } from "../../redux/slice/account";
+import { setExpert } from "../../redux/slice/expert";
 
 const UserSetting = () => {
   const { removeToken } = UseCookie();
@@ -15,10 +17,14 @@ const UserSetting = () => {
   const userAccount = selectorAccount.account;
   const selectorExpert = useSelector((state) => state.expert);
   const userExpert = selectorExpert.expert;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   //methods
   const handleLogout = () => {
     removeToken();
+    dispatch(setUser(null));
+    dispatch(setExpert(null));
     navigate("/");
   };
 
@@ -49,7 +55,7 @@ const UserSetting = () => {
       <AvtUser />
       <div className="xl:h-9 xl:w-[136px]">
         <p className="text-[#1F1A1C] font-medium items-center text-sm dark:text-[#CEC4C6] font-roboto">
-          {userAccount?.userFullName || userExpert?.expertFullName}
+          {userAccount?.userFullName || userExpert.expertFullName}
         </p>
         <p className="text-[#1F1A1C] font-normal text-xs dark:text-[#CEC4C6] font-roboto">
           {userAccount?.userKind === 2
@@ -57,6 +63,7 @@ const UserSetting = () => {
             : "" || userExpert?.expertKind === 3
             ? "Expert"
             : ""}
+          {/* {profileAccount?.data?.result ? "User" : "Expert"} */}
         </p>
       </div>
       <Dropdown
