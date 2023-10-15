@@ -137,7 +137,7 @@ const CmsPage = () => {
                   xl: 50,
                   xxl: 50,
                 }}
-                src="defaultavatar.jpg"
+                src="https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_tB5idnWvVj.jpg"
                 className=" cursor-pointer hover:opacity-60"
               />
             </a>
