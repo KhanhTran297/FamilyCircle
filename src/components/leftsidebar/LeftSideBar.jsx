@@ -11,7 +11,7 @@ const LeftSideBar = () => {
         className="flex justify-between  w-full p-2 dark:bg-black  text-left h-14 xl:h-[100vh] xl:p-6 xl:gap-6 xl:flex-col fixed top-0 xl:relative
         shadow-mobile xl:shadow-none bg-white z-10"
       >
-        <div className="w-[46.337px] h-10 xl:w-[74.139px] xl:h-16 ml-4  ">
+        <div className="w-[46.337px] h-10 xl:w-[74.139px] xl:h-16 ml-4 xl:ml-0 ">
           <ILocalLogo />
         </div>
         <NewPost />

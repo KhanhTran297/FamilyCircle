@@ -79,7 +79,7 @@ const CmsPage = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   return (
-    <Layout className=" absolute h-full w-full">
+    <Layout className="absolute w-full h-full ">
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
@@ -93,7 +93,7 @@ const CmsPage = () => {
           <img
             src="../../logo.jpg"
             alt=""
-            className=" absolute w-3/4 h-4/4 rounded-full"
+            className="absolute w-3/4 rounded-full  h-4/4"
           />
         </div>
         <Menu
@@ -109,7 +109,7 @@ const CmsPage = () => {
           style={{
             background: colorBgContainer,
           }}
-          className=" flex justify-between items-center pl-4 pr-4"
+          className="flex items-center justify-between pl-4 pr-4 "
         >
           <Button
             type="text"

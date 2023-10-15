@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import useAccount from "../../hooks/useAccount";
 import UseCookie from "../../hooks/UseCookie";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Dropdown } from "antd";
 
 const UserSetting = () => {
   const { removeToken } = UseCookie();
@@ -13,14 +15,34 @@ const UserSetting = () => {
   const userAccount = selectorAccount.account;
   const selectorExpert = useSelector((state) => state.expert);
   const userExpert = selectorExpert.expert;
-
+  const navigate = useNavigate();
   //methods
   const handleLogout = () => {
-    // logout();
     removeToken();
+    navigate("/");
   };
 
+  const onClick = ({ key }) => {
+    switch (key) {
+      case "1":
+        handleLogout();
+        break;
+      default:
+        break;
+    }
+  };
+  const items = [
+    {
+      label: (
+        <button className="w-12 h-12">
+          <p className="text-sm font-medium font-roboto">Log out</p>
+        </button>
+      ),
+      key: "1",
+    },
+  ];
   const { theme } = useTheme({});
+
   const textColor = theme === "dark" ? "#CEC4C6" : "#1F1A1C";
   return (
     <div className="items-center self-stretch hidden gap-2 xl:flex">
@@ -37,10 +59,20 @@ const UserSetting = () => {
             : ""}
         </p>
       </div>
-
-      <div className="flex flex-col items-center justify-center rounded-[20px] hover:bg-tab hover:bg-opacity-[8%] cursor-pointer w-10 h-10 gap-[10px] p-[10px]">
-        <ILocalMore fill={textColor} />
-      </div>
+      <Dropdown
+        menu={{
+          items,
+          onClick,
+        }}
+        placement="topRight"
+      >
+        <div
+          className="flex flex-col items-center justify-center rounded-[20px] hover:bg-tab hover:bg-opacity-[8%] cursor-pointer w-10 h-10 gap-[10px] p-[10px]"
+          onClick={(e) => e.preventDefault()}
+        >
+          <ILocalMore fill={textColor} />
+        </div>
+      </Dropdown>
     </div>
   );
 };
