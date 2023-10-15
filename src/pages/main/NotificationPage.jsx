@@ -1,5 +1,3 @@
-import React from "react";
-
 const NotificationPage = () => {
   return <div className="w-full xl:w-[760px]">content for Notification</div>;
 };
