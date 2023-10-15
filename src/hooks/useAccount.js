@@ -18,6 +18,7 @@ import useCookie from "./UseCookie";
 
 import { message } from "antd";
 import { setExpert } from "../redux/slice/expert";
+import { get } from "react-hook-form";
 
 function useAccount() {
   //hooks
@@ -35,8 +36,12 @@ function useAccount() {
       saveToken(data?.access_token, data?.refresh_token);
       if (data?.user_kind === 1) {
         navigate("/admin/1");
+      } else if (data?.user_kind === 2) {
+        getProfileAccount().then(() => {
+          navigate("/index");
+        });
       } else {
-        navigate("/index");
+        getProfileExpertAccount().then(() => navigate("/index"));
       }
     },
     onError: () => {
@@ -48,6 +53,7 @@ function useAccount() {
     data: profileAccount,
     refetch: getProfileAccount,
     isLoading: loadingPage,
+    isSuccess: isSuccessProfileAccount,
   } = useQuery({
     queryKey: ["profileAccount"],
     queryFn: getAccountProfileApi,
@@ -93,7 +99,6 @@ function useAccount() {
   const { mutate: authSignup } = useMutation({
     mutationFn: SignUpApi,
     onSuccess: (data) => {
-      console.log("data", data.code);
       {
         data.code == "ERROR-ACCOUNT-0000"
           ? message.error("email exist")
@@ -175,6 +180,7 @@ function useAccount() {
     profileExpertAccount,
     getProfileExpertAccount,
     loadingExpertPage,
+    isSuccessProfileAccount,
   };
 }
 export default useAccount;
