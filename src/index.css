@@ -52,3 +52,7 @@
   height: 48px;
   width: 320px !important;
 }
+/* Css ant date Picker */
+.ant-picker-input {
+  flex-direction: row-reverse !important;
+}
