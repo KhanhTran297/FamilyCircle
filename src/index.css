@@ -45,3 +45,7 @@
 .items .ant-dropdown-menu-item {
   padding: 0px 0px;
 }
+/* Css ant date Picker */
+.ant-picker-input {
+  flex-direction: row-reverse !important;
+}
