@@ -29,6 +29,8 @@ export default {
         buttonHoverLight: "rgba(167, 53, 116, 0.08)",
         disableButton: "rgba(0, 0, 0, 0.12)",
         buttonHoverDark: "rgba(255, 175, 213, 0.08)",
+        bgAuthenPage: "linear-gradient(180deg, #FC3872 0%, #75D3FB 100%)",
+        buttonSubmit: "var(--light-primary-primary, #A73574)",
       },
       fontFamily: {
         roboto: ["Roboto", "sans"],
@@ -41,6 +43,7 @@ export default {
         tile: " 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30)",
         buttonHover:
           "0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30)",
+        formAuthen: "0px 0px 64px 0px #A4E3FF",
       },
 
       colors: {
@@ -64,6 +67,18 @@ export default {
         ".buttonHover": {
           backgroundImage:
             "linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%)",
+        },
+        ".bg-authen-page": {
+          backgroundImage: "linear-gradient(180deg, #FC3872 0%, #75D3FB 100%)",
+        },
+        ".bg-button-submit-light": {
+          backgroundColor: "var(--light-primary-primary, #A73574)",
+        },
+        ".border-button-submit-light": {
+          borderColor: "var(--light-outline-outline, #827379)",
+        },
+        ".text-button-submit-light": {
+          color: "var(--light-primary-primary, #A73574)",
         },
       };
 
