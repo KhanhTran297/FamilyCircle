@@ -61,23 +61,27 @@ const NewPost = () => {
         selectedKind={selectedKind} // Fixed: removed colon
       />
       <button
-        className={` fixed bottom-[56px] right-0 m-4  xl:m-0 xl:top-0 z-auto xl:left-0 xl:relative   ${
-          userExpert ? "xl:w-[164px]" : "xl:w-[136px]"
-        } h-14 w-14      rounded-[28px]  xl:pl-4 xl:pt-[10px] xl:pb-[10px] bg-[#FFD8E8] dark:bg-[#772956]  `}
-        {...(userAccount ? { onClick: checkAccount } : {})}
+        className={` fixed bottom-[56px] right-0 m-4  desktop:m-0 desktop:top-0 z-auto desktop:left-0 desktop:relative   ${
+          userExpert ? "desktop:w-[164px]" : "desktop:w-[136px]"
+        } h-14 w-14      rounded-[28px]  desktop:pl-4 desktop:pt-[10px] desktop:pb-[10px] bg-[#FFD8E8] dark:bg-[#772956]  `}
+        {...(userAccount
+          ? { onClick: checkAccount }
+          : { onClick: toggleDropdown })}
         // onClick={checkAccount}
       >
         <div
-          className=" xl:width-[96px] xl:h-9 flex items-center xl:gap-3 justify-center xl:justify-normal"
-          {...(userExpert ? { onClick: toggleDropdown } : {})}
+          className=" desktop:width-[96px] desktop:h-9 flex items-center desktop:gap-3 justify-center desktop:justify-normal cursor-pointer"
+          {...(userExpert
+            ? { onClick: toggleDropdown }
+            : { onClick: checkAccount })}
         >
-          <div className="flex flex-col items-center justify-center w-6 h-6 xl:justify-normal ">
+          <div className="flex flex-col items-center justify-center w-6 h-6 desktop:justify-normal ">
             <ILocalPost fill={postColor} />
           </div>
 
           <div>
             <p
-              className={`hidden xl:block font-medium text-${textColor} text-sm font-roboto z-10`}
+              className={`hidden desktop:block font-medium text-${textColor} text-sm font-roboto z-10`}
             >
               New Post
             </p>
@@ -86,7 +90,7 @@ const NewPost = () => {
           {userExpert ? (
             <button
               onClick={toggleDropdown}
-              className="hidden xl:block"
+              className="hidden desktop:block"
               ref={nodeRef}
             >
               <ILocalArrowDropDown fill="#1F1F1F" />
@@ -97,7 +101,7 @@ const NewPost = () => {
         </div>
       </button>
       {show && (
-        <div className="fixed w-[176px]  z-50 bottom-[144px] right-6 xl:right-auto xl:top-[175px] h-[112px] py-2 rounded-lg shadow-modal inline-flex flex-col items-start bg-[#FFF] transition-all   ">
+        <div className="fixed w-[176px]  z-50 bottom-[144px] right-6 desktop:right-auto desktop:top-[175px] h-[112px] py-2 rounded-lg shadow-modal inline-flex flex-col items-start bg-[#FFF] transition-all   ">
           <button
             onClick={() => handleOptionClick("1")}
             className="flex flex-row items-center w-full h-12 gap-4 px-4 hover:bg-menuOption"

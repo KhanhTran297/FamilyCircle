@@ -9,13 +9,19 @@ import HeaderPost from "./HeaderPost";
 import DOMPurify from "dompurify";
 
 import UsePost from "../../hooks/UsePost";
-
+import useReact from "../../hooks/useReact";
+import { useSelector } from "react-redux";
 // import { ILocalDot } from "../svg/Dot";
 // import { ILocalMore } from "../svg/more";
 
 const Post = (props) => {
-  // const { theme } = useTheme({});
-  // const textColor = theme === "dark" ? "#CEC4C6" : "#1F1A1C";
+  const { listReaction, getListReaction, getReact } = useReact(props.id);
+  const { deletePost } = UsePost();
+  const selector = useSelector((state) => state.account);
+  const userAccount = selector.account;
+  const selectorExpert = useSelector((state) => state.expert);
+  const userExpert = selectorExpert.expert;
+  const reactCount = listReaction?.data?.totalElements;
   const navigate = useNavigate();
   let limit = 1000;
   let content;
@@ -24,16 +30,22 @@ const Post = (props) => {
   } else {
     content = props.content;
   }
-
-  const { deletePost } = UsePost();
-
   const handleDeletePost = (id) => {
     deletePost(id);
   };
+  const handleActionReact = (kindPost, id) => {
+    const data = { kind: kindPost, postId: id };
+    getReact(data);
+  };
+  const listReactionPost = listReaction?.data?.content;
+  const userId = userAccount?.id || userExpert?.id; // Lấy userId từ userAccount hoặc userExpert
 
-  const sanitizedContent = DOMPurify.sanitize(content);
+  const isLike =
+    userId && listReactionPost
+      ? listReactionPost.some((reaction) => reaction.accountId === userId)
+      : false;
   return (
-    <div className="flex flex-col items-start xl:gap-6 gap-6 p-6 pt-3  rounded-[24px] w-full  bg-[#FFF8F8] cursor-pointer">
+    <div className="flex flex-col items-start desktop:gap-6 gap-6 p-6 pt-3  rounded-[24px] w-full  bg-[#FFF8F8] cursor-pointer">
 
       <div className="flex flex-row items-start self-stretch gap-2">
         <div className="w-10 h-10">
@@ -71,9 +83,14 @@ const Post = (props) => {
         ) : (
           ""
         )}
+        <FooterPost
+          {...props}
+          reactCount={reactCount}
+          handleActionReact={() => handleActionReact(props.kindPost, props.id)}
+          isLike={isLike}
+        />
       </div>
 
-      <FooterPost />
     </div>
   );
 };

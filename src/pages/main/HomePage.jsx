@@ -20,8 +20,10 @@ const HomePage = () => {
     //     <RightSiderBar />
     //   </div>
     // </div>
-    <div className="w-full xl:max-w-[760px] self-stretch xl:w-auto xl:min-w-[650px]   ">
-      <Tab kind="1" />
+    <div className="w-full">
+      <div className="flex self-stretch justify-center w-full desktop:w-[760px]">
+        <Tab kind="1" />
+      </div>
     </div>
   );
 };

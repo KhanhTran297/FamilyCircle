@@ -42,15 +42,8 @@
 .publish .ant-modal-footer {
   margin-top: 24px !important;
 }
-.ant-dropdown .ant-dropdown-menu {
-  padding: 8px 0px;
-}
-.items .ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item {
-  padding: 0px 16px;
-  gap: 16px;
-  align-items: center;
-  height: 48px;
-  width: 320px !important;
+.items .ant-dropdown-menu-item {
+  padding: 0px 0px;
 }
 /* Css ant date Picker */
 .ant-picker-input {

@@ -9,7 +9,7 @@ const SwitchMode = () => {
 
   return (
     <div className="flex ">
-      <div className="items-center self-stretch hidden gap-2 xl:flex dark:bg-black">
+      <div className="items-center self-stretch hidden gap-2 desktop:flex dark:bg-black">
         <div
           className="inline-block cursor-pointer dark:hidden"
           onClick={selectDark}
@@ -22,7 +22,7 @@ const SwitchMode = () => {
         >
           <ILocalMoon />
         </div>
-        <div className="xl:h-9 xl:w-[136px]">
+        <div className="desktop:h-9 desktop:w-[136px]">
           <p className="hidden text-white dark:inline-block font-roboto">
             Dark Mode
           </p>
