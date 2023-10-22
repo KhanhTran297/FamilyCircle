@@ -20,7 +20,7 @@ const Search = () => {
 
   return (
     <button
-      className={`xl:rounded-[100px] rounded-[20px] xl:w-full w-10 h-10 items-center justify-center xl:justify-normal p-[10px] xl:p-0 gap-[10px] shrink-0 xl:self-stretch xl:pl-3 xl:py-[7px] xl:pr-1 cursor-pointer xl:flex  fixed top-2 right-0 mr-6 xl:relative   ${
+      className={`desktop:rounded-[100px] rounded-[20px] desktop:w-full w-10 h-10 items-center justify-center desktop:justify-normal p-[10px] desktop:p-0 gap-[10px] shrink-0 desktop:self-stretch desktop:pl-3 desktop:py-[7px] desktop:pr-1 cursor-pointer desktop:flex  fixed top-2 right-0 mr-6 desktop:relative   ${
         isHovered && !isClicked ? "bg-[#E8E8E8]" : "bg-[#F6F6F6]"
       } ${isClicked ? "shadow-search bg-[#FFF]" : "bg-[F6F6F6]"}`}
       onMouseEnter={handleMouseEnter}
@@ -29,7 +29,7 @@ const Search = () => {
       <div
         className={`${
           isClicked ? "bg-[#FFF]" : "bg-[F6F6F6]"
-        } xl:flex xl:flex-row xl:gap-[10px] w-6 h-6 shrink-0 ${
+        } desktop:flex desktop:flex-row desktop:gap-[10px] w-6 h-6 shrink-0 ${
           isHovered && !isClicked ? "bg-[#E8E8E8]" : "bg-[#F6F6F6]"
         }`}
       >
@@ -39,7 +39,7 @@ const Search = () => {
           placeholder="Search"
           className={`${
             isClicked ? " bg-[#FFF]" : "bg-[F6F6F6]"
-          } font-roboto text-sm font-normal flex-1  h-5 cursor-pointer xl:flex hidden ${
+          } font-roboto text-sm font-normal flex-1  h-5 cursor-pointer desktop:flex hidden ${
             isHovered && !isClicked ? "bg-[#E8E8E8]" : "bg-[#F6F6F6]"
           }`}
           style={{ outline: "none" }}

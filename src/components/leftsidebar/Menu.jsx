@@ -26,9 +26,9 @@ const Menu = () => {
     navigate(path);
   };
   return (
-    <nav className="fixed xl:z-0 bottom-0 left-0 right-0 flex flex-row justify-around text-black dark:bg-[#000] xl:border-y-0 xl:flex-col xl:top-0 xl:left-0 xl:relative shadow-mobile xl:shadow-none xl:w-[196px] bg-white">
+    <nav className="fixed desktop:z-0 bottom-0 left-0 right-0 flex flex-row justify-around text-black dark:bg-[#000] desktop:border-y-0 desktop:flex-col desktop:top-0 desktop:left-0 desktop:relative shadow-mobile desktop:shadow-none desktop:w-[196px] bg-white">
       <p
-        className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 xl:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark "
+        className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark "
         onClick={() => handleRouter("/index")}
       >
         {path === "/index" ? (
@@ -37,7 +37,7 @@ const Menu = () => {
           <ILocalHome fill={textColor} />
         )}
         <p
-          className={`hidden xl:block text-sm font-medium text-center  ${
+          className={`hidden desktop:block text-sm font-medium text-center  ${
             path === "/index"
               ? "text-[#A73574] dark:text-[#FFAFD5]"
               : "text-[#1F1A1C] dark:text-[#CEC4C6]"
@@ -47,7 +47,7 @@ const Menu = () => {
         </p>
       </p>
       <p
-        className="flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 xl:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
+        className="flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
         onClick={() => handleRouter("/forum")}
       >
         {path === "/forum" ? (
@@ -56,7 +56,7 @@ const Menu = () => {
           <ILocalForum fill={textColor} />
         )}
         <p
-          className={`hidden xl:block text-sm font-medium text-center  ${
+          className={`hidden desktop:block text-sm font-medium text-center  ${
             path === "/forum"
               ? "text-[#A73574] dark:text-[#FFAFD5]"
               : "text-[#1F1A1C] dark:text-[#CEC4C6]"
@@ -66,7 +66,7 @@ const Menu = () => {
         </p>
       </p>
       <p
-        className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 xl:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
+        className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
         onClick={() => handleRouter("/notification")}
       >
         {path === "/notification" ? (
@@ -75,7 +75,7 @@ const Menu = () => {
           <ILocalNotification fill={textColor} />
         )}
         <p
-          className={`hidden xl:block text-sm font-medium text-center  ${
+          className={`hidden desktop:block text-sm font-medium text-center  ${
             path === "/notification"
               ? "text-[#A73574] dark:text-[#FFAFD5]"
               : "text-[#1F1A1C] dark:text-[#CEC4C6]"
@@ -85,7 +85,7 @@ const Menu = () => {
         </p>
       </p>
       <p
-        className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 xl:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
+        className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
         onClick={() => handleRouter("/message")}
       >
         {path === "/message" ? (
@@ -94,7 +94,7 @@ const Menu = () => {
           <ILocalMess fill={textColor} />
         )}
         <p
-          className={`hidden xl:block text-sm font-medium text-center  ${
+          className={`hidden desktop:block text-sm font-medium text-center  ${
             path === "/message"
               ? "text-[#A73574] dark:text-[#FFAFD5]"
               : "text-[#1F1A1C] dark:text-[#CEC4C6]"
@@ -105,7 +105,7 @@ const Menu = () => {
         </p>
       </p>
       <p
-        className="hidden xl:flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 xl:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
+        className="hidden desktop:flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
         onClick={() => handleRouter("/bookmark")}
       >
         {path === "/bookmark" ? (
@@ -124,7 +124,7 @@ const Menu = () => {
         </p>
       </p>
       <p
-        className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 xl:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
+        className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
         onClick={() => handleRouter("/profile")}
       >
         {path === "/profile" ? (
@@ -133,7 +133,7 @@ const Menu = () => {
           <ILocalProfile fill={textColor} />
         )}
         <p
-          className={`hidden xl:block text-sm font-medium text-center  ${
+          className={`hidden desktop:block text-sm font-medium text-center  ${
             path === "/profile"
               ? "text-[#A73574] dark:text-[#FFAFD5]"
               : "text-[#1F1A1C] dark:text-[#CEC4C6]"

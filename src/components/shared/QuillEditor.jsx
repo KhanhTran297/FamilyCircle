@@ -7,18 +7,15 @@ const QuillEditor = (props) => {
   const { disabled, name, value, onChange } = props;
   const modules = {
     toolbar: [
-      [{ size: [false, "large", "huge"] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ color: [] }],
-      [{ background: [] }],
+      // [{ background: [] }],
 
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      [{ align: [] }],
+      // [
+      //   { list: "ordered" },
+      //   { list: "bullet" },
+      //   { indent: "-1" },
+      //   { indent: "+1" },
+      // ],
+      // [{ align: [] }],
       ["image"],
     ],
   };
@@ -30,7 +27,7 @@ const QuillEditor = (props) => {
       onChange={onChange}
       modules={modules}
       readOnly={disabled}
-      className="xl:h-[600px] xl:max-h-[700px] h-[450px] max-h-[550px] overscroll-y-auto overscroll-x-none"
+      className="w-full h-full overscroll-y-auto overscroll-x-none"
     />
   );
 };
