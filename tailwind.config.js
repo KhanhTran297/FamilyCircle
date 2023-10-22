@@ -55,6 +55,10 @@ export default {
       textColor: {
         light: "#1F1A1C",
       },
+      screens: {
+        desktop: "1320px",
+        // => @media (min-width: 1280px) { ... }
+      },
     },
   },
   plugins: [

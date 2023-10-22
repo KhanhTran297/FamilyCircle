@@ -85,15 +85,15 @@ const HeaderPost = (props) => {
         content={props.content}
       />
       <div
-        className="relative flex flex-row w-full h-10 gap-2 xl:items-center"
+        className="relative flex flex-row w-full h-10 gap-2 desktop:items-center"
         ref={nodeRef}
       >
-        <div className="flex flex-col w-full h-5 gap-0 xl:flex-row xl:gap-2">
+        <div className="flex flex-col w-full h-5 gap-0 desktop:flex-row desktop:gap-2">
           <div className="flex flex-row gap-2">
             <p className="text-[#1F1A1C] font-medium text-sm font-roboto">
               {props.fullname}
             </p>
-            <div className="items-center hidden xl:flex">
+            <div className="items-center hidden desktop:flex">
               <ILocalDot fill="#F1DEE4" />
             </div>
           </div>
@@ -120,8 +120,8 @@ const HeaderPost = (props) => {
         {show &&
           (props.idowner === userAccount?.id ||
             props.idowner === userExpert?.id) && (
-            <div className=" fixed bottom-0  xl:absolute right-0 xl:bottom-auto flex flex-col xl:top-[48px] items-start py-2 bg-[#FFF] rounded-tr-[24px] xl:border-t-0 rounded-tl-[24px] border-t-2 xl:shadow-modal xl:rounded-lg xl:w-[320px] w-full  z-10">
-              <div className="bg-[#FFF]  self-stretch py-6 flex-col items-center xl:hidden justify-center flex">
+            <div className=" fixed bottom-0  desktop:absolute right-0 desktop:bottom-auto flex flex-col desktop:top-[48px] items-start py-2 bg-[#FFF] rounded-tr-[24px] desktop:border-t-0 rounded-tl-[24px] border-t-2 desktop:shadow-modal desktop:rounded-lg desktop:w-[320px] w-full  z-10">
+              <div className="bg-[#FFF]  self-stretch py-6 flex-col items-center desktop:hidden justify-center flex">
                 <div className="w-8 h-1 rounded-[2px] opacity-40 bg-[#504348]"></div>
               </div>
               <button
@@ -143,8 +143,8 @@ const HeaderPost = (props) => {
         {show &&
           props.idowner !== userAccount?.id &&
           props.idowner !== userExpert?.id && (
-            <div className=" fixed bottom-0 xl:absolute right-0 xl:bottom-auto flex flex-col xl:top-[48px] items-start py-2 bg-[#FFF] border-t-2 xl:border-t-0 rounded-tr-[24px] rounded-tl-[24px] xl:shadow-modal xl:rounded-lg xl:w-[320px] w-full  z-10">
-              <div className="bg-[#FFF]  self-stretch py-6 flex-col items-center xl:hidden justify-center flex">
+            <div className=" fixed bottom-0 desktop:absolute right-0 desktop:bottom-auto flex flex-col desktop:top-[48px] items-start py-2 bg-[#FFF] border-t-2 desktop:border-t-0 rounded-tr-[24px] rounded-tl-[24px] desktop:shadow-modal desktop:rounded-lg desktop:w-[320px] w-full  z-10">
+              <div className="bg-[#FFF]  self-stretch py-6 flex-col items-center desktop:hidden justify-center flex">
                 <div className="w-8 h-1 rounded-[2px] opacity-40 bg-[#504348]"></div>
               </div>
               <button className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption">

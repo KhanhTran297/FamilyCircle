@@ -29,7 +29,7 @@ const Tab = (props) => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex flex-col backdrop-blur-[32px] sticky top-14 xl:top-0 z-20">
+      <div className="flex flex-col backdrop-blur-[32px] sticky top-14 desktop:top-0 z-20">
         <div className="flex items-start self-stretch px-6 py-2 ">
           <p className="font-medium text-title font-roboto">
             {props.kind === "1" ? "Home" : "Forum"}
@@ -96,7 +96,7 @@ const Tab = (props) => {
             listPostExpert.pages &&
             listPostExpert.pages.map((page, pageIndex) => (
               <div key={pageIndex}>
-                <div className="flex flex-col gap-6 overflow-y-auto xl:mt-6 mt-[72px] max-h-100vh xl:mb-6 w-full ">
+                <div className="flex flex-col gap-6 overflow-y-auto desktop:mt-6 mt-[72px] max-h-100vh desktop:mb-6 w-full ">
                   {Array.isArray(page.data.content) && // Kiểm tra xem page.data là mảng
                     page.data.content
                       // .filter((post) => post.kind === 1)
@@ -165,7 +165,7 @@ const Tab = (props) => {
             listPostAccount.pages &&
             listPostAccount.pages.map((page, pageIndex) => (
               <div key={pageIndex}>
-                <div className="flex flex-col gap-6 overflow-y-auto xl:mt-6 mt-[72px] max-h-100vh xl:mb-6 w-full ">
+                <div className="flex flex-col gap-6 overflow-y-auto desktop:mt-6 mt-[72px] max-h-100vh desktop:mb-6 w-full ">
                   {Array.isArray(page.data.content) && // Kiểm tra xem page.data là mảng
                     page.data.content
                       // .filter((post) => post.kind === 1)
