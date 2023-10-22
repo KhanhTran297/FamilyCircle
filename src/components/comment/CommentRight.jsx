@@ -11,21 +11,21 @@ import IconFooter from "./IconFooter";
 import { ILocalHeartComment } from "../svg/hear_comment";
 import { ILocalComment } from "../svg/comment";
 import { ILocalReply } from "../svg/reply";
-import { useState } from "react";
-import useComment from "../../hooks/useComment";
+// import { useState } from "react";
+// import useComment from "../../hooks/useComment";
 
 const CommentRight = (props) => {
-  const { data } = props;
-  const location = useLocation();
-  const [active, setActive] = useState(false);
-  const parts = location.pathname.split("/");
-  const postDetailId = parts[parts.length - 1];
+  const { data, eventReply } = props;
+  // const location = useLocation();
+  // const [active, setActive] = useState(false);
+  // const parts = location.pathname.split("/");
+  // const postDetailId = parts[parts.length - 1];
   const handleFormatTime = (time) => {
     const commentTime = dayjs(time, "DD/MM/YYYY HH:mm:ss");
     const timeFormat = dayjs(commentTime).fromNow();
     return timeFormat;
   };
-  const { listChildComment } = useComment(data.id, false);
+  // const { listChildComment } = useComment(data.id, false);
   // const { data: listChildComment } = useQuery({
   //   queryKey: ["listChildComment", data.id],
   //   queryFn: () => getListCommentApi(postDetailId, data.id, 5),
@@ -64,26 +64,24 @@ const CommentRight = (props) => {
                 className="p-[10px]"
               />
             </IconFooter>
-            <IconFooter
-              check={false}
-              handleClick={() => setActive((preSate) => (preSate = !preSate))}
-            >
+            <IconFooter check={false} handleClick={eventReply}>
               <ILocalReply fill="#1F1A1C" className="p-[10px]" />
             </IconFooter>
           </div>
         </div>
         <CommentSetting commentId={data.id} />
       </div>
-      <div className="flex flex-col ">
+      {/* <div className="flex flex-col ">
         {listChildComment?.data?.content?.map((comment) => (
           <Comment key={comment.id} data={comment} />
         ))}
         {active && <CommentForm id={postDetailId} parentId={data.id} />}
-      </div>
+      </div> */}
     </div>
   );
 };
 CommentRight.propTypes = {
   data: PropTypes.object.isRequired,
+  eventReply: PropTypes.func,
 };
 export default CommentRight;
