@@ -1,3 +1,8 @@
+import DepartmentContent from "../components/admin/DepartmentContent";
+import ExpertsContent from "../components/admin/ExpertsContent";
+import HospitalContent from "../components/admin/HospitalContent";
+import PostsContent from "../components/admin/PostsContent";
+import UsersContent from "../components/admin/UsersContent";
 import CmsLayout from "../layouts/CmsLayout";
 import CmsPage from "../pages/admin/CmsPage";
 
@@ -12,8 +17,30 @@ export default function init(routes) {
     // Xem thêm ở https://reactrouter.com/en/main/components/outlet
     children: [
       {
-        path: "/admin/:id",
+        path: "/admin/",
         element: <CmsPage />,
+        children: [
+          {
+            path: "users",
+            element: <UsersContent />,
+          },
+          {
+            path: "experts",
+            element: <ExpertsContent />,
+          },
+          {
+            path: "hospital",
+            element: <HospitalContent />,
+          },
+          {
+            path: "department",
+            element: <DepartmentContent />,
+          },
+          {
+            path: "posts",
+            element: <PostsContent />,
+          },
+        ],
       },
     ],
   };

@@ -35,12 +35,11 @@ var optionsHospital = [];
 var optionsAcademicDegree = [];
 var optionsDepartment = [];
 var optionsHospitalRole = [];
-const ExpertsContent = (props) => {
+const ExpertsContent = () => {
   const location = useLocation();
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { bg } = props;
   const select = useSelector((state) => state.expert);
   const listExpert = select.listExpertAccounts;
   const dispatch = useDispatch();
@@ -293,7 +292,7 @@ const ExpertsContent = (props) => {
       style={{
         padding: 24,
         minHeight: 360,
-        background: bg,
+        background: "white",
       }}
       className=" flex flex-col"
     >

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const CommentLeft = ({ img }) => {
   return (
-    <div className="left">
+    <div className="flex justify-center">
       <Avatar
         src={
           img ||
