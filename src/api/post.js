@@ -10,8 +10,8 @@ export const getListPostAccountApi = ({ pageParam = 0 }) => {
   const url = `/v1/post/list?status=1&size=5&kind=2&page=${pageParam}`;
   return UseGet({ url, requiredToken: true });
 };
-export const getListPostApi = () => {
-  const url = `/v1/post/list`;
+export const getListPostApi = (status, size, page) => {
+  const url = `/v1/post/list?status=${status}&size=${size}&page=${page}`;
   return UseGet({ url, requiredToken: true });
 };
 
@@ -32,5 +32,13 @@ export const deletePostApi = (id) => {
 
 export const updatePostApi = (params) => {
   const url = "/v1/post/update";
+  return UseEdit({ url, requiredToken: true, params });
+};
+export const approvePostApi = (params) => {
+  const url = "/v1/post/approve";
+  return UseEdit({ url, requiredToken: true, params });
+};
+export const rejectPostApi = (params) => {
+  const url = "/v1/post/reject";
   return UseEdit({ url, requiredToken: true, params });
 };
