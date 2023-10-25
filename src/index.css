@@ -49,3 +49,25 @@
 .ant-picker-input {
   flex-direction: row-reverse !important;
 }
+.reportsuccess {
+  position: relative;
+  z-index: 10;
+}
+@media (min-width: 1320px) {
+  .reportsuccess .ant-modal {
+    width: 600px;
+  }
+}
+.reportsuccess .ant-modal-content {
+  padding: 0px;
+
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 28px;
+  background-color: #fff8f8;
+  height: auto;
+}
+.reportsuccess .ant-modal {
+  display: flex;
+  justify-content: center;
+  width: 380px;
+}

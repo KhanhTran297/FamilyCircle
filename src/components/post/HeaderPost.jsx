@@ -18,6 +18,7 @@ import { ILocalFollow } from "../svg/follow";
 import useClickOutSide from "../../hooks/useClickOutSide";
 import { ILocalEdit } from "../svg/edit";
 import { ILocalDelete } from "../svg/delete";
+import ReportModal from "../modal/ReportModal";
 const HeaderPost = (props) => {
   dayjs.extend(relativeTime);
   const navigate = useNavigate();
@@ -48,22 +49,22 @@ const HeaderPost = (props) => {
   const userAccount = selector.account;
   const selectorExpert = useSelector((state) => state.expert);
   const userExpert = selectorExpert.expert;
-  const { getProfileAccount, getProfileExpertAccount } = useAccount();
+  // const { getProfileAccount, getProfileExpertAccount } = useAccount();
   const [showCreatePost, setShowCreatePost] = useState(false);
-
-  const checkAccount = () => {
-    if (isLoggedIn()) {
-      if (!userAccount) {
-        getProfileAccount();
-      }
-      if (!userExpert) {
-        getProfileExpertAccount();
-      }
-      setShowCreatePost(true);
-    } else {
-      navigate("/");
-    }
-  };
+  const [showReportPost, setShowReportPost] = useState(false);
+  // const checkAccount = () => {
+  //   if (isLoggedIn()) {
+  //     if (!userAccount) {
+  //       getProfileAccount();
+  //     }
+  //     if (!userExpert) {
+  //       getProfileExpertAccount();
+  //     }
+  //     setShowCreatePost(true);
+  //   } else {
+  //     navigate("/");
+  //   }
+  // };
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -83,6 +84,11 @@ const HeaderPost = (props) => {
         handleClose={() => setShowCreatePost(false)}
         isUpdate={true}
         content={props.content}
+      />
+      <ReportModal
+        open={showReportPost}
+        handleClose={() => setShowReportPost(false)}
+        id={props.id}
       />
       <div
         className="relative flex flex-row w-full h-10 gap-2 desktop:items-center"
@@ -126,7 +132,7 @@ const HeaderPost = (props) => {
               </div>
               <button
                 className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
-                onClick={checkAccount}
+                onClick={() => setShowCreatePost(true)}
               >
                 <ILocalEdit className="shrink-0" fill="#1F1A1C  " />
                 <p className="text-sm font-medium font-roboto">Edit</p>
@@ -147,7 +153,10 @@ const HeaderPost = (props) => {
               <div className="bg-[#FFF]  self-stretch py-6 flex-col items-center desktop:hidden justify-center flex">
                 <div className="w-8 h-1 rounded-[2px] opacity-40 bg-[#504348]"></div>
               </div>
-              <button className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption">
+              <button
+                className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
+                onClick={() => setShowReportPost(true)}
+              >
                 <ILocalReport className="shrink-0" fill="#1F1A1C  " />
                 <p className="text-sm font-medium font-roboto">Report</p>
               </button>
