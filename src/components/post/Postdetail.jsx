@@ -60,7 +60,7 @@ const PostDetail = (props) => {
               <div className="flex flex-col" key={index}>
                 {Array.isArray(page.data.content) &&
                   page.data.content.map((comment) => (
-                    <Comment key={comment.id} data={comment} />
+                    <Comment key={comment.id} data={comment} root={true} />
                   ))}
               </div>
             ))}
@@ -72,7 +72,6 @@ const PostDetail = (props) => {
   );
 };
 PostDetail.propTypes = {
-  key: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   author: PropTypes.object.isRequired,
   createdAt: PropTypes.string.isRequired,
