@@ -19,7 +19,7 @@ const Tab = (props) => {
     accountHasNextPage,
     accountIsFetching,
     accountIsFetchingNextPage,
-  } = UsePost();
+  } = UsePost(0, 0, 0, false);
 
   const [activeTab, setActiveTab] = useState("tab1");
 
