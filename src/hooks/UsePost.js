@@ -20,6 +20,7 @@ function UsePost(statusPost, sizelist, page) {
   const userAccount = selector.account;
   const selectorExpert = useSelector((state) => state.expert);
   const userExpert = selectorExpert.expert;
+
   const {
     data: listPost,
     refetch: getListPost,
@@ -28,7 +29,7 @@ function UsePost(statusPost, sizelist, page) {
   } = useQuery({
     queryKey: ["listPost"],
     queryFn: () => getListPostApi(statusPost, sizelist, page),
-    enabled: true,
+    enabled: false,
 
     onSuccess: (listPost) => {
       dispatch(setListPost(listPost.data));

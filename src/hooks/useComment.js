@@ -2,10 +2,13 @@ import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import {
   createCommentApi,
   deleteCommentApi,
+  editCommentApi,
   getListChildCommentApi,
   getListCommentApi,
+  reactCommentApi,
 } from "../api/comment";
 import { useLocation } from "react-router-dom";
+import { message } from "antd";
 
 function useComment(commentId, check) {
   const location = useLocation();
@@ -59,18 +62,35 @@ function useComment(commentId, check) {
       getListComment();
     },
   });
+  const { mutate: reactcomment } = useMutation({
+    mutationFn: reactCommentApi,
+    onSuccess: () => {
+      message.success("react comment success");
+      getListComment();
+    },
+  });
   const { mutate: deleteComment } = useMutation({
     mutationFn: () => deleteCommentApi(commentId),
     onSuccess: () => {
       getListComment();
     },
   });
+  const { mutateAsync: editComment, isSuccess: editSuccess } = useMutation({
+    mutationFn: editCommentApi,
+    onSuccess: () => {
+      message.success("edit comment success");
+      getListComment();
+    },
+  });
   return {
+    editComment,
     deleteComment,
+    editSuccess,
     // getListChildComment,
     // listChildComment,
     // isSuccessChildComment,
     // isloadingChildComment,
+    reactcomment,
     fetchNextPage,
     hasNextPage,
     isFetching,
