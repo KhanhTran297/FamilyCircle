@@ -8,11 +8,14 @@ import { ILocalReport } from "../svg/report";
 import { useSelector } from "react-redux";
 import { ILocalEdit } from "../svg/edit";
 import { ILocalDelete } from "../svg/delete";
+import ReportModal from "../modal/ReportModal";
+import { data } from "autoprefixer";
 
 const CommentSetting = (props) => {
   const { commentId, eventEditing } = props;
   const { deleteComment } = useComment(commentId, false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showReportPost, setShowReportPost] = useState(false);
   const select = useSelector((state) => state.account);
   const selectExpert = useSelector((state) => state.expert);
   const user = select.account;
@@ -72,7 +75,10 @@ const CommentSetting = (props) => {
   const otherItems = [
     {
       label: (
-        <p className="font-roboto text-[14px] font-medium leading-5 text-[#1F1A1C]">
+        <p
+          className="font-roboto text-[14px] font-medium leading-5 text-[#1F1A1C]"
+          onClick={() => setShowReportPost(true)}
+        >
           Report
         </p>
       ),
@@ -82,6 +88,11 @@ const CommentSetting = (props) => {
   ];
   return (
     <div className="relative">
+      <ReportModal
+        open={showReportPost}
+        handleClose={() => setShowReportPost(false)}
+        id={commentId}
+      />
       <Dropdown
         menu={{
           items: checkAuthen() ? items : otherItems,
