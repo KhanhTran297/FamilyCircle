@@ -165,7 +165,7 @@ const Tab = (props) => {
             listPostAccount.pages &&
             listPostAccount.pages.map((page, pageIndex) => (
               <div key={pageIndex}>
-                <div className="flex flex-col gap-6 overflow-y-auto desktop:mt-6 mt-[72px] max-h-100vh desktop:mb-6 w-full ">
+                <div className="flex flex-col gap-6  desktop:mt-6 mt-[72px] max-h-100vh desktop:mb-6 w-full ">
                   {Array.isArray(page.data.content) && // Kiểm tra xem page.data là mảng
                     page.data.content
                       // .filter((post) => post.kind === 1)

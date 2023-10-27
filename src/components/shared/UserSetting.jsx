@@ -55,7 +55,7 @@ const UserSetting = () => {
       <AvtUser />
       <div className="desktop:h-9 desktop:w-[136px]">
         <p className="text-[#1F1A1C] font-medium items-center text-sm dark:text-[#CEC4C6] font-roboto">
-          {userAccount?.userFullName || userExpert.expertFullName}
+          {userAccount?.userFullName || userExpert?.expertFullName}
         </p>
         <p className="text-[#1F1A1C] font-normal text-xs dark:text-[#CEC4C6] font-roboto">
           {userAccount?.userKind === 2
