@@ -1,35 +1,42 @@
+import dayjs from "dayjs";
 import { ILocalCircle } from "../svg/circle";
-import CommentFooter from "./CommentFooter";
 
 import PropTypes from "prop-types";
 
-const CommentBody = ({ fullName, kind, date, content }) => {
+const CommentBody = ({ fullName, kind, dateCreate, dateModify, content }) => {
+  const handleFormatTime = (time) => {
+    const commentTime = dayjs(time, "DD/MM/YYYY HH:mm:ss");
+    const timeFormat = dayjs(commentTime).fromNow();
+    return timeFormat;
+  };
   return (
-    <div className=" center xl:flex xl:flex-col xl:flex-auto ">
-      <div className="body xl:flex xl:flex-col gap-1">
-        <div className="title xl:flex xl:flex-row gap-2 text-center items-center">
-          <div className="name font-roboto text-sm font-medium text-center self-stretch">
-            {fullName}
-          </div>
-          <ILocalCircle fill="#F1DEE4" />
-          <div className="kind font-roboto text-xs font-normal">
-            {kind === 2 ? "User" : "Expert"}
-          </div>
-          <ILocalCircle fill="#F1DEE4" />
-          <div className="date font-roboto text-xs font-normal">{date}</div>
+    <div className="body xl:flex xl:flex-col gap-1">
+      <div className="title xl:flex xl:flex-row gap-2 text-center items-center">
+        <div className="font-roboto text-sm font-medium text-center self-stretch text-light_surface_on_surface">
+          {fullName}
         </div>
-        <div className="content font-roboto text-sm font-normal ">
-          {content}
+        <ILocalCircle fill="#F1DEE4" />
+        <div className="kind font-roboto text-xs font-normal text-light_surface_on_surface_variant">
+          {kind === 2 ? "User" : "Expert"}
+        </div>
+        <ILocalCircle fill="#F1DEE4" />
+        <div className="date font-roboto text-xs font-normal text-light_surface_on_surface_variant">
+          {dateCreate === dateModify
+            ? handleFormatTime(dateCreate)
+            : "Edited " + handleFormatTime(dateModify)}
         </div>
       </div>
-      <CommentFooter />
+      <div className="content font-roboto text-sm font-normal text-light_surface_on_surface ">
+        {content}
+      </div>
     </div>
   );
 };
 CommentBody.propTypes = {
   fullName: PropTypes.string.isRequired,
   kind: PropTypes.number.isRequired,
-  date: PropTypes.string.isRequired,
+  dateCreate: PropTypes.any.isRequired,
+  dateModify: PropTypes.any.isRequired,
   content: PropTypes.string.isRequired,
 };
 export default CommentBody;
