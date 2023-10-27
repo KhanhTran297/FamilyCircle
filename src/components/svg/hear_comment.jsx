@@ -7,6 +7,7 @@ export const ILocalHeartComment = ({ fill, className }) => (
       height="25"
       viewBox="0 0 24 25"
       fill="none"
+      className=" rounded-[20px] hover:bg-[#cccccc] cursor-pointer"
     >
       <mask
         id="mask0_792_4945"
