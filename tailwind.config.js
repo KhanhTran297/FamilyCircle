@@ -44,6 +44,8 @@ export default {
         buttonHover:
           "0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30)",
         formAuthen: "0px 0px 64px 0px #A4E3FF",
+        boxSettingComment:
+          "0px 1px 3px 0px rgba(0, 0, 0, 0.30), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);",
       },
 
       colors: {
@@ -51,6 +53,7 @@ export default {
         secondary: "#FFF8F8",
         light_surface_on_surface: "#1F1A1C",
         disableButton: "rgba(0, 0, 0, 0.38)",
+        light_surface_on_surface_variant: "#504348",
       },
       textColor: {
         light: "#1F1A1C",
