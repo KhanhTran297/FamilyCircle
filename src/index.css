@@ -49,6 +49,47 @@
 .ant-picker-input {
   flex-direction: row-reverse !important;
 }
+
+.commentSetting {
+  width: 320px !important;
+  border-radius: 8px !important;
+  height: 96px !important;
+}
+.commentSetting ul {
+  padding: 8px 0px 8px 0px !important;
+  border-radius: 8px !important;
+  height: 100% !important;
+  display: grid !important;
+  grid-template-rows: auto auto !important;
+}
+.commentSetting ul li {
+  width: 100% !important;
+
+  padding: 0px 16px 0px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
+.commentSettingOther {
+  width: 320px !important;
+  border-radius: 8px !important;
+  height: 48px !important;
+}
+.commentSettingOther ul {
+  padding: 8px 0px 8px 0px !important;
+  border-radius: 8px !important;
+  height: 100% !important;
+  display: grid !important;
+  grid-template-rows: auto auto !important;
+}
+.commentSettingOther ul li {
+  width: 100% !important;
+
+  padding: 0px 16px 0px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
 .reportsuccess {
   position: relative;
   z-index: 10;

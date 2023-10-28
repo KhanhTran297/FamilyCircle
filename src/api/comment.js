@@ -14,7 +14,15 @@ export const createCommentApi = (params) => {
   const url = `v1/comment/create`;
   return UsePost({ url, params, requiredToken: true });
 };
+export const editCommentApi = (params) => {
+  const url = `v1/comment/update`;
+  return UseEdit({ url, params, requiredToken: true });
+};
 export const deleteCommentApi = (commentId) => {
   const url = `v1/comment/delete/${commentId}`;
   return UseDelete({ url, requiredToken: true });
+};
+export const reactCommentApi = (params) => {
+  const url = `v1/comment/react`;
+  return UsePost({ url, requiredToken: true, params });
 };

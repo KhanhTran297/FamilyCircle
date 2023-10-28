@@ -18,7 +18,6 @@ import useCookie from "./UseCookie";
 
 import { message } from "antd";
 import { setExpert } from "../redux/slice/expert";
-import { get } from "react-hook-form";
 
 function useAccount() {
   //hooks
@@ -35,7 +34,7 @@ function useAccount() {
       // dispatch(getAccountProfileApi({ requiredToken: true }));
       saveToken(data?.access_token, data?.refresh_token);
       if (data?.user_kind === 1) {
-        navigate("/admin/1");
+        navigate("/admin/users");
       } else if (data?.user_kind === 2) {
         getProfileAccount().then(() => {
           navigate("/index");

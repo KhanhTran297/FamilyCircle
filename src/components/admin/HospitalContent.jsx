@@ -8,8 +8,7 @@ import {
   updateCategoryApi,
 } from "../../api/category";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-const HospitalContent = (props) => {
-  const { bg } = props;
+const HospitalContent = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [check, setCheck] = useState(1);
@@ -166,7 +165,7 @@ const HospitalContent = (props) => {
       style={{
         padding: 24,
         minHeight: 360,
-        background: bg,
+        background: "white",
       }}
       className=" flex flex-col"
     >

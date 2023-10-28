@@ -1,32 +1,41 @@
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+  approvePostApi,
   createPostApi,
   deletePostApi,
   getListPostAccountApi,
   getListPostApi,
   getListPostExpertApi,
   getPostApi,
+  rejectPostApi,
   updatePostApi,
 } from "../api/post";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { setListPost, setPostId } from "../redux/slice/post";
-import { useState } from "react";
-function UsePost() {
+import { message } from "antd";
+function UsePost(statusPost, sizelist, page) {
   const dispatch = useDispatch();
   const selector = useSelector((state) => state.account);
   const userAccount = selector.account;
   const selectorExpert = useSelector((state) => state.expert);
   const userExpert = selectorExpert.expert;
-  const { data: listPost, refetch: getListPost } = useQuery({
+
+  const {
+    data: listPost,
+    refetch: getListPost,
+    isSuccess: getListSuccess,
+    isLoading: getListLoading,
+  } = useQuery({
     queryKey: ["listPost"],
-    queryFn: () => getListPostApi(),
+    queryFn: () => getListPostApi(statusPost, sizelist, page),
     enabled: false,
-    retry: 0,
+
     onSuccess: (listPost) => {
       dispatch(setListPost(listPost.data));
     },
   });
+
   const postId = useSelector((state) => state.post.postId);
   const {
     data: listPostExpert,
@@ -144,8 +153,35 @@ function UsePost() {
       // useError("Save fail!!!!");
     },
   });
-
+  //approvePost
+  const { mutate: approvePost, isLoading: loadingApprove } = useMutation({
+    mutationFn: approvePostApi,
+    onSuccess: () => {
+      getListPost(statusPost, sizelist, page);
+      message.success("Approve post success!");
+    },
+    onError: () => {
+      message.error("Approve post fail!");
+    },
+  });
+  //rejectPost
+  const { mutate: rejectPost, isLoading: loadingReject } = useMutation({
+    mutationFn: rejectPostApi,
+    onSuccess: () => {
+      getListPost(statusPost, sizelist, page);
+      message.success("Reject post success!");
+    },
+    onError: () => {
+      message.error("Reject post fail!");
+    },
+  });
   return {
+    loadingApprove,
+    loadingReject,
+    approvePost,
+    rejectPost,
+    getListLoading,
+    getListSuccess,
     listPostExpert,
     getListPostExpert,
     createPost,

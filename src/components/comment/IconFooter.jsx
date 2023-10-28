@@ -3,11 +3,17 @@ import PropTypes from "prop-types";
 const IconFooter = ({ children, count, check, handleClick }) => {
   return (
     <div
-      className="xl:flex xl:flex-row gap-1 items-center"
+      className="xl:flex xl:flex-row  items-center gap-1"
       onClick={handleClick}
     >
-      <div className="">{children}</div>
-      {check && <p className=" font-roboto text-sm font-medium">{count}</p>}
+      <div className=" w-10 h-10 rounded-[20px] hover:bg-[#cccccc] cursor-pointer flex flex-col justify-center items-center ">
+        {children}
+      </div>
+      {check && (
+        <p className=" font-roboto text-sm font-medium text-[#1F1A1C]">
+          {count}
+        </p>
+      )}
     </div>
   );
 };

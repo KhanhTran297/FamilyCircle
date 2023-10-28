@@ -6,10 +6,9 @@ import queryString from "query-string";
 import { useQuery } from "@tanstack/react-query";
 import { getAccountListApi } from "../../api/account";
 
-const UsersContent = (props) => {
+const UsersContent = () => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { bg } = props;
   const [form] = Form.useForm();
   const queryParam = useMemo(
     () => queryString.parse(location.search),
@@ -123,7 +122,7 @@ const UsersContent = (props) => {
       style={{
         padding: 24,
         minHeight: 360,
-        background: bg,
+        background: "white",
       }}
     >
       <div className=" mb-2 pb-2 border-b-[1px] border-black border-solid">

@@ -4,10 +4,11 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   FileOutlined,
+  ContainerOutlined,
 } from "@ant-design/icons";
 import { Button, Dropdown, Layout, Menu, theme } from "antd";
 import { Avatar } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import UseCookie from "../../hooks/UseCookie";
 import UsersContent from "../../components/admin/UsersContent";
 import ExpertsContent from "../../components/admin/ExpertsContent";
@@ -16,6 +17,8 @@ const { Header, Content, Footer, Sider } = Layout;
 
 const CmsPage = () => {
   const { removeToken } = UseCookie();
+  const location = useLocation();
+  const defaultKey = location.pathname.split("/")[2];
   const navigate = useNavigate();
   const handleLogout = () => {
     removeToken();
@@ -24,16 +27,19 @@ const CmsPage = () => {
   const params = useParams();
   const handleContents = (data) => {
     switch (data.key) {
-      case "1":
+      case "users":
         navigate(`/admin/${data.key}`);
         break;
-      case "2":
+      case "experts":
         navigate(`/admin/${data.key}`);
         break;
-      case "3":
+      case "hospital":
         navigate(`/admin/${data.key}`);
         break;
-      case "4":
+      case "department":
+        navigate(`/admin/${data.key}`);
+        break;
+      case "posts":
         navigate(`/admin/${data.key}`);
         break;
       default:
@@ -50,12 +56,15 @@ const CmsPage = () => {
   }
   const siderItems = [
     getItem("Manage account", "sub1", <UserOutlined />, [
-      getItem("User", 1),
-      getItem("Expert", 2),
+      getItem("User", "users"),
+      getItem("Expert", "experts"),
     ]),
     getItem("Manage category", "sub2", <FileOutlined />, [
-      getItem("Hospital", 3),
-      getItem("Department", 4),
+      getItem("Hospital", "hospital"),
+      getItem("Department", "department"),
+    ]),
+    getItem("Manage posts", "sub3", <ContainerOutlined />, [
+      getItem("Posts", "posts"),
     ]),
     // getItem("", "5", <FileOutlined />),
   ];
@@ -99,7 +108,7 @@ const CmsPage = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={params.id}
+          defaultSelectedKeys={[defaultKey]}
           items={siderItems}
           onClick={(e) => handleContents(e)}
         />
@@ -149,9 +158,10 @@ const CmsPage = () => {
             margin: "24px 16px 0",
           }}
         >
-          {params.id === "1" && <UsersContent bg={colorBgContainer} />}
+          {/* {params.id === "1" && <UsersContent bg={colorBgContainer} />}
           {params.id === "2" && <ExpertsContent bg={colorBgContainer} />}
-          {params.id === "3" && <HospitalContent bg={colorBgContainer} />}
+          {params.id === "3" && <HospitalContent bg={colorBgContainer} />} */}
+          <Outlet />
         </Content>
         <Footer
           style={{
