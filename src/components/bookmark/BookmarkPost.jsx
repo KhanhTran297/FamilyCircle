@@ -17,12 +17,13 @@ const BookmarkPost = (props) => {
 
     return null;
   };
+
+  const imageUrl = extractImageUrl(props.content);
   const handleActionBookmark = (id) => {
     console.log("bookmark:", id);
     const data = { postId: id };
     getBookmark(data);
   };
-  const imageUrl = extractImageUrl(props.content);
   return (
     <div className="flex flex-row items-start self-stretch w-full gap-6 ">
       <div className="w-[144px] h-[144px]  rounded-2xl">
