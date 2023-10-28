@@ -91,7 +91,7 @@ function UsePost() {
     onSuccess: (respone) => {
       if (respone.result) {
         if (userAccount) {
-          getListPost();
+          getListPostAccount();
         } else if (userExpert) {
           getListPostExpert();
         }

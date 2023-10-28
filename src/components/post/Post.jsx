@@ -11,11 +11,13 @@ import DOMPurify from "dompurify";
 import UsePost from "../../hooks/UsePost";
 import useReact from "../../hooks/useReact";
 import { useSelector } from "react-redux";
+import useBookmark from "../../hooks/useBookmark";
 // import { ILocalDot } from "../svg/Dot";
 // import { ILocalMore } from "../svg/more";
 
 const Post = (props) => {
-  const { listReaction, getListReaction, getReact } = useReact(props.id);
+  const { listReaction, getReact } = useReact(props.id);
+  const { getBookmark, listBookmark } = useBookmark();
   const { deletePost } = UsePost();
   const selector = useSelector((state) => state.account);
   const userAccount = selector.account;
@@ -37,32 +39,48 @@ const Post = (props) => {
     const data = { kind: kindPost, postId: id };
     getReact(data);
   };
+  const handleActionBookmark = (id) => {
+    console.log("bookmark:", id);
+    const data = { postId: id };
+    getBookmark(data);
+  };
   const listReactionPost = listReaction?.data?.content;
+  const listBookmarkPost = listBookmark?.data?.content;
   const userId = userAccount?.id || userExpert?.id; // Lấy userId từ userAccount hoặc userExpert
-
+  // const isBookmark = userId && listBookmarkPost.some((bookmark) => bookmark.)
+  const isBookmark = (postId) => {
+    if (listBookmarkPost && Array.isArray(listBookmarkPost)) {
+      const bookmark = listBookmarkPost.find(
+        (bookmark) => bookmark.postDto.id === postId
+      );
+      return bookmark !== undefined; // Return true if a bookmark is found
+    }
+    return false; // Return false if listBookmarkPost is not defined or not an array
+  };
   const isLike =
     userId && listReactionPost
       ? listReactionPost.some((reaction) => reaction.accountId === userId)
       : false;
   return (
     <div className="flex flex-col items-start desktop:gap-6 gap-6 p-6 pt-3  rounded-[24px] w-full  bg-[#FFF8F8] cursor-pointer">
-
       <div className="flex flex-row items-start self-stretch gap-2">
         <div className="w-10 h-10">
           <AvtUser imageUrl="https://icdn.dantri.com.vn/thumb_w/640/2019/01/20/2-1547917870331.jpg" />
         </div>
-        <HeaderPost {...props} onDelete={() => handleDeletePost(props.id)} />
+        <HeaderPost
+          {...props}
+          onDelete={() => handleDeletePost(props.id)}
+          handleActionBookmark={() => handleActionBookmark(props.id)}
+          isBookmarked={isBookmark(props.id)}
+        />
       </div>
       <div className="flex flex-col w-full gap-6">
         <div className="flex flex-col max-h-[320px] w-full  overflow-hidden relative ">
           <div className="flex flex-col items-start w-full gap-6 shrink-0">
             <div
-
-              className="w-full h-auto font-roboto"
+              className="w-full h-auto font-normal font-roboto"
               dangerouslySetInnerHTML={{ __html: content }}
-
               onClick={() => navigate(`/post/${props.id}`)}
-
             ></div>
           </div>
           {props.content.length > limit ? (
@@ -90,7 +108,6 @@ const Post = (props) => {
           isLike={isLike}
         />
       </div>
-
     </div>
   );
 };

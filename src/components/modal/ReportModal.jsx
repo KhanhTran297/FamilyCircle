@@ -57,6 +57,11 @@ const ReportModal = (props) => {
         onClick={props.handleClose}
       ></div>
       <div className=" z-10 w-full h-auto bg-[#FFF8F8] desktop:p-6 px-6 desktop:max-w-[600px] desktop:h-auto desktop:shadow-modal  desktop:rounded-[28px]  rounded-t-[28px] fixed bottom-0 desktop:relative">
+        <div className="py-6 desktop:hidden">
+          <div className="w-full h-1">
+            <div className="w-8 h-full rounded-[2px] m-auto bg-[#504348] opacity-40  "></div>
+          </div>
+        </div>
         <div className="flex flex-col w-full h-full gap-6">
           <div className="flex flex-col w-full gap-4">
             <div className="text-2xl font-normal font-roboto text-[#1F1A1C]">

@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getListReactionApi, getReactApi } from "../api/react";
 import { useDispatch } from "react-redux";
-import { setListReaction } from "../redux/slice/react";
 
 function useReact(postId) {
   const dispatch = useDispatch();
