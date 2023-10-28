@@ -69,7 +69,7 @@ const CommentSetting = (props) => {
         </p>
       ),
       key: "1",
-      icon: <ILocalDelete fill="#1F1A1C" />,
+      icon: <ILocalDelete fill="#1F1A1C" className="w-6 h-6" />,
     },
   ];
   const otherItems = [
