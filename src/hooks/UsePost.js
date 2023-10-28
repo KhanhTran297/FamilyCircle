@@ -100,7 +100,7 @@ function UsePost(statusPost, sizelist, page) {
     onSuccess: (respone) => {
       if (respone.result) {
         if (userAccount) {
-          getListPost();
+          getListPostAccount();
         } else if (userExpert) {
           getListPostExpert();
         }

@@ -1,19 +1,17 @@
 import UseCallApi from "../hooks/UseCallApi";
 
-const { useGet, usePost, useDelete } = UseCallApi();
+const { UseGet, UsePost } = UseCallApi();
 
-export const getListBookmarkApi = (accountId) => {
-  console.log(accountId);
-  const url = `/v1/post/bookmark-list?accountId=${accountId}`;
-  return useGet({ url, requiredToken: true });
+export const getListBookmarkApi = () => {
+  const url = "/v1/post/list-bookmark";
+  return UseGet({ url, requiredToken: true });
 };
 
-export const createBookmarkApi = (params) => {
-  const url = "/v1/post/add-bookmark";
-  return usePost({ url, requiredToken: true, params });
+export const getBookmarkApi = (params) => {
+  const url = "/v1/post/bookmark";
+  return UsePost({ url, requiredToken: true, params });
 };
-
-export const deleteBookmarkApi = (id) => {
-  const url = `/v1/post/remove-bookmark/${id}`;
-  return useDelete({ url, requiredToken: true });
+export const getListBookmarkLoadApi = ({ pageParam = 0 }) => {
+  const url = `/v1/post/list-bookmark?size=5&page=${pageParam}`;
+  return UseGet({ url, requiredToken: true });
 };

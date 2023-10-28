@@ -19,6 +19,7 @@ import useClickOutSide from "../../hooks/useClickOutSide";
 import { ILocalEdit } from "../svg/edit";
 import { ILocalDelete } from "../svg/delete";
 import ReportModal from "../modal/ReportModal";
+import { ILocalRemoveBookmark } from "../svg/removefrombookmark";
 const HeaderPost = (props) => {
   dayjs.extend(relativeTime);
   const navigate = useNavigate();
@@ -132,16 +133,24 @@ const HeaderPost = (props) => {
               </div>
               <button
                 className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
-                onClick={() => setShowCreatePost(true)}
+                onClick={() => {
+                  setShowCreatePost(true);
+                  setShow(false);
+                }}
               >
                 <ILocalEdit className="shrink-0" fill="#1F1A1C  " />
                 <p className="text-sm font-medium font-roboto">Edit</p>
               </button>
               <button
                 className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
-                onClick={showModal}
+                onClick={() => {
+                  showModal();
+                  setShow(false);
+                }}
               >
-                <ILocalDelete className="shrink-0" fill="#1F1A1C  " />
+                <div className="w-6 h-6">
+                  <ILocalDelete className=" shrink-0" fill="#1F1A1C  " />
+                </div>
                 <p className="text-sm font-medium font-roboto">Delete</p>
               </button>
             </div>
@@ -155,7 +164,10 @@ const HeaderPost = (props) => {
               </div>
               <button
                 className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
-                onClick={() => setShowReportPost(true)}
+                onClick={() => {
+                  setShowReportPost(true);
+                  setShow(false);
+                }}
               >
                 <ILocalReport className="shrink-0" fill="#1F1A1C  " />
                 <p className="text-sm font-medium font-roboto">Report</p>
@@ -164,12 +176,27 @@ const HeaderPost = (props) => {
                 <ILocalFollow className="shrink-0" fill="#1F1A1C  " />
                 <p className="text-sm font-medium font-roboto">Follow</p>
               </button>
-              <button className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption">
-                <ILocalAddBookmark className="shrink-0" fill="#1F1A1C  " />
-                <p className="text-sm font-medium font-roboto">
-                  Add to bookmark
-                </p>
-              </button>
+              {props.isBookmarked == true ? (
+                <button
+                  className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
+                  onClick={props.handleActionBookmark}
+                >
+                  <ILocalRemoveBookmark className="shrink-0" fill="#1F1A1C  " />
+                  <p className="text-sm font-medium font-roboto">
+                    Remove from bookmark
+                  </p>
+                </button>
+              ) : (
+                <button
+                  className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
+                  onClick={props.handleActionBookmark}
+                >
+                  <ILocalAddBookmark className="shrink-0" fill="#1F1A1C  " />
+                  <p className="text-sm font-medium font-roboto">
+                    Add to bookmark
+                  </p>
+                </button>
+              )}
             </div>
           )}
         {!show && ""}

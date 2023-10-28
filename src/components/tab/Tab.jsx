@@ -74,14 +74,13 @@ const Tab = (props) => {
       </div>
       {props.kind === "1" ? (
         <InfiniteScroll
-          dataLength={listPostExpert?.pages?.length || 0} // Số lượng mục hiện có
+          dataLength={listPostExpert?.pages?.length || 0} 
           next={() => {
-            // Đặt thời gian trễ 1 giây trước khi tải tiếp dữ liệu
             setTimeout(() => {
               fetchNextPage();
             }, 1000);
           }}
-          hasMore={hasNextPage} // Kiểm tra xem còn nhiều hơn để tải hay không
+          hasMore={hasNextPage} 
           loader={
             <Skeleton
               avatar
@@ -89,7 +88,7 @@ const Tab = (props) => {
                 rows: 4,
               }}
             />
-          } // Hiển thị thông báo tải
+          } 
           className="gap-6"
         >
           {listPostExpert &&
