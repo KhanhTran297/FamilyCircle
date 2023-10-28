@@ -1,18 +1,19 @@
 import PropTypes from "prop-types";
-export const ILocalDelete = ({ fill }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="full"
-    height="full"
-    viewBox="0 0 24 24"
-    fill="none"
-  >
-    <mask
-      id="mask0_826_7878"
-      style={{ maskType: "alpha" }}
-      maskUnits="userSpaceOnUse"
-      x="0"
-      y="0"
+export const ILocalDelete = ({ fill, className }) => (
+  <div className={className}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="full"
+      height="full"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <mask
+        id="mask0_826_7878"
+        style={{ maskType: "alpha" }}
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
         width="24"
         height="24"
       >
