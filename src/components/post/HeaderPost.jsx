@@ -89,6 +89,7 @@ const HeaderPost = (props) => {
         open={showReportPost}
         handleClose={() => setShowReportPost(false)}
         id={props.id}
+        kind={1}
       />
       <div
         className="relative flex flex-row w-full h-10 gap-2 desktop:items-center"

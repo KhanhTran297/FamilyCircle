@@ -92,6 +92,7 @@ const CommentSetting = (props) => {
         open={showReportPost}
         handleClose={() => setShowReportPost(false)}
         id={commentId}
+        kind={2}
       />
       <Dropdown
         menu={{
