@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import ReactDOM from "react-dom";
 import RadioButton from "../shared/RadioButton";
@@ -20,13 +20,21 @@ const ReportModal = (props) => {
 
   const handleConfirm = () => {
     if (selectedValue === "Others" && otherReason.trim() !== "") {
-      const data = { content: otherReason, kind: 1, objectId: props.id };
+      const data = {
+        content: otherReason,
+        kind: props.kind,
+        objectId: props.id,
+      };
       createReport(data);
       props.handleClose();
 
       setShowSuccessModal(true);
     } else if (selectedValue) {
-      const data = { content: selectedValue, kind: 1, objectId: props.id };
+      const data = {
+        content: selectedValue,
+        kind: props.kind,
+        objectId: props.id,
+      };
       createReport(data);
       props.handleClose();
       setShowSuccessModal(true);

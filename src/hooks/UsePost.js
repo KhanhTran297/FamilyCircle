@@ -29,8 +29,7 @@ function UsePost(statusPost, sizelist, page) {
   } = useQuery({
     queryKey: ["listPost"],
     queryFn: () => getListPostApi(statusPost, sizelist, page),
-    enabled: false,
-
+    enabled: true,
     onSuccess: (listPost) => {
       dispatch(setListPost(listPost.data));
     },

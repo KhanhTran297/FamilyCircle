@@ -5,14 +5,12 @@ import {
   MenuUnfoldOutlined,
   FileOutlined,
   ContainerOutlined,
+  FlagOutlined,
 } from "@ant-design/icons";
 import { Button, Dropdown, Layout, Menu, theme } from "antd";
 import { Avatar } from "antd";
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import UseCookie from "../../hooks/UseCookie";
-import UsersContent from "../../components/admin/UsersContent";
-import ExpertsContent from "../../components/admin/ExpertsContent";
-import HospitalContent from "../../components/admin/HospitalContent";
 const { Header, Content, Footer, Sider } = Layout;
 
 const CmsPage = () => {
@@ -24,7 +22,6 @@ const CmsPage = () => {
     removeToken();
     navigate("/");
   };
-  const params = useParams();
   const handleContents = (data) => {
     switch (data.key) {
       case "users":
@@ -41,6 +38,9 @@ const CmsPage = () => {
         break;
       case "posts":
         navigate(`/admin/${data.key}`);
+        break;
+      case "rpposts":
+        navigate(`/report/posts`);
         break;
       default:
         break;
@@ -65,6 +65,9 @@ const CmsPage = () => {
     ]),
     getItem("Manage posts", "sub3", <ContainerOutlined />, [
       getItem("Posts", "posts"),
+    ]),
+    getItem("Manage Report", "sub4", <FlagOutlined />, [
+      getItem("Posts", "rpposts"),
     ]),
     // getItem("", "5", <FileOutlined />),
   ];
