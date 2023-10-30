@@ -153,7 +153,7 @@ function UsePost(statusPost, sizelist, page) {
     },
   });
   //approvePost
-  const { mutate: approvePost, isLoading: loadingApprove } = useMutation({
+  const { mutateAsync: approvePost, isLoading: loadingApprove } = useMutation({
     mutationFn: approvePostApi,
     onSuccess: () => {
       getListPost(statusPost, sizelist, page);
@@ -164,7 +164,7 @@ function UsePost(statusPost, sizelist, page) {
     },
   });
   //rejectPost
-  const { mutate: rejectPost, isLoading: loadingReject } = useMutation({
+  const { mutateAsync: rejectPost, isLoading: loadingReject } = useMutation({
     mutationFn: rejectPostApi,
     onSuccess: () => {
       getListPost(statusPost, sizelist, page);
