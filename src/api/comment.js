@@ -26,3 +26,7 @@ export const reactCommentApi = (params) => {
   const url = `v1/comment/react`;
   return UsePost({ url, requiredToken: true, params });
 };
+export const getCommentApi = (commentId) => {
+  const url = `v1/comment/get/${commentId}`;
+  return UseGet({ url, requiredToken: true });
+};

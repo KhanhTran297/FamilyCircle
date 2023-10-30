@@ -1,13 +1,22 @@
-import { Avatar, Button, Drawer, Form, Modal, Table, message } from "antd";
+import {
+  Avatar,
+  Button,
+  Drawer,
+  Form,
+  Modal,
+  Space,
+  Table,
+  message,
+} from "antd";
 import { useState } from "react";
 import { EyeOutlined } from "@ant-design/icons";
 import useReport from "../../hooks/useReport";
 import { useQuery } from "@tanstack/react-query";
-import { getPostApi } from "../../api/post";
 import { useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
+import { getCommentApi } from "../../api/comment";
 
-const ReportPostContent = () => {
+const ReportCommentContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [report, setReport] = useState({}); //[0:pending, 1:approved, -2:rejected
   const [open, setOpen] = useState(false);
@@ -42,20 +51,18 @@ const ReportPostContent = () => {
     listReport,
     rejectReport,
     approveReport,
-  } = useReport(1, 5, page);
+  } = useReport(2, 5, page);
 
   // getPostDetail
-  const { refetch: getPostdetail, data: postDetail } = useQuery({
-    queryKey: ["post", report?.objectId],
-    queryFn: () => getPostApi(report?.objectId),
+  const { refetch: getCommentdetail, data: commentDetail } = useQuery({
+    queryKey: ["comment", report?.objectId],
+    queryFn: () => getCommentApi(report?.objectId),
     enabled: false,
     retry: 0,
-    onSuccess: (res) => {
-      console.log("post detail", res);
+    onSuccess: () => {
       message.success("get post success");
     },
   });
-
   const hanldeOpenModal = async (report) => {
     setReport(report);
   };
@@ -128,8 +135,8 @@ const ReportPostContent = () => {
             className=" hover:text-blue-400 cursor-pointer"
             onClick={() => {
               hanldeOpenModal(record).then(() => {
-                getPostdetail().then(() => {
-                  setIsModalOpen(true);
+                getCommentdetail().then(() => {
+                  showDrawer();
                 });
               });
             }}
@@ -169,7 +176,68 @@ const ReportPostContent = () => {
           }}
         />
       </div>
-      <Modal
+      <Drawer
+        title="Detail"
+        placement="right"
+        closable={false}
+        onClose={onClose}
+        open={open}
+        getContainer={false}
+        extra={
+          report?.status === 0 && (
+            <Space>
+              <Button
+                onClick={() => {
+                  rejectReport({ id: report?.id }).then(onClose);
+                }}
+                danger
+              >
+                Reject
+              </Button>
+              <Button
+                onClick={() => {
+                  approveReport({ id: report?.id }).then(onClose);
+                }}
+                type="default"
+              >
+                Approve
+              </Button>
+            </Space>
+          )
+        }
+      >
+        <div className=" h-full flex flex-col gap-1 ">
+          <div className=" flex flex-col gap-1">
+            <p className=" text-light_surface_on_surface font-medium mb-1 border-b border-b-black border-solid">
+              User info
+            </p>
+            <div className="">
+              <Avatar src={commentDetail?.data?.owner?.avatar} size={60} />
+            </div>
+            <p className=" text-light_surface_on_surface opacity-60">
+              Fullname:{" "}
+              <span className="text-light_surface_on_surface ">
+                {commentDetail?.data?.owner?.fullName}
+              </span>
+            </p>
+          </div>
+          <div className=" flex flex-col gap-1">
+            <p className="text-light_surface_on_surface font-medium mb-1 border-b border-b-black border-solid">
+              Comment content
+            </p>
+            <p className="text-light_surface_on_surface">
+              {commentDetail?.data?.commentContent}
+            </p>
+          </div>
+          <div className=" flex flex-col gap-1">
+            <p className="text-light_surface_on_surface font-medium mb-1 border-b border-b-black border-solid">
+              Reasons
+            </p>
+            <p className="text-light_surface_on_surface">{report?.content}</p>
+          </div>
+        </div>
+      </Drawer>
+      {/* <Modal
         title="Post detail"
         open={isModalOpen}
         onOk={handleOk}
@@ -214,7 +282,9 @@ const ReportPostContent = () => {
       >
         <div
           className=" "
-          dangerouslySetInnerHTML={{ __html: postDetail?.data?.content }}
+          dangerouslySetInnerHTML={{
+            __html: commentDetail?.data?.commentContent,
+          }}
         ></div>
         <Drawer
           placement="right"
@@ -229,12 +299,12 @@ const ReportPostContent = () => {
                 User info
               </p>
               <div className="">
-                <Avatar src={postDetail?.data?.owner?.avatar} size={60} />
+                <Avatar src={commentDetail?.data?.owner?.avatar} size={60} />
               </div>
               <p className=" text-light_surface_on_surface opacity-60">
                 Fullname:{" "}
                 <span className="text-light_surface_on_surface ">
-                  {postDetail?.data?.owner?.fullName}
+                  {commentDetail?.data?.owner?.fullName}
                 </span>
               </p>
             </div>
@@ -246,9 +316,9 @@ const ReportPostContent = () => {
             </div>
           </div>
         </Drawer>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
 
-export default ReportPostContent;
+export default ReportCommentContent;
