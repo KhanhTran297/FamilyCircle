@@ -2,6 +2,7 @@ import DepartmentContent from "../components/admin/DepartmentContent";
 import ExpertsContent from "../components/admin/ExpertsContent";
 import HospitalContent from "../components/admin/HospitalContent";
 import PostsContent from "../components/admin/PostsContent";
+import ReportCommentContent from "../components/admin/ReportCommentContent";
 import ReportPostContent from "../components/admin/ReportPostContent";
 import UsersContent from "../components/admin/UsersContent";
 import CmsLayout from "../layouts/CmsLayout";
@@ -50,6 +51,10 @@ export default function init(routes) {
           {
             path: "posts",
             element: <ReportPostContent />,
+          },
+          {
+            path: "comments",
+            element: <ReportCommentContent />,
           },
         ],
       },
