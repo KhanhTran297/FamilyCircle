@@ -42,6 +42,9 @@ const CmsPage = () => {
       case "rpposts":
         navigate(`/report/posts`);
         break;
+      case "rpcomments":
+        navigate(`/report/comments`);
+        break;
       default:
         break;
     }
@@ -63,11 +66,10 @@ const CmsPage = () => {
       getItem("Hospital", "hospital"),
       getItem("Department", "department"),
     ]),
-    getItem("Manage posts", "sub3", <ContainerOutlined />, [
-      getItem("Posts", "posts"),
-    ]),
+    getItem("Moderate posts", "posts", <ContainerOutlined />),
     getItem("Manage Report", "sub4", <FlagOutlined />, [
       getItem("Posts", "rpposts"),
+      getItem("Comments", "rpcomments"),
     ]),
     // getItem("", "5", <FileOutlined />),
   ];
