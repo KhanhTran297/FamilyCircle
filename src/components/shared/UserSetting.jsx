@@ -1,30 +1,20 @@
 import useTheme from "../../hooks/useTheme";
 import AvtUser from "./AvtUser";
 import { ILocalMore } from "../svg/more";
-import { useDispatch, useSelector } from "react-redux";
-import useAccount from "../../hooks/useAccount";
 import UseCookie from "../../hooks/UseCookie";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "antd";
-import { setUser } from "../../redux/slice/account";
-import { setExpert } from "../../redux/slice/expert";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 
 const UserSetting = () => {
   const { removeToken } = UseCookie();
 
-  const selectorAccount = useSelector((state) => state.account);
-  const userAccount = selectorAccount.account;
-  const selectorExpert = useSelector((state) => state.expert);
-  const userExpert = selectorExpert.expert;
-  const dispatch = useDispatch();
+  const accountProfile = useGetFetchQuery(["accountProfile"]);
   const navigate = useNavigate();
 
   //methods
   const handleLogout = () => {
     removeToken();
-    dispatch(setUser(null));
-    dispatch(setExpert(null));
     navigate("/");
   };
 
@@ -55,14 +45,11 @@ const UserSetting = () => {
       <AvtUser />
       <div className="desktop:h-9 desktop:w-[136px]">
         <p className="text-[#1F1A1C] font-medium items-center text-sm dark:text-[#CEC4C6] font-roboto">
-          {userAccount?.userFullName || userExpert?.expertFullName}
+          {/* {userAccount?.userFullName || userExpert?.expertFullName} */}
+          {accountProfile?.data?.fullName}
         </p>
         <p className="text-[#1F1A1C] font-normal text-xs dark:text-[#CEC4C6] font-roboto">
-          {userAccount?.userKind === 2
-            ? "User"
-            : "" || userExpert?.expertKind === 3
-            ? "Expert"
-            : ""}
+          {accountProfile?.data?.kind === 2 ? "User" : "Expert"}
           {/* {profileAccount?.data?.result ? "User" : "Expert"} */}
         </p>
       </div>

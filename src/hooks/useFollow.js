@@ -1,12 +1,15 @@
+
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   getFollowApi,
   getListFollowingApi,
   getUnfollowApi,
+  createFollowApi
 } from "../api/follow";
 import UsePost from "./UsePost";
+import { message } from "antd";
 
-function useFollow() {
+function useFollow(id) {
   const { getListPostAccountFollowing, getListPostExpertFollowing } = UsePost();
   const { data: listFollowing, refetch: getListFollowing } = useQuery({
     queryKey: ["listFollowing"],
@@ -41,14 +44,22 @@ function useFollow() {
     },
     onError: () => {
       // useError("Save fail!!!!");
+
     },
   });
+   const { mutateAsync: createFollow } = useMutation({
+    mutationFn: createFollowApi,
 
+    onSuccess: () => {
+      message.success("Follow successfully");
+    },
+  });
   return {
     listFollowing,
     getListFollowing,
     getFollow,
     getUnfollow,
+    createFollow,
   };
 }
 export default useFollow;

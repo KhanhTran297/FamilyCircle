@@ -57,7 +57,7 @@ const CommentSetting = (props) => {
         </p>
       ),
       key: "0",
-      icon: <ILocalEdit fill="#1F1A1C" />,
+      icon: <ILocalEdit fill="#1F1A1C" className=" w-6 h-6" />,
     },
     {
       label: (
@@ -92,6 +92,7 @@ const CommentSetting = (props) => {
         open={showReportPost}
         handleClose={() => setShowReportPost(false)}
         id={commentId}
+        kind={2}
       />
       <Dropdown
         menu={{

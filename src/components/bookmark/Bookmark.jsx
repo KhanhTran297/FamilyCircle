@@ -1,4 +1,3 @@
-import React from "react";
 import BookmarkPost from "./BookmarkPost";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useBookmark from "../../hooks/useBookmark";

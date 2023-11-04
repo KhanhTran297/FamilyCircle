@@ -1,4 +1,3 @@
-import useAccount from "../../hooks/useAccount";
 import { Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import SubmitButton from "../../components/shared/SubmitButton";
@@ -6,8 +5,9 @@ import { ILocalLogo } from "../../components/svg/svg";
 import { ILocalKey } from "../../components/svg/key";
 import { ILocalMail } from "../../components/svg/mail";
 import { ILocalGoogle } from "../../components/svg/google";
+import useAccountMutate from "../../hooks/useMutate/useAccountMutate";
 const LoginPage = () => {
-  const { handleLogin } = useAccount();
+  const { handleLogin } = useAccountMutate();
   const navigate = useNavigate();
   const onFinish = (values) => {
     const newValues = {

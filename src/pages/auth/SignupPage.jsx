@@ -23,7 +23,7 @@ const SignupPage = () => {
       avatarPath:
         "https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_tB5idnWvVj.jpg",
       bio: "",
-      fullname: values.fullName,
+      fullName: values.fullName,
       phone: values.phone,
       email: values.email,
       password: values.password,

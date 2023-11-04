@@ -43,9 +43,9 @@ export default function init(routes) {
         ),
       },
       {
-        path: "/profile/:id",
+        path: "/profile/:profileId",
         element: (
-          <GuardRoute path="/profile/:id">
+          <GuardRoute path="/profile/:profileId">
             <ProfilePage />
           </GuardRoute>
         ),

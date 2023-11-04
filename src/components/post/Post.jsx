@@ -6,26 +6,33 @@ import AvtUser from "../shared/AvtUser";
 import { ILocalViewMore } from "../svg/viewmore";
 import FooterPost from "./FooterPost";
 import HeaderPost from "./HeaderPost";
-import DOMPurify from "dompurify";
-
-import UsePost from "../../hooks/UsePost";
 import useReact from "../../hooks/useReact";
-import { useSelector } from "react-redux";
-import useBookmark from "../../hooks/useBookmark";
+
+
 import useFollow from "../../hooks/useFollow";
+
+import usePostMutate from "../../hooks/useMutate/usePostMutate";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
+import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
+
 // import { ILocalDot } from "../svg/Dot";
 // import { ILocalMore } from "../svg/more";
 
 const Post = (props) => {
   const { listReaction, getReact } = useReact(props.id);
-  const { getBookmark, listBookmark } = useBookmark();
+
   const { getFollow, listFollowing, getUnfollow} =
     useFollow();
-  const { deletePost } = UsePost();
-  const selector = useSelector((state) => state.account);
-  const userAccount = selector.account;
-  const selectorExpert = useSelector((state) => state.expert);
-  const userExpert = selectorExpert.expert;
+
+  const { getBookmark } = useBookmarkMutate();
+  const listBookmark = useGetFetchQuery(["listBookmark"]);
+  const { deletePost } = usePostMutate();
+  const accountProfile = useGetFetchQuery(["accountProfile"]);
+  // const selector = useSelector((state) => state.account);
+  // const userAccount = selector.account;
+  // const selectorExpert = useSelector((state) => state.expert);
+  // const userExpert = selectorExpert.expert;
+
   const reactCount = listReaction?.data?.totalElements;
   const navigate = useNavigate();
   let limit = 1000;
@@ -43,7 +50,6 @@ const Post = (props) => {
     getReact(data);
   };
   const handleActionBookmark = (id) => {
-    console.log("bookmark:", id);
     const data = { postId: id };
     getBookmark(data);
   };
@@ -56,8 +62,13 @@ const Post = (props) => {
   };
   const listReactionPost = listReaction?.data?.content;
   const listBookmarkPost = listBookmark?.data?.content;
+
   const listFollowingPerson = listFollowing?.data?.content;
-  const userId = userAccount?.id || userExpert?.id;
+ 
+
+  const userId = accountProfile?.data?.id; // Lấy userId từ userAccount hoặc userExpert
+  // const isBookmark = userId && listBookmarkPost.some((bookmark) => bookmark.)
+
   const isBookmark = (postId) => {
     if (listBookmarkPost && Array.isArray(listBookmarkPost)) {
       const bookmark = listBookmarkPost.find(
@@ -71,6 +82,7 @@ const Post = (props) => {
     userId && listReactionPost
       ? listReactionPost.some((reaction) => reaction.accountId === userId)
       : false;
+
   const isFollow = (accountId) => {
     if (listFollowingPerson && Array.isArray(listFollowingPerson)) {
       const follow = listFollowingPerson.find(
@@ -81,11 +93,16 @@ const Post = (props) => {
     return false;
   };
 
+
   return (
     <div className="flex flex-col items-start desktop:gap-6 gap-6 p-6 pt-3  rounded-[24px] w-full  bg-[#FFF8F8] cursor-pointer">
       <div className="flex flex-row items-start self-stretch gap-2">
         <div className="w-10 h-10">
-          <AvtUser imageUrl="https://icdn.dantri.com.vn/thumb_w/640/2019/01/20/2-1547917870331.jpg" />
+          <AvtUser
+            imageUrl="https://icdn.dantri.com.vn/thumb_w/640/2019/01/20/2-1547917870331.jpg"
+            ownerId={props?.idowner}
+            kind={props?.kind}
+          />
         </div>
         <HeaderPost
           {...props}

@@ -6,7 +6,7 @@ export const getListPostExpertApi = ({ pageParam = 0 }) => {
   const url = `/v1/post/list?status=1&size=5&kind=1&page=${pageParam}`;
   return UseGet({ url, requiredToken: true });
 };
-export const getListPostAccountApi = ({ pageParam = 0 }) => {
+export const getListPostUsersAccountApi = ({ pageParam = 0 }) => {
   const url = `/v1/post/list?status=1&size=5&kind=2&page=${pageParam}`;
   return UseGet({ url, requiredToken: true });
 };
@@ -50,4 +50,16 @@ export const approvePostApi = (params) => {
 export const rejectPostApi = (params) => {
   const url = "/v1/post/reject";
   return UseEdit({ url, requiredToken: true, params });
+};
+export const getPostByIdApi = (id) => {
+  const url = `/v1/post/list?accountId=${id}`;
+  return UseGet({ url, requiredToken: true });
+};
+export const getInfinitiePostByIdApi = (props) => {
+  // {
+  //   props.pageParam === undefined && props.pageParam === 0;
+  // }
+  // console.log(props);
+  const url = `/v1/post/list?accountId=${props.queryKey[1]}&size=5&page=${props.pageParam}`;
+  return UseGet({ url, requiredToken: true });
 };

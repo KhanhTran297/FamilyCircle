@@ -1,10 +1,6 @@
-import { ILocalDelete } from "../svg/delete";
 import ReadMoreReadLess from "../shared/ReadMoreReadLess";
-import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
 
-const BookmarkPost = (props) => {
-  const { getBookmark } = useBookmarkMutate();
-
+const PostItem = (props) => {
   const extractImageUrl = (htmlContent) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
@@ -16,14 +12,10 @@ const BookmarkPost = (props) => {
 
     return null;
   };
-
   const imageUrl = extractImageUrl(props.content);
-  const handleActionBookmark = (id) => {
-    const data = { postId: id };
-    getBookmark(data);
-  };
+
   return (
-    <div className="flex flex-row items-start self-stretch w-full gap-6 ">
+    <div className="flex flex-row items-start self-stretch w-full gap-6 border border-gray-300 rounded-[25px] hover:opacity-50 cursor-pointer pt-2 ">
       <div className="w-[144px] h-[144px]  rounded-2xl">
         <div
           style={{
@@ -39,7 +31,7 @@ const BookmarkPost = (props) => {
           {props.fullname}
         </div>
         <ReadMoreReadLess limit={250}>{props.content}</ReadMoreReadLess>
-        <div className="flex flex-col gap-[10px] self-stretch items-end">
+        {/* <div className="flex flex-col gap-[10px] self-stretch items-end">
           <button
             className="flex flex-row items-center self-end gap-2 px-3 rounded-[36px]"
             onClick={() => handleActionBookmark(props.idpost)}
@@ -51,10 +43,10 @@ const BookmarkPost = (props) => {
               Remove from bookmark
             </div>
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
 };
 
-export default BookmarkPost;
+export default PostItem;

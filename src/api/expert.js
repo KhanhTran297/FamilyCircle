@@ -8,3 +8,11 @@ export const createExpertAccountApi = (params) => {
   const url = "/v1/expert-account/register";
   return UsePost({ url, params, requiredToken: true });
 };
+export const getExpertAccountProfilebyIdApi = (id) => {
+  const url = `/v1/expert-account/get/${id}`;
+  return UseGet({ url, requiredToken: true });
+};
+export const editExpertAccountApi = (params) => {
+  const url = "/v1/expert-account/update-profile";
+  return UseEdit({ url, requiredToken: true, params });
+};

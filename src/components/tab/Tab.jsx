@@ -1,14 +1,15 @@
-import { Fragment, useEffect, useState } from "react";
+import { useState } from "react";
 import Post from "../post/Post";
 import UsePost from "../../hooks/UsePost";
-import UseCookie from "../../hooks/UseCookie";
-import { Navigate } from "react-router-dom";
 import { Skeleton } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
+
 import useFollow from "../../hooks/useFollow";
 
+import useBookmark from "../../hooks/useBookmark";
+
+
 const Tab = (props) => {
-  const { isLoggedIn } = UseCookie();
   const {
     listPostExpert,
     fetchNextPage,
@@ -31,6 +32,9 @@ const Tab = (props) => {
     expertFetchNextPageFollowing,
     accountFetchNextPageFollowing,
   } = UsePost(0, 0, 0, false);
+
+  const { listBookmark } = useBookmark();
+
   const [activeTab, setActiveTab] = useState("tab1");
 
   const handleTabClick = (tab) => {
@@ -106,8 +110,8 @@ const Tab = (props) => {
             listPostExpert.pages.map((page, pageIndex) => (
               <div key={pageIndex}>
                 <div className="flex flex-col gap-6 overflow-y-auto desktop:mt-6 mt-[72px] max-h-100vh desktop:mb-6 w-full ">
-                  {Array.isArray(page.data.content) && // Kiểm tra xem page.data là mảng
-                    page.data.content
+                  {Array.isArray(page?.data?.content) && // Kiểm tra xem page.data là mảng
+                    page?.data?.content
                       // .filter((post) => post.kind === 1)
                       .map((post) => (
                         // console.log(post.id),
