@@ -1,4 +1,4 @@
-import { instance } from "../api/instance";
+import { instance, instanceFile } from "../api/instance";
 import UseCookie from "./UseCookie";
 
 function UseCallApi() {
@@ -117,6 +117,42 @@ function UseCallApi() {
       );
     return usedEdit();
   };
-  return { UseGet, UsePost, UseDelete, UseEdit };
+  const UsePostFile = ({
+    url = "",
+    params = {},
+    headers = {},
+    requiredToken = false,
+    type = "",
+  } = {}) => {
+    // Get all header
+    let fullHeader = { ...headers };
+    // If required TOKEN -> Get Access Token from Cookies
+    // console.log("requireToken post", requiredToken);
+    const Username = "family_circle_client";
+    const Password = "abc123";
+    const credentials = `${Username}:${Password}`;
+    // Mã hóa thành base64
+    const credentialsBase64 = btoa(credentials);
+    {
+      type === "basicAuth"
+        ? (fullHeader["Authorization"] = `Basic ${credentialsBase64}`)
+        : requiredToken &&
+          (fullHeader["Authorization"] = `Bearer ${getToken().access_token}`);
+    }
+
+    const usedPost = () =>
+      instanceFile.post(
+        url,
+        { ...params },
+        {
+          headers: {
+            ...instanceFile.defaults.headers,
+            ...fullHeader,
+          },
+        }
+      );
+    return usedPost();
+  };
+  return { UseGet, UsePost, UseDelete, UseEdit, UsePostFile };
 }
 export default UseCallApi;

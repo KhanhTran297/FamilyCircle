@@ -3,23 +3,24 @@ import {
   authLogoutApi,
   changePasswordApi,
   editProfileApi,
-  getAccountProfileApi,
   sentOtpApi,
   SignUpApi,
   checkOtpApi,
   getAccountListApi,
   getExpertAccountProfileApi,
+  getUserProfileByIdApi,
+  getProfileAccountApi,
+  getUserAccountProfileApi,
 } from "../api/account";
 import { setUser } from "../redux/slice/account";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useCookie from "./UseCookie";
-
 import { message } from "antd";
 import { setExpert } from "../redux/slice/expert";
 
-function useAccount() {
+function useAccount(id) {
   //hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,12 +36,10 @@ function useAccount() {
       saveToken(data?.access_token, data?.refresh_token);
       if (data?.user_kind === 1) {
         navigate("/admin/users");
-      } else if (data?.user_kind === 2) {
+      } else {
         getProfileAccount().then(() => {
           navigate("/index");
         });
-      } else {
-        getProfileExpertAccount().then(() => navigate("/index"));
       }
     },
     onError: () => {
@@ -50,21 +49,28 @@ function useAccount() {
   //get
   const {
     data: profileAccount,
-    refetch: getProfileAccount,
+    refetch: getUserProfileAccount,
     isLoading: loadingPage,
     isSuccess: isSuccessProfileAccount,
   } = useQuery({
-    queryKey: ["profileAccount"],
-    queryFn: getAccountProfileApi,
+    queryKey: ["profileUserAccount"],
+    queryFn: getUserAccountProfileApi,
     enabled: false,
     retry: 0,
     onSuccess: (profileAccount) => {
+      dispatch(setExpert(null));
       dispatch(setUser(profileAccount.data));
     },
     onError: () => {
       removeToken();
       navigate("/");
     },
+  });
+  const { data: accountProfile, refetch: getProfileAccount } = useQuery({
+    queryKey: ["accountProfile"],
+    queryFn: getProfileAccountApi,
+    enabled: true,
+    retry: 0,
   });
   //getList expert accounts
   const {
@@ -78,11 +84,18 @@ function useAccount() {
     retry: 0,
     onSuccess: (profileAccount) => {
       dispatch(setExpert(profileAccount.data));
+      dispatch(setUser(null));
     },
     onError: () => {
       removeToken();
       navigate("/");
     },
+  });
+  //getprofileuserbyid
+  const { refetch: getuserProfilebyId, data: userProfile } = useQuery({
+    queryKey: ["profileUserById", id],
+    queryFn: () => getUserProfileByIdApi(id),
+    enabled: id ? true : false,
   });
   //getList user accounts
   const { data: listUserAccounts, refetch: getListUserAccounts } = useQuery({
@@ -116,7 +129,7 @@ function useAccount() {
     },
   });
   //edit profile
-  const { mutate: editProfile } = useMutation({
+  const { mutateAsync: editProfile } = useMutation({
     mutationFn: editProfileApi,
     onSuccess: (respone) => {
       if (respone.result) {
@@ -161,11 +174,14 @@ function useAccount() {
     onError: () => {},
   });
   return {
+    getUserProfileAccount,
+    accountProfile,
+    getuserProfilebyId,
+    userProfile,
     handleLogin,
     accountdata,
     authSignup,
     profileAccount,
-    getAccountProfileApi,
     getProfileAccount,
     logout,
     loadingPage,

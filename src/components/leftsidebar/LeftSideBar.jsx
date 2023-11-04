@@ -3,8 +3,10 @@ import SwitchMode from "../shared/SwitchMode";
 import UserSetting from "../shared/UserSetting";
 import NewPost from "../shared/NewPost";
 import { ILocalLogo } from "../svg/svg";
+import useAccount from "../../hooks/useAccount";
 
 const LeftSideBar = () => {
+  const { accountProfile } = useAccount();
   return (
     <nav className="desktop:top-0 w-full desktop:left-0 desktop:sticky text-black block   desktop:max-w-[280px] dark:bg-black   desktop:h-[100vh]">
       <div

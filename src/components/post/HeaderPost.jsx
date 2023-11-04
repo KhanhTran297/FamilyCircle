@@ -20,6 +20,7 @@ import { ILocalEdit } from "../svg/edit";
 import { ILocalDelete } from "../svg/delete";
 import ReportModal from "../modal/ReportModal";
 import { ILocalRemoveBookmark } from "../svg/removefrombookmark";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 const HeaderPost = (props) => {
   dayjs.extend(relativeTime);
   const navigate = useNavigate();
@@ -46,10 +47,11 @@ const HeaderPost = (props) => {
   const { show, setShow, nodeRef } = useClickOutSide();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { isLoggedIn } = UseCookie();
-  const selector = useSelector((state) => state.account);
-  const userAccount = selector.account;
-  const selectorExpert = useSelector((state) => state.expert);
-  const userExpert = selectorExpert.expert;
+  const accountProfile = useGetFetchQuery(["accountProfile"]);
+  // const selector = useSelector((state) => state.account);
+  // const userAccount = selector.account;
+  // const selectorExpert = useSelector((state) => state.expert);
+  // const userExpert = selectorExpert.expert;
   // const { getProfileAccount, getProfileExpertAccount } = useAccount();
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [showReportPost, setShowReportPost] = useState(false);
@@ -79,8 +81,8 @@ const HeaderPost = (props) => {
       <CreatePostModal
         id={props.id}
         //   avatar={userAccount.userAvatar}
-        fullname={userAccount?.userFullName || userExpert?.expertFullName}
-        kind={userAccount?.userKind || userExpert?.expertKind}
+        fullname={accountProfile?.data?.fullName}
+        kind={accountProfile?.data?.kind}
         open={showCreatePost}
         handleClose={() => setShowCreatePost(false)}
         isUpdate={true}
@@ -125,81 +127,77 @@ const HeaderPost = (props) => {
         >
           <ILocalMore fill={textColor} />
         </button>
-        {show &&
-          (props.idowner === userAccount?.id ||
-            props.idowner === userExpert?.id) && (
-            <div className=" fixed bottom-0  desktop:absolute right-0 desktop:bottom-auto flex flex-col desktop:top-[48px] items-start py-2 bg-[#FFF] rounded-tr-[24px] desktop:border-t-0 rounded-tl-[24px] border-t-2 desktop:shadow-modal desktop:rounded-lg desktop:w-[320px] w-full  z-10">
-              <div className="bg-[#FFF]  self-stretch py-6 flex-col items-center desktop:hidden justify-center flex">
-                <div className="w-8 h-1 rounded-[2px] opacity-40 bg-[#504348]"></div>
-              </div>
-              <button
-                className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
-                onClick={() => {
-                  setShowCreatePost(true);
-                  setShow(false);
-                }}
-              >
-                <ILocalEdit className="shrink-0" fill="#1F1A1C  " />
-                <p className="text-sm font-medium font-roboto">Edit</p>
-              </button>
-              <button
-                className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
-                onClick={() => {
-                  showModal();
-                  setShow(false);
-                }}
-              >
-                <div className="w-6 h-6">
-                  <ILocalDelete className=" shrink-0" fill="#1F1A1C  " />
-                </div>
-                <p className="text-sm font-medium font-roboto">Delete</p>
-              </button>
+        {show && props.idowner === accountProfile?.data?.id && (
+          <div className=" fixed bottom-0  desktop:absolute right-0 desktop:bottom-auto flex flex-col desktop:top-[48px] items-start py-2 bg-[#FFF] rounded-tr-[24px] desktop:border-t-0 rounded-tl-[24px] border-t-2 desktop:shadow-modal desktop:rounded-lg desktop:w-[320px] w-full  z-10">
+            <div className="bg-[#FFF]  self-stretch py-6 flex-col items-center desktop:hidden justify-center flex">
+              <div className="w-8 h-1 rounded-[2px] opacity-40 bg-[#504348]"></div>
             </div>
-          )}
-        {show &&
-          props.idowner !== userAccount?.id &&
-          props.idowner !== userExpert?.id && (
-            <div className=" fixed bottom-0 desktop:absolute right-0 desktop:bottom-auto flex flex-col desktop:top-[48px] items-start py-2 bg-[#FFF] border-t-2 desktop:border-t-0 rounded-tr-[24px] rounded-tl-[24px] desktop:shadow-modal desktop:rounded-lg desktop:w-[320px] w-full  z-10">
-              <div className="bg-[#FFF]  self-stretch py-6 flex-col items-center desktop:hidden justify-center flex">
-                <div className="w-8 h-1 rounded-[2px] opacity-40 bg-[#504348]"></div>
+            <button
+              className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
+              onClick={() => {
+                setShowCreatePost(true);
+                setShow(false);
+              }}
+            >
+              <ILocalEdit className="shrink-0 w-6 h-6" fill="#1F1A1C  " />
+              <p className="text-sm font-medium font-roboto">Edit</p>
+            </button>
+            <button
+              className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
+              onClick={() => {
+                showModal();
+                setShow(false);
+              }}
+            >
+              <div className="w-6 h-6">
+                <ILocalDelete className=" shrink-0" fill="#1F1A1C  " />
               </div>
+              <p className="text-sm font-medium font-roboto">Delete</p>
+            </button>
+          </div>
+        )}
+        {show && props.idowner !== accountProfile?.data?.id && (
+          <div className=" fixed bottom-0 desktop:absolute right-0 desktop:bottom-auto flex flex-col desktop:top-[48px] items-start py-2 bg-[#FFF] border-t-2 desktop:border-t-0 rounded-tr-[24px] rounded-tl-[24px] desktop:shadow-modal desktop:rounded-lg desktop:w-[320px] w-full  z-10">
+            <div className="bg-[#FFF]  self-stretch py-6 flex-col items-center desktop:hidden justify-center flex">
+              <div className="w-8 h-1 rounded-[2px] opacity-40 bg-[#504348]"></div>
+            </div>
+            <button
+              className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
+              onClick={() => {
+                setShowReportPost(true);
+                setShow(false);
+              }}
+            >
+              <ILocalReport className="shrink-0" fill="#1F1A1C  " />
+              <p className="text-sm font-medium font-roboto">Report</p>
+            </button>
+            <button className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption">
+              <ILocalFollow className="shrink-0" fill="#1F1A1C  " />
+              <p className="text-sm font-medium font-roboto">Follow</p>
+            </button>
+            {props.isBookmarked == true ? (
               <button
                 className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
-                onClick={() => {
-                  setShowReportPost(true);
-                  setShow(false);
-                }}
+                onClick={props.handleActionBookmark}
               >
-                <ILocalReport className="shrink-0" fill="#1F1A1C  " />
-                <p className="text-sm font-medium font-roboto">Report</p>
+                <ILocalRemoveBookmark className="shrink-0" fill="#1F1A1C  " />
+                <p className="text-sm font-medium font-roboto">
+                  Remove from bookmark
+                </p>
               </button>
-              <button className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption">
-                <ILocalFollow className="shrink-0" fill="#1F1A1C  " />
-                <p className="text-sm font-medium font-roboto">Follow</p>
+            ) : (
+              <button
+                className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
+                onClick={props.handleActionBookmark}
+              >
+                <ILocalAddBookmark className="shrink-0" fill="#1F1A1C  " />
+                <p className="text-sm font-medium font-roboto">
+                  Add to bookmark
+                </p>
               </button>
-              {props.isBookmarked == true ? (
-                <button
-                  className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
-                  onClick={props.handleActionBookmark}
-                >
-                  <ILocalRemoveBookmark className="shrink-0" fill="#1F1A1C  " />
-                  <p className="text-sm font-medium font-roboto">
-                    Remove from bookmark
-                  </p>
-                </button>
-              ) : (
-                <button
-                  className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
-                  onClick={props.handleActionBookmark}
-                >
-                  <ILocalAddBookmark className="shrink-0" fill="#1F1A1C  " />
-                  <p className="text-sm font-medium font-roboto">
-                    Add to bookmark
-                  </p>
-                </button>
-              )}
-            </div>
-          )}
+            )}
+          </div>
+        )}
         {!show && ""}
         <Modal
           title="Confirm delete"
