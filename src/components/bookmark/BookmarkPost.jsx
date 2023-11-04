@@ -1,10 +1,9 @@
-import React from "react";
 import { ILocalDelete } from "../svg/delete";
 import ReadMoreReadLess from "../shared/ReadMoreReadLess";
-import useBookmark from "../../hooks/useBookmark";
+import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
 
 const BookmarkPost = (props) => {
-  const { getBookmark } = useBookmark();
+  const { getBookmark } = useBookmarkMutate();
 
   const extractImageUrl = (htmlContent) => {
     const parser = new DOMParser();
@@ -20,7 +19,6 @@ const BookmarkPost = (props) => {
 
   const imageUrl = extractImageUrl(props.content);
   const handleActionBookmark = (id) => {
-    console.log("bookmark:", id);
     const data = { postId: id };
     getBookmark(data);
   };

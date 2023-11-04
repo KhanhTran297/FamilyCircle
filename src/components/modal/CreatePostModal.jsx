@@ -4,11 +4,11 @@ import AvtUser from "../shared/AvtUser";
 import QuillEditor from "../shared/QuillEditor";
 import { useForm } from "react-hook-form";
 import { useRef, useState } from "react";
-import UsePost from "../../hooks/UsePost";
 import { Form, Modal } from "antd";
+import usePostMutate from "../../hooks/useMutate/usePostMutate";
 
 const CreatePostModal = (props) => {
-  const { createPost, updatePost } = UsePost();
+  const { createPost, updatePost } = usePostMutate();
   const [isClosing, setIsClosing] = useState(false);
   const [contentError, setContentError] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +21,6 @@ const CreatePostModal = (props) => {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
-    console.log(props.id);
   };
   const handleClose = () => {
     setIsClosing(true);

@@ -4,9 +4,10 @@ import {
   approvePostApi,
   createPostApi,
   deletePostApi,
-  getListPostAccountApi,
+  getInfinitiePostByIdApi,
   getListPostApi,
   getListPostExpertApi,
+  getListPostUsersAccountApi,
   getPostApi,
   rejectPostApi,
   updatePostApi,
@@ -14,7 +15,9 @@ import {
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { setListPost, setPostId } from "../redux/slice/post";
 import { message } from "antd";
+import { useParams } from "react-router-dom";
 function UsePost(statusPost, sizelist, page) {
+  const { profileId } = useParams();
   const dispatch = useDispatch();
   const selector = useSelector((state) => state.account);
   const userAccount = selector.account;
@@ -49,7 +52,7 @@ function UsePost(statusPost, sizelist, page) {
     queryKey: ["listPostExpert"],
     queryFn: getListPostExpertApi, // Sử dụng pageParam từ biến địa phương
     getNextPageParam: (lastPage, pages) => {
-      const totalPages = lastPage.data.totalPages;
+      const totalPages = lastPage?.data?.totalPages;
       if (pages.length < totalPages) {
         return pages.length;
       } else {
@@ -68,10 +71,10 @@ function UsePost(statusPost, sizelist, page) {
     isFetchingNextPage: accountIsFetchingNextPage, // Renamed 'isFetchingNextPage' to 'accountIsFetchingNextPage'
     status: accountStatus, // Renamed 'status' to 'accountStatus'
   } = useInfiniteQuery({
-    queryKey: ["listPostAccount"],
-    queryFn: getListPostAccountApi,
+    queryKey: ["listPostUserAccounts"],
+    queryFn: getListPostUsersAccountApi,
     getNextPageParam: (lastPage, pages) => {
-      const totalPages = lastPage.data.totalPages;
+      const totalPages = lastPage?.data?.totalPages;
       if (pages.length < totalPages) {
         return pages.length;
       } else {
@@ -117,6 +120,9 @@ function UsePost(statusPost, sizelist, page) {
     mutationFn: updatePostApi,
     onSuccess: (respone) => {
       if (respone.result) {
+        {
+          profileId && getListOwnPost();
+        }
         if (userAccount) {
           getListPostAccount();
         } else if (userExpert) {
@@ -137,6 +143,9 @@ function UsePost(statusPost, sizelist, page) {
     onSuccess: (respone) => {
       if (respone.result) {
         if (respone.result) {
+          {
+            profileId && getListOwnPost();
+          }
           if (userAccount) {
             getListPostAccount();
           } else if (userExpert) {
@@ -174,7 +183,31 @@ function UsePost(statusPost, sizelist, page) {
       message.error("Reject post fail!");
     },
   });
+  const {
+    data: listOwnPost,
+    refetch: getListOwnPost,
+    fetchNextPage: fetchNextPagePostProfile,
+    hasNextPage: hasNextPagePostProfile,
+    isFetchingNextPage: isFetchingNextPagePostProfile,
+  } = useInfiniteQuery({
+    queryKey: ["listOwnPostinfinitie", profileId],
+    queryFn: getInfinitiePostByIdApi,
+    initialPageParam: 1,
+    enabled: profileId ? true : false,
+    getNextPageParam: (lastPage, allPages) => {
+      const totalPages = lastPage.data.totalPages;
+      if (allPages.length < totalPages) {
+        return allPages.length;
+      } else {
+        return undefined;
+      }
+    },
+  });
   return {
+    listOwnPost,
+    fetchNextPagePostProfile,
+    hasNextPagePostProfile,
+    isFetchingNextPagePostProfile,
     loadingApprove,
     loadingReject,
     approvePost,

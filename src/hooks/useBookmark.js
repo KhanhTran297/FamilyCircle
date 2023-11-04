@@ -9,7 +9,7 @@ function useBookmark() {
   const { data: listBookmark, refetch: getListBookmark } = useQuery({
     queryKey: ["listBookmark"],
     queryFn: getListBookmarkApi,
-    enabled: false,
+    enabled: true,
     retry: 0,
   });
 

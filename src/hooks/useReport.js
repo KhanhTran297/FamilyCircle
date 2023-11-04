@@ -26,7 +26,7 @@ function useReport(kind, size, page) {
   } = useQuery({
     queryKey: ["getListReport"],
     queryFn: () => getListReportApi(kind, size, page),
-    enabled: true,
+    enabled: kind ? true : false,
     onSuccess: () => {
       message.success("Get list report success");
     },

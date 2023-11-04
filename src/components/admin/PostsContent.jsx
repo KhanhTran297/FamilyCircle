@@ -192,7 +192,8 @@ const PostsContent = () => {
   //     },
   //   },
   // ];
-
+  console.log(getListLoading);
+  console.log(listPost);
   return (
     <div
       style={{

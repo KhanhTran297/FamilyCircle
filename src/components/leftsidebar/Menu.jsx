@@ -7,21 +7,24 @@ import { ILocalMess } from "../svg/mess";
 import { ILocalBookmark } from "../svg/bookmark";
 import { ILocalProfile } from "../svg/profile";
 import useTheme from "../../hooks/useTheme";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ILocalHomeSelected } from "../svg/home_selected";
 import { ILocalForumSelected } from "../svg/forum_selected";
 import { ILocalNotificationSelected } from "../svg/noti_selected";
 import { ILocalMessSelected } from "../svg/mess_selected";
 import { ILocalBookmarkSelected } from "../svg/bookmark_selected";
 import { ILocalProfileSelected } from "../svg/profile_selected";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 
 const Menu = () => {
+  const accountprofile = useGetFetchQuery(["accountProfile"]);
   const { theme } = useTheme({});
   const textColor = theme === "dark" ? "#CEC4C6" : "#1F1A1C";
   const textColorSelected = theme === "dark" ? "#FFAFD5" : "#A73574";
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
+  const { profileId } = useParams();
   const handleRouter = (path) => {
     navigate(path);
   };
@@ -125,16 +128,16 @@ const Menu = () => {
       </p>
       <p
         className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
-        onClick={() => handleRouter("/profile")}
+        onClick={() => handleRouter(`/profile/${accountprofile?.data?.id}`)}
       >
-        {path === "/profile" ? (
+        {path === `/profile/${profileId}` ? (
           <ILocalProfileSelected fill={textColorSelected} />
         ) : (
           <ILocalProfile fill={textColor} />
         )}
         <p
           className={`hidden desktop:block text-sm font-medium text-center  ${
-            path === "/profile"
+            profileId
               ? "text-[#A73574] dark:text-[#FFAFD5]"
               : "text-[#1F1A1C] dark:text-[#CEC4C6]"
           } font-roboto`}
