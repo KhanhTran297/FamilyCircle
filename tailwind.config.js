@@ -22,8 +22,10 @@ export default {
         ],
       },
       backgroundColor: {
+        editModal: "var(--light-surfaces-1, #FFF8F8)",
         tab: "rgba(31, 31, 31)",
         menu: "rgba(167, 53, 116, 0.08)",
+        tabProfile: "rgba(31, 31, 31, 0.08)",
         modal: "rgba(0, 0, 0, 0.32)",
         menuOption: "rgba(31, 26, 28, 0.08)",
         buttonHoverLight: "rgba(167, 53, 116, 0.08)",
@@ -78,6 +80,11 @@ export default {
         ".bg-authen-page": {
           backgroundImage: "linear-gradient(180deg, #FC3872 0%, #75D3FB 100%)",
         },
+        ".bg-button-hover-light": {
+          backgroundColor:
+            "linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%), #A73574;",
+        },
+
         ".bg-button-submit-light": {
           backgroundColor: "var(--light-primary-primary, #A73574)",
         },
