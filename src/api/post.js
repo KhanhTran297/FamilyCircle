@@ -10,6 +10,15 @@ export const getListPostUsersAccountApi = ({ pageParam = 0 }) => {
   const url = `/v1/post/list?status=1&size=5&kind=2&page=${pageParam}`;
   return UseGet({ url, requiredToken: true });
 };
+
+export const getListPostExpertFollowingApi = ({ pageParam = 0 }) => {
+  const url = `/v1/post/list?status=1&size=5&kind=1&following=true&page=${pageParam}`;
+  return UseGet({ url, requiredToken: true });
+};
+export const getListPostAccountFollowingApi = ({ pageParam = 0 }) => {
+  const url = `/v1/post/list?status=1&size=5&kind=2&following=true&page=${pageParam}`;
+  return UseGet({ url, requiredToken: true });
+};
 export const getListPostApi = (status, size, page) => {
   const url = `/v1/post/list?status=${status}&size=${size}&page=${page}`;
   return UseGet({ url, requiredToken: true });

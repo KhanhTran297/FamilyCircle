@@ -30,14 +30,7 @@ const CreatePostModal = (props) => {
       props.handleClose();
     }, 300);
   };
-  const {
-    handleSubmit,
-    // control,
-    // formState: { errors },
-    reset,
-    getValues,
-    setValue,
-  } = useForm({
+  const { handleSubmit, reset, getValues, setValue } = useForm({
     defaultValues: {
       content: props.content ?? "",
     },
@@ -55,18 +48,29 @@ const CreatePostModal = (props) => {
   };
 
   const handleCreatePost = (value) => {
+    console.log(props.selectedKind);
     if (props.kind === 2) {
       const data = { ...value, kind: 2, privacy: 1, status: 1 };
       createPost(data);
     }
     if (props.kind === 3) {
-      const data = {
-        ...value,
-        kind: props.selectedKind,
-        privacy: 1,
-        status: 0,
-      };
-      createPost(data);
+      if (props.selectedKind == 1) {
+        const data = {
+          ...value,
+          kind: 1,
+          privacy: 1,
+          status: 0,
+        };
+        createPost(data);
+      } else {
+        const data = {
+          ...value,
+          kind: 2,
+          privacy: 1,
+          status: 1,
+        };
+        createPost(data);
+      }
     }
     reset();
     handleClose();

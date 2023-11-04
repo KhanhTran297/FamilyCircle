@@ -2,6 +2,19 @@ import UseCallApi from "../hooks/UseCallApi";
 
 const { UseGet, UsePost, UseDelete } = UseCallApi();
 
+
+
+
+export const getFollowApi = (params) => {
+  const url = "/v1/relationship/create";
+  return UsePost({ url, requiredToken: true, params });
+};
+
+export const getUnfollowApi = (accountId) => {
+  const url = `/v1/relationship/unfollow/${accountId}`;
+  return UseDelete({ url, requiredToken: true });
+};
+
 export const createFollowApi = (params) => {
   const url = "/v1/relationship/create";
   return UsePost({ url, requiredToken: true, params });
@@ -26,3 +39,4 @@ export const getRelationshipApi = (id) => {
   const url = `/v1/relationship/get/${id}`;
   return UseGet({ url, requiredToken: true });
 };
+

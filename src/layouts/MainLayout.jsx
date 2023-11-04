@@ -5,9 +5,11 @@ import RightSiderBar from "../components/rightsiderbar/RightSiderBar";
 const MainLayout = () => {
   return (
     <div className="flex w-full justify-center dark:bg-[#000]">
-      <div className="flex flex-col self-stretch w-full desktop:gap-10 desktop:flex-row desktop:w-auto ">
+      <div className="flex flex-col self-stretch w-full xl:gap-10 xl:flex-row xl:w-auto ">
         <LeftSideBar />
-        <Outlet />
+        <div className="flex-grow">
+          <Outlet />
+        </div>
         <RightSiderBar />
       </div>
     </div>
