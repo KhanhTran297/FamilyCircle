@@ -5,7 +5,7 @@ export const authLoginApi = (params) => {
   const url = "/api/token";
   return UsePost({ url, params, type: "basicAuth" });
 };
-export const getAccountProfileApi = () => {
+export const getUserAccountProfileApi = () => {
   const url = "/v1/user-account/profile";
   return UseGet({ url, requiredToken: true });
 };
@@ -16,6 +16,10 @@ export const getAccountListApi = (params) => {
     requiredToken: true,
     params,
   });
+};
+export const getProfileAccountByIdApi = (params) => {
+  const url = `/v1/account/get-profile/${params.queryKey[1]}`;
+  return UseGet({ url, requiredToken: true });
 };
 export const getExpertAccountProfileApi = () => {
   const url = "/v1/expert-account/profile";
@@ -30,9 +34,13 @@ export const authLogoutApi = () => {
   const url = "/account/logout";
   return UseGet({ url, requiredToken: true });
 };
+export const getProfileAccountApi = () => {
+  const url = "/v1/account/profile";
+  return UseGet({ url, requiredToken: true });
+};
 //edit
 export const editProfileApi = (params) => {
-  const url = "/v1/user/update";
+  const url = "/v1/user-account/update-profile";
   return UseEdit({ url, requiredToken: true, params });
 };
 //changePassword
@@ -54,4 +62,9 @@ export const checkOtpApi = (params) => {
 export const createNewPasswordApi = (params) => {
   const url = "/v1/user/change-password";
   return UseEdit({ url, params });
+};
+//getuserProfilebyId
+export const getUserProfileByIdApi = (id) => {
+  const url = `/v1/user-account/get/${id}`;
+  return UseGet({ url, requiredToken: true });
 };
