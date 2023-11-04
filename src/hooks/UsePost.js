@@ -5,8 +5,10 @@ import {
   createPostApi,
   deletePostApi,
   getListPostAccountApi,
+  getListPostAccountFollowingApi,
   getListPostApi,
   getListPostExpertApi,
+  getListPostExpertFollowingApi,
   getPostApi,
   rejectPostApi,
   updatePostApi,
@@ -14,6 +16,7 @@ import {
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { setListPost, setPostId } from "../redux/slice/post";
 import { message } from "antd";
+import { useParams } from "react-router-dom";
 function UsePost(statusPost, sizelist, page) {
   const dispatch = useDispatch();
   const selector = useSelector((state) => state.account);
@@ -81,18 +84,78 @@ function UsePost(statusPost, sizelist, page) {
     },
   });
 
-  // // getPost
-  const { data: post, refetch: getPost } = useQuery(
-    ["post", postId],
-    () => getPostApi(postId),
-    {
-      enabled: false,
-      retry: 0,
-      onSuccess: (post) => {
-        dispatch(setPostId(post.data));
-      },
-    }
-  );
+  //Following
+  const {
+    data: listPostExpertFollowing,
+    refetch: getListPostExpertFollowing,
+    error: expertErrorFollowing, // Renamed 'error' to 'expertError'
+    fetchNextPage: expertFetchNextPageFollowing, // Renamed 'fetchNextPage' to 'expertFetchNextPage'
+    hasNextPage: expertHasNextPageFollowing, // Renamed 'hasNextPage' to 'expertHasNextPage'
+    isFetching: expertIsFetchingFollowing, // Renamed 'isFetching' to 'expertIsFetching'
+    isFetchingNextPage: expertIsFetchingNextPageFollowing, // Renamed 'isFetchingNextPage' to 'expertIsFetchingNextPage'
+    status: expertStatusFollowing, // Renamed 'status' to 'accountStatus'
+  } = useInfiniteQuery({
+    queryKey: ["listPostExpertFollowing"],
+    queryFn: getListPostExpertFollowingApi, // Sử dụng pageParam từ biến địa phương
+    getNextPageParam: (lastPage, pages) => {
+      const totalPages = lastPage.data.totalPages;
+      if (pages.length < totalPages) {
+        return pages.length;
+      } else {
+        return undefined;
+      }
+    },
+  });
+
+  const {
+    data: listPostAccountFollowing,
+    refetch: getListPostAccountFollowing,
+    error: accountErrorFollowing, // Renamed 'error' to 'accountError'
+    fetchNextPage: accountFetchNextPageFollowing, // Renamed 'fetchNextPage' to 'accountFetchNextPage'
+    hasNextPage: accountHasNextPageFollowing, // Renamed 'hasNextPage' to 'accountHasNextPage'
+    isFetching: accountIsFetchingFollowing, // Renamed 'isFetching' to 'accountIsFetching'
+    isFetchingNextPage: accountIsFetchingNextPageFollowing, // Renamed 'isFetchingNextPage' to 'accountIsFetchingNextPage'
+    status: accountStatusFollowing, // Renamed 'status' to 'accountStatus'
+  } = useInfiniteQuery({
+    queryKey: ["listPostAccountFollowing"],
+    queryFn: getListPostAccountFollowingApi,
+    getNextPageParam: (lastPage, pages) => {
+      const totalPages = lastPage.data.totalPages;
+      if (pages.length < totalPages) {
+        return pages.length;
+      } else {
+        return undefined;
+      }
+    },
+  });
+  // // // getPost
+  // const { data: post, refetch: getPost } = useQuery(
+  //   ["post", postId],
+  //   () => getPostApi(postId),
+  //   {
+  //     enabled: false,
+  //     retry: 0,
+  //     onSuccess: (post) => {
+  //       dispatch(setPostId(post.data));
+  //     },
+  //   }
+  // );
+
+  //getPost
+  const param = useParams();
+  const {
+    data: post,
+    refetch: getPost,
+    isLoading,
+  } = useQuery({
+    queryKey: ["post", param.id],
+    queryFn: () => getPostApi(param.id),
+    enabled: param?.id ? true : false,
+    retry: 0,
+    onSuccess: () => {
+      // message.success("get post success");
+    },
+  });
 
   //createPost
   const { mutate: createPost } = useMutation({
@@ -103,6 +166,7 @@ function UsePost(statusPost, sizelist, page) {
           getListPostAccount();
         } else if (userExpert) {
           getListPostExpert();
+          getListPostAccount();
         }
       } else {
         // useError("Create post fail!");
@@ -120,8 +184,11 @@ function UsePost(statusPost, sizelist, page) {
       if (respone.result) {
         if (userAccount) {
           getListPostAccount();
+          getPost();
         } else if (userExpert) {
           getListPostExpert();
+          getListPostAccount();
+          getPost();
         }
       } else {
         // useError("Update post fail!");
@@ -140,8 +207,11 @@ function UsePost(statusPost, sizelist, page) {
         if (respone.result) {
           if (userAccount) {
             getListPostAccount();
+            getPost();
           } else if (userExpert) {
             getListPostExpert();
+            getListPostAccount();
+            getPost();
           }
         }
         // useSuccess("Delete post success!");
@@ -175,7 +245,10 @@ function UsePost(statusPost, sizelist, page) {
       message.error("Reject post fail!");
     },
   });
+
   return {
+    post,
+    getPost,
     loadingApprove,
     loadingReject,
     approvePost,
@@ -185,8 +258,7 @@ function UsePost(statusPost, sizelist, page) {
     listPostExpert,
     getListPostExpert,
     createPost,
-    post,
-    getPost,
+    isLoading,
     listPost,
     getListPost,
     fetchNextPage,
@@ -205,6 +277,22 @@ function UsePost(statusPost, sizelist, page) {
     accountIsFetchingNextPage,
     accountStatus,
     accountError,
+    listPostAccountFollowing,
+    listPostExpertFollowing,
+    getListPostAccountFollowing,
+    getListPostExpertFollowing,
+    accountErrorFollowing,
+    expertErrorFollowing,
+    accountFetchNextPageFollowing,
+    expertFetchNextPageFollowing,
+    accountHasNextPageFollowing,
+    expertHasNextPageFollowing,
+    accountIsFetchingFollowing,
+    expertIsFetchingFollowing,
+    accountIsFetchingNextPageFollowing,
+    expertIsFetchingNextPageFollowing,
+    accountStatusFollowing,
+    expertStatusFollowing,
   };
 }
 

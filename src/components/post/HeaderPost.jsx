@@ -20,6 +20,7 @@ import { ILocalEdit } from "../svg/edit";
 import { ILocalDelete } from "../svg/delete";
 import ReportModal from "../modal/ReportModal";
 import { ILocalRemoveBookmark } from "../svg/removefrombookmark";
+import { ILocalUnfollow } from "../svg/unfl";
 const HeaderPost = (props) => {
   dayjs.extend(relativeTime);
   const navigate = useNavigate();
@@ -172,10 +173,23 @@ const HeaderPost = (props) => {
                 <ILocalReport className="shrink-0" fill="#1F1A1C  " />
                 <p className="text-sm font-medium font-roboto">Report</p>
               </button>
-              <button className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption">
-                <ILocalFollow className="shrink-0" fill="#1F1A1C  " />
-                <p className="text-sm font-medium font-roboto">Follow</p>
-              </button>
+              {props.isFollowed == true ? (
+                <button
+                  className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
+                  onClick={props.handleActionUnfollow}
+                >
+                  <ILocalUnfollow className="shrink-0" fill="#1F1A1C  " />
+                  <p className="text-sm font-medium font-roboto">Unfollow</p>
+                </button>
+              ) : (
+                <button
+                  className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"
+                  onClick={props.handleActionFollow}
+                >
+                  <ILocalFollow className="shrink-0" fill="#1F1A1C  " />
+                  <p className="text-sm font-medium font-roboto">Follow</p>
+                </button>
+              )}
               {props.isBookmarked == true ? (
                 <button
                   className="flex flex-row items-center w-full h-12 gap-4 px-4 py-0 hover:bg-menuOption"

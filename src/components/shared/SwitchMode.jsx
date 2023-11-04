@@ -23,10 +23,10 @@ const SwitchMode = () => {
           <ILocalMoon />
         </div>
         <div className="desktop:h-9 desktop:w-[136px]">
-          <p className="hidden text-white dark:inline-block font-roboto">
+          <p className="hidden text-white dark:inline-block font-roboto ">
             Dark Mode
           </p>
-          <p className="dark:hidden font-roboto">Light Mode</p>
+          <p className="dark:hidden font-roboto text-[#1F1A1C]">Light Mode</p>
         </div>
         <div
           className="flex flex-col items-center rounded-[20px] hover:bg-tab hover:bg-opacity-[8%] justify-center w-10 h-10 gap-[10px] p-[10px] cursor-pointer"

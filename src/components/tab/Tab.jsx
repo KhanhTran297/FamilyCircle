@@ -5,6 +5,7 @@ import UseCookie from "../../hooks/UseCookie";
 import { Navigate } from "react-router-dom";
 import { Skeleton } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
+import useFollow from "../../hooks/useFollow";
 
 const Tab = (props) => {
   const { isLoggedIn } = UseCookie();
@@ -19,8 +20,17 @@ const Tab = (props) => {
     accountHasNextPage,
     accountIsFetching,
     accountIsFetchingNextPage,
+    listPostExpertFollowing,
+    listPostAccountFollowing,
+    expertHasNextPageFollowing,
+    accountHasNextPageFollowing,
+    accountIsFetchingFollowing,
+    expertIsFetchingFollowing,
+    accountIsFetchingNextPageFollowing,
+    expertIsFetchingNextPageFollowing,
+    expertFetchNextPageFollowing,
+    accountFetchNextPageFollowing,
   } = UsePost(0, 0, 0, false);
-
   const [activeTab, setActiveTab] = useState("tab1");
 
   const handleTabClick = (tab) => {
@@ -72,15 +82,15 @@ const Tab = (props) => {
           </div>
         </div>
       </div>
-      {props.kind === "1" ? (
+      {props.kind === "1" && activeTab === "tab1" && (
         <InfiniteScroll
-          dataLength={listPostExpert?.pages?.length || 0} 
+          dataLength={listPostExpert?.pages?.length || 0}
           next={() => {
             setTimeout(() => {
               fetchNextPage();
             }, 1000);
           }}
-          hasMore={hasNextPage} 
+          hasMore={hasNextPage}
           loader={
             <Skeleton
               avatar
@@ -88,7 +98,7 @@ const Tab = (props) => {
                 rows: 4,
               }}
             />
-          } 
+          }
           className="gap-6"
         >
           {listPostExpert &&
@@ -140,7 +150,8 @@ const Tab = (props) => {
             />
           ) : null}
         </InfiniteScroll>
-      ) : (
+      )}
+      {props.kind === "2" && activeTab === "tab1" && (
         <InfiniteScroll
           dataLength={listPostAccount?.pages?.length || 0} // Số lượng mục hiện có
           next={() => {
@@ -210,6 +221,145 @@ const Tab = (props) => {
           ) : null}
         </InfiniteScroll>
       )}
+      {props.kind === "1" && activeTab === "tab2" && (
+        <InfiniteScroll
+          dataLength={listPostExpertFollowing?.pages?.length || 0}
+          next={() => {
+            setTimeout(() => {
+              expertFetchNextPageFollowing();
+            }, 1000);
+          }}
+          hasMore={expertHasNextPageFollowing}
+          loader={
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
+              }}
+            />
+          }
+          className="gap-6"
+        >
+          {listPostExpertFollowing &&
+            listPostExpertFollowing.pages &&
+            listPostExpertFollowing.pages.map((page, pageIndex) => (
+              <div key={pageIndex}>
+                <div className="flex flex-col gap-6 overflow-y-auto desktop:mt-6 mt-[72px] max-h-100vh desktop:mb-6 w-full ">
+                  {Array.isArray(page.data.content) && // Kiểm tra xem page.data là mảng
+                    page.data.content
+                      // .filter((post) => post.kind === 1)
+                      .map((post) => (
+                        // console.log(post.id),
+                        <Post
+                          key={post.id}
+                          id={post.id}
+                          content={post.content}
+                          fullname={post.owner.fullName}
+                          kind={post.owner.kind}
+                          modifiedDate={post.modifiedDate}
+                          createdDate={post.createdDate}
+                          idowner={post.owner.id}
+                          kindPost={post.kind}
+                        />
+                      ))}
+                </div>
+              </div>
+            ))}
+          {expertIsFetchingNextPageFollowing ? (
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
+              }}
+            />
+          ) : expertHasNextPageFollowing ? (
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
+              }}
+            />
+          ) : null}
+          {expertIsFetchingFollowing && !expertIsFetchingNextPageFollowing ? (
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
+              }}
+            />
+          ) : null}
+        </InfiniteScroll>
+      )}
+      {props.kind === "2" && activeTab === "tab2" && (
+        <InfiniteScroll
+          dataLength={listPostAccountFollowing?.pages?.length || 0}
+          next={() => {
+            setTimeout(() => {
+              accountFetchNextPageFollowing();
+            }, 1000);
+          }}
+          hasMore={accountHasNextPageFollowing}
+          loader={
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
+              }}
+            />
+          }
+          className="gap-6"
+        >
+          {listPostAccountFollowing &&
+            listPostAccountFollowing.pages &&
+            listPostAccountFollowing.pages.map((page, pageIndex) => (
+              <div key={pageIndex}>
+                <div className="flex flex-col gap-6 overflow-y-auto desktop:mt-6 mt-[72px] max-h-100vh desktop:mb-6 w-full ">
+                  {Array.isArray(page.data.content) && // Kiểm tra xem page.data là mảng
+                    page.data.content
+                      // .filter((post) => post.kind === 1)
+                      .map((post) => (
+                        // console.log(post.id),
+                        <Post
+                          key={post.id}
+                          id={post.id}
+                          content={post.content}
+                          fullname={post.owner.fullName}
+                          kind={post.owner.kind}
+                          modifiedDate={post.modifiedDate}
+                          createdDate={post.createdDate}
+                          idowner={post.owner.id}
+                          kindPost={post.kind}
+                        />
+                      ))}
+                </div>
+              </div>
+            ))}
+          {accountIsFetchingNextPageFollowing ? (
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
+              }}
+            />
+          ) : accountHasNextPageFollowing ? (
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
+              }}
+            />
+          ) : null}
+          {accountIsFetchingFollowing && !accountIsFetchingNextPageFollowing ? (
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
+              }}
+            />
+          ) : null}
+        </InfiniteScroll>
+      )}
+      {/* {props.kind === "1" && activeTab === "tab2" && <div>Hello</div>} */}
     </div>
   );
 };

@@ -12,12 +12,15 @@ import UsePost from "../../hooks/UsePost";
 import useReact from "../../hooks/useReact";
 import { useSelector } from "react-redux";
 import useBookmark from "../../hooks/useBookmark";
+import useFollow from "../../hooks/useFollow";
 // import { ILocalDot } from "../svg/Dot";
 // import { ILocalMore } from "../svg/more";
 
 const Post = (props) => {
   const { listReaction, getReact } = useReact(props.id);
   const { getBookmark, listBookmark } = useBookmark();
+  const { getFollow, listFollowing, getUnfollow} =
+    useFollow();
   const { deletePost } = UsePost();
   const selector = useSelector((state) => state.account);
   const userAccount = selector.account;
@@ -44,23 +47,40 @@ const Post = (props) => {
     const data = { postId: id };
     getBookmark(data);
   };
+  const handleActionFollow = (accountId) => {
+    const data = { accountId: accountId };
+    getFollow(data);
+  };
+  const handleActionUnfollow = (accountId) => {
+    getUnfollow(accountId);
+  };
   const listReactionPost = listReaction?.data?.content;
   const listBookmarkPost = listBookmark?.data?.content;
-  const userId = userAccount?.id || userExpert?.id; // Lấy userId từ userAccount hoặc userExpert
-  // const isBookmark = userId && listBookmarkPost.some((bookmark) => bookmark.)
+  const listFollowingPerson = listFollowing?.data?.content;
+  const userId = userAccount?.id || userExpert?.id;
   const isBookmark = (postId) => {
     if (listBookmarkPost && Array.isArray(listBookmarkPost)) {
       const bookmark = listBookmarkPost.find(
         (bookmark) => bookmark.postDto.id === postId
       );
-      return bookmark !== undefined; // Return true if a bookmark is found
+      return bookmark !== undefined;
     }
-    return false; // Return false if listBookmarkPost is not defined or not an array
+    return false;
   };
   const isLike =
     userId && listReactionPost
       ? listReactionPost.some((reaction) => reaction.accountId === userId)
       : false;
+  const isFollow = (accountId) => {
+    if (listFollowingPerson && Array.isArray(listFollowingPerson)) {
+      const follow = listFollowingPerson.find(
+        (follow) => follow.account.id === accountId
+      );
+      return follow !== undefined;
+    }
+    return false;
+  };
+
   return (
     <div className="flex flex-col items-start desktop:gap-6 gap-6 p-6 pt-3  rounded-[24px] w-full  bg-[#FFF8F8] cursor-pointer">
       <div className="flex flex-row items-start self-stretch gap-2">
@@ -72,6 +92,9 @@ const Post = (props) => {
           onDelete={() => handleDeletePost(props.id)}
           handleActionBookmark={() => handleActionBookmark(props.id)}
           isBookmarked={isBookmark(props.id)}
+          handleActionFollow={() => handleActionFollow(props.idowner)}
+          isFollowed={isFollow(props.idowner)}
+          handleActionUnfollow={() => handleActionUnfollow(props.idowner)}
         />
       </div>
       <div className="flex flex-col w-full gap-6">
