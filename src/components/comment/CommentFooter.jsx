@@ -4,43 +4,51 @@ import { ILocalReply } from "../svg/reply";
 import IconFooter from "./IconFooter";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import useAccount from "../../hooks/useAccount";
 import { ILocalEmptyHeart } from "../svg/empty_heart";
-import useComment from "../../hooks/useComment";
+import useCommentMutate from "../../hooks/useMutate/useCommentMutate";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 const CommentFooter = ({
   eventReply,
   data,
   countComment,
   eventShowReply,
   root,
+  parentId,
 }) => {
-  const { profileAccount, profileExpertAccount } = useAccount();
-  const { reactcomment } = useComment(data.id, false);
+  const accountProfile = useGetFetchQuery(["accountProfile"]);
+  const { reactcomment } = useCommentMutate(data?.id, parentId);
   const handleReactComment = () => {
-    reactcomment({ commentId: data.id, kind: 1 });
+    reactcomment({ commentId: data?.id, kind: 1 });
   };
 
   const checkReact = () => {
-    if (profileAccount) {
-      const check = data.commentReactions?.filter(
-        (item) => item.id === profileAccount.data.id
-      );
+    // if (profileAccount) {
+    //   const check = data.commentReactions?.filter(
+    //     (item) => item?.id === profileAccount?.data?.id
+    //   );
 
-      if (check) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      const check = data.commentReactions?.filter(
-        (item) => item.id === profileExpertAccount.data.id
-      );
-      if (check) {
-        return true;
-      } else {
-        return false;
-      }
+    //   if (check) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // } else {
+    //   const check = data.commentReactions?.filter(
+    //     (item) => item?.id === profileExpertAccount?.data?.id
+    //   );
+    //   if (check) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
+    const check = data.commentReactions?.filter((item) => {
+      item?.id === accountProfile?.data?.id;
+    });
+    if (check) {
+      return true;
     }
+    return false;
   };
   useEffect(() => {
     checkReact();

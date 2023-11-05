@@ -1,17 +1,17 @@
 import { useState } from "react";
-import useComment from "../../hooks/useComment";
 import { ILocalArrowComment } from "../svg/arrowcomment";
 import CommentLeft from "./CommentLeft";
 import CommentRight from "./CommentRight";
 import PropTypes from "prop-types";
 import TextArea from "antd/es/input/TextArea";
+import useCommentMutate from "../../hooks/useMutate/useCommentMutate";
 
 const ChildComment = (props) => {
-  const { data } = props;
+  const { data, parentId } = props;
   const [isEditing, setIsEditing] = useState(false);
-  const { editComment } = useComment(data.id, false);
-  const handleEdit = async (values) => {
-    await editComment({
+  const { editComment } = useCommentMutate(data.id, parentId);
+  const handleEdit = (values) => {
+    editComment({
       id: data.id,
       commentContent: values.target.value,
     }).then(() => {
@@ -53,6 +53,7 @@ const ChildComment = (props) => {
       ) : (
         <CommentRight
           data={data}
+          parentId={parentId}
           eventReply={props.eventReply}
           root={false}
           eventEdit={handleSetEdit}

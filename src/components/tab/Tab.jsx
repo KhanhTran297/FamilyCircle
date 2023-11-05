@@ -8,7 +8,6 @@ import useFollow from "../../hooks/useFollow";
 
 import useBookmark from "../../hooks/useBookmark";
 
-
 const Tab = (props) => {
   const {
     listPostExpert,
@@ -34,7 +33,7 @@ const Tab = (props) => {
   } = UsePost(0, 0, 0, false);
 
   const { listBookmark } = useBookmark();
-
+  const { listFollowing } = useFollow();
   const [activeTab, setActiveTab] = useState("tab1");
 
   const handleTabClick = (tab) => {
@@ -125,6 +124,7 @@ const Tab = (props) => {
                           createdDate={post.createdDate}
                           idowner={post.owner.id}
                           kindPost={post.kind}
+                          avatar={post.owner.avatar}
                         />
                       ))}
                 </div>
@@ -195,6 +195,7 @@ const Tab = (props) => {
                           createdDate={post.createdDate}
                           idowner={post.owner.id}
                           kindPost={post.kind}
+                          avatar={post.owner.avatar}
                         />
                       ))}
                 </div>

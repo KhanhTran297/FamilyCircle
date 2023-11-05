@@ -5,9 +5,9 @@ import RadioButton from "../shared/RadioButton";
 import { Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { ILocalClearable } from "../svg/clearable";
-import useReport from "../../hooks/useReport";
+import useReportMutate from "../../hooks/useMutate/useReportMutate";
 const ReportModal = (props) => {
-  const { createReport } = useReport();
+  const { createReport } = useReportMutate();
   const [selectedValue, setSelectedValue] = useState(null);
   const [showOtherReason, setShowOtherReason] = useState(false);
   const [otherReason, setOtherReason] = useState("");
