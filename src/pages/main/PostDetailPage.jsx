@@ -39,7 +39,10 @@ const PostDetailPage = () => {
     <div className="w-full xl:w-[760px]   ">
       <div className="flex flex-col w-full">
         <div className="flex flex-col backdrop-blur-[32px] sticky top-14 xl:top-0 z-20">
-          <div className="flex items-start self-stretch px-6 py-2 ">
+          <div
+            onClick={() => history.back()}
+            className="flex items-start self-stretch px-6 py-2 cursor-pointer "
+          >
             <ILocalArrowLeft fill="#1F1A1C" />
             <p className="ml-2 font-medium text-title font-roboto">Post</p>
           </div>

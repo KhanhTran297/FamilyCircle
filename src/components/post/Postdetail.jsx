@@ -14,8 +14,8 @@ import useFollow from "../../hooks/useFollow";
 import usePostMutate from "../../hooks/useMutate/usePostMutate";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getListCommentApi } from "../../api/comment";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { getListChildCommentApi, getListCommentApi } from "../../api/comment";
 import { useParams } from "react-router-dom";
 import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
 import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
@@ -40,6 +40,10 @@ const PostDetail = (props) => {
     },
     enabled: true,
   });
+  const { data: listcommentForCount } = useQuery({
+    queryKey: ["listcommentForCount"],
+    queryFn: () => getListChildCommentApi(id),
+  });
   const { getReact } = useReactMutate(props.id);
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const postDetail = useGetFetchQuery(["postDetail", id]);
@@ -48,7 +52,7 @@ const PostDetail = (props) => {
   const { listFollowing } = useFollow();
   const { getFollow, getUnfollow } = useFollowMutate();
   const { deletePost } = usePostMutate();
-  const reactCount = postDetail?.data?.postReactions.length;
+  const reactCount = postDetail?.data?.postReactions?.length;
 
   const handleDeletePost = (id) => {
     deletePost(id);
@@ -127,6 +131,7 @@ const PostDetail = (props) => {
       <FooterPost
         {...props}
         reactCount={reactCount}
+        commentCount={listcommentForCount?.data?.totalElements}
         handleActionReact={() => handleActionReact(props.kindPost, props.id)}
         isLike={isLike}
       />
