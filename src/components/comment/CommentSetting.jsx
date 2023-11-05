@@ -1,39 +1,26 @@
 import { Dropdown, Modal } from "antd";
 import { ILocalThreePoint } from "../svg/three_point";
 import { useState } from "react";
-import useComment from "../../hooks/useComment";
 import PropTypes from "prop-types";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { ILocalReport } from "../svg/report";
-import { useSelector } from "react-redux";
 import { ILocalEdit } from "../svg/edit";
 import { ILocalDelete } from "../svg/delete";
 import ReportModal from "../modal/ReportModal";
-import { data } from "autoprefixer";
+import { useQueryClient } from "@tanstack/react-query";
+import useCommentMutate from "../../hooks/useMutate/useCommentMutate";
 
 const CommentSetting = (props) => {
-  const { commentId, eventEditing } = props;
-  const { deleteComment } = useComment(commentId, false);
+  const { commentId, eventEditing, parentId } = props;
+  const { deleteComment } = useCommentMutate(commentId, parentId);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showReportPost, setShowReportPost] = useState(false);
-  const select = useSelector((state) => state.account);
-  const selectExpert = useSelector((state) => state.expert);
-  const user = select.account;
-  const expert = selectExpert.expert;
+  const queryClient = useQueryClient();
+  const accountProfile = queryClient.getQueryData(["accountProfile"]);
   const checkAuthen = () => {
-    if (user) {
-      if (user.id !== props.data.owner.id) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      if (expert.id !== props.data.owner.id) {
-        return false;
-      } else {
-        return true;
-      }
+    if (accountProfile?.data?.id === props.data.owner.id) {
+      return true;
     }
+    return false;
   };
 
   const showModal = () => {

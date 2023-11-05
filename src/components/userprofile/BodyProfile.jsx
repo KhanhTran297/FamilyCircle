@@ -3,24 +3,19 @@ import PropTypes from "prop-types";
 import TabProfile from "./TabProfile";
 import { ILocalMessProfile } from "../svg/messProfile";
 import { ILocalFollowProfile } from "../svg/followprofile";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import useFollow from "../../hooks/useFollow";
-import { Avatar, Input, Modal, Upload, message } from "antd";
+import { Avatar, Upload, message } from "antd";
 import { useState } from "react";
-import { ILocalProfileButton } from "../svg/profile_button";
-import dayjs from "dayjs";
-import TextArea from "antd/es/input/TextArea";
 import ProfileModal from "../shared/ProfileModal";
 import EditingModal from "../shared/EditingModal";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadImageApi } from "../../api/file";
 import ImgCrop from "antd-img-crop";
-import useAccount from "../../hooks/useAccount";
 import { editProfileApi } from "../../api/account";
 import { editExpertAccountApi } from "../../api/expert";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
+import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
 // import EditingModal from "../shared/EditingModal";
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -43,15 +38,25 @@ const BodyProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [type, setType] = useState("");
-
+  const [text, setText] = useState("Following");
+  const [color, setColor] = useState("#A73574");
   const [initValue, setInitValue] = useState("");
   const showModal = () => {
     setIsModalOpen(true);
   };
   const accountProfile = useGetFetchQuery(["accountProfile", profileId]);
   const myAccountProfile = useGetFetchQuery(["accountProfile"]);
-  console.log("accountProfile", accountProfile);
-  console.log("myAccountProfile", myAccountProfile);
+  const listFollowing = useGetFetchQuery(["listFollowingById", profileId]);
+  const listFollower = useGetFetchQuery(["listFollowerById", profileId]);
+  const checkFollowAlready = () => {
+    const check = listFollower?.data?.content?.some((item) => {
+      return item?.follower?.id === myAccountProfile?.data?.id;
+    });
+    if (check) {
+      return true;
+    }
+    return false;
+  };
   const handleOpenEditingModal = (value, type) => {
     handleSetInitvalue(value)
       .then(() => setIsEditing(true))
@@ -69,10 +74,9 @@ const BodyProfile = () => {
   const queryClient = useQueryClient();
   const { mutateAsync: editUserAccount } = useMutation({
     mutationFn: editProfileApi,
-    onSuccess: (res) => {
+    onSuccess: () => {
       queryClient.invalidateQueries("profileUserById");
       queryClient.invalidateQueries("accountProfile");
-      //   queryClient.setQueryData("profileUserById", res);
       message.success("Edit profile successfully");
     },
   });
@@ -83,7 +87,7 @@ const BodyProfile = () => {
       message.success("Edit profile successfully");
     },
   });
-  const { createFollow } = useFollow();
+  const { createFollow, unFollow } = useFollowMutate();
   const { mutateAsync: upLoadImage } = useMutation({
     mutationFn: uploadImageApi,
     onSuccess: (res) => {
@@ -149,48 +153,81 @@ const BodyProfile = () => {
     <div className=" flex flex-col pl-6 pr-6 gap-4 items-start self-stretch mt-[-64px]">
       <div className="ava flex justify-between items-end self-stretch">
         {/* <div className=" bg-[url('https://i.pinimg.com/236x/9b/b1/b9/9bb1b9aa5182b06836642a5f737fc5ea.jpg')] w-[128px] h-[128px] rounded-[1000px] bg-cover bg-no-repeat "></div> */}
-        <ImgCrop cropShape="round">
-          <Upload
-            name="avatar"
-            listType="picture-circle"
-            className="avatar-uploader"
-            showUploadList={false}
-            action={(value) => {
-              upLoadImage({ file: value, type: "avatar" });
-            }}
-            beforeUpload={beforeUpload}
-            onChange={handleChange}
-          >
-            {accountProfile?.data?.avatar ? (
-              <Avatar
-                className=" w-full h-full"
-                src={accountProfile?.data?.avatar}
-              />
-            ) : (
-              uploadButton
-            )}
-          </Upload>
-        </ImgCrop>
 
+        <div className="">
+          {" "}
+          <ImgCrop cropShape="round">
+            <Upload
+              name="avatar"
+              listType="picture-circle"
+              className="avatar-uploader"
+              showUploadList={false}
+              action={(value) => {
+                upLoadImage({ file: value, type: "avatar" });
+              }}
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+            >
+              {accountProfile?.data?.avatar ? (
+                <Avatar
+                  className=" w-full h-full"
+                  src={accountProfile?.data?.avatar}
+                />
+              ) : (
+                uploadButton
+              )}
+            </Upload>
+          </ImgCrop>
+        </div>
         {checkAccount() ? (
-          <div
-            onClick={() => showModal()}
-            className=" w-max flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] border-solid border border-button-submit-light cursor-pointer hover:bg-buttonHoverLight hover:border-button-submit-light"
-          >
-            <ILocalEdit fill="#A73574" className=" w-[18px] h-[18px]" />
-            <p className=" font-roboto text-sm font-medium text-button-submit-light">
-              Edit Profile
-            </p>
+          <div className="h-10">
+            <div
+              onClick={() => showModal()}
+              className="flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] border border-solid border-button-submit-light cursor-pointer hover:bg-buttonHoverLight hover:border-button-submit-light"
+            >
+              <ILocalEdit fill="#A73574" className=" w-[18px] h-[18px]" />
+              <p className=" font-roboto text-sm font-medium text-button-submit-light">
+                Edit Profile
+              </p>
+            </div>
           </div>
         ) : (
-          <div className="flex h-10 items-start gap-4">
+          <div className="flex h-10 items-start gap-4 ">
             <div className=" flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] border border-solid border-button-submit-light cursor-pointer hover:bg-buttonHoverLight hover:border-button-submit-light">
               <ILocalMessProfile className=" w-[18px] h-[18px]" />
               <p className=" text-button-submit-light font-roboto text-sm font-medium">
                 Message
               </p>
             </div>
-            <div
+            {checkFollowAlready() ? (
+              <div
+                onClick={() => unFollow({ accountId: profileId })}
+                onMouseEnter={() => {
+                  setText("Unfollow"), setColor("#BA1A1A");
+                }}
+                onMouseLeave={() => {
+                  setText("Following"), setColor("#A73574");
+                }}
+                className="  flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] border border-solid border-button-submit-light cursor-pointer hover:bg-bgErrorButton hover:border-[#BA1A1A]"
+              >
+                <p
+                  className={` text-[${color}] font-roboto text-sm font-medium `}
+                >
+                  {text}
+                </p>
+              </div>
+            ) : (
+              <div
+                onClick={() => createFollow({ accountId: profileId })}
+                className=" flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] bg-button-submit-light hover:bg-button-hover-light cursor-pointer hover:shadow-buttonHover"
+              >
+                <ILocalFollowProfile className=" w-[18px] h-[18px]" />
+                <p className=" text-[#fff] font-roboto text-sm font-medium ">
+                  Follow
+                </p>
+              </div>
+            )}
+            {/* <div
               onClick={() => createFollow({ accountId: profileId })}
               className=" flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] bg-button-submit-light hover:bg-button-hover-light cursor-pointer hover:shadow-buttonHover"
             >
@@ -198,7 +235,7 @@ const BodyProfile = () => {
               <p className=" text-[#fff] font-roboto text-sm font-medium ">
                 Follow
               </p>
-            </div>
+            </div> */}
           </div>
         )}
       </div>
@@ -226,7 +263,7 @@ const BodyProfile = () => {
       <div className=" flex flex-row items-start gap-2">
         <div className=" flex flex-row gap-2">
           <p className=" text-center font-roboto text-sm font-extrabold text-light_surface_on_surface">
-            15
+            {listFollowing?.data?.totalElements}
           </p>
           <p className=" text-sm text-light_surface_on_surface font-roboto font-normal">
             followings
@@ -235,7 +272,7 @@ const BodyProfile = () => {
         <div className=" w-[1px] h-5 bg-[#F1DEE4]"></div>
         <div className=" flex flex-row gap-2">
           <p className=" text-center font-roboto text-sm font-extrabold text-light_surface_on_surface">
-            1.287
+            {listFollower?.data?.totalElements}
           </p>
           <p className=" text-sm text-light_surface_on_surface font-roboto font-normal">
             followers

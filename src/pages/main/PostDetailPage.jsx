@@ -2,10 +2,8 @@ import { useParams } from "react-router-dom";
 import { ILocalArrowLeft } from "../../components/svg/arrow_left";
 import { useQuery } from "@tanstack/react-query";
 import { getPostApi } from "../../api/post";
-import { Skeleton, message } from "antd";
-import { useEffect } from "react";
+import { Skeleton } from "antd";
 import PostDetail from "../../components/post/Postdetail";
-import UsePost from "../../hooks/UsePost";
 
 const PostDetailPage = () => {
   // const param = useParams();
@@ -26,7 +24,17 @@ const PostDetailPage = () => {
   // useEffect(() => {
   //   getPost();
   // }, []);
-  const { post, isLoading } = UsePost();
+  const { id } = useParams();
+  const { data: postDetail, isLoading } = useQuery({
+    queryKey: ["postDetail", id],
+    queryFn: () => getPostApi(id),
+    enabled: true,
+    retry: 0,
+    onSuccess: () => {
+      // message.success("get post success");
+    },
+  });
+  // const { post, isLoading } = UsePost();
   return (
     <div className="w-full xl:w-[760px]   ">
       <div className="flex flex-col w-full">
@@ -46,15 +54,16 @@ const PostDetailPage = () => {
             />
           ) : (
             <PostDetail
-              key={post?.data?.id}
-              id={post?.data?.id}
-              content={post?.data?.content}
-              fullname={post?.data?.owner?.fullName}
-              kind={post?.data?.owner?.kind}
-              modifiedDate={post?.data?.modifiedDate}
-              createdDate={post?.data?.createdDate}
-              idowner={post?.data?.owner?.id}
-              kindPost={post?.data?.kind}
+              key={postDetail?.data?.id}
+              id={postDetail?.data?.id}
+              content={postDetail?.data?.content}
+              fullname={postDetail?.data?.owner?.fullName}
+              kind={postDetail?.data?.owner?.kind}
+              modifiedDate={postDetail?.data?.modifiedDate}
+              createdDate={postDetail?.data?.createdDate}
+              idowner={postDetail?.data?.owner?.id}
+              avatar={postDetail?.data?.owner?.avatar}
+              kindPost={postDetail?.data?.kind}
             />
           )}
         </div>

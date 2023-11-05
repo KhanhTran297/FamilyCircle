@@ -1,16 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getPostByIdApi } from "../../api/post";
 import { ILocalProfileButton } from "../../components/svg/profile_button";
-import useAccount from "../../hooks/useAccount";
-import useExpert from "../../hooks/useExpert";
 import UserProfile from "../../components/userprofile/UserProfile";
-import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import { getProfileAccountByIdApi } from "../../api/account";
+import {
+  getListfollowerByIdApi,
+  getListfollowingByIdApi,
+} from "../../api/follow";
 
 const ProfilePage = () => {
   const { profileId } = useParams();
-
+  const { data: listFollowing } = useQuery({
+    queryKey: ["listFollowingById", profileId],
+    queryFn: getListfollowingByIdApi,
+  });
+  const { data: listFollower } = useQuery({
+    queryKey: ["listFollowerById", profileId],
+    queryFn: getListfollowerByIdApi,
+  });
   // const accountProfile = useGetFetchQuery(["accountProfile"]);
   const { data: accountProfile } = useQuery({
     queryKey: ["accountProfile", profileId],

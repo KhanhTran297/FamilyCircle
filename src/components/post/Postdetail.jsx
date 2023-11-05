@@ -4,35 +4,51 @@ import AvtUser from "../shared/AvtUser";
 import FooterPost from "./FooterPost";
 import HeaderPost from "./HeaderPost";
 import { Skeleton } from "antd";
-import useComment from "../../hooks/useComment";
+
 import CommentForm from "../comment/CommentForm";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Comment from "../comment/Comment";
-import useReact from "../../hooks/useReact";
 import useBookmark from "../../hooks/useBookmark";
 import useFollow from "../../hooks/useFollow";
-import UsePost from "../../hooks/UsePost";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-// import { ILocalDot } from "../svg/Dot";
-// import { ILocalMore } from "../svg/more";
+
+import usePostMutate from "../../hooks/useMutate/usePostMutate";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
+
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getListCommentApi } from "../../api/comment";
+import { useParams } from "react-router-dom";
+import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
+import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
+import useReactMutate from "../../hooks/useMutate/useReactMutate";
+
 const PostDetail = (props) => {
-  // const { theme } = useTheme({});
-  // const textColor = theme === "dark" ? "#CEC4C6" : "#1F1A1C";
-  const { listComment, fetchNextPage, hasNextPage } = useComment("", true);
-
-  // console.log("Child", listComment[1].data());
-
-  const { listReaction, getReact } = useReact(props.id);
-  const { getBookmark, listBookmark } = useBookmark();
-  const { getFollow, listFollowing, getUnfollow } = useFollow();
-  const { deletePost } = UsePost();
-  const selector = useSelector((state) => state.account);
-  const userAccount = selector.account;
-  const selectorExpert = useSelector((state) => state.expert);
-  const userExpert = selectorExpert.expert;
-  const reactCount = listReaction?.data?.totalElements;
-  const navigate = useNavigate();
+  const { id } = useParams();
+  const {
+    data: listComment,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["listcomment"],
+    queryFn: () => getListCommentApi(id, "", 5),
+    getNextPageParam: (lastPage, pages) => {
+      const totalPages = lastPage.data.totalPages;
+      if (pages.length < totalPages) {
+        return pages.length;
+      } else {
+        return undefined;
+      }
+    },
+    enabled: true,
+  });
+  const { getReact } = useReactMutate(props.id);
+  const accountProfile = useGetFetchQuery(["accountProfile"]);
+  const postDetail = useGetFetchQuery(["postDetail", id]);
+  const { listBookmark } = useBookmark();
+  const { getBookmark } = useBookmarkMutate();
+  const { listFollowing } = useFollow();
+  const { getFollow, getUnfollow } = useFollowMutate();
+  const { deletePost } = usePostMutate();
+  const reactCount = postDetail?.data?.postReactions.length;
 
   const handleDeletePost = (id) => {
     deletePost(id);
@@ -42,7 +58,6 @@ const PostDetail = (props) => {
     getReact(data);
   };
   const handleActionBookmark = (id) => {
-    console.log("bookmark:", id);
     const data = { postId: id };
     getBookmark(data);
   };
@@ -53,10 +68,10 @@ const PostDetail = (props) => {
   const handleActionUnfollow = (accountId) => {
     getUnfollow(accountId);
   };
-  const listReactionPost = listReaction?.data?.content;
+  const listReactionPost = postDetail?.data?.postReactions;
   const listBookmarkPost = listBookmark?.data?.content;
   const listFollowingPerson = listFollowing?.data?.content;
-  const userId = userAccount?.id || userExpert?.id;
+  // const userId = userAccount?.id || userExpert?.id;
   const isBookmark = (postId) => {
     if (listBookmarkPost && Array.isArray(listBookmarkPost)) {
       const bookmark = listBookmarkPost.find(
@@ -67,8 +82,10 @@ const PostDetail = (props) => {
     return false;
   };
   const isLike =
-    userId && listReactionPost
-      ? listReactionPost.some((reaction) => reaction.accountId === userId)
+    accountProfile?.data?.id && listReactionPost
+      ? listReactionPost.some(
+          (reaction) => reaction.accountId === accountProfile?.data?.id
+        )
       : false;
   const isFollow = (accountId) => {
     if (listFollowingPerson && Array.isArray(listFollowingPerson)) {
@@ -84,7 +101,7 @@ const PostDetail = (props) => {
     <div className="flex flex-col items-start xl:gap-6 gap-6 p-6 pt-3  rounded-[24px] w-full  bg-[#FFF8F8] cursor-pointer">
       <div className="flex flex-row items-start self-stretch gap-2">
         <div className="w-10 h-10">
-          <AvtUser imageUrl="https://icdn.dantri.com.vn/thumb_w/640/2019/01/20/2-1547917870331.jpg" />
+          <AvtUser imageUrl={props.avatar} />
         </div>
         <HeaderPost
           {...props}
@@ -154,5 +171,7 @@ PostDetail.propTypes = {
   createdAt: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
+  idowner: PropTypes.any.isRequired,
+  kindPost: PropTypes.string.isRequired,
 };
 export default PostDetail;

@@ -1,11 +1,11 @@
 import { Avatar, Input } from "antd";
 import { ILocalArrowRight } from "../svg/arrow_right";
-import useComment from "../../hooks/useComment";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { ILocalArrowComment } from "../svg/arrowcomment";
+import useCommentMutate from "../../hooks/useMutate/useCommentMutate";
 const CommentForm = (props) => {
-  const { createComment } = useComment(props.parentId, false);
+  const { createComment } = useCommentMutate(props.parentId);
   const [inputValue, setInputValue] = useState("");
   const handleCreateComment = (values) => {
     const parentId = props.parentId ? props.parentId : "";

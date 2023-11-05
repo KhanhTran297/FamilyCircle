@@ -7,20 +7,20 @@ import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import ChildComment from "./ChildComment";
 import TextArea from "antd/es/input/TextArea";
-import { set } from "react-hook-form";
+import useCommentMutate from "../../hooks/useMutate/useCommentMutate";
 
 const Comment = (props) => {
   const { data } = props;
   const [active, setActive] = useState(false);
-
   const [showReply, setShowReply] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const location = useLocation();
   const parts = location.pathname.split("/");
   const postDetailId = parts[parts.length - 1];
-  const { listChildComment, editComment } = useComment(data.id, false);
+  const { listChildComment } = useComment(data.id, false);
+  const { editComment } = useCommentMutate(data.id, null);
   const handleEdit = async (values) => {
-    await editComment({
+    editComment({
       id: data.id,
       commentContent: values.target.value,
     }).then(() => {
@@ -78,6 +78,7 @@ const Comment = (props) => {
           {listChildComment?.data?.content?.map((comment, index, array) => (
             <ChildComment
               key={comment.id}
+              parentId={data.id}
               data={comment}
               eventReply={handleActiveReply}
               depth={2}

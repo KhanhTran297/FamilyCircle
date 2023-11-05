@@ -10,23 +10,30 @@ import { useMutation } from "@tanstack/react-query";
 import { editCommentApi } from "../../api/comment";
 
 const CommentRight = (props) => {
-  const { data, eventReply, countComment, eventShowReply, root, eventEdit } =
-    props;
+  const {
+    data,
+    eventReply,
+    countComment,
+    eventShowReply,
+    root,
+    eventEdit,
+    parentId,
+  } = props;
   const [isEditing, setIsEditing] = useState(false);
-  const { editComment } = useComment(data.id, false);
+  // const { editComment } = useComment(data.id, false);
 
-  const handleSetEdit = () => {
-    setIsEditing(!isEditing);
-  };
+  // const handleSetEdit = () => {
+  //   setIsEditing(!isEditing);
+  // };
 
-  const handleEdit = async (values) => {
-    await editComment({
-      id: data.id,
-      commentContent: values.target.value,
-    }).then(() => {
-      setIsEditing(false);
-    });
-  };
+  // const handleEdit = async (values) => {
+  //   await editComment({
+  //     id: data.id,
+  //     commentContent: values.target.value,
+  //   }).then(() => {
+  //     setIsEditing(false);
+  //   });
+  // };
 
   return (
     <div className="xl:flex xl:flex-row gap-2 flex-1">
@@ -58,6 +65,7 @@ const CommentRight = (props) => {
           eventReply={eventReply}
           eventShowReply={eventShowReply}
           data={data}
+          parentId={parentId}
           countComment={countComment}
           root={root}
         />
@@ -65,6 +73,7 @@ const CommentRight = (props) => {
       <CommentSetting
         commentId={data.id}
         data={data}
+        parentId={parentId}
         eventEditing={eventEdit}
       />
     </div>

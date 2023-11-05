@@ -33,6 +33,7 @@ export default {
         buttonHoverDark: "rgba(255, 175, 213, 0.08)",
         bgAuthenPage: "linear-gradient(180deg, #FC3872 0%, #75D3FB 100%)",
         buttonSubmit: "var(--light-primary-primary, #A73574)",
+        bgErrorButton: "rgba(186, 26, 26, 0.08)",
       },
       fontFamily: {
         roboto: ["Roboto", "sans"],
