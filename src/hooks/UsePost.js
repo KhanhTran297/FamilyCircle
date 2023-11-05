@@ -4,7 +4,6 @@ import {
   approvePostApi,
   createPostApi,
   deletePostApi,
-  getListPostAccountApi,
   getListPostAccountFollowingApi,
   getListPostExpertFollowingApi,
   getInfinitiePostByIdApi,
@@ -16,7 +15,7 @@ import {
   updatePostApi,
 } from "../api/post";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
-import { setListPost, setPostId } from "../redux/slice/post";
+import { setListPost } from "../redux/slice/post";
 import { message } from "antd";
 import { useParams } from "react-router-dom";
 function UsePost(statusPost, sizelist, page) {
@@ -36,12 +35,12 @@ function UsePost(statusPost, sizelist, page) {
     queryKey: ["listPost"],
     queryFn: () => getListPostApi(statusPost, sizelist, page),
     enabled: true,
+    retry: 0,
     onSuccess: (listPost) => {
       dispatch(setListPost(listPost.data));
     },
   });
 
-  const postId = useSelector((state) => state.post.postId);
   const {
     data: listPostExpert,
     refetch: getListPostExpert,
@@ -274,10 +273,6 @@ function UsePost(statusPost, sizelist, page) {
     },
   });
 
-
-
-
-  
   return {
     post,
     getPost,

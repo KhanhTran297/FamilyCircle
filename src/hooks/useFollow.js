@@ -1,65 +1,57 @@
-
-import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  getFollowApi,
-  getListFollowingApi,
-  getUnfollowApi,
-  createFollowApi
-} from "../api/follow";
-import UsePost from "./UsePost";
-import { message } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import { getListFollowingApi } from "../api/follow";
 
 function useFollow(id) {
-  const { getListPostAccountFollowing, getListPostExpertFollowing } = UsePost();
+  // const { getListPostAccountFollowing, getListPostExpertFollowing } = UsePost();
   const { data: listFollowing, refetch: getListFollowing } = useQuery({
     queryKey: ["listFollowing"],
     queryFn: getListFollowingApi,
   });
 
-  const { mutate: getFollow } = useMutation({
-    mutationFn: getFollowApi,
-    onSuccess: (respone) => {
-      if (respone.result) {
-        getListFollowing();
-        getListPostAccountFollowing();
-        getListPostExpertFollowing();
-      } else {
-        // useError("Create post fail!");
-      }
-    },
-    onError: () => {
-      // useError("Save fail!!!!");
-    },
-  });
-  const { mutate: getUnfollow } = useMutation({
-    mutationFn: getUnfollowApi,
-    onSuccess: (respone) => {
-      if (respone.result) {
-        getListFollowing();
-        getListPostAccountFollowing();
-        getListPostExpertFollowing();
-      } else {
-        // useError("Create post fail!");
-      }
-    },
-    onError: () => {
-      // useError("Save fail!!!!");
+  // const { mutate: getFollow } = useMutation({
+  //   mutationFn: getFollowApi,
+  //   onSuccess: (respone) => {
+  //     if (respone.result) {
+  //       getListFollowing();
+  //       getListPostAccountFollowing();
+  //       getListPostExpertFollowing();
+  //     } else {
+  //       // useError("Create post fail!");
+  //     }
+  //   },
+  //   onError: () => {
+  //     // useError("Save fail!!!!");
+  //   },
+  // });
+  // const { mutate: getUnfollow } = useMutation({
+  //   mutationFn: getUnfollowApi,
+  //   onSuccess: (respone) => {
+  //     if (respone.result) {
+  //       getListFollowing();
+  //       getListPostAccountFollowing();
+  //       getListPostExpertFollowing();
+  //     } else {
+  //       // useError("Create post fail!");
+  //     }
+  //   },
+  //   onError: () => {
+  //     // useError("Save fail!!!!");
 
-    },
-  });
-   const { mutateAsync: createFollow } = useMutation({
-    mutationFn: createFollowApi,
+  //   },
+  // });
+  //  const { mutateAsync: createFollow } = useMutation({
+  //   mutationFn: createFollowApi,
 
-    onSuccess: () => {
-      message.success("Follow successfully");
-    },
-  });
+  //   onSuccess: () => {
+  //     message.success("Follow successfully");
+  //   },
+  // });
   return {
     listFollowing,
     getListFollowing,
-    getFollow,
-    getUnfollow,
-    createFollow,
+    // getFollow,
+    // getUnfollow,
+    // createFollow,
   };
 }
 export default useFollow;
