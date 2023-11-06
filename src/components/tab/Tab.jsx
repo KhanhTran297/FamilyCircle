@@ -112,10 +112,10 @@ const Tab = (props) => {
                   {Array.isArray(page?.data?.content) && // Kiểm tra xem page.data là mảng
                     page?.data?.content
                       // .filter((post) => post.kind === 1)
-                      .map((post) => (
+                      .map((post,index) => (
                         // console.log(post.id),
                         <Post
-                          key={post.id}
+                          key={index}
                           id={post.id}
                           content={post.content}
                           fullname={post.owner.fullName}
@@ -183,10 +183,10 @@ const Tab = (props) => {
                   {Array.isArray(page.data.content) && // Kiểm tra xem page.data là mảng
                     page.data.content
                       // .filter((post) => post.kind === 1)
-                      .map((post) => (
+                      .map((post, index) => (
                         // console.log(post.id),
                         <Post
-                          key={post.id}
+                          key={index}
                           id={post.id}
                           content={post.content}
                           fullname={post.owner.fullName}
@@ -253,10 +253,10 @@ const Tab = (props) => {
                   {Array.isArray(page.data.content) && // Kiểm tra xem page.data là mảng
                     page.data.content
                       // .filter((post) => post.kind === 1)
-                      .map((post) => (
+                      .map((post, index) => (
                         // console.log(post.id),
                         <Post
-                          key={post.id}
+                          key={index}
                           id={post.id}
                           content={post.content}
                           fullname={post.owner.fullName}
@@ -322,10 +322,10 @@ const Tab = (props) => {
                   {Array.isArray(page.data.content) && // Kiểm tra xem page.data là mảng
                     page.data.content
                       // .filter((post) => post.kind === 1)
-                      .map((post) => (
+                      .map((post, index) => (
                         // console.log(post.id),
                         <Post
-                          key={post.id}
+                          key={index}
                           id={post.id}
                           content={post.content}
                           fullname={post.owner.fullName}

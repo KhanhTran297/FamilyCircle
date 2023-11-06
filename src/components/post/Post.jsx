@@ -145,12 +145,8 @@ const Post = (props) => {
   );
 };
 Post.propTypes = {
-  key: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  author: PropTypes.object.isRequired,
-  createdAt: PropTypes.string.isRequired,
-  likes: PropTypes.number.isRequired,
-  comments: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
+  content: PropTypes.string,
+  likes: PropTypes.number,
+  comments: PropTypes.number,
 };
 export default Post;

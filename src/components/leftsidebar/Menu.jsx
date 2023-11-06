@@ -30,7 +30,7 @@ const Menu = () => {
   };
   return (
     <nav className="fixed desktop:z-0 bottom-0 left-0 right-0 flex flex-row justify-around text-black dark:bg-[#000] desktop:border-y-0 desktop:flex-col desktop:top-0 desktop:left-0 desktop:relative shadow-mobile desktop:shadow-none desktop:w-[196px] bg-white">
-      <p
+      <button
         className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark "
         onClick={() => handleRouter("/index")}
       >
@@ -48,8 +48,8 @@ const Menu = () => {
         >
           Home
         </p>
-      </p>
-      <p
+      </button>
+      <button
         className="flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
         onClick={() => handleRouter("/forum")}
       >
@@ -67,8 +67,8 @@ const Menu = () => {
         >
           Forum
         </p>
-      </p>
-      <p
+      </button>
+      <button
         className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
         onClick={() => handleRouter("/notification")}
       >
@@ -86,8 +86,8 @@ const Menu = () => {
         >
           Notification
         </p>
-      </p>
-      <p
+      </button>
+      <button
         className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
         onClick={() => handleRouter("/message")}
       >
@@ -106,8 +106,8 @@ const Menu = () => {
           {" "}
           Message
         </p>
-      </p>
-      <p
+      </button>
+      <button
         className="hidden desktop:flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
         onClick={() => handleRouter("/bookmark")}
       >
@@ -125,8 +125,8 @@ const Menu = () => {
         >
           Bookmark
         </p>
-      </p>
-      <p
+      </button>
+      <button
         className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
         onClick={() => handleRouter(`/profile/${accountprofile?.data?.id}`)}
       >
@@ -144,7 +144,7 @@ const Menu = () => {
         >
           Profile
         </p>
-      </p>
+      </button>
     </nav>
   );
 };

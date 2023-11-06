@@ -84,7 +84,6 @@ const HeaderPost = (props) => {
     <Fragment>
       <CreatePostModal
         id={props.id}
-        //   avatar={userAccount.userAvatar}
         fullname={accountProfile?.data?.fullName}
         kind={accountProfile?.data?.kind}
         open={showCreatePost}
@@ -143,7 +142,7 @@ const HeaderPost = (props) => {
                 setShow(false);
               }}
             >
-              <ILocalEdit className="shrink-0 w-6 h-6" fill="#1F1A1C  " />
+              <ILocalEdit className="w-6 h-6 shrink-0" fill="#1F1A1C  " />
               <p className="text-sm font-medium font-roboto">Edit</p>
             </button>
             <button
@@ -154,7 +153,7 @@ const HeaderPost = (props) => {
               }}
             >
               <div className="w-6 h-6">
-                <ILocalDelete className=" shrink-0" fill="#1F1A1C  " />
+                <ILocalDelete className="w-6 h-6 shrink-0" fill="#1F1A1C  " />
               </div>
               <p className="text-sm font-medium font-roboto">Delete</p>
             </button>
@@ -237,12 +236,11 @@ const HeaderPost = (props) => {
   );
 };
 HeaderPost.propTypes = {
-  id: PropTypes.string.isRequired,
-  fullname: PropTypes.string.isRequired,
-  kind: PropTypes.number.isRequired,
-  createdDate: PropTypes.string.isRequired,
-  modifiedDate: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  deletePost: PropTypes.func.isRequired,
+  fullname: PropTypes.string,
+  kind: PropTypes.number,
+  createdDate: PropTypes.string,
+  modifiedDate: PropTypes.string,
+  content: PropTypes.string,
+  deletePost: PropTypes.func,
 };
 export default HeaderPost;

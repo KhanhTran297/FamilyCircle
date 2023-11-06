@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 export const ILocalLogo = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="full"
-    height="full"
+    width="75"
+    height="64"
     viewBox="0 0 75 64"
     fill="none"
     className={className}
