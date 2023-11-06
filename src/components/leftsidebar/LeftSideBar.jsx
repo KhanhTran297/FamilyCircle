@@ -14,7 +14,7 @@ const LeftSideBar = () => {
         shadow-mobile desktop:shadow-none bg-white z-10"
       >
         <div className="w-[46.337px] h-10 desktop:w-[74.139px] desktop:h-16 ml-4 desktop:ml-0 ">
-          <ILocalLogo />
+          <ILocalLogo className="w-[46.337px] h-10 desktop:w-[74.139px] desktop:h-16" />
         </div>
         <NewPost />
         <div className="h-[615px]">

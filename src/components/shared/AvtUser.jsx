@@ -19,6 +19,6 @@ const AvtUser = ({ imageUrl, ownerId }) => {
   );
 };
 AvtUser.propTypes = {
-  imageUrl: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string,
 };
 export default AvtUser;

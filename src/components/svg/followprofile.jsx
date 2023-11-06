@@ -3,8 +3,8 @@ export const ILocalFollowProfile = ({ fill, className }) => (
   <div className={className}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="full"
-      height="full"
+      width="18"
+      height="18"
       viewBox="0 0 18 18"
       fill="none"
     >

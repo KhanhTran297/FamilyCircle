@@ -233,11 +233,9 @@ const CreatePostModal = (props) => {
 CreatePostModal.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  avatar: PropTypes.string.isRequired,
-  fullname: PropTypes.string.isRequired,
-  kind: PropTypes.number.isRequired,
-  selectedKind: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  fullname: PropTypes.string,
+  kind: PropTypes.number,
+  selectedKind: PropTypes.string,
 };
 
 export default CreatePostModal;

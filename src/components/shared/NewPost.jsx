@@ -44,9 +44,8 @@ const NewPost = () => {
     setShow(false);
   };
   return (
-    <Fragment ref={nodeRef}>
+    <Fragment>
       <CreatePostModal
-        //   avatar={userAccount.userAvatar}
         fullname={accountProfile?.data?.fullName}
         kind={accountProfile?.data?.kind}
         open={showCreatePost}
@@ -54,7 +53,7 @@ const NewPost = () => {
         isUpdate={false}
         selectedKind={selectedKind} // Fixed: removed colon
       />
-      <button
+      <div
         className={` fixed bottom-[56px] right-0 m-4  desktop:m-0 desktop:top-0 z-auto desktop:left-0 desktop:relative   ${
           accountProfile?.data?.kind === 3
             ? "desktop:w-[164px]"
@@ -63,6 +62,7 @@ const NewPost = () => {
         {...(accountProfile?.data?.kind === 2
           ? { onClick: checkAccount }
           : { onClick: toggleDropdown })}
+        ref={nodeRef}
         // onClick={checkAccount}
       >
         <div
@@ -84,34 +84,34 @@ const NewPost = () => {
           </div>
 
           {accountProfile?.data?.kind === 3 ? (
-            <button
+            <div
               onClick={toggleDropdown}
               className="hidden desktop:block"
               ref={nodeRef}
             >
               <ILocalArrowDropDown fill="#1F1F1F" />
-            </button>
+            </div>
           ) : (
             ""
           )}
         </div>
-      </button>
+      </div>
       {show && (
         <div className="fixed w-[176px]  z-50 bottom-[144px] right-6 desktop:right-auto desktop:top-[175px] h-[112px] py-2 rounded-lg shadow-modal inline-flex flex-col items-start bg-[#FFF] transition-all   ">
-          <button
+          <div
             onClick={() => handleOptionClick("1")}
             className="flex flex-row items-center w-full h-12 gap-4 px-4 hover:bg-menuOption"
           >
             <ILocalHome fill={textColor} />
             <p className="text-sm font-medium font-roboto">Post to Home</p>
-          </button>
-          <button
+          </div>
+          <div
             className="flex flex-row items-center w-full h-12 gap-4 px-4 hover:bg-menuOption"
             onClick={() => handleOptionClick("2")}
           >
             <ILocalForum fill={textColor} />
             <p className="text-sm font-medium font-roboto ">Post to Forum</p>
-          </button>
+          </div>
         </div>
       )}
     </Fragment>
