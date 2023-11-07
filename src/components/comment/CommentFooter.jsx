@@ -20,7 +20,6 @@ const CommentFooter = ({
   const handleReactComment = () => {
     reactcomment({ commentId: data?.id, kind: 1 });
   };
-
   const checkReact = () => {
     // if (profileAccount) {
     //   const check = data.commentReactions?.filter(
@@ -70,7 +69,9 @@ const CommentFooter = ({
         <IconFooter
           count={countComment || 0}
           check={true}
-          handleClick={() => eventShowReply()}
+          handleClick={() => {
+            countComment && eventShowReply();
+          }}
         >
           <ILocalComment fill="#A73574" width={24} height={24} className="" />
         </IconFooter>

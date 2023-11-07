@@ -1,10 +1,11 @@
 import { ILocalDelete } from "../svg/delete";
 import ReadMoreReadLess from "../shared/ReadMoreReadLess";
 import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
+import { useNavigate } from "react-router-dom";
 
 const BookmarkPost = (props) => {
   const { getBookmark } = useBookmarkMutate();
-
+  const navigate = useNavigate();
   const extractImageUrl = (htmlContent) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
@@ -23,7 +24,10 @@ const BookmarkPost = (props) => {
     getBookmark(data);
   };
   return (
-    <div className="flex flex-row items-start self-stretch w-full gap-6 ">
+    <div
+      onClick={() => navigate(`/post/${props.idpost}`)}
+      className="flex flex-row items-start self-stretch w-full gap-6 cursor-pointer "
+    >
       <div className="w-[144px] h-[144px]  rounded-2xl">
         <div
           style={{

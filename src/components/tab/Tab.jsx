@@ -112,7 +112,7 @@ const Tab = (props) => {
                   {Array.isArray(page?.data?.content) && // Kiểm tra xem page.data là mảng
                     page?.data?.content
                       // .filter((post) => post.kind === 1)
-                      .map((post,index) => (
+                      .map((post, index) => (
                         // console.log(post.id),
                         <Post
                           key={index}
@@ -265,6 +265,7 @@ const Tab = (props) => {
                           createdDate={post.createdDate}
                           idowner={post.owner.id}
                           kindPost={post.kind}
+                          avatar={post.owner.avatar}
                         />
                       ))}
                 </div>

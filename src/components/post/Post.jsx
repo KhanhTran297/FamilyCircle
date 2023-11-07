@@ -123,8 +123,11 @@ const Post = (props) => {
           )}
         </div>
         {props.content.length > limit ? (
-          <div className="flex flex-col items-center justify-center self-stretch gap-[10px] cursor-pointer">
-            <button className="cursor-pointer flex h-10 gap-[7px] bg-[#A73574] rounded-[36px] px-4 flex-row items-center">
+          <div
+            onClick={() => navigate(`/post/${props.id}`)}
+            className="flex flex-col items-center justify-center self-stretch gap-[10px] cursor-pointer"
+          >
+            <button className="cursor-pointer flex h-10 gap-[7px] bg-[#A73574] rounded-[36px] px-4 flex-row items-center hover:bg-bgViewmore hover:shadow-buttonHover">
               <ILocalViewMore fill="#FFF8F8" />
               <p className="font-roboto text-[#FFF] text-sm font-medium">
                 View more

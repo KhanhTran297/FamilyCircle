@@ -22,8 +22,12 @@ function usePostMutate() {
           }
           if (accountProfile?.data?.kind === 2) {
             queryClient.invalidateQueries(["listPostUserAccounts"]);
+            queryClient.invalidateQueries(["listPostAccountFollowing"]);
           } else {
             queryClient.invalidateQueries(["listPostExpert"]);
+            queryClient.invalidateQueries(["listPostUserAccounts"]);
+            queryClient.invalidateQueries(["listPostAccountFollowing"]);
+            queryClient.invalidateQueries(["listPostExpertFollowing"]);
           }
         }
         // useSuccess("Delete post success!");
@@ -41,8 +45,12 @@ function usePostMutate() {
       if (respone.result) {
         if (accountProfile?.data?.kind === 2) {
           queryClient.invalidateQueries(["listPostUserAccounts"]);
+          queryClient.invalidateQueries(["listPostAccountFollowing"]);
         } else {
           queryClient.invalidateQueries(["listPostExpert"]);
+          queryClient.invalidateQueries(["listPostUserAccounts"]);
+          queryClient.invalidateQueries(["listPostAccountFollowing"]);
+          queryClient.invalidateQueries(["listPostExpertFollowing"]);
         }
       } else {
         // useError("Create post fail!");
@@ -63,8 +71,12 @@ function usePostMutate() {
         }
         if (accountProfile?.data?.kind === 2) {
           queryClient.invalidateQueries(["listPostUserAccounts"]);
+          queryClient.invalidateQueries(["listPostAccountFollowing"]);
         } else {
           queryClient.invalidateQueries(["listPostExpert"]);
+          queryClient.invalidateQueries(["listPostUserAccounts"]);
+          queryClient.invalidateQueries(["listPostAccountFollowing"]);
+          queryClient.invalidateQueries(["listPostExpertFollowing"]);
         }
       } else {
         // useError("Update post fail!");
