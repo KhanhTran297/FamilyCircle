@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 const TabAbout = () => {
-  const { profileId } = useSearchParams();
+  const { profileId } = useParams();
   const accountProfile = useGetFetchQuery(["accountProfile", profileId]);
   const handleConvertTime = (date) => {
     const rawtime = dayjs(date, "DD/MM/YYYY");

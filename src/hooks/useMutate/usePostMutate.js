@@ -13,7 +13,12 @@ function usePostMutate() {
       if (respone.result) {
         if (respone.result) {
           {
-            profileId && queryClient.invalidateQueries(["listOwnPost"]);
+            profileId &&
+              queryClient.invalidateQueries([
+                "listOwnPostinfinitie",
+                profileId,
+              ]);
+            queryClient.invalidateQueries(["listOwnPost", profileId]);
           }
           if (accountProfile?.data?.kind === 2) {
             queryClient.invalidateQueries(["listPostUserAccounts"]);
@@ -52,7 +57,9 @@ function usePostMutate() {
     onSuccess: (respone) => {
       if (respone.result) {
         {
-          profileId && queryClient.invalidateQueries(["listOwnPost"]);
+          profileId &&
+            queryClient.invalidateQueries(["listOwnPost", profileId]);
+          queryClient.invalidateQueries(["listOwnPostinfinitie", profileId]);
         }
         if (accountProfile?.data?.kind === 2) {
           queryClient.invalidateQueries(["listPostUserAccounts"]);
