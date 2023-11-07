@@ -33,7 +33,7 @@ const ChildComment = (props) => {
           <div className=" w-[1px] bg-[#F1DEE4] h-full"></div>
         )}
       </div>
-      <CommentLeft img={data?.owner?.avtar} root={false} />
+      <CommentLeft img={data?.owner?.avatar} root={false} />
       {isEditing ? (
         <div className=" w-full pb-4">
           <TextArea

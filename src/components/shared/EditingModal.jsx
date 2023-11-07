@@ -22,7 +22,7 @@ const EditingModal = ({
     avatarPath: accountProfile?.data?.avatar,
     bio: accountProfile?.data?.bio,
     dateOfBirth: accountProfile?.data?.dateOfBirth,
-    fullName: accountProfile?.data?.fullname,
+    fullName: accountProfile?.data?.fullName,
     phone: accountProfile?.data?.phone,
   };
   const queryClient = useQueryClient();

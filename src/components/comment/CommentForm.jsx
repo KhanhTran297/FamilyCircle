@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { ILocalArrowComment } from "../svg/arrowcomment";
 import useCommentMutate from "../../hooks/useMutate/useCommentMutate";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 const CommentForm = (props) => {
   const { createComment } = useCommentMutate(props.parentId);
+  const accountProfile = useGetFetchQuery(["accountProfile"]);
   const [inputValue, setInputValue] = useState("");
   const handleCreateComment = (values) => {
     const parentId = props.parentId ? props.parentId : "";
@@ -31,7 +33,7 @@ const CommentForm = (props) => {
 
       <div className="">
         <Avatar
-          src="https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_tB5idnWvVj.jpg"
+          src={accountProfile?.data?.avatar}
           className=" xl:w-10 xl:h-10 xl:rounded-[40px]"
         />
       </div>

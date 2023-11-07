@@ -36,11 +36,12 @@ const Comment = (props) => {
   const handleSetEdit = () => {
     setIsEditing(true);
   };
+
   return (
     <div className={`xl:flex xl:flex-col  overflow-x-hidden `}>
       <div className=" flex flex-row gap-2 overflow-x-hidden">
         <CommentLeft
-          img={data?.owner?.avtar}
+          img={data?.owner?.avatar}
           root={true}
           showReply={showReply}
           activeCol={active}
