@@ -227,15 +227,6 @@ const BodyProfile = () => {
                 </p>
               </div>
             )}
-            {/* <div
-              onClick={() => createFollow({ accountId: profileId })}
-              className=" flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] bg-button-submit-light hover:bg-button-hover-light cursor-pointer hover:shadow-buttonHover"
-            >
-              <ILocalFollowProfile className=" w-[18px] h-[18px]" />
-              <p className=" text-[#fff] font-roboto text-sm font-medium ">
-                Follow
-              </p>
-            </div> */}
           </div>
         )}
       </div>
@@ -266,7 +257,9 @@ const BodyProfile = () => {
             {listFollowing?.data?.totalElements}
           </p>
           <p className=" text-sm text-light_surface_on_surface font-roboto font-normal">
-            followings
+            {listFollowing?.data?.totalElements <= 1
+              ? "following"
+              : "followings"}
           </p>
         </div>
         <div className=" w-[1px] h-5 bg-[#F1DEE4]"></div>
@@ -275,7 +268,7 @@ const BodyProfile = () => {
             {listFollower?.data?.totalElements}
           </p>
           <p className=" text-sm text-light_surface_on_surface font-roboto font-normal">
-            followers
+            {listFollower?.data?.totalElements <= 1 ? "follower" : "followers"}
           </p>
         </div>
       </div>

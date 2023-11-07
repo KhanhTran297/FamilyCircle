@@ -42,7 +42,9 @@ const ProfilePage = () => {
             {accountProfile?.data?.fullName}
           </p>
           <p className=" font-roboto text-sm font-normal text-light_surface_on_surface">
-            {listOwnPost?.data?.totalElements} posts
+            {listOwnPost?.data?.totalElements <= 1
+              ? `${listOwnPost?.data?.totalElements} post`
+              : `${listOwnPost?.data?.totalElements} posts`}
           </p>
         </div>
       </div>
