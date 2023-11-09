@@ -4,10 +4,12 @@ import SubmitButton from "../../components/shared/SubmitButton";
 import { ILocalLogo } from "../../components/svg/svg";
 import { ILocalKey } from "../../components/svg/key";
 import { ILocalMail } from "../../components/svg/mail";
-import { ILocalGoogle } from "../../components/svg/google";
 import useAccountMutate from "../../hooks/useMutate/useAccountMutate";
+import { useGoogleLogin } from "@react-oauth/google";
+import { ILocalGoogle } from "../../components/svg/google";
+import axios from "axios";
 const LoginPage = () => {
-  const { handleLogin } = useAccountMutate();
+  const { handleLogin, handleLoginGoogle } = useAccountMutate();
   const navigate = useNavigate();
   const onFinish = (values) => {
     const newValues = {
@@ -20,7 +22,35 @@ const LoginPage = () => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const data = await axios
+          .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+            headers: {
+              Authorization: `Bearer ${tokenResponse.access_token}`,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            const content = {
+              grant_type: "google",
+              google: `{"sub":"${res.data.sub}","name": "${res.data.name}", "email": "${res.data.email}", "picture":"${res.data.picture}"}`,
+            };
+            console.log(content);
+            handleLoginGoogle(content);
+          });
+
+        // console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    onError: (errorResponse) => console.log(errorResponse),
+  });
   const [form] = Form.useForm();
+
   return (
     <div className=" absolute h-full w-full bg-authen-page dark:bg-black flex justify-center pt-16">
       <div className="flex flex-col shadow-formAuthen justify-evenly gap-6 md:bg-primary md:p-8 md:rounded-2xl xl:bg-white  lg:bg-white lg:w-[500px] lg:p-8 lg:rounded-2xl xl:w-[640px] xl:h-max xl:p-6 xl:gap-6 xl:rounded-2xl lg:dark:bg-white md:dark:bg-white">
@@ -134,11 +164,26 @@ const LoginPage = () => {
             </div>
             <div className=" mr-[27px] w-full h-[1px] bg-[#F1DEE4]"></div>
           </div>
-          <div className=" hover:bg-secondary  flex flex-row gap-[7px] cursor-pointer content-center items-center justify-center place-items-center xl:h-[40px] xl:pt-0 xl:pb-0 xl:pl-4 xl:pr-4 self-stretch rounded-[36px] border-[1px] border-solid border-button-submit-light ">
+          <div
+            onClick={() => googleLogin()}
+            className=" hover:bg-secondary  flex flex-row gap-[7px] cursor-pointer content-center items-center justify-center place-items-center xl:h-[40px] xl:pt-0 xl:pb-0 xl:pl-4 xl:pr-4 self-stretch rounded-[36px] border-[1px] border-solid border-button-submit-light "
+          >
+            {" "}
             <ILocalGoogle className="w-[18px] h-[18px] content-center" />
             <p className=" font-roboto text-[14px] font-medium leading-5 text-button-submit-light flex content-center">
               Continue with Google
             </p>
+            {/* <GoogleOAuthProvider clientId="988889415719-oogj3aqv6nlpdaj1mpn9sb0rjvtlakco.apps.googleusercontent.com">
+            <GoogleLogin
+              onSuccess={(credentialRespone) => {
+                const details = jwtDecode(credentialRespone.credential);
+                console.log(details);
+              }}
+              onError={() => {
+                console.log("login fail");
+              }}
+            ></GoogleLogin>
+          </GoogleOAuthProvider> */}
           </div>
           <div className="flex flex-row gap-6 justify-center items-center">
             <div className=" ml-[27px] w-1/2 h-[1px] bg-[#F1DEE4]"></div>
