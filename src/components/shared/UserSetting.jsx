@@ -42,7 +42,10 @@ const UserSetting = () => {
   const textColor = theme === "dark" ? "#CEC4C6" : "#1F1A1C";
   return (
     <div className="items-center self-stretch hidden gap-2 desktop:flex">
-      <AvtUser imageUrl={accountProfile?.data?.avatar} />
+      <AvtUser
+        imageUrl={accountProfile?.data?.avatar}
+        ownerId={accountProfile?.data?.id}
+      />
       <div className="desktop:h-9 desktop:w-[136px]">
         <p className="text-[#1F1A1C] font-medium items-center text-sm dark:text-[#CEC4C6] font-roboto">
           {/* {userAccount?.userFullName || userExpert?.expertFullName} */}
