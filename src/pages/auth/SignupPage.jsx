@@ -1,7 +1,6 @@
 import { DatePicker, Form, Input, message } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import useAccount from "../../hooks/useAccount";
 import SubmitButton from "../../components/shared/SubmitButton";
 import { ILocalLogo } from "../../components/svg/svg";
 import { ILocalArrowLeft } from "../../components/svg/arrow_left";
@@ -10,11 +9,12 @@ import { ILocalMail } from "../../components/svg/mail";
 import { ILocalPhone } from "../../components/svg/phone";
 import { ILocalCalender } from "../../components/svg/calender";
 import { ILocalKey } from "../../components/svg/key";
+import useAccountMutate from "../../hooks/useMutate/useAccountMutate";
 
 const SignupPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const { authSignup } = useAccount();
+  const { authSignup } = useAccountMutate();
   const onFinish = async (values) => {
     const formatUserDayOfBirth = dayjs(values.dateOfBirth["$d"]).format(
       "DD/MM/YYYY HH:mm:ss"

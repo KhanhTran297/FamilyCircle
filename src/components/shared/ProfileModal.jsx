@@ -39,7 +39,7 @@ const ProfileModal = ({ handleCancel, handleOpenEditingModal }) => {
             Bio
           </p>
           <p className=" text-light_surface_on_surface font-roboto text-sm font-normal">
-            {accountProfile?.data?.bio}
+            {accountProfile?.data?.bio || "N/A"}
           </p>
         </div>
         <div
@@ -58,7 +58,10 @@ const ProfileModal = ({ handleCancel, handleOpenEditingModal }) => {
             Date of Birth
           </p>
           <p className=" text-light_surface_on_surface font-roboto text-sm font-normal">
-            {handleConvertTime(accountProfile?.data?.dateOfBirth)}
+            {handleConvertTime(accountProfile?.data?.dateOfBirth) ===
+            "Invalid Date"
+              ? "N/A"
+              : handleConvertTime(accountProfile?.data?.dateOfBirth)}
           </p>
         </div>
         <div
@@ -79,7 +82,7 @@ const ProfileModal = ({ handleCancel, handleOpenEditingModal }) => {
             Phone
           </p>
           <p className=" text-light_surface_on_surface font-roboto text-sm font-normal">
-            {accountProfile?.data?.phone}
+            {accountProfile?.data?.phone || "N/A"}
           </p>
         </div>
         <div

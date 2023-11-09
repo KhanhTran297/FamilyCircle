@@ -30,7 +30,7 @@ function UseCookie() {
 
   //------------------------- Co refreshToken--------------------
   const saveToken = (access_token, refresh_token) => {
-    if (access_token && refresh_token) {
+    if (access_token || refresh_token) {
       Cookies.set("accessToken", access_token, {
         ...objCookies,
       });

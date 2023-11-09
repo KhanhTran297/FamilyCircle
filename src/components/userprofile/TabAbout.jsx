@@ -25,7 +25,10 @@ const TabAbout = () => {
           Date of birth
         </p>
         <p className=" text-light_surface_on_surface text-sm font-medium font-roboto">
-          {handleConvertTime(accountProfile?.data?.dateOfBirth)}
+          {handleConvertTime(accountProfile?.data?.dateOfBirth) ===
+          "Invalid Date"
+            ? "N/A"
+            : handleConvertTime(accountProfile?.data?.dateOfBirth)}
         </p>
       </div>
       <div className="flex items-start">
@@ -33,7 +36,7 @@ const TabAbout = () => {
           Phone number
         </p>
         <p className=" text-light_surface_on_surface text-sm font-medium font-roboto">
-          {accountProfile?.data?.phone}
+          {accountProfile?.data?.phone || "N/A"}
         </p>
       </div>
     </div>

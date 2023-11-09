@@ -153,6 +153,42 @@ function UseCallApi() {
       );
     return usedPost();
   };
-  return { UseGet, UsePost, UseDelete, UseEdit, UsePostFile };
+  const UsePostGoogle = ({
+    url = "",
+    params = {},
+    headers = {},
+    requiredToken = false,
+    type = "",
+  } = {}) => {
+    // Get all header
+    let fullHeader = { ...headers };
+    // If required TOKEN -> Get Access Token from Cookies
+    // console.log("requireToken post", requiredToken);
+    const Username = "google";
+    const Password = "abc123";
+    const credentials = `${Username}:${Password}`;
+    // Mã hóa thành base64
+    const credentialsBase64 = btoa(credentials);
+    {
+      type === "basicAuth"
+        ? (fullHeader["Authorization"] = `Basic ${credentialsBase64}`)
+        : requiredToken &&
+          (fullHeader["Authorization"] = `Bearer ${getToken().access_token}`);
+    }
+
+    const usedPost = () =>
+      instance.post(
+        url,
+        { ...params },
+        {
+          headers: {
+            ...instance.defaults.headers,
+            ...fullHeader,
+          },
+        }
+      );
+    return usedPost();
+  };
+  return { UseGet, UsePost, UseDelete, UseEdit, UsePostFile, UsePostGoogle };
 }
 export default UseCallApi;

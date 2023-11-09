@@ -112,7 +112,7 @@ function useAccount(id) {
     mutationFn: SignUpApi,
     onSuccess: (data) => {
       {
-        data.code == "ERROR-ACCOUNT-0000"
+        data.code == "ERROR-ACCOUNT-000"
           ? message.error("email exist")
           : navigate("/");
       }
