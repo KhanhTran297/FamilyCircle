@@ -1,23 +1,28 @@
 import { useState } from "react";
-import useComment from "../../hooks/useComment";
 import CommentForm from "./CommentForm";
 import CommentLeft from "./CommentLeft";
 import CommentRight from "./CommentRight";
 import PropTypes from "prop-types";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ChildComment from "./ChildComment";
 import TextArea from "antd/es/input/TextArea";
 import useCommentMutate from "../../hooks/useMutate/useCommentMutate";
+import { useQuery } from "@tanstack/react-query";
+import { getListChildCommentApi } from "../../api/comment";
 
 const Comment = (props) => {
   const { data } = props;
+  const { id } = useParams();
   const [active, setActive] = useState(false);
   const [showReply, setShowReply] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const location = useLocation();
   const parts = location.pathname.split("/");
   const postDetailId = parts[parts.length - 1];
-  const { listChildComment } = useComment(data.id, false);
+  const { data: listChildComment } = useQuery({
+    queryKey: ["listChildComment", data.id],
+    queryFn: () => getListChildCommentApi(id, data.id),
+  });
   const { editComment } = useCommentMutate(data.id, null);
   const handleEdit = async (values) => {
     editComment({
@@ -27,6 +32,7 @@ const Comment = (props) => {
       setIsEditing(false);
     });
   };
+
   const handleActiveReply = () => {
     setActive(!active);
   };
@@ -36,7 +42,7 @@ const Comment = (props) => {
   const handleSetEdit = () => {
     setIsEditing(true);
   };
-
+  // setCountComments(count + listChildComment?.data?.content?.length);
   return (
     <div className={`xl:flex xl:flex-col  overflow-x-hidden `}>
       <div className=" flex flex-row gap-2 overflow-x-hidden">

@@ -1,7 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createPostApi, deletePostApi, updatePostApi } from "../../api/post";
+import {
+  approvePostApi,
+  createPostApi,
+  deletePostApi,
+  rejectPostApi,
+  updatePostApi,
+} from "../../api/post";
 import { useGetFetchQuery } from "../useGetFetchQuery";
 import { useParams } from "react-router-dom";
+import { message } from "antd";
 
 function usePostMutate() {
   const queryClient = useQueryClient();
@@ -86,10 +93,33 @@ function usePostMutate() {
       // useError("Save fail!!!!");
     },
   });
+  const { mutateAsync: approvePost, isLoading: loadingApprove } = useMutation({
+    mutationFn: approvePostApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["listPost"]);
+      message.success("Approve post success!");
+    },
+    onError: () => {
+      message.error("Approve post fail!");
+    },
+  });
+  //rejectPost
+  const { mutateAsync: rejectPost, isLoading: loadingReject } = useMutation({
+    mutationFn: rejectPostApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["listPost"]);
+      message.success("Reject post success!");
+    },
+    onError: () => {
+      message.error("Reject post fail!");
+    },
+  });
   return {
+    rejectPost,
     deletePost,
     createPost,
     updatePost,
+    approvePost,
   };
 }
 export default usePostMutate;
