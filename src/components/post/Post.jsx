@@ -1,6 +1,5 @@
 // import useTheme from "../../hooks/useTheme";
 import PropTypes from "prop-types";
-
 import { useNavigate } from "react-router-dom";
 import AvtUser from "../shared/AvtUser";
 import { ILocalViewMore } from "../svg/viewmore";

@@ -6,7 +6,7 @@ import { ILocalArrowComment } from "../svg/arrowcomment";
 import useCommentMutate from "../../hooks/useMutate/useCommentMutate";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 const CommentForm = (props) => {
-  const { createComment } = useCommentMutate(props.parentId);
+  const { createComment } = useCommentMutate(props.parentId, null);
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const [inputValue, setInputValue] = useState("");
   const handleCreateComment = (values) => {
