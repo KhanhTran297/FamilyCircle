@@ -3,7 +3,7 @@ import { Input } from "antd";
 const Right = () => {
   return (
     <div className=" flex flex-col items-start flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
-      <div className=" flex pt-3 pb-3 pl-4 pr-4 items-center self-stretch gap-2">
+      <div className=" flex pt-3 pb-3 pl-4 pr-4 items-center self-stretch gap-2 border-b border-solid border-b-[#F1DEE4]">
         <div className=" w-10 h-10 rounded-[20px]">
           <img
             src="https://i.pinimg.com/236x/18/28/2f/18282f404ea132c3423e4ac178259b7b.jpg"
