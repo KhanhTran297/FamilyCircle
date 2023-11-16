@@ -80,6 +80,10 @@ const HeaderPost = (props) => {
     setIsModalVisible(false);
   };
 
+  const handleDelete = () => {
+    props.onDelete();
+    setIsModalVisible(false);
+  };
   return (
     <Fragment>
       <CreatePostModal
@@ -223,7 +227,7 @@ const HeaderPost = (props) => {
           okText="Delete"
           okType="danger"
           className="publish"
-          onOk={props.onDelete}
+          onOk={handleDelete}
           style={{
             fontFamily: "Roboto, sans-serif",
           }}

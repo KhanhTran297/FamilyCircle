@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-export const ILocalEmptyHeart = ({ fill, className }) => (
+export const ILocalEmptyHeart = ({ fill, className, width, height }) => (
   <div className={className}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="19"
+      width={width || "20"}
+      height={height || "19"}
       viewBox="0 0 20 19"
       fill="none"
     >
