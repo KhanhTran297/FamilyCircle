@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import useFormField from "../../hooks/useFormField";
@@ -6,7 +6,6 @@ import useFormField from "../../hooks/useFormField";
 const QuillEditor = (props) => {
   const { rules } = useFormField(props);
   const { disabled, name, value, onChange } = props;
-
   const modules = {
     toolbar: [["image"]],
   };

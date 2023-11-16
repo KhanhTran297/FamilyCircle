@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import AvtUser from "../shared/AvtUser";
 import QuillEditor from "../shared/QuillEditor";
 import { useForm } from "react-hook-form";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Form, Modal } from "antd";
 import usePostMutate from "../../hooks/useMutate/usePostMutate";
 
@@ -12,44 +12,50 @@ const CreatePostModal = (props) => {
   const [isClosing, setIsClosing] = useState(false);
   const [contentError, setContentError] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tempContent, setTempContent] = useState("");
+  const { handleSubmit, reset, getValues, setValue } = useForm({
+    defaultValues: {
+      content: props?.content ? props.content : "",
+    },
+    mode: "onSubmit",
+  });
   const formRef = useRef();
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleClose = () => {
-    setIsClosing(true);
-    setIsModalOpen(false);
-    setTimeout(() => {
-      setIsClosing(false);
-      props.handleClose();
-    }, 300);
-    console.log("close");
-  };
-  const { handleSubmit, reset, getValues, setValue } = useForm({
-    defaultValues: {
-      content: props.content ?? "",
-    },
-    mode: "onSubmit",
-  });
-  const handleContentChange = (html) => {
-    const textOnlyContent = html.replace(/<[^>]*>/g, "");
 
-    if (!textOnlyContent.trim()) {
-      setContentError(true);
-    } else {
-      setContentError(false);
+  const handleContentChange = (html) => {
+    // console.log("HTML in handleContentChange:", html);
+    if (html !== undefined && html !== null) {
+      const textOnlyContent = html.replace(/<[^>]*>/g, "");
+
+      if (!textOnlyContent.trim()) {
+        setContentError(true);
+      } else {
+        setContentError(false);
+      }
+      setValue("content", html);
     }
-    setValue("content", html);
+    // console.log("getValues('content'):", getValues("content"));
+  };
+  const handleClose = () => {
+    if (!isClosing) {
+      setIsClosing(true);
+      setTimeout(() => {
+        props.handleClose();
+        setIsClosing(false);
+        setValue("content", tempContent); // Đặt lại giá trị của content
+        setContentError(true); // Đặt lại trạng thái contentError
+      }, 300);
+      console.log("close");
+    }
   };
 
   const handleCreatePost = (value) => {
-    console.log(props.selectedKind);
     if (props.kind === 2) {
       const data = { ...value, kind: 2, privacy: 1, status: 1 };
       createPost(data);
@@ -73,29 +79,44 @@ const CreatePostModal = (props) => {
         createPost(data);
       }
     }
-    reset();
-    handleClose();
   };
   const handleUpdatePost = (id, value) => {
     const data = { ...value, id: id };
+
     updatePost(data);
-    handleClose();
   };
   const onSubmit = (values) => {
-    if (contentError) {
+    if (contentError || isClosing) {
       return;
     }
     if (props.isUpdate === true) {
       const data = { ...values };
       handleUpdatePost(props.id, data);
+      handleClose();
+      setIsModalOpen(false);
     } else if (props.isUpdate === false && props.kind === 2) {
       const data = { ...values, kind: 2, privacy: 1 };
       handleCreatePost(data);
+
+      handleClose();
+      setIsModalOpen(false);
+      reset();
     } else if (props.isUpdate === false && props.kind === 3) {
       const data = { ...values, kind: props.selectedKind, privacy: 1 };
       handleCreatePost(data);
+      handleClose();
+      setIsModalOpen(false);
+      reset();
     }
   };
+  useEffect(() => {
+    setValue("content", props?.content || "");
+  }, [props?.content]);
+  useEffect(() => {
+    if (props.open) {
+      setTempContent(getValues("content"));
+    }
+  }, [props.open, getValues]);
 
   if (typeof document === "undefined")
     return <div className="createpostdetail"></div>;
@@ -105,10 +126,7 @@ const CreatePostModal = (props) => {
         props.open ? " " : "invisible opacity-0"
       } `}
     >
-      <div
-        className="absolute inset-0 bg-modal"
-        onClick={props.handleClose}
-      ></div>
+      <div className="absolute inset-0 bg-modal" onClick={handleClose}></div>
       {/* <div className="relative z-10 w-full bg-white p-6 modal-content max-w-[650px] h-[720px]">
         <div className="flex flex-col py-6 items-center gap-[10px] self-stretch bg-[#FFF8F8] rounded-tl-3xl rounded-tr-3xl desktop:hidden">
           <div className="w-8 h-1 bg-[#504348] bg-opacity-40 rounded-[2px]"></div>
@@ -176,7 +194,7 @@ const CreatePostModal = (props) => {
               <div className="fixed z-50 flex items-center self-end  gap-2 mt-3 bottom-3 desktop:bottom-auto desktop:mt-0  right-6 desktop:right-0 desktop:top-[0.5px] desktop:items-start desktop:absolute ">
                 <button
                   className="flex items-center h-10 px-3 rounded-[36px] hover:bg-buttonHoverLight"
-                  onClick={() => handleClose()}
+                  onClick={handleClose}
                 >
                   <p className="text-sm font-medium font-roboto text-[#A73574] ">
                     Cancel
