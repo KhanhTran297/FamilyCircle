@@ -14,7 +14,7 @@ import useAccountMutate from "../../hooks/useMutate/useAccountMutate";
 const SignupPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const { authSignup } = useAccountMutate();
+  const { authSignup, loadingSignup } = useAccountMutate();
   const onFinish = async (values) => {
     const formatUserDayOfBirth = dayjs(values.dateOfBirth["$d"]).format(
       "DD/MM/YYYY HH:mm:ss"
@@ -192,38 +192,6 @@ const SignupPage = () => {
               />
             </Form.Item>
 
-            {/* <Form.Item
-              hasFeedback
-              name="dateOfBirth"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your date of birth!",
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    const selectedDate = dayjs(value);
-                    const currentDate = dayjs();
-
-                    if (selectedDate.isBefore(currentDate)) {
-                      return Promise.resolve();
-                    }
-
-                    return Promise.reject(
-                      "Please select a valid date of birth!"
-                    );
-                  },
-                }),
-              ]}
-              className="relative w-full "
-            >
-              <DatePicker
-                prefix={<CalendarOutlined className="site-form-item-icon" />}
-                className="w-full pt-2 pb-2 text-base rounded-xl"
-                placeholder="Select date of birth"
-                format={dateFormatList}
-              />
-            </Form.Item> */}
             <Form.Item
               hasFeedback
               name="password"
@@ -277,6 +245,7 @@ const SignupPage = () => {
               <SubmitButton
                 form={form}
                 content="Submit"
+                isLoading={loadingSignup}
                 className=" w-full xl:h-[40px] xl:pr-4 xl:pl-4 xl:rounded-[36px] bg-button-submit-light text-white font-roboto text-[14px] leading-5 font-medium hover:!border-none hover:!text-white"
               />
             </Form.Item>
