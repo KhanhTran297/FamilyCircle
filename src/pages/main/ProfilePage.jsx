@@ -32,7 +32,7 @@ const ProfilePage = () => {
   //   setSearchParams({ post: profileId });
   // }, []);
   return (
-    <div className="w-full xl:w-[760px]">
+    <div className="w-full xl:w-[760px] self-stretch">
       <div className="header xl:w-full flex flex-row gap-2 pt-2 pb-2 items-center">
         <div className="left flex h-10 w-10 p-[10px] flex-col justify-center items-center">
           <ILocalProfileButton />
