@@ -67,6 +67,7 @@ const PostDetailPage = () => {
               idowner={postDetail?.data?.owner?.id}
               avatar={postDetail?.data?.owner?.avatar}
               kindPost={postDetail?.data?.kind}
+              title={postDetail?.data?.title}
             />
           )}
         </div>

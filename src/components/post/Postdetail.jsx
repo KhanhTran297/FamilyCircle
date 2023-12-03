@@ -120,8 +120,15 @@ const PostDetail = (props) => {
       <div className="flex flex-col w-full gap-6">
         <div className="relative flex flex-col w-full overflow-hidden h-max ">
           <div className="flex flex-col items-start w-full gap-6 shrink-0">
+            {props.title ? (
+              <div className="font-roboto text-title font-medium text-[#1F1A1C]">
+                {props.title}
+              </div>
+            ) : (
+              ""
+            )}
             <div
-              className="w-full text-sm font-normal h-max read-more-read-less font-roboto"
+              className="w-full text-sm font-normal h-max read-more-read-less font-roboto break-all"
               dangerouslySetInnerHTML={{ __html: props.content }}
             ></div>
           </div>

@@ -94,6 +94,7 @@ const HeaderPost = (props) => {
         handleClose={() => setShowCreatePost(false)}
         isUpdate={true}
         content={props.content}
+        title={props.title}
       />
       <ReportModal
         open={showReportPost}

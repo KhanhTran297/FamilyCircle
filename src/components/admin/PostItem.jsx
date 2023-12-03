@@ -16,7 +16,7 @@ const PostItem = (props) => {
 
   return (
     <div className="flex flex-row items-start self-stretch w-full gap-6 border border-gray-300 rounded-[25px] hover:opacity-50 cursor-pointer pt-2 ">
-      <div className="w-[144px] h-[144px]  rounded-2xl">
+      <div className="w-[144px] h-[144px]  rounded-2xl overflow-hidden ">
         <div
           style={{
             width: "144px",

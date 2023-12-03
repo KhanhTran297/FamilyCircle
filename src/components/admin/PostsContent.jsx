@@ -225,6 +225,7 @@ const PostsContent = () => {
                   avt={item.owner.avatar}
                   fullname={item.owner.fullName}
                   idpost={item.id}
+                  
                 />
               </div>
             );
