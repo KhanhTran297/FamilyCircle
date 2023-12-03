@@ -53,7 +53,10 @@ export default {
         boxSettingComment:
           "0px 1px 3px 0px rgba(0, 0, 0, 0.30), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);",
       },
-
+      borderRadius: {
+        messageOther: "4px 18px 18px 4px",
+        messageOwn: "18px 4px 4px 18px",
+      },
       colors: {
         primary: "#FFD8E8",
         secondary: "#FFF8F8",

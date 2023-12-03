@@ -261,12 +261,11 @@ function UsePost(statusPost, sizelist, page) {
   } = useInfiniteQuery({
     queryKey: ["listOwnPostinfinitie", profileId],
     queryFn: getInfinitiePostByIdApi,
-    initialPageParam: 1,
     enabled: profileId ? true : false,
-    getNextPageParam: (lastPage, allPages) => {
-      const totalPages = lastPage.data.totalPages;
-      if (allPages.length < totalPages) {
-        return allPages.length;
+    getNextPageParam: (lastPage, pages) => {
+      const totalPages = lastPage?.data?.totalPages;
+      if (pages.length < totalPages) {
+        return pages.length;
       } else {
         return undefined;
       }

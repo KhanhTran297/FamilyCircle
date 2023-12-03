@@ -18,9 +18,9 @@ function useAccountMutate() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const {
-    mutate: handleLogin,
+    mutateAsync: handleLogin,
     data: accountdata,
-    isLoading: loadingLogin,
+    isPending: loadingLogin,
   } = useMutation({
     mutationFn: authLoginApi,
     onSuccess: (data) => {
@@ -34,11 +34,17 @@ function useAccountMutate() {
         // getProfileAccount().then(() => {
         //   navigate("/index");
         // });
+        console.log("data", data);
+
         queryClient
-          .fetchQuery(["accountProfile"], getProfileAccountApi)
+          .fetchQuery({
+            queryKey: ["accountProfile"],
+            queryFn: getProfileAccountApi,
+          })
           .then(() => {
             navigate("/index");
           });
+
         // queryClient.fetchQuery("accountProfile").then(() => {
         //   navigate("/index");
         // });
@@ -55,7 +61,10 @@ function useAccountMutate() {
       saveToken(data?.access_token, data?.refresh_token);
 
       queryClient
-        .fetchQuery(["accountProfile"], getProfileAccountApi)
+        .fetchQuery({
+          queryKey: ["accountProfile"],
+          queryFn: getProfileAccountApi,
+        })
         .then(() => {
           navigate("/index");
         });

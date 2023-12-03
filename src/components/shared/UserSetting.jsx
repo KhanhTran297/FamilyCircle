@@ -5,17 +5,19 @@ import UseCookie from "../../hooks/UseCookie";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "antd";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
+import { io } from "socket.io-client";
+import { socket } from "../../hooks/useSocket";
 
 const UserSetting = () => {
   const { removeToken } = UseCookie();
-
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const navigate = useNavigate();
-
   //methods
   const handleLogout = () => {
     removeToken();
     navigate("/");
+    socket.disconnect();
+    localStorage.removeItem("user");
   };
 
   const onClick = ({ key }) => {

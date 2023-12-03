@@ -2,13 +2,18 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getListReactionApi, getReactApi } from "../api/react";
 
 function useReact(postId) {
-  const { data: listReaction, refetch: getListReaction } = useQuery(
-    ["listReaction", postId],
-    () => getListReactionApi(postId),
-    {
-      enabled: !!postId,
-    }
-  );
+  // const { data: listReaction, refetch: getListReaction } = useQuery(
+  //   ["listReaction", postId],
+  //   () => getListReactionApi(postId),
+  //   {
+  //     enabled: !!postId,
+  //   }
+  // );
+  const { data: listReaction, refetch: getListReaction } = useQuery({
+    queryKey: ["listReaction", postId],
+    queryFn: getListReactionApi(postId),
+    enabled: !!postId,
+  });
   //create and delete react
   const { mutate: getReact } = useMutation({
     mutationFn: getReactApi,

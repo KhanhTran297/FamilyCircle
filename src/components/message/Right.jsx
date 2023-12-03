@@ -1,6 +1,24 @@
 import { Input } from "antd";
+import Message from "./Message";
+import { useEffect, useRef, useState } from "react";
+import { io } from "socket.io-client";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 
 const Right = () => {
+  const socket = useRef(io("ws://localhost:8900"));
+  const account = useGetFetchQuery(["accountProfile"]);
+  // const [socket, setSocket] = useState(null);
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+  });
+  useEffect(() => {
+    socket.current.emit("addUser", account?.data?.id);
+    socket.current.on("getUsers", (user) => {
+      console.log("user", user);
+    });
+  }, [account]);
+  // console.log(account);
   return (
     <div className=" flex flex-col items-start flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
       <div className=" flex pt-3 pb-3 pl-4 pr-4 items-center self-stretch gap-2 border-b border-solid border-b-[#F1DEE4]">
@@ -15,7 +33,11 @@ const Right = () => {
           Brooklyn Simmons
         </p>
       </div>
-      <div className=" flex p-6 flex-col items-start gap-3 self-stretch h-full"></div>
+      <div className=" relative flex p-6 flex-col items-start gap-3 self-stretch h-full">
+        <Message own={true} />
+        <Message />
+        <Message own={true} />
+      </div>
       <div className=" h-16 flex pl-6 pr-6 items-center gap-[10px] self-stretch border-t border-solid border-t-[#f1DEE4]">
         <input
           placeholder="Text your message..."

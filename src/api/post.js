@@ -59,7 +59,6 @@ export const getInfinitiePostByIdApi = (props) => {
   // {
   //   props.pageParam === undefined && props.pageParam === 0;
   // }
-  // console.log(props);
   const url = `/v1/post/list?accountId=${props.queryKey[1]}&size=5&page=${props.pageParam}`;
   return UseGet({ url, requiredToken: true });
 };
