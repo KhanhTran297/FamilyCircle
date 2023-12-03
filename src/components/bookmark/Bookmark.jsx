@@ -44,6 +44,7 @@ const Bookmark = () => {
                       content={bookmarkpost.postDto.content}
                       fullname={bookmarkpost.postDto.owner.fullName}
                       avt={bookmarkpost.postDto.owner.avatar}
+                      title={bookmarkpost.postDto.title}
                     />
                   ))}
               </div>

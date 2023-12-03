@@ -40,7 +40,7 @@ const QuillEditor = (props) => {
         modules={modules}
         formats={formats}
         readOnly={disabled}
-        className="w-full h-full overscroll-y-auto overscroll-x-none"
+        className="w-full h-full overscroll-y-auto "
       />
     </div>
   );

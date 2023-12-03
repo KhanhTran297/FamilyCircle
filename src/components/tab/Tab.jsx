@@ -125,6 +125,7 @@ const Tab = (props) => {
                           idowner={post.owner.id}
                           kindPost={post.kind}
                           avatar={post.owner.avatar}
+                          title={post.title}
                         />
                       ))}
                 </div>
@@ -196,6 +197,7 @@ const Tab = (props) => {
                           idowner={post.owner.id}
                           kindPost={post.kind}
                           avatar={post.owner.avatar}
+                          title={post.title}
                         />
                       ))}
                 </div>
@@ -266,6 +268,7 @@ const Tab = (props) => {
                           idowner={post.owner.id}
                           kindPost={post.kind}
                           avatar={post.owner.avatar}
+                          title={post.title}
                         />
                       ))}
                 </div>
@@ -335,6 +338,7 @@ const Tab = (props) => {
                           createdDate={post.createdDate}
                           idowner={post.owner.id}
                           kindPost={post.kind}
+                          title={post.title}
                         />
                       ))}
                 </div>

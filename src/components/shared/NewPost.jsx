@@ -52,6 +52,7 @@ const NewPost = () => {
         handleClose={() => setShowCreatePost(false)}
         isUpdate={false}
         selectedKind={selectedKind} // Fixed: removed colon
+        
       />
       <div
         className={` fixed bottom-[56px] right-0 m-4  desktop:m-0 desktop:top-0 z-auto desktop:left-0 desktop:relative   ${

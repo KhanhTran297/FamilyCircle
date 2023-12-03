@@ -6,7 +6,7 @@ const ReadMoreReadLess = ({ children, limit }) => {
   return (
     <div>
       <div
-        className="read-more-read-less"
+        className="read-more-read-less break-all"
         dangerouslySetInnerHTML={{ __html: content }}
       ></div>
     </div>

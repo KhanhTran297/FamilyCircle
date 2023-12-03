@@ -109,6 +109,13 @@ const Post = (props) => {
       <div className="flex flex-col w-full gap-6">
         <div className="flex flex-col max-h-[320px] w-full  overflow-hidden relative ">
           <div className="flex flex-col items-start w-full gap-6 shrink-0">
+            {props.title ? (
+              <div className="font-roboto text-title font-medium text-[#1F1A1C]">
+                {props.title}
+              </div>
+            ) : (
+              ""
+            )}
             <div
               className="w-full h-auto font-normal font-roboto"
               dangerouslySetInnerHTML={{ __html: content }}
