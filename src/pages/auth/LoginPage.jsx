@@ -8,16 +8,27 @@ import useAccountMutate from "../../hooks/useMutate/useAccountMutate";
 import { useGoogleLogin } from "@react-oauth/google";
 import { ILocalGoogle } from "../../components/svg/google";
 import axios from "axios";
+import { useRef } from "react";
+import { io } from "socket.io-client";
+import { socket } from "../../hooks/useSocket";
+
 const LoginPage = () => {
-  const { handleLogin, handleLoginGoogle } = useAccountMutate();
+  const { handleLogin, handleLoginGoogle, loadingLogin } = useAccountMutate();
   const navigate = useNavigate();
+
   const onFinish = (values) => {
     const newValues = {
       grant_type: "password",
       username: values.email,
       password: values.password,
     };
-    handleLogin(newValues);
+    handleLogin(newValues).then((res) => {
+      socket.connect();
+      socket.emit("addUserOnline", res?.user_id);
+      socket.on("getUsersOnline", (user) => {
+        localStorage.setItem("user", JSON.stringify(user));
+      });
+    });
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -39,7 +50,14 @@ const LoginPage = () => {
               google: `{"sub":"${res.data.sub}","name": "${res.data.name}", "email": "${res.data.email}", "picture":"${res.data.picture}"}`,
             };
             console.log(content);
-            handleLoginGoogle(content);
+            handleLoginGoogle(content).then((res) => {
+              // console.log(res?.user_id);
+              socket.connect();
+              socket.emit("addUserOnline", res?.user_id);
+              socket.on("getUsersOnline", (user) => {
+                localStorage.setItem("user", JSON.stringify(user));
+              });
+            });
           });
 
         // console.log(data);
@@ -132,27 +150,21 @@ const LoginPage = () => {
                 size="large"
               />
             </Form.Item>
-
-            {/* <Form.Item name="remember" valuePropName="checked">
-              <Form.Item className=" float-left">
-                <Checkbox className=" dark:text-white lg:dark:text-black md:dark:text-black">
-                  Remember me
-                </Checkbox>
-              </Form.Item>
-              <p
-                className=" float-right cursor-pointer hover:text-blue-400 dark:text-white lg:dark:text-black md:dark:text-black  "
-                onClick={() => {
-                  navigate("forgotpassword");
-                }}
+            <Form.Item className="">
+              <div
+                className=" self-stretch text-right font-roboto text-base font-normal text-[#1F1A1c] cursor-pointer"
+                onClick={() => navigate("/forgotpassword")}
               >
-                Forgot password
-              </p>
-            </Form.Item> */}
+                {" "}
+                Forgot password?
+              </div>
+            </Form.Item>
 
             <Form.Item className=" mb-[0px]">
               <SubmitButton
                 form={form}
                 content="Sign in"
+                isLoading={loadingLogin}
                 className=" w-full xl:h-[40px] xl:pr-4 xl:pl-4 xl:rounded-[36px] bg-button-submit-light text-white font-roboto text-[14px] leading-5 font-medium hover:!border-none hover:!text-white"
               />
             </Form.Item>

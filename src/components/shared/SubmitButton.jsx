@@ -2,7 +2,7 @@ import { Button, Form } from "antd";
 
 import { useEffect, useState } from "react";
 
-const SubmitButton = ({ form, content, className }) => {
+const SubmitButton = ({ form, content, className, isLoading }) => {
   const [submittable, setSubmittable] = useState(false);
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
@@ -41,7 +41,7 @@ const SubmitButton = ({ form, content, className }) => {
       htmlType="submit"
       disabled={!submittable}
       className={className}
-      loading={loadings[0]}
+      loading={isLoading}
       onClick={() => enterLoading(0)}
     >
       {content}

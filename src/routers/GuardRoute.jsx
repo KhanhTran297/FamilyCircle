@@ -19,7 +19,7 @@ const GuardRoute = ({ children }, path) => {
     }
   }, []);
   return (
-    <div>
+    <div className=" h-full">
       {/* {loadingPage ? (
         <LoadingPage
           css={
@@ -27,7 +27,7 @@ const GuardRoute = ({ children }, path) => {
           }
         />
       ) : ( */}
-      <div>{children}</div>
+      <div className=" h-full">{children}</div>
       {/* )} */}
     </div>
   );

@@ -15,31 +15,31 @@ import {
   updatePostApi,
 } from "../api/post";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
-import { setListPost } from "../redux/slice/post";
+
 import { message } from "antd";
 import { useParams } from "react-router-dom";
 function UsePost(statusPost, sizelist, page) {
   const { profileId } = useParams();
-  const dispatch = useDispatch();
+
   const selector = useSelector((state) => state.account);
   const userAccount = selector.account;
   const selectorExpert = useSelector((state) => state.expert);
   const userExpert = selectorExpert.expert;
 
-  const {
-    data: listPost,
-    refetch: getListPost,
-    isSuccess: getListSuccess,
-    isLoading: getListLoading,
-  } = useQuery({
-    queryKey: ["listPost"],
-    queryFn: () => getListPostApi(statusPost, sizelist, page),
-    enabled: true,
-    retry: 0,
-    onSuccess: (listPost) => {
-      dispatch(setListPost(listPost.data));
-    },
-  });
+  // const {
+  //   data: listPost,
+  //   refetch: getListPost,
+  //   isSuccess: getListSuccess,
+  //   isLoading: getListLoading,
+  // } = useQuery({
+  //   queryKey: ["listPost"],
+  //   queryFn: () => getListPostApi(statusPost, sizelist, page),
+  //   enabled: true,
+  //   retry: 0,
+  //   onSuccess: (listPost) => {
+  //     dispatch(setListPost(listPost.data));
+  //   },
+  // });
 
   const {
     data: listPostExpert,
@@ -234,7 +234,7 @@ function UsePost(statusPost, sizelist, page) {
   const { mutateAsync: approvePost, isLoading: loadingApprove } = useMutation({
     mutationFn: approvePostApi,
     onSuccess: () => {
-      getListPost(statusPost, sizelist, page);
+      // getListPost(statusPost, sizelist, page);
       message.success("Approve post success!");
     },
     onError: () => {
@@ -245,7 +245,7 @@ function UsePost(statusPost, sizelist, page) {
   const { mutateAsync: rejectPost, isLoading: loadingReject } = useMutation({
     mutationFn: rejectPostApi,
     onSuccess: () => {
-      getListPost(statusPost, sizelist, page);
+      // getListPost(statusPost, sizelist, page);
       message.success("Reject post success!");
     },
     onError: () => {
@@ -261,12 +261,11 @@ function UsePost(statusPost, sizelist, page) {
   } = useInfiniteQuery({
     queryKey: ["listOwnPostinfinitie", profileId],
     queryFn: getInfinitiePostByIdApi,
-    initialPageParam: 1,
     enabled: profileId ? true : false,
-    getNextPageParam: (lastPage, allPages) => {
-      const totalPages = lastPage.data.totalPages;
-      if (allPages.length < totalPages) {
-        return allPages.length;
+    getNextPageParam: (lastPage, pages) => {
+      const totalPages = lastPage?.data?.totalPages;
+      if (pages.length < totalPages) {
+        return pages.length;
       } else {
         return undefined;
       }
@@ -284,14 +283,12 @@ function UsePost(statusPost, sizelist, page) {
     loadingReject,
     approvePost,
     rejectPost,
-    getListLoading,
-    getListSuccess,
+
     listPostExpert,
     getListPostExpert,
     createPost,
     isLoading,
-    listPost,
-    getListPost,
+
     fetchNextPage,
     hasNextPage,
     isFetching,

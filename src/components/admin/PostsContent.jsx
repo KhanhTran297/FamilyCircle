@@ -1,36 +1,41 @@
-import {
-  Avatar,
-  Button,
-  Form,
-  Modal,
-  Pagination,
-  Popconfirm,
-  Spin,
-  Table,
-} from "antd";
-import { CheckOutlined, CloseOutlined, EyeOutlined } from "@ant-design/icons";
-import UsePost from "../../hooks/UsePost";
-import dayjs from "dayjs";
+import { Button, Form, Modal, Pagination, Spin } from "antd";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import PostItem from "./PostItem";
+import { useQuery } from "@tanstack/react-query";
+import { getListPostApi } from "../../api/post";
+import usePostMutate from "../../hooks/useMutate/usePostMutate";
 
 const PostsContent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const defaultPage = parseInt(searchParams.get("page")) - 1 || 0;
   const [page, setPage] = useState(defaultPage);
   const [postId, setPostId] = useState(null);
+  // const {
+  //   getListPost,
+  //   listPost,
+  //   getListSuccess,
+  //   getListLoading,
+  //   approvePost,
+  //   rejectPost,
+  //   loadingApprove,
+  //   loadingReject,
+  // } = UsePost(0, 3, page);
+  const { approvePost, rejectPost } = usePostMutate();
   const {
-    getListPost,
-    listPost,
-    getListSuccess,
-    getListLoading,
-    approvePost,
-    rejectPost,
-    loadingApprove,
-    loadingReject,
-  } = UsePost(0, 3, page);
-
+    data: listPost,
+    refetch: getListPost,
+    isSuccess: getListSuccess,
+    isLoading: getListLoading,
+  } = useQuery({
+    queryKey: ["listPost"],
+    queryFn: () => getListPostApi(0, 3, page),
+    enabled: true,
+    retry: 0,
+    onSuccess: (listPost) => {
+      // dispatch(setListPost(listPost.data));
+    },
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [content, setContent] = useState("");
   const showModal = (content, postId) => {
@@ -192,8 +197,6 @@ const PostsContent = () => {
   //     },
   //   },
   // ];
-  console.log(getListLoading);
-  console.log(listPost);
   return (
     <div
       style={{

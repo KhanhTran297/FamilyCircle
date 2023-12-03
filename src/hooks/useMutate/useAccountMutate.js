@@ -2,7 +2,11 @@ import {
   SignUpApi,
   authLoginApi,
   authLoginGoogleApi,
+  changePasswordApi,
+  checkOtpApi,
+  createNewPasswordApi,
   getProfileAccountApi,
+  sentOtpApi,
 } from "../../api/account";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +17,11 @@ function useAccountMutate() {
   const { saveToken, removeToken } = UseCookie();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { mutate: handleLogin, data: accountdata } = useMutation({
+  const {
+    mutateAsync: handleLogin,
+    data: accountdata,
+    isPending: loadingLogin,
+  } = useMutation({
     mutationFn: authLoginApi,
     onSuccess: (data) => {
       removeToken();
@@ -26,11 +34,17 @@ function useAccountMutate() {
         // getProfileAccount().then(() => {
         //   navigate("/index");
         // });
+        console.log("data", data);
+
         queryClient
-          .fetchQuery(["accountProfile"], getProfileAccountApi)
+          .fetchQuery({
+            queryKey: ["accountProfile"],
+            queryFn: getProfileAccountApi,
+          })
           .then(() => {
             navigate("/index");
           });
+
         // queryClient.fetchQuery("accountProfile").then(() => {
         //   navigate("/index");
         // });
@@ -47,7 +61,10 @@ function useAccountMutate() {
       saveToken(data?.access_token, data?.refresh_token);
 
       queryClient
-        .fetchQuery(["accountProfile"], getProfileAccountApi)
+        .fetchQuery({
+          queryKey: ["accountProfile"],
+          queryFn: getProfileAccountApi,
+        })
         .then(() => {
           navigate("/index");
         });
@@ -56,7 +73,7 @@ function useAccountMutate() {
       message.error("Wrong password or email");
     },
   });
-  const { mutateAsync: authSignup } = useMutation({
+  const { mutateAsync: authSignup, isLoading: loadingSignup } = useMutation({
     mutationFn: SignUpApi,
     onSuccess: (data) => {
       {
@@ -67,7 +84,32 @@ function useAccountMutate() {
       // useSuccess("Sign up success!");
     },
   });
+  const { mutateAsync: sendOtp, isLoading: loadingSentOtp } = useMutation({
+    mutationFn: sentOtpApi,
+    onSuccess: () => {},
+  });
+  const { mutateAsync: checkOtp, isLoading: loadingCheckOtp } = useMutation({
+    mutationFn: checkOtpApi,
+    onSuccess: () => {},
+  });
+  const {
+    mutateAsync: createNewPassword,
+    isLoading: loadingCreateNewPassword,
+    isSuccess: successCreateNewPassword,
+  } = useMutation({
+    mutationFn: createNewPasswordApi,
+    onSuccess: () => {},
+  });
   return {
+    loadingLogin,
+    loadingSignup,
+    loadingCheckOtp,
+    successCreateNewPassword,
+    loadingCreateNewPassword,
+    loadingSentOtp,
+    createNewPassword,
+    checkOtp,
+    sendOtp,
     authSignup,
     handleLoginGoogle,
     handleLogin,
