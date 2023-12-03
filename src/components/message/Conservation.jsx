@@ -19,7 +19,9 @@ const Conservation = (props) => {
   const [active, setActive] = useState(false);
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const checkOnline = (uid) => {
-    return onlineUsers.some((user) => user?.accountId == uid);
+    return onlineUsers
+      ? onlineUsers.some((user) => user?.accountId == uid)
+      : false;
   };
 
   const calculateTimeAgo = (timestamp) => {
@@ -29,9 +31,9 @@ const Conservation = (props) => {
   };
   const checkLastMessage = () => {
     if (accountProfile?.data?.email == modifiedBy) {
-      return "You: " + content;
+      return content == undefined ? "No message" : "You: " + content;
     }
-    return content || "No message";
+    return content === undefined ? "No message" : content;
   };
   return (
     <div
