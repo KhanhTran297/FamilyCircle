@@ -31,7 +31,7 @@ const Conservation = (props) => {
     if (accountProfile?.data?.email == modifiedBy) {
       return "You: " + content;
     }
-    return content;
+    return content || "No message";
   };
   return (
     <div
