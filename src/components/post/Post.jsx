@@ -11,6 +11,9 @@ import usePostMutate from "../../hooks/useMutate/usePostMutate";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
 import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
+import { useEffect, useState } from "react";
+import useNotificationSocket from "../../hooks/useNotificationSocket";
+import useAccount from "../../hooks/useAccount";
 
 // import { ILocalDot } from "../svg/Dot";
 // import { ILocalMore } from "../svg/more";
@@ -23,10 +26,8 @@ const Post = (props) => {
   const listBookmark = useGetFetchQuery(["listBookmark"]);
   const { deletePost } = usePostMutate();
   const accountProfile = useGetFetchQuery(["accountProfile"]);
-  // const selector = useSelector((state) => state.account);
-  // const userAccount = selector.account;
-  // const selectorExpert = useSelector((state) => state.expert);
-  // const userExpert = selectorExpert.expert;
+  const accountProfileId = accountProfile?.data?.id;
+  const socket = useNotificationSocket();
 
   const reactCount = listReaction?.data?.totalElements;
   const navigate = useNavigate();
@@ -51,9 +52,24 @@ const Post = (props) => {
   const handleActionFollow = (accountId) => {
     const data = { accountId: accountId };
     getFollow(data);
+    if (socket && socket.connected) {
+      socket.emit("send-notification-new-follower", {
+        accountId: accountProfileId,
+        followerId: accountId,
+      });
+    } else {
+      console.error("Socket not connected");
+    }
   };
   const handleActionUnfollow = (accountId) => {
     getUnfollow(accountId);
+    if (socket && socket.connected) {
+      socket.emit("send-notification-unfollow", {
+        followingId: accountId,
+      });
+    } else {
+      console.error("Socket not connected");
+    }
   };
   const listReactionPost = listReaction?.data?.content;
   const listBookmarkPost = listBookmark?.data?.content;

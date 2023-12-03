@@ -31,6 +31,7 @@ const ProfilePage = () => {
   // useEffect(() => {
   //   setSearchParams({ post: profileId });
   // }, []);
+
   return (
     <div className="w-full xl:w-[760px]">
       <div className="header xl:w-full flex flex-row gap-2 pt-2 pb-2 items-center">

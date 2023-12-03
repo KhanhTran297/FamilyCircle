@@ -179,7 +179,6 @@ const CreatePostModal = (props) => {
     }
   };
   useEffect(() => {
-    console.log("Title from props:", props.title);
     const initialTitle = props?.title || "Untitled";
     setTitle(initialTitle);
 

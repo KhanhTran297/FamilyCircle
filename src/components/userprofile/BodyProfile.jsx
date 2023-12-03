@@ -16,6 +16,7 @@ import { editProfileApi } from "../../api/account";
 import { editExpertAccountApi } from "../../api/expert";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
+import useNotificationSocket from "../../hooks/useNotificationSocket";
 // import EditingModal from "../shared/EditingModal";
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -46,6 +47,8 @@ const BodyProfile = () => {
   };
   const accountProfile = useGetFetchQuery(["accountProfile", profileId]);
   const myAccountProfile = useGetFetchQuery(["accountProfile"]);
+  const accountProfileId = accountProfile?.data?.id;
+  const socket = useNotificationSocket();
   const listFollowing = useGetFetchQuery(["listFollowingById", profileId]);
   const listFollower = useGetFetchQuery(["listFollowerById", profileId]);
   const checkFollowAlready = () => {
@@ -201,7 +204,17 @@ const BodyProfile = () => {
             </div>
             {checkFollowAlready() ? (
               <div
-                onClick={() => unFollow({ accountId: profileId })}
+                onClick={() =>
+                  unFollow({ accountId: profileId }).then(() => {
+                    if (socket && socket.connected) {
+                      socket.emit("send-notification-unfollow", {
+                        followingId: profileId,
+                      });
+                    } else {
+                      console.error("Socket not connected");
+                    }
+                  })
+                }
                 onMouseEnter={() => {
                   setText("Unfollow"), setColor("#BA1A1A");
                 }}
@@ -218,7 +231,18 @@ const BodyProfile = () => {
               </div>
             ) : (
               <div
-                onClick={() => createFollow({ accountId: profileId })}
+                onClick={() =>
+                  createFollow({ accountId: profileId }).then(() => {
+                    if (socket && socket.connected) {
+                      socket.emit("send-notification-new-follower", {
+                        accountId: accountProfileId,
+                        followerId: profileId,
+                      });
+                    } else {
+                      console.error("Socket not connected");
+                    }
+                  })
+                }
                 className=" flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] bg-button-submit-light hover:bg-button-hover-light cursor-pointer hover:shadow-buttonHover"
               >
                 <ILocalFollowProfile className=" w-[18px] h-[18px]" />

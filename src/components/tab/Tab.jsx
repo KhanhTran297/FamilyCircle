@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Post from "../post/Post";
 import UsePost from "../../hooks/UsePost";
 import { Skeleton } from "antd";
@@ -7,6 +7,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import useFollow from "../../hooks/useFollow";
 
 import useBookmark from "../../hooks/useBookmark";
+import { io } from "socket.io-client";
 
 const Tab = (props) => {
   const {
@@ -35,6 +36,9 @@ const Tab = (props) => {
   const { listBookmark } = useBookmark();
   const { listFollowing } = useFollow();
   const [activeTab, setActiveTab] = useState("tab1");
+  const [socket, setSocket] = useState(null);
+  const [user, setUser] = useState("");
+  const accountId = props.accountId;
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
