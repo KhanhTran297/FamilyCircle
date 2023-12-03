@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Message from "../../components/message/Message";
 import { Input, Spin } from "antd";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import User from "../../components/message/User";
 import { ILocalArrowLeft } from "../../components/svg/arrow_left";
@@ -21,7 +21,6 @@ import { socket } from "../../hooks/useSocket";
 const MessagePage = () => {
   // const socket = useRef(io("ws://localhost:8900"));
   const account = useGetFetchQuery(["accountProfile"]);
-  const queryClient = useQueryClient();
   const [onlineUsers, setOnlineUsers] = useState([]);
   const messageRef = useRef();
   const [isSearch, setIsSearch] = useState(false);
@@ -29,7 +28,6 @@ const MessagePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [listMessageState, setListMessageState] = useState([]);
   const [socketMessage, setSocketMessage] = useState(null);
-  const [lastMessage, setLastMessage] = useState(null);
   const location = useLocation();
   const [listConversationState, setListConversationState] = useState([]);
   const conversationId = location.search.split("=")[1] || null;
@@ -84,7 +82,6 @@ const MessagePage = () => {
   };
   const handleSendMessage = (e) => {
     e.preventDefault();
-    setLastMessage(messageRef.current.value);
     const receiverId =
       conversationDetail?.accountList[0]?.account.id == account?.data?.id
         ? conversationDetail?.accountList[1]?.account.id
