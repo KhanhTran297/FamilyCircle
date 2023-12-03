@@ -8,16 +8,27 @@ import useAccountMutate from "../../hooks/useMutate/useAccountMutate";
 import { useGoogleLogin } from "@react-oauth/google";
 import { ILocalGoogle } from "../../components/svg/google";
 import axios from "axios";
+import { useRef } from "react";
+import { io } from "socket.io-client";
+import { socket } from "../../hooks/useSocket";
+
 const LoginPage = () => {
   const { handleLogin, handleLoginGoogle, loadingLogin } = useAccountMutate();
   const navigate = useNavigate();
+
   const onFinish = (values) => {
     const newValues = {
       grant_type: "password",
       username: values.email,
       password: values.password,
     };
-    handleLogin(newValues);
+    handleLogin(newValues).then((res) => {
+      socket.connect();
+      socket.emit("addUserOnline", res?.user_id);
+      socket.on("getUsersOnline", (user) => {
+        localStorage.setItem("user", JSON.stringify(user));
+      });
+    });
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

@@ -72,3 +72,8 @@ export const getUserProfileByIdApi = (id) => {
   const url = `/v1/user-account/get/${id}`;
   return UseGet({ url, requiredToken: true });
 };
+//listAccountClient
+export const getListAccountClientApi = (params) => {
+  const url = `/v1/account/list-account-client?isClient=true&fullName=${params.queryKey[1]}`;
+  return UseGet({ url, requiredToken: true });
+};

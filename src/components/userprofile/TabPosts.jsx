@@ -10,6 +10,7 @@ const TabPosts = () => {
     hasNextPagePostProfile,
     isFetchingNextPagePostProfile,
   } = UsePost();
+  // console.log(listOwnPost.pages[0].data);
   return (
     <InfiniteScroll
       dataLength={listOwnPost?.pages?.length || 0}
@@ -46,6 +47,7 @@ const TabPosts = () => {
                       createdDate={post.createdDate}
                       idowner={post.owner.id}
                       kindPost={post.kind}
+                      avatar={post.owner.avatar}
                     />
                   ))}
             </div>

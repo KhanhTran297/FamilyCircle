@@ -1,7 +1,47 @@
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import User from "./User";
+import { useQuery } from "@tanstack/react-query";
+import { getListFollowerApi, getListFollowingApi } from "../../api/follow";
+import { useEffect, useRef, useState } from "react";
+
 const Left = () => {
+  const [friendAccount, setFriendAccount] = useState([]);
+
+  // const [socket, setSocket] = useState(null);
+
+  const { data: listFollower } = useQuery({
+    queryKey: ["listFolower"],
+    queryFn: getListFollowerApi,
+  });
+  const { data: listFollowing } = useQuery({
+    queryKey: ["listFollowing"],
+    queryFn: getListFollowingApi,
+  });
+  const commonAccounts = listFollower?.data?.content.filter((account) => {
+    return listFollowing?.data?.content.some(
+      (followingAccount) => followingAccount.account.id === account.follower.id
+    );
+  });
+
+  // setFriendAccount(commonAccounts);
+  // useEffect(() => {
+  //   const commonAccounts = listFollower?.data?.content.filter((account) => {
+  //     return listFollowing?.data?.content.some(
+  //       (followingAccount) =>
+  //         followingAccount.account.id === account.follower.id
+  //     );
+  //   });
+
+  //   setFriendAccount(commonAccounts);
+  // }, []);
+  useEffect(() => {
+    socket.current.emit("addUser", account?.data?.id);
+    socket.current.on("getUsers", (user) => {
+      console.log("user", user);
+    });
+  }, [account]);
+
   return (
     <div className=" xl:w-[368px] flex flex-col items-start gap-4 self-stretch border-r border-l border-solid border-r-[#F1DEE4]">
       <div className=" xl:h-16 pl-6 pr-6 justify-center items-start self-stretch">
@@ -21,7 +61,20 @@ const Left = () => {
         ></Input>
       </div>
       <div className="flex flex-col items-start self-stretch">
-        <User
+        {commonAccounts?.map((account) => {
+          return (
+            <User
+              key={account?.follower?.id}
+              id={account?.follower?.id}
+              ava={account?.follower?.avatar}
+              name={account?.follower?.fullName}
+              content={"You: Lot of young boy at this age get...."}
+              time="3m"
+              isOnline={true}
+            />
+          );
+        })}
+        {/* <User
           ava="https://i.pinimg.com/236x/81/e8/f8/81e8f8beecbdd95391e6671d39a37041.jpg"
           name="Ronald Richards"
           content="You: Lot of young boy at this age get...."
@@ -50,7 +103,7 @@ const Left = () => {
           name="Bessie Cooper"
           content="Hey"
           time="34w"
-        />
+        /> */}
       </div>
     </div>
   );
