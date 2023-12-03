@@ -15,7 +15,7 @@ import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
 // import { ILocalMore } from "../svg/more";
 
 const Post = (props) => {
-  const { listReaction, getReact } = useReact(props.id);
+  const { getReact, listReaction } = useReact(props.id);
   const { getFollow, getUnfollow } = useFollowMutate();
   const listFollowing = useGetFetchQuery(["listFollowing"]);
   const { getBookmark } = useBookmarkMutate();
@@ -26,6 +26,11 @@ const Post = (props) => {
   // const userAccount = selector.account;
   // const selectorExpert = useSelector((state) => state.expert);
   // const userExpert = selectorExpert.expert;
+  // const { data: listReaction } = useQuery({
+  //   queryKey: ["listReaction", props.id],
+  //   queryFn: getListReactionApi(props.id),
+  //   enabled: true,
+  // });
 
   const reactCount = listReaction?.data?.totalElements;
   const navigate = useNavigate();
@@ -85,7 +90,7 @@ const Post = (props) => {
     }
     return false;
   };
-
+  console.log("isLike", isLike);
   return (
     <div className="flex flex-col items-start desktop:gap-6 gap-6 p-6 pt-3  rounded-[24px] w-full  bg-[#FFF8F8] cursor-pointer">
       <div className="flex flex-row items-start self-stretch gap-2">

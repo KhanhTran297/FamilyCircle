@@ -11,8 +11,11 @@ function useReact(postId) {
   // );
   const { data: listReaction, refetch: getListReaction } = useQuery({
     queryKey: ["listReaction", postId],
-    queryFn: getListReactionApi(postId),
-    enabled: !!postId,
+    queryFn: (queryKey) =>
+      getListReactionApi(queryKey).then((res) => {
+        return res;
+      }),
+    enabled: true,
   });
   //create and delete react
   const { mutate: getReact } = useMutation({
