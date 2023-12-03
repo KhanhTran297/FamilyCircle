@@ -50,7 +50,14 @@ const LoginPage = () => {
               google: `{"sub":"${res.data.sub}","name": "${res.data.name}", "email": "${res.data.email}", "picture":"${res.data.picture}"}`,
             };
             console.log(content);
-            handleLoginGoogle(content);
+            handleLoginGoogle(content).then((res) => {
+              // console.log(res?.user_id);
+              socket.connect();
+              socket.emit("addUserOnline", res?.user_id);
+              socket.on("getUsersOnline", (user) => {
+                localStorage.setItem("user", JSON.stringify(user));
+              });
+            });
           });
 
         // console.log(data);

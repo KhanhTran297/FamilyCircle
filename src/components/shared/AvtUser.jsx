@@ -7,7 +7,9 @@ const AvtUser = ({ imageUrl, ownerId }) => {
   const defaultImageUrl =
     "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png";
   const checkOnline = (uid) => {
-    return JSON.parse(listOnlineUsers).some((user) => user?.accountId == uid);
+    return listOnlineUsers
+      ? JSON.parse(listOnlineUsers).some((user) => user?.accountId == uid)
+      : false;
   };
 
   return (
