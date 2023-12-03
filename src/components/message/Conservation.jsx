@@ -33,7 +33,7 @@ const Conservation = (props) => {
     if (accountProfile?.data?.email == modifiedBy) {
       return content == undefined ? "No message" : "You: " + content;
     }
-    return content === undefined ? "No message" : content;
+    return content == undefined ? "No message" : content;
   };
   return (
     <div
@@ -70,7 +70,7 @@ const Conservation = (props) => {
               isActive ? "text-white" : " text-light_surface_on_surface"
             } font-roboto text-sm font-normal`}
           >
-            {calculateTimeAgo(time)}
+            {content == undefined ? "" : calculateTimeAgo(time)}
           </span>
         </div>
       </div>
