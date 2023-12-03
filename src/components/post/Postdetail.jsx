@@ -20,16 +20,20 @@ import { useParams } from "react-router-dom";
 import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
 import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
 import useReactMutate from "../../hooks/useMutate/useReactMutate";
-
+import { useRecoilState } from "recoil";
+import { countComments } from "../../uilts/atom";
 const PostDetail = (props) => {
   const { id } = useParams();
+
+  const [count, setCountComments] = useRecoilState(countComments);
   const {
     data: listComment,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    queryKey: ["listcomment"],
-    queryFn: () => getListCommentApi(id, "", 5),
+    queryKey: ["listcomment", id],
+    queryFn: ({ pageParam = 0, postId = id, size = 5 }) =>
+      getListCommentApi(pageParam, postId, size),
     getNextPageParam: (lastPage, pages) => {
       const totalPages = lastPage.data.totalPages;
       if (pages.length < totalPages) {
@@ -40,9 +44,24 @@ const PostDetail = (props) => {
     },
     enabled: true,
   });
+  var countListComment = 0;
   const { data: listcommentForCount } = useQuery({
     queryKey: ["listcommentForCount"],
     queryFn: () => getListChildCommentApi(id),
+    onSuccess: (result) => {
+      countListComment = result.data.totalElements;
+      // countListComment.push(result.data.content);
+      Promise.all(
+        result.data.content.map(async (item) => {
+          const res = await getListChildCommentApi(id, item.id);
+          if (res?.data?.content) {
+            countListComment = countListComment + res?.data?.content?.length;
+          }
+        })
+      ).then(() => {
+        setCountComments(countListComment);
+      });
+    },
   });
   const { getReact } = useReactMutate(props.id);
   const accountProfile = useGetFetchQuery(["accountProfile"]);
@@ -138,7 +157,7 @@ const PostDetail = (props) => {
       <FooterPost
         {...props}
         reactCount={reactCount}
-        commentCount={listcommentForCount?.data?.totalElements}
+        commentCount={count}
         handleActionReact={() => handleActionReact(props.kindPost, props.id)}
         isLike={isLike}
       />

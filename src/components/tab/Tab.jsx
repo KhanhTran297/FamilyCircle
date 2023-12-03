@@ -32,7 +32,6 @@ const Tab = (props) => {
     expertFetchNextPageFollowing,
     accountFetchNextPageFollowing,
   } = UsePost(0, 0, 0, false);
-
   const { listBookmark } = useBookmark();
   const { listFollowing } = useFollow();
   const [activeTab, setActiveTab] = useState("tab1");

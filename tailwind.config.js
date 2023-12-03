@@ -34,6 +34,7 @@ export default {
         bgAuthenPage: "linear-gradient(180deg, #FC3872 0%, #75D3FB 100%)",
         buttonSubmit: "var(--light-primary-primary, #A73574)",
         bgErrorButton: "rgba(186, 26, 26, 0.08)",
+        bgButtonHover: "rgba(0, 0, 0, 0.08)",
         bgViewmore:
           "linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%), #A73574;     ",
       },
@@ -52,7 +53,10 @@ export default {
         boxSettingComment:
           "0px 1px 3px 0px rgba(0, 0, 0, 0.30), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);",
       },
-
+      borderRadius: {
+        messageOther: "4px 18px 18px 4px",
+        messageOwn: "18px 4px 4px 18px",
+      },
       colors: {
         primary: "#FFD8E8",
         secondary: "#FFF8F8",

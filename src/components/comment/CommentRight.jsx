@@ -5,10 +5,6 @@ import CommentBody from "./CommentBody";
 import { useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 
-import useComment from "../../hooks/useComment";
-import { useMutation } from "@tanstack/react-query";
-import { editCommentApi } from "../../api/comment";
-
 const CommentRight = (props) => {
   const {
     data,

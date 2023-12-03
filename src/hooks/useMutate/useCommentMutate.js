@@ -13,33 +13,35 @@ function useCommentMutate(commentId, parentId) {
     mutationFn: createCommentApi,
     onSuccess: () => {
       queryClient.invalidateQueries(["listcomment"]);
-      if (parentId) {
-        queryClient.invalidateQueries(["listChildComment", parentId]);
-      } else {
-        queryClient.invalidateQueries(["listChildComment", commentId]);
-      }
+      queryClient.invalidateQueries(["listChildComment", commentId]);
+      queryClient.invalidateQueries(["listcommentForCount"]);
+      // if (parentId) {
+      //   queryClient.invalidateQueries(["listChildComment", commentId]);
+      // } else {
+      //   queryClient.invalidateQueries(["listcomment"]);
+      // }
     },
   });
   const { mutateAsync: reactcomment } = useMutation({
     mutationFn: reactCommentApi,
     onSuccess: () => {
       message.success("react comment success");
-      queryClient.invalidateQueries(["listcomment"]);
       if (parentId) {
         queryClient.invalidateQueries(["listChildComment", parentId]);
       } else {
-        queryClient.invalidateQueries(["listChildComment", commentId]);
+        queryClient.invalidateQueries(["listcomment"]);
       }
     },
   });
   const { mutateAsync: deleteComment } = useMutation({
     mutationFn: () => deleteCommentApi(commentId),
     onSuccess: () => {
-      queryClient.invalidateQueries(["listcomment"]);
+      // queryClient.invalidateQueries(["listcomment"]);
+      queryClient.invalidateQueries(["listcommentForCount"]);
       if (parentId) {
         queryClient.invalidateQueries(["listChildComment", parentId]);
       } else {
-        queryClient.invalidateQueries(["listChildComment", commentId]);
+        queryClient.invalidateQueries(["listcomment"]);
       }
     },
   });
@@ -47,12 +49,11 @@ function useCommentMutate(commentId, parentId) {
     mutationFn: editCommentApi,
     onSuccess: () => {
       message.success("edit comment success");
-      queryClient.invalidateQueries(["listcomment"]);
+      // queryClient.invalidateQueries(["listcomment"]);
       if (parentId) {
         queryClient.invalidateQueries(["listChildComment", parentId]);
       } else {
-        console.log("parentId", parentId);
-        queryClient.invalidateQueries(["listChildComment", commentId]);
+        queryClient.invalidateQueries(["listcomment"]);
       }
     },
   });
