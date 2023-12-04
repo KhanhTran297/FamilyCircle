@@ -16,6 +16,7 @@ import { editProfileApi } from "../../api/account";
 import { editExpertAccountApi } from "../../api/expert";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
+import "./img.css";
 // import EditingModal from "../shared/EditingModal";
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -156,7 +157,7 @@ const BodyProfile = () => {
 
         <div className="">
           {" "}
-          <ImgCrop cropShape="round">
+          <ImgCrop cropShape="round" modalOk="save">
             <Upload
               name="avatar"
               listType="picture-circle"

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ILocalArrowComment } from "../svg/arrowcomment";
 import useCommentMutate from "../../hooks/useMutate/useCommentMutate";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
+import TextArea from "antd/es/input/TextArea";
 const CommentForm = (props) => {
   const { createComment } = useCommentMutate(props.parentId, null);
   const accountProfile = useGetFetchQuery(["accountProfile"]);
@@ -38,9 +39,9 @@ const CommentForm = (props) => {
         />
       </div>
 
-      <Input
+      <TextArea
         placeholder="Say some thing about this post..."
-        className=" xl:flex xl:flex-row-reverse xl:pl-4 xl:p-[0px] xl:h-10 xl:flex-1-0-0 xl:rounded-[100px] xl:items-center xl:cursor-text hover:!border-gray-400 "
+        classNames=" xl:flex xl:flex-row-reverse xl:pl-4 xl:p-[0px] xl:h-10 xl:flex-1-0-0 xl:rounded-[100px] xl:items-center xl:cursor-text hover:!border-gray-400 "
         prefix={
           <ILocalArrowRight
             fill="#1F1A1C"
@@ -50,9 +51,12 @@ const CommentForm = (props) => {
         onPressEnter={(values) => {
           handleCreateComment(values);
         }}
+        autoSize
+        showCount
+        maxLength={200}
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
-      ></Input>
+      ></TextArea>
     </div>
   );
 };
