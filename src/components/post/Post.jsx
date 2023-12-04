@@ -90,7 +90,6 @@ const Post = (props) => {
     }
     return false;
   };
-  console.log("isLike", isLike);
   return (
     <div className="flex flex-col items-start desktop:gap-6 gap-6 p-6 pt-3  rounded-[24px] w-full  bg-[#FFF8F8] cursor-pointer">
       <div className="flex flex-row items-start self-stretch gap-2">

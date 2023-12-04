@@ -26,9 +26,13 @@ const CommentBody = ({ fullName, kind, dateCreate, dateModify, content }) => {
             : "Edited " + handleFormatTime(dateModify)}
         </div>
       </div>
-      <div className="content font-roboto text-sm font-normal text-light_surface_on_surface ">
+      {/* <div className="content font-roboto text-sm font-normal text-light_surface_on_surface ">
         {content}
-      </div>
+      </div> */}
+      <div
+        className="w-full text-sm font-normal  read-more-read-less font-roboto break-all text-light_surface_on_surface"
+        dangerouslySetInnerHTML={{ __html: content }}
+      ></div>
     </div>
   );
 };

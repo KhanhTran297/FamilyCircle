@@ -17,6 +17,7 @@ const Conservation = (props) => {
     modifiedBy,
   } = props;
   const [active, setActive] = useState(false);
+  let limit = 15;
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const checkOnline = (uid) => {
     return onlineUsers
@@ -30,10 +31,16 @@ const Conservation = (props) => {
     return formattedDate;
   };
   const checkLastMessage = () => {
-    if (accountProfile?.data?.email == modifiedBy) {
-      return content == undefined ? "No message" : "You: " + content;
+    let lessContent;
+    if (content.length > limit) {
+      lessContent = content.slice(0, limit) + "...";
+    } else {
+      lessContent = content;
     }
-    return content == undefined ? "No message" : content;
+    if (accountProfile?.data?.email == modifiedBy) {
+      return content == undefined ? "No message" : "You: " + lessContent;
+    }
+    return content == undefined ? "No message" : lessContent;
   };
   return (
     <div
@@ -62,9 +69,8 @@ const Conservation = (props) => {
             className={`h-5 flex-[1_1_0] ${
               isActive ? "text-white" : " text-light_surface_on_surface"
             } font-roboto text-sm font-normal`}
-          >
-            {checkLastMessage()}
-          </p>
+            dangerouslySetInnerHTML={{ __html: checkLastMessage() }}
+          ></p>
           <span
             className={`${
               isActive ? "text-white" : " text-light_surface_on_surface"
