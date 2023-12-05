@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getListReactionApi, getReactApi } from "../api/react";
 
 function useReact(postId) {
@@ -9,6 +9,7 @@ function useReact(postId) {
   //     enabled: !!postId,
   //   }
   // );
+  const queryClinet = useQueryClient();
   const { data: listReaction, refetch: getListReaction } = useQuery({
     queryKey: ["listReaction", postId],
     queryFn: (queryKey) =>
@@ -22,7 +23,7 @@ function useReact(postId) {
     mutationFn: getReactApi,
     onSuccess: (respone) => {
       if (respone.result) {
-        getListReaction();
+        queryClinet.invalidateQueries(["listReaction", postId]);
       } else {
         // useError("Create post fail!");
       }
