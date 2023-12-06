@@ -32,8 +32,8 @@ const Conservation = (props) => {
   };
   const checkLastMessage = () => {
     let lessContent;
-    if (content.length > limit) {
-      lessContent = content.slice(0, limit) + "...";
+    if (content?.length > limit) {
+      lessContent = content?.slice(0, limit) + "...";
     } else {
       lessContent = content;
     }
