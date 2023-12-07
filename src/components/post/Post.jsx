@@ -131,7 +131,7 @@ const Post = (props) => {
         </div>
         <HeaderPost
           {...props}
-          onDelete={() => deletePost({ id: props.id })}
+          onDelete={() => deletePost(props.id)}
           handleActionBookmark={() => getBookmark({ postId: props.id })}
           isBookmarked={isBookmark(props.id)}
           handleActionFollow={() => handleActionFollow(props.idowner)}
