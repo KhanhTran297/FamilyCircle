@@ -25,7 +25,6 @@ const Notification = () => {
     (state) => state.notification.listNotification,
     shallowEqual
   );
-  console.log(notifications);
   const [usersData, setUsersData] = useState([]);
   const [socketNotification, setSocketNotification] = useState(null);
   const { data: listFollowing } = useQuery({
@@ -175,7 +174,6 @@ const Notification = () => {
     }
   }, [socketNotification, usersData]);
 
-  console.log(notifications);
 
   return (
     <div>
