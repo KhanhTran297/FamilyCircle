@@ -167,7 +167,6 @@ const Notification = () => {
       });
     }
   }, [socketNotification, usersData]);
-  console.log(socketNotification);
 
   return (
     <div>
