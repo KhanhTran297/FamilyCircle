@@ -55,13 +55,15 @@ export const rejectPostApi = (params) => {
   return UseEdit({ url, requiredToken: true, params });
 };
 export const getPostByIdApi = (id) => {
-  const url = `/v1/post/list?accountId=${id}`;
+  const url = `/v1/post/list?accountId=${id}&status=${1}`;
   return UseGet({ url, requiredToken: true });
 };
 export const getInfinitiePostByIdApi = (props) => {
   // {
   //   props.pageParam === undefined && props.pageParam === 0;
   // }
-  const url = `/v1/post/list?accountId=${props.queryKey[1]}&size=5&page=${props.pageParam}`;
+  const url = `/v1/post/list?accountId=${props.queryKey[1]}&size=5&page=${
+    props.pageParam
+  }&status=${1}`;
   return UseGet({ url, requiredToken: true });
 };

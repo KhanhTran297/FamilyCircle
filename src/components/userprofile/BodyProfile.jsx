@@ -18,6 +18,7 @@ import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
 import useNotificationSocket from "../../hooks/useNotificationSocket";
 import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
+import "./img.css";
 // import EditingModal from "../shared/EditingModal";
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -166,7 +167,7 @@ const BodyProfile = () => {
       <div className="flex items-end self-stretch justify-between ava">
         {/* <div className=" bg-[url('https://i.pinimg.com/236x/9b/b1/b9/9bb1b9aa5182b06836642a5f737fc5ea.jpg')] w-[128px] h-[128px] rounded-[1000px] bg-cover bg-no-repeat "></div> */}
 
-        <div className="">
+        <div className=" w-32 h-32">
           {" "}
           <ImgCrop cropShape="round">
             <Upload
@@ -190,6 +191,35 @@ const BodyProfile = () => {
               )}
             </Upload>
           </ImgCrop>
+          {checkAccount() ? (
+            <ImgCrop cropShape="round" modalOk="save">
+              <Upload
+                name="avatar"
+                listType="picture-circle"
+                className="avatar-uploader "
+                showUploadList={false}
+                action={(value) => {
+                  upLoadImage({ file: value, type: "avatar" });
+                }}
+                beforeUpload={beforeUpload}
+                onChange={handleChange}
+              >
+                {accountProfile?.data?.avatar ? (
+                  <Avatar
+                    className=" w-full h-full"
+                    src={accountProfile?.data?.avatar}
+                  />
+                ) : (
+                  uploadButton
+                )}
+              </Upload>
+            </ImgCrop>
+          ) : (
+            <Avatar
+              className=" w-full h-full"
+              src={accountProfile?.data?.avatar}
+            />
+          )}
         </div>
         {checkAccount() ? (
           <div className="h-10">
