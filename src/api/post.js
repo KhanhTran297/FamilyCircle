@@ -23,7 +23,10 @@ export const getListPostApi = (status, size, page) => {
   const url = `/v1/post/list?status=${status}&size=${size}&page=${page}`;
   return UseGet({ url, requiredToken: true });
 };
-
+export const getListPostClientApi = () => {
+  const url = `/v1/post/list`;
+  return UseGet({ url, requiredToken: true });
+};
 export const getPostApi = (postId) => {
   const url = `/v1/post/detail/${postId}`;
   return UseGet({ url, requiredToken: true });

@@ -42,16 +42,16 @@ const BookmarkPost = (props) => {
         <div className="text-title font-roboto text-[#1F1A1C] font-medium ">
           {props.title ? props.title : props.fullname}
         </div>
-        <ReadMoreReadLess limit={250}>{props.content}</ReadMoreReadLess>
+        <ReadMoreReadLess limit={200}>{props.content}</ReadMoreReadLess>
         <div className="flex flex-col gap-[10px] self-stretch items-end">
           <button
             className="flex flex-row items-center self-end gap-2 px-3 rounded-[36px]"
             onClick={() => handleActionBookmark(props.idpost)}
           >
             <div className="w-[18px] h-[18px]">
-              <ILocalDelete className=" shrink-0" fill="#A73574  " />
+              <ILocalDelete className=" shrink-0 " fill="#A73574  " />
             </div>
-            <div className="text-[#A73574] text-sm font-roboto font-medium">
+            <div className="text-[#A73574] text-sm font-roboto font-medium ">
               Remove from bookmark
             </div>
           </button>

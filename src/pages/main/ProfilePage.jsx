@@ -33,15 +33,15 @@ const ProfilePage = () => {
   // }, []);
   return (
     <div className="w-full xl:w-[760px] self-stretch">
-      <div className="header xl:w-full flex flex-row gap-2 pt-2 pb-2 items-center">
+      <div className="flex flex-row items-center gap-2 pt-2 pb-2 header xl:w-full">
         <div className="left flex h-10 w-10 p-[10px] flex-col justify-center items-center">
           <ILocalProfileButton />
         </div>
-        <div className="right flex flex-col justify-center items-start">
-          <p className=" font-roboto text-base font-medium text-light_surface_on_surface">
+        <div className="flex flex-col items-start justify-center right">
+          <p className="text-base font-medium font-roboto text-light_surface_on_surface">
             {accountProfile?.data?.fullName}
           </p>
-          <p className=" font-roboto text-sm font-normal text-light_surface_on_surface">
+          <p className="text-sm font-normal font-roboto text-light_surface_on_surface">
             {listOwnPost?.data?.totalElements <= 1
               ? `${listOwnPost?.data?.totalElements} post`
               : `${listOwnPost?.data?.totalElements} posts`}
