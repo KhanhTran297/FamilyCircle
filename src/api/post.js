@@ -24,6 +24,11 @@ export const getListPostApi = (status, size, page) => {
   return UseGet({ url, requiredToken: true });
 };
 
+export const getListPostExpertClientApi = () => {
+  const url = `/v1/post/list?kind=1&status=1`;
+  return UseGet({ url, requiredToken: true });
+};
+
 export const getPostApi = (postId) => {
   const url = `/v1/post/detail/${postId}`;
   return UseGet({ url, requiredToken: true });

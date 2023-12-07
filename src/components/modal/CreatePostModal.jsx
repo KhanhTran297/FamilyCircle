@@ -259,7 +259,7 @@ const CreatePostModal = (props) => {
               <div className="w-full h-[1px] bg-[#F1DEE4] desktop:hidden"></div>
               <div className="flex flex-col w-full h-full gap-2 ">
                 <div className="flex w-full gap-2 ">
-                  <AvtUser />
+                  <AvtUser imageUrl={props.avatar} />
                   <div className="items-start flex-1 desktop:h-9">
                     <p className="w-full text-[#1F1A1C] font-medium items-center text-sm dark:text-[#CEC4C6] font-roboto">
                       {props.fullname}
@@ -313,11 +313,11 @@ const CreatePostModal = (props) => {
 
                   {/* Hiển thị thông báo nếu trống */}
                 </div>
-                <div className=" text-sm text-gray-600">
+                <div className="text-sm text-gray-600 ">
                   {titleCharCount}/120
                 </div>
                 {props.selectedKind === "1" && title === "Untitled" && (
-                  <div className=" text-red-500 text-left">
+                  <div className="text-left text-red-500 ">
                     Title cannot be empty.
                   </div>
                 )}
