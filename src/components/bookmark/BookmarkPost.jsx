@@ -26,7 +26,7 @@ const BookmarkPost = (props) => {
   return (
     <div
       onClick={() => navigate(`/post/${props.idpost}`)}
-      className="flex flex-row items-start self-stretch w-full gap-6 cursor-pointer overflow-hidden break-all "
+      className="flex flex-row items-start self-stretch w-full gap-6 overflow-hidden break-all cursor-pointer "
     >
       <div className="w-[144px] h-[144px]  rounded-2xl">
         <div
@@ -42,7 +42,7 @@ const BookmarkPost = (props) => {
         <div className="text-title font-roboto text-[#1F1A1C] font-medium ">
           {props.title ? props.title : props.fullname}
         </div>
-        <ReadMoreReadLess limit={250}>{props.content}</ReadMoreReadLess>
+        <ReadMoreReadLess limit={200}>{props.content}</ReadMoreReadLess>
         <div className="flex flex-col gap-[10px] self-stretch items-end">
           <button
             className="flex flex-row items-center self-end gap-2 px-3 rounded-[36px]"

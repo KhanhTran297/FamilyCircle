@@ -22,6 +22,8 @@ import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
 import useReactMutate from "../../hooks/useMutate/useReactMutate";
 import { useRecoilState } from "recoil";
 import { countComments } from "../../uilts/atom";
+import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
+import useNotificationSocket from "../../hooks/useNotificationSocket";
 const PostDetail = (props) => {
   const { id } = useParams();
 
@@ -66,35 +68,69 @@ const PostDetail = (props) => {
   const { getReact } = useReactMutate(props.id);
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const postDetail = useGetFetchQuery(["postDetail", id]);
+  const { createNotification, createAnnounce } = useNotificationMutate();
+  const socket = useNotificationSocket();
+
   const { listBookmark } = useBookmark();
   const { getBookmark } = useBookmarkMutate();
   const { listFollowing } = useFollow();
   const { getFollow, getUnfollow } = useFollowMutate();
   const { deletePost } = usePostMutate();
+  const accountProfileId = accountProfile?.data?.id;
+  const accountProfileFullname = accountProfile?.data?.fullName;
+  const accountProfileAvatar = accountProfile?.data?.avatar;
   const reactCount = postDetail?.data?.postReactions?.length;
 
-  const handleDeletePost = (id) => {
-    deletePost(id);
-  };
-  const handleActionReact = (kindPost, id) => {
-    const data = { kind: kindPost, postId: id };
-    getReact(data);
-  };
-  const handleActionBookmark = (id) => {
-    const data = { postId: id };
-    getBookmark(data);
-  };
-  const handleActionFollow = (accountId) => {
-    const data = { accountId: accountId };
-    getFollow(data);
-  };
-  const handleActionUnfollow = (accountId) => {
-    getUnfollow(accountId);
-  };
   const listReactionPost = postDetail?.data?.postReactions;
   const listBookmarkPost = listBookmark?.data?.content;
   const listFollowingPerson = listFollowing?.data?.content;
-  // const userId = userAccount?.id || userExpert?.id;
+  const handleActionFollow = (accountId) => {
+    const data = { accountId: accountId };
+    getFollow(data);
+    const content = ` started following you`;
+    const data2 = {
+      content: content,
+      objectId: accountProfileId,
+      kind: 5,
+    };
+    createNotification(data2)
+      .then((response) => {
+        if (socket && socket.connected) {
+          socket.emit("send-notification-new-follower", {
+            accountId: accountProfileId,
+            followerId: accountId,
+            id: response.data.id,
+            status: response.data.status,
+            createdDate: response.data.createdDate,
+            content: response.data.content,
+            kind: response.data.kind,
+            avatar: accountProfileAvatar,
+            fullname: accountProfileFullname,
+          });
+        } else {
+          console.error("Socket not connected");
+        }
+        const dataAnnounce = {
+          notificationId: response.data.id,
+          receivers: [accountId],
+        };
+        createAnnounce(dataAnnounce);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi tạo thông báo:", error);
+      });
+  };
+
+  const handleActionUnfollow = (accountId) => {
+    getUnfollow(accountId);
+    if (socket && socket.connected) {
+      socket.emit("send-notification-unfollow", {
+        followingId: accountId,
+      });
+    } else {
+      console.error("Socket not connected");
+    }
+  };
   const isBookmark = (postId) => {
     if (listBookmarkPost && Array.isArray(listBookmarkPost)) {
       const bookmark = listBookmarkPost.find(
@@ -128,8 +164,8 @@ const PostDetail = (props) => {
         </div>
         <HeaderPost
           {...props}
-          onDelete={() => handleDeletePost(props.id)}
-          handleActionBookmark={() => handleActionBookmark(props.id)}
+          onDelete={() => deletePost({ id: props.id })}
+          handleActionBookmark={() => getBookmark({ postId: props.id })}
           isBookmarked={isBookmark(props.id)}
           handleActionFollow={() => handleActionFollow(props.idowner)}
           isFollowed={isFollow(props.idowner)}
@@ -147,7 +183,7 @@ const PostDetail = (props) => {
               ""
             )}
             <div
-              className="w-full text-sm font-normal h-max read-more-read-less font-roboto break-all"
+              className="w-full text-sm font-normal break-all h-max read-more-read-less font-roboto"
               dangerouslySetInnerHTML={{ __html: props.content }}
             ></div>
           </div>
@@ -158,7 +194,52 @@ const PostDetail = (props) => {
         {...props}
         reactCount={reactCount}
         commentCount={count}
-        handleActionReact={() => handleActionReact(props.kindPost, props.id)}
+        handleActionReact={() =>
+          getReact({ kind: props.kindPost, postId: props.id })
+            .then((res) => {
+              if (res.data.ownerPostId != accountProfileId) {
+                const content = ` react your post`;
+                const data2 = {
+                  content: content,
+                  objectId: props.id,
+                  kind: 3,
+                };
+                createNotification(data2)
+                  .then((response) => {
+                    if (socket && socket.connected) {
+                      socket.emit("send-notification-new-reaction-post", {
+                        accountId: accountProfileId,
+                        followerId: res.data.ownerPostId,
+                        id: response.data.id,
+                        status: response.data.status,
+                        createdDate: response.data.createdDate,
+                        content: response.data.content,
+                        kind: response.data.kind,
+                        avatar: accountProfileAvatar,
+                        fullname: accountProfileFullname,
+                        postId: props.id,
+                      });
+                    } else {
+                      console.error("Socket not connected");
+                    }
+                    const dataAnnounce = {
+                      notificationId: response.data.id,
+                      receivers: [res.data.ownerPostId],
+                    };
+                    createAnnounce(dataAnnounce);
+                  })
+                  .catch((error) => {
+                    console.error("Lỗi khi tạo thông báo:", error);
+                  });
+              }
+            })
+            .catch((error) => {
+              console.error("Lỗi khi tạo thông báo:", error);
+            })
+        }
+        handleActionUnreact={() =>
+          getReact({ kind: props.kindPost, postId: props.id })
+        }
         isLike={isLike}
       />
       <div className="border-t-[1px] border-b-[1px] border-[#F1DEE4] h-[1px] w-full"></div>

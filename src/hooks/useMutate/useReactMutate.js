@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 function useReactMutate() {
   const queryClient = useQueryClient();
   const { id } = useParams();
-  const { mutate: getReact } = useMutation({
+  const { mutateAsync: getReact } = useMutation({
     mutationFn: getReactApi,
     onSuccess: (respone) => {
       if (respone.result) {
