@@ -263,22 +263,22 @@ const ExpertsContent = () => {
     return false;
   };
   const onFinish = async (values) => {
-    console.log(values);
-    // const formatUserDayOfBirth = dayjs(values.dateOfBirth["$d"]).format(
-    //   "DD/MM/YYYY HH:mm:ss"
-    // );
-    // const data = {
-    //   avatarPath:
-    //     "https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_tB5idnWvVj.jpg",
-    //   bio: "",
-    //   ...values,
-    // };
-    // data.dateOfBirth = formatUserDayOfBirth;
-    // if (handleCheckValidBirth(values.dateOfBirth["$y"])) {
-    //   createExpert(data);
-    // } else {
-    //   message.error("invalid year");
-    // }
+    // console.log(values);
+    const formatUserDayOfBirth = dayjs(values.dateOfBirth["$d"]).format(
+      "DD/MM/YYYY HH:mm:ss"
+    );
+    const data = {
+      avatarPath:
+        "https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_tB5idnWvVj.jpg",
+      bio: "",
+      ...values,
+    };
+    data.dateOfBirth = formatUserDayOfBirth;
+    if (handleCheckValidBirth(values.dateOfBirth["$y"])) {
+      createExpert(data);
+    } else {
+      message.error("invalid year");
+    }
   };
 
   useEffect(() => {
