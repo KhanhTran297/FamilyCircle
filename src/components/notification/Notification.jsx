@@ -10,7 +10,6 @@ import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
 import { getListNotificationApi } from "../../api/notification";
 import { getAccountClientApi } from "../../api/account";
 import NotificationCard from "./NotificationCard";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 const Notification = () => {
   const { accountProfile } = useAccount();
@@ -19,7 +18,6 @@ const Notification = () => {
   const [userId, setUserId] = useState([]);
   const [postId, setPostId] = useState([]);
   const [userEmail, setUserEmail] = useState([]);
-  const dispatch = useDispatch();
 
   const [usersData, setUsersData] = useState([]);
   const [socketNotification, setSocketNotification] = useState(null);
