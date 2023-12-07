@@ -20,6 +20,7 @@ const CommentForm = (props) => {
     setInputValue("");
     createComment(data);
   };
+  
   const className =
     props.depth === 2
       ? "xl:flex xl:flex-row xl:gap-2 pb-4 "

@@ -155,7 +155,6 @@ const Notification = () => {
       const user = usersData.find(
         (u) => u.email === socketNotification.createdBy
       );
-      console.log("hickkkkkkkkkkkk", socketNotification);
       setNotifications((prevNotifications) => {
         const isExisting = prevNotifications.some(
           (notification) => notification.id === socketNotification.id
