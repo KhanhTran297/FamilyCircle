@@ -15,8 +15,7 @@ const Notification = () => {
   const { accountProfile } = useAccount();
   const accountId = accountProfile?.data?.id;
   const [notifications, setNotifications] = useState([]);
-  const [userId, setUserId] = useState([]);
-  const [postId, setPostId] = useState([]);
+  
   const [userEmail, setUserEmail] = useState([]);
 
   const [usersData, setUsersData] = useState([]);
