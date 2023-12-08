@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ReactDOM from "react-dom";
 import RadioButton from "../shared/RadioButton";
@@ -41,7 +41,9 @@ const ReportModal = (props) => {
     } else {
       console.log("error");
     }
+    setSelectedValue(null);
   };
+
   if (showSuccessModal) {
     setTimeout(() => {
       if (countdown > 0) {
@@ -62,7 +64,10 @@ const ReportModal = (props) => {
     >
       <div
         className="absolute inset-0 bg-modal"
-        onClick={props.handleClose}
+        onClick={() => {
+          props.handleClose();
+          setSelectedValue(null);
+        }}
       ></div>
       <div className=" z-10 w-full h-auto bg-[#FFF8F8] desktop:p-6 px-6 desktop:max-w-[600px] desktop:h-auto desktop:shadow-modal  desktop:rounded-[28px]  rounded-t-[28px] fixed bottom-0 desktop:relative">
         <div className="py-6 desktop:hidden">
@@ -139,7 +144,10 @@ const ReportModal = (props) => {
           <div className="flex flex-row items-center self-end gap-2">
             <button
               className="flex items-center h-10 px-3 rounded-[36px]"
-              onClick={props.handleClose}
+              onClick={() => {
+                props.handleClose();
+                setSelectedValue(null);
+              }}
             >
               <p className="font-medium ext-sm font-roboto text-[#A73574]">
                 Cancel

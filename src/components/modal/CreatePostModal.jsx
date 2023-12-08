@@ -179,7 +179,6 @@ const CreatePostModal = (props) => {
     }
   };
   useEffect(() => {
-    console.log("Title from props:", props.title);
     const initialTitle = props?.title || "Untitled";
     setTitle(initialTitle);
 
@@ -313,11 +312,11 @@ const CreatePostModal = (props) => {
 
                   {/* Hiển thị thông báo nếu trống */}
                 </div>
-                <div className=" text-sm text-gray-600">
+                <div className="text-sm text-gray-600 ">
                   {titleCharCount}/120
                 </div>
                 {props.selectedKind === "1" && title === "Untitled" && (
-                  <div className=" text-red-500 text-left">
+                  <div className="text-left text-red-500 ">
                     Title cannot be empty.
                   </div>
                 )}

@@ -19,7 +19,7 @@ function useReact(postId) {
     enabled: true,
   });
   //create and delete react
-  const { mutate: getReact } = useMutation({
+  const { mutateAsync: getReact } = useMutation({
     mutationFn: getReactApi,
     onSuccess: (respone) => {
       if (respone.result) {
