@@ -21,8 +21,8 @@ const LeftSideBar = () => {
           <Menu />
         </div>
         <UserSetting />
-        <div className="w-[232px] h-[1px] bg-[#F1DEE4] hidden desktop:inline-block"></div>
-        <SwitchMode />
+        {/* <div className="w-[232px] h-[1px] bg-[#F1DEE4] hidden desktop:inline-block"></div>
+        <SwitchMode /> */}
       </div>
     </nav>
   );
