@@ -140,9 +140,15 @@ const ExpertsContent = () => {
 
   const { mutate: createExpert } = useMutation({
     mutationFn: createExpertAccountApi,
-    onSuccess: () => {
-      getListExpertAccounts();
-      message.success("Create expert successfully");
+    onSuccess: (res) => {
+      if (res.code == "ACCOUNT_ERROR_EMAIL_EXIST") {
+        message.error("Email already exists");
+      } else {
+        message.success("Create expert successfully");
+        getListExpertAccounts();
+      }
+
+      // message.success("Create expert successfully");
     },
   });
   const { refetch: getListExpertAccounts, isLoading } = useQuery({
