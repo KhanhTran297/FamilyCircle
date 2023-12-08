@@ -86,6 +86,7 @@ const MessagePage = () => {
       conversationDetail?.accountList[0]?.account.id == account?.data?.id
         ? conversationDetail?.accountList[1]?.account.id
         : conversationDetail?.accountList[0]?.account.id;
+    if (messageRef.current.value == "") return;
     socket.emit("sendMessage", {
       senderId: account?.data?.id,
       id: receiverId,
