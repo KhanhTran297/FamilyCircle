@@ -24,7 +24,14 @@ const EditingModal = ({
     dateOfBirth: accountProfile?.data?.dateOfBirth,
     fullName: accountProfile?.data?.fullName,
     phone: accountProfile?.data?.phone,
+    ...(accountProfile?.data?.kind === 3 && {
+      academicDegreeId: accountProfile?.data?.academicDegree?.id,
+      departmentId: accountProfile?.data?.department?.id,
+      hospitalId: accountProfile?.data?.hospital?.id,
+      hospitalRoleId: accountProfile?.data?.hospitalRole?.id,
+    }),
   };
+
   const queryClient = useQueryClient();
   const { mutateAsync: editUserAccount } = useMutation({
     mutationFn: editProfileApi,
@@ -36,7 +43,7 @@ const EditingModal = ({
   const { mutateAsync: editExpertAccount } = useMutation({
     mutationFn: editExpertAccountApi,
     onSuccess: (data) => {
-      queryClient.setQueryData("accountProfile", data);
+      queryClient.invalidateQueries("accountProfile");
       message.success("Edit profile successfully");
     },
   });
@@ -95,7 +102,7 @@ const EditingModal = ({
             <Form.Item name="bio">
               <Input.TextArea
                 showCount
-                maxLength={240}
+                maxLength={1000}
                 size="large"
                 defaultValue={initValue}
                 allowClear

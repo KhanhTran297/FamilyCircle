@@ -88,6 +88,7 @@ const BodyProfile = () => {
       message.success("Edit profile successfully");
     },
   });
+
   const { createFollow, unFollow } = useFollowMutate();
   const { mutateAsync: upLoadImage } = useMutation({
     mutationFn: uploadImageApi,
@@ -99,6 +100,10 @@ const BodyProfile = () => {
           dateOfBirth: accountProfile?.data?.dateOfBirth,
           fullName: accountProfile?.data?.fullName,
           phone: accountProfile?.data?.phone,
+          academicDegreeId: accountProfile?.data?.academicDegree?.id,
+          departmentId: accountProfile?.data?.department?.id,
+          hospitalId: accountProfile?.data?.hospital?.id,
+          hospitalRoleId: accountProfile?.data?.hospitalRole?.id,
         };
         editExpertAccount(newData);
       } else {
