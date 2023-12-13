@@ -38,7 +38,6 @@ const Tab = (props) => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
-
   return (
     <div className="flex flex-col w-full">
       <div className="flex flex-col backdrop-blur-[32px] sticky top-14 desktop:top-0 z-20">
@@ -111,22 +110,30 @@ const Tab = (props) => {
                   {Array.isArray(page?.data?.content) && // Kiểm tra xem page.data là mảng
                     page?.data?.content
                       // .filter((post) => post.kind === 1)
-                      .map((post, index) => (
-                        // console.log(post.id),
-                        <Post
-                          key={index}
-                          id={post.id}
-                          content={post.content}
-                          fullname={post.owner.fullName}
-                          kind={post.owner.kind}
-                          modifiedDate={post.modifiedDate}
-                          createdDate={post.createdDate}
-                          idowner={post.owner.id}
-                          kindPost={post.kind}
-                          avatar={post.owner.avatar}
-                          title={post.title}
-                        />
-                      ))}
+                      .map(
+                        (post, index) => (
+                          console.log(
+                            "comment",
+                            post?.commentList?.length || 0
+                          ),
+                          (
+                            <Post
+                              key={index}
+                              id={post.id}
+                              content={post.content}
+                              fullname={post.owner.fullName}
+                              kind={post.owner.kind}
+                              modifiedDate={post.modifiedDate}
+                              createdDate={post.createdDate}
+                              idowner={post.owner.id}
+                              kindPost={post.kind}
+                              avatar={post.owner.avatar}
+                              title={post.title}
+                              countComment={post?.commentList?.length || 0}
+                            />
+                          )
+                        )
+                      )}
                 </div>
               </div>
             ))}
@@ -268,6 +275,7 @@ const Tab = (props) => {
                           kindPost={post.kind}
                           avatar={post.owner.avatar}
                           title={post.title}
+                          countComment={post?.commentList?.length || 0}
                         />
                       ))}
                 </div>
@@ -339,6 +347,7 @@ const Tab = (props) => {
                           kindPost={post.kind}
                           avatar={post.owner.avatar}
                           title={post.title}
+                          countComment={post?.commentList?.length || 0}
                         />
                       ))}
                 </div>

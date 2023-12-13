@@ -15,6 +15,7 @@ function useCommentMutate(commentId, parentId) {
       queryClient.invalidateQueries(["listcomment"]);
       queryClient.invalidateQueries(["listChildComment", commentId]);
       queryClient.invalidateQueries(["listcommentForCount"]);
+      queryClient.invalidateQueries(["postDetail"]);
       // if (parentId) {
       //   queryClient.invalidateQueries(["listChildComment", commentId]);
       // } else {
@@ -38,6 +39,7 @@ function useCommentMutate(commentId, parentId) {
     onSuccess: () => {
       // queryClient.invalidateQueries(["listcomment"]);
       queryClient.invalidateQueries(["listcommentForCount"]);
+      queryClient.invalidateQueries(["postDetail"]);
       if (parentId) {
         queryClient.invalidateQueries(["listChildComment", parentId]);
       } else {

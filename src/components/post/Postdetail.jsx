@@ -70,7 +70,6 @@ const PostDetail = (props) => {
   const postDetail = useGetFetchQuery(["postDetail", id]);
   const { createNotification, createAnnounce } = useNotificationMutate();
   const socket = useNotificationSocket();
-
   const { listBookmark } = useBookmark();
   const { getBookmark } = useBookmarkMutate();
   const { listFollowing } = useFollow();
