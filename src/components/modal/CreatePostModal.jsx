@@ -258,7 +258,7 @@ const CreatePostModal = (props) => {
               <div className="w-full h-[1px] bg-[#F1DEE4] desktop:hidden"></div>
               <div className="flex flex-col w-full h-full gap-2 ">
                 <div className="flex w-full gap-2 ">
-                  <AvtUser />
+                  <AvtUser imageUrl={props.avatar} />
                   <div className="items-start flex-1 desktop:h-9">
                     <p className="w-full text-[#1F1A1C] font-medium items-center text-sm dark:text-[#CEC4C6] font-roboto">
                       {props.fullname}
