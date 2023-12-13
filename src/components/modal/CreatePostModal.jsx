@@ -272,6 +272,10 @@ const CreatePostModal = (props) => {
                     </p>
                   </div>
                 </div>
+                <div className="text-base font-roboto text-[red]  ">
+                  Please note that the post must be valid, free from profanity,
+                  profanity, or images
+                </div>
                 <div
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
@@ -383,8 +387,8 @@ const CreatePostModal = (props) => {
                   className="publish"
                 >
                   {props.isUpdate
-                    ? "Are you sure to update this post"
-                    : "Are you sure to publish this post"}
+                    ? "Are you sure to update this post? Please note that the post must be valid, free from profanity, profanity, or images"
+                    : "Are you sure to publish this post? Please note that the post must be valid, free from profanity, profanity, or images"}
                 </Modal>
               </div>
             </div>
