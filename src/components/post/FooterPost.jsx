@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { ILocalComment } from "../svg/comment";
 import { ILocalEmptyHeart } from "../svg/empty_heart";
 import { ILocalHeart } from "../svg/heart";
 import { ILocalShared } from "../svg/shared";
 
 const FooterPost = (props) => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-row w-full h-10 desktop:pl-12">
       {props.isLike ? (
@@ -34,10 +36,13 @@ const FooterPost = (props) => {
         </button>
       )}
       <div className="border-[1px] h-10 border-[#F1DEE4]"></div>
-      <div className="flex flex-row items-center justify-center flex-1 gap-2 rounded-[36px] hover:bg-menu pl-3 pr-3">
+      <div
+        className="flex flex-row items-center justify-center flex-1 gap-2 rounded-[36px] hover:bg-menu pl-3 pr-3"
+        onClick={() => navigate(`/post/${props.id}`)}
+      >
         <ILocalComment fill="#A73574" />
         <p className="text-sm font-medium font-roboto text-[#A73574]">
-          {props?.commentCount || 0}
+          {props?.countComment}
         </p>
       </div>
       {/* <div className="border-[1px] h-10 border-[#F1DEE4]"></div>

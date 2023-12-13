@@ -68,6 +68,7 @@ const PostDetailPage = () => {
               avatar={postDetail?.data?.owner?.avatar}
               kindPost={postDetail?.data?.kind}
               title={postDetail?.data?.title}
+              countComment={postDetail?.data?.commentList?.length || 0}
             />
           )}
         </div>
