@@ -34,8 +34,6 @@ function useAccountMutate() {
         // getProfileAccount().then(() => {
         //   navigate("/index");
         // });
-        console.log("data", data);
-
         queryClient
           .fetchQuery({
             queryKey: ["accountProfile"],
@@ -44,7 +42,6 @@ function useAccountMutate() {
           .then(() => {
             navigate("/index");
           });
-
         // queryClient.fetchQuery("accountProfile").then(() => {
         //   navigate("/index");
         // });

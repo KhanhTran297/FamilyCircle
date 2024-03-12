@@ -1,5 +1,6 @@
 import axios from "axios";
-const baseURL = "https://social-networking-api.up.railway.app";
+// const baseURL = "https://social-networking-api.up.railway.app";
+const baseURL = "http://localhost:8888";
 export const instance = axios.create({
   baseURL,
   headers: {
