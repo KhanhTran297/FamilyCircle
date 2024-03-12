@@ -170,6 +170,7 @@ const BodyProfile = () => {
                 className="avatar-uploader "
                 showUploadList={false}
                 action={(value) => {
+                  console.log(value);
                   upLoadImage({ file: value, type: "avatar" });
                 }}
                 beforeUpload={beforeUpload}

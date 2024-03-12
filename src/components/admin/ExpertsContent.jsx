@@ -188,15 +188,6 @@ const ExpertsContent = () => {
       console.log(listCategory);
     },
   });
-  // const handleGetInitialValues = (id) => {
-  //   getListCategory().then((data) => {
-  //     const item = data.data.data.content.find((item) => {
-  //       item.id === parseInt(id);
-  //       return item;
-  //     });
-  //     return item.categoryName;
-  //   });
-  // };
   const columns = [
     {
       title: "Avatar",
@@ -381,12 +372,6 @@ const ExpertsContent = () => {
               labelCol={{
                 span: 4,
               }}
-              // wrapperCol={{
-              //   span: 16,
-              // }}
-              // style={{
-              //   maxWidth: 600,
-              // }}
               initialValues={{
                 remember: true,
               }}
