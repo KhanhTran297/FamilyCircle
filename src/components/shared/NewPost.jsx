@@ -55,11 +55,11 @@ const NewPost = () => {
         avatar={accountProfile?.data?.avatar}
       />
       <div
-        className={` fixed bottom-[56px] right-0 m-4  desktop:m-0 desktop:top-0 z-auto desktop:left-0 desktop:relative   ${
+        className={` fixed bottom-[56px] right-0 m-4  desktop:m-0 desktop:top-0 z-auto desktop:left-0 desktop:relative ${
           accountProfile?.data?.kind === 3
             ? "desktop:w-[164px]"
             : "desktop:w-[136px]"
-        } h-14 w-14      rounded-[28px]  desktop:pl-4 desktop:pt-[10px] desktop:pb-[10px] bg-[#FFD8E8] dark:bg-[#772956]  `}
+        } h-14 w-14 rounded-[28px]  desktop:pl-4 desktop:pt-[10px] desktop:pb-[10px] bg-[#FFD8E8] dark:bg-[#772956]  `}
         {...(accountProfile?.data?.kind === 2
           ? { onClick: checkAccount }
           : { onClick: toggleDropdown })}

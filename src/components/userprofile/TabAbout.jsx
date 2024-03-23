@@ -12,17 +12,17 @@ const TabAbout = () => {
   };
   return (
     <div className=" flex flex-col items-start gap-2 mt-4">
-      <div className="flex items-start">
+      <div className="flex flex-row justify-around xl:justify-normal w-full   xl:items-start ">
         <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
-          Fullname
+          Fullname:
         </p>
         <p className=" text-light_surface_on_surface text-sm font-medium font-roboto">
           {accountProfile?.data?.fullName}
         </p>
       </div>
-      <div className="flex items-start">
+      <div className="flex flex-row xl:justify-normal justify-around w-full items-start">
         <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
-          Date of birth
+          Date of birth:
         </p>
         <p className=" text-light_surface_on_surface text-sm font-medium font-roboto">
           {handleConvertTime(accountProfile?.data?.dateOfBirth) ===
@@ -31,9 +31,9 @@ const TabAbout = () => {
             : handleConvertTime(accountProfile?.data?.dateOfBirth)}
         </p>
       </div>
-      <div className="flex items-start">
+      <div className="flex flex-row xl:justify-normal w-full justify-around items-start">
         <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
-          Phone number
+          Phone number:
         </p>
         <p className=" text-light_surface_on_surface text-sm font-medium font-roboto">
           {accountProfile?.data?.phone || "N/A"}

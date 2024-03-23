@@ -32,9 +32,9 @@ const CommentRight = (props) => {
   // };
 
   return (
-    <div className="xl:flex xl:flex-row gap-2 flex-1">
-      <div className=" center xl:flex xl:flex-col xl:flex-auto ">
-        {isEditing ? (
+    <div className="xl:flex xl:flex-row gap-2 flex-1 flex flex-row">
+      <div className=" xl:center xl:flex xl:flex-col xl:flex-auto flex flex-col flex-auto">
+        {/* {isEditing ? (
           <TextArea
             defaultValue={data.commentContent}
             // onChange={(e) => setNewContent(e.target.value)}
@@ -55,8 +55,14 @@ const CommentRight = (props) => {
             dateModify={data.modifiedDate}
             content={data.commentContent}
           />
-        )}
-
+        )} */}
+        <CommentBody
+          fullName={data?.owner?.fullName}
+          kind={data?.owner?.kind}
+          dateCreate={data.createdDate}
+          dateModify={data.modifiedDate}
+          content={data.commentContent}
+        />
         <CommentFooter
           eventReply={eventReply}
           eventShowReply={eventShowReply}

@@ -1,5 +1,7 @@
 import MainLayout from "../layouts/MainLayout";
 import BookmarkPage from "../pages/main/BookmarkPage";
+import CommunicationPage from "../pages/main/CommunicationPage";
+import CommunityDetailPage from "../pages/main/CommunityDetailPage";
 import ForumPage from "../pages/main/ForumPage";
 import HomePage from "../pages/main/HomePage";
 import MessagePage from "../pages/main/MessagePage";
@@ -39,6 +41,22 @@ export default function init(routes) {
         element: (
           <GuardRoute path="/forum">
             <ForumPage />
+          </GuardRoute>
+        ),
+      },
+      {
+        path: "/community",
+        element: (
+          <GuardRoute path="/community">
+            <CommunicationPage />
+          </GuardRoute>
+        ),
+      },
+      {
+        path: "/community/:communityName",
+        element: (
+          <GuardRoute path="/community/:communityName">
+            <CommunityDetailPage />
           </GuardRoute>
         ),
       },

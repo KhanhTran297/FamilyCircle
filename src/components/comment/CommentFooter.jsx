@@ -53,7 +53,7 @@ const CommentFooter = ({
     checkReact();
   }, []);
   return (
-    <div className=" xl:flex xl:flex-row xl:gap-4 mt-1 pb-4">
+    <div className=" flex flex-row gap-4 mt-1 pb-4">
       <IconFooter
         check={true}
         count={data.commentReactions?.length || 0}

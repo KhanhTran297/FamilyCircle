@@ -222,7 +222,7 @@ const BodyProfile = () => {
                 onMouseLeave={() => {
                   setText("Following"), setColor("#A73574");
                 }}
-                className="  flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] border border-solid border-button-submit-light cursor-pointer hover:bg-bgErrorButton hover:border-[#BA1A1A]"
+                className="  flex h-10 xl:w-[93px] pr-4 pl-4 items-center gap-[7px] rounded-[36px] border border-solid border-button-submit-light cursor-pointer hover:bg-bgErrorButton hover:border-[#BA1A1A]"
               >
                 <p
                   className={` text-[${color}] font-roboto text-sm font-medium `}

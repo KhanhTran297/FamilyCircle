@@ -10,8 +10,8 @@ const CommentBody = ({ fullName, kind, dateCreate, dateModify, content }) => {
     return timeFormat;
   };
   return (
-    <div className="body xl:flex xl:flex-col gap-1">
-      <div className="title xl:flex xl:flex-row gap-2 text-center items-center">
+    <div className="body xl:flex xl:flex-col gap-1 flex flex-col">
+      <div className="title flex flex-row gap-2 text-center items-center">
         <div className="font-roboto text-sm font-medium text-center self-stretch text-light_surface_on_surface">
           {fullName}
         </div>
