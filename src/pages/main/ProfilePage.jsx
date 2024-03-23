@@ -8,6 +8,7 @@ import {
   getListfollowerByIdApi,
   getListfollowingByIdApi,
 } from "../../api/follow";
+import { ILocalArrowLeft } from "../../components/svg/arrow_left";
 
 const ProfilePage = () => {
   const { profileId } = useParams();
@@ -32,10 +33,20 @@ const ProfilePage = () => {
   //   setSearchParams({ post: profileId });
   // }, []);
   return (
-    <div className="w-full xl:w-[760px] self-stretch">
-      <div className="header xl:w-full flex flex-row gap-2 pt-2 pb-2 items-center">
+    <div className="w-full flex flex-col xl:w-[760px] self-stretch">
+      <div className="header xl:w-full flex flex-row gap-2 pt-2 pb-2 items-center bg-white sticky top-14 xl:top-0 z-20">
         <div className="left flex h-10 w-10 p-[10px] flex-col justify-center items-center">
-          <ILocalProfileButton />
+          <div className=" xl:block hidden">
+            <ILocalProfileButton />
+          </div>
+          <div
+            className=" xl:hidden cursor-pointer "
+            onClick={() => {
+              history.back();
+            }}
+          >
+            <ILocalArrowLeft fill="black" />
+          </div>
         </div>
         <div className="right flex flex-col justify-center items-start">
           <p className=" font-roboto text-base font-medium text-light_surface_on_surface">

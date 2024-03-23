@@ -11,7 +11,7 @@ const TabProfile = () => {
   const accountProfile = useGetFetchQuery(["accountProfile", profileId]);
   return (
     <div className=" flex flex-col w-full">
-      <div className="flex flex-row items-end self-stretch w-full">
+      <div className="flex flex-row items-end border-b-solid border-b-[1px] justify-around xl:justify-normal border-b-[#F1DEE4]  self-stretch w-full">
         <div
           onClick={() => setActiveTab(0)}
           className=" flex xl:min-w-[160px] xl:h-12 flex-col items-center cursor-pointer hover:bg-tabProfile"
@@ -58,7 +58,7 @@ const TabProfile = () => {
           </div>
           <div className=" h-[1px] w-full bg-[#F1DEE4]"></div>
         </div>
-        <div className=" h-[1px] w-full bg-[#F1DEE4]"></div>
+        <div className=" h-[1px] w-full bg-[#F1DEE4] hidden xl:block"></div>
       </div>
       {activeTab === 0 ? <TabPosts /> : <TabAbout />}
     </div>

@@ -26,7 +26,6 @@ import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
 import useNotificationSocket from "../../hooks/useNotificationSocket";
 const PostDetail = (props) => {
   const { id } = useParams();
-
   const [count, setCountComments] = useRecoilState(countComments);
   const {
     data: listComment,
@@ -51,10 +50,10 @@ const PostDetail = (props) => {
     queryKey: ["listcommentForCount"],
     queryFn: () => getListChildCommentApi(id),
     onSuccess: (result) => {
-      countListComment = result.data.totalElements;
+      countListComment = result?.data?.totalElements;
       // countListComment.push(result.data.content);
-      Promise.all(
-        result.data.content.map(async (item) => {
+      Promise?.all(
+        result?.data?.content?.map(async (item) => {
           const res = await getListChildCommentApi(id, item.id);
           if (res?.data?.content) {
             countListComment = countListComment + res?.data?.content?.length;
@@ -79,7 +78,6 @@ const PostDetail = (props) => {
   const accountProfileFullname = accountProfile?.data?.fullName;
   const accountProfileAvatar = accountProfile?.data?.avatar;
   const reactCount = postDetail?.data?.postReactions?.length;
-
   const listReactionPost = postDetail?.data?.postReactions;
   const listBookmarkPost = listBookmark?.data?.content;
   const listFollowingPerson = listFollowing?.data?.content;
@@ -240,6 +238,7 @@ const PostDetail = (props) => {
           getReact({ kind: props.kindPost, postId: props.id })
         }
         isLike={isLike}
+        PostId={props.id}
       />
       <div className="border-t-[1px] border-b-[1px] border-[#F1DEE4] h-[1px] w-full"></div>
       <div className="w-full ">
@@ -271,8 +270,9 @@ const PostDetail = (props) => {
             ))}
         </InfiniteScroll>
       </div>
-
-      <CommentForm id={props.id} parentId={""} />
+      <div className=" w-full hidden xl:block">
+        <CommentForm id={props.id} parentId={""} />
+      </div>
     </div>
   );
 };
@@ -283,6 +283,6 @@ PostDetail.propTypes = {
   likes: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   idowner: PropTypes.any.isRequired,
-  kindPost: PropTypes.string.isRequired,
+  kindPost: PropTypes.string,
 };
 export default PostDetail;

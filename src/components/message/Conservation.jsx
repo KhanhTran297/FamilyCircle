@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Avatar, Badge } from "antd";
 import dayjs from "dayjs";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
-
+import relativeTime from "dayjs/plugin/relativeTime";
 const Conservation = (props) => {
   const {
     ava,
@@ -18,16 +18,16 @@ const Conservation = (props) => {
   } = props;
   const [active, setActive] = useState(false);
   let limit = 15;
+  dayjs.extend(relativeTime);
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const checkOnline = (uid) => {
     return onlineUsers
       ? onlineUsers.some((user) => user?.accountId == uid)
       : false;
   };
-
   const calculateTimeAgo = (timestamp) => {
     const postTime = dayjs(timestamp, "DD/MM/YYYY HH:mm:ss");
-    const formattedDate = dayjs(postTime).fromNow();
+    const formattedDate = postTime.fromNow();
     return formattedDate;
   };
   const checkLastMessage = () => {

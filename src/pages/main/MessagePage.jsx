@@ -44,7 +44,7 @@ const MessagePage = () => {
       }),
     enabled: conversationId ? true : false,
   });
-
+  const size = window.innerWidth;
   const { data: listConversation, refetch: refetchListConversation } = useQuery(
     {
       queryKey: ["listConversation"],
@@ -142,10 +142,10 @@ const MessagePage = () => {
     // setOnlineUsers(JSON.parse(listOnlineUsers));
   }, [account]);
   return (
-    <div className="w-full xl:w-[1160px] flex flex-row h-screen">
+    <div className="w-full xl:w-full xl:flex xl:flex-row h-screen mt-14 xl:mt-0">
       {/* <Left /> */}
-      <div className=" xl:w-[368px] flex flex-col items-start gap-4 self-stretch border-r border-l border-solid border-r-[#F1DEE4]">
-        <div className=" xl:h-16 pl-6 pr-6 justify-center items-start self-stretch">
+      <div className=" xl:w-[368px]  w-full flex flex-col items-start gap-4 self-stretch border-r border-l border-solid border-r-[#F1DEE4]">
+        <div className=" xl:h-16 pl-6 pr-6 justify-center items-start self-stretch ">
           <p className=" font-roboto text-[22px] font-medium leading-7 text-[#1F1A1C]">
             Chat
           </p>
@@ -238,7 +238,7 @@ const MessagePage = () => {
       </div>
       {/* <Right /> */}
       {conversationDetail ? (
-        <div className=" flex flex-col items-start flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
+        <div className=" hidden xl:flex flex-col items-start flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
           <div className=" flex pt-3 pb-3 pl-4 pr-4 items-center self-stretch gap-2 border-b border-solid border-b-[#F1DEE4]">
             <div className=" w-10 h-10 rounded-[20px]">
               <img
@@ -312,7 +312,7 @@ const MessagePage = () => {
           </div>
         </div>
       ) : (
-        <div className=" flex flex-col items-center justify-center flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
+        <div className="  hidden xl:flex flex-col items-center justify-center flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
           <div className=" font-roboto text-base font-medium text-light_surface_on_surface_variant">
             Let's start some conversations
           </div>

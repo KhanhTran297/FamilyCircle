@@ -225,6 +225,7 @@ const Post = (props) => {
           handleActionUnreact={() =>
             getReact({ kind: props.kindPost, postId: props.id })
           }
+          PostId={props.id}
           isLike={isLike}
         />
       </div>

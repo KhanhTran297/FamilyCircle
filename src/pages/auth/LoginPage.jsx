@@ -70,7 +70,7 @@ const LoginPage = () => {
   const [form] = Form.useForm();
 
   return (
-    <div className=" absolute h-full w-full bg-authen-page dark:bg-black flex justify-center pt-16">
+    <div className=" absolute h-full w-full bg-authen-page dark:bg-black flex justify-center items-center">
       <div className="flex flex-col shadow-formAuthen justify-evenly gap-6 md:bg-primary md:p-8 md:rounded-2xl xl:bg-white  lg:bg-white lg:w-[500px] lg:p-8 lg:rounded-2xl xl:w-[640px] xl:h-max xl:p-6 xl:gap-6 xl:rounded-2xl lg:dark:bg-white md:dark:bg-white">
         <div className="flex flex-col gap-6">
           <div className=" justify-center flex flex-col gap-6 items-center ">

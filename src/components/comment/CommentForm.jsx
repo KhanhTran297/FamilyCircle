@@ -22,30 +22,30 @@ const CommentForm = (props) => {
   };
   const className =
     props.depth === 2
-      ? "xl:flex xl:flex-row xl:gap-2 pb-4 "
-      : "xl:w-full xl:flex xl:flex-row xl:gap-2 pb-4";
+      ? "flex flex-row gap-2 pb-4 "
+      : "w-full flex flex-row gap-2 pb-4";
   return (
     <div className={className}>
       {props.depth === 2 && (
         <div className=" w-[45px] flex justify-center items-center relative">
-          <ILocalArrowComment className=" absolute right-0 w-[20px] h-[20px] top-0" />
+          <ILocalArrowComment className=" absolute right-[-5px] xl:right-0 w-[20px] h-[20px] top-0" />
         </div>
       )}
 
       <div className="">
         <Avatar
           src={accountProfile?.data?.avatar}
-          className=" xl:w-10 xl:h-10 xl:rounded-[40px]"
+          className=" xl:w-10 xl:h-10 rounded-[40px] h-10 w-10 "
         />
       </div>
 
       <TextArea
         placeholder="Say some thing about this post..."
-        classNames=" xl:flex xl:flex-row-reverse xl:pl-4 xl:p-[0px] xl:h-10 xl:flex-1-0-0 xl:rounded-[100px] xl:items-center xl:cursor-text hover:!border-gray-400 "
+        classNames=" flex flex-row-reverse pl-4 p-[0px] h-10 flex-1-0-0 rounded-[100px] items-center cursor-text hover:!border-gray-400 "
         prefix={
           <ILocalArrowRight
             fill="#1F1A1C"
-            className="   xl:p-[8px] xl:ml-3 hover:bg-tab hover:bg-opacity-[8%] xl:cursor-pointer xl:rounded-full"
+            className="   p-[8px] ml-3 hover:bg-tab hover:bg-opacity-[8%] cursor-pointer rounded-full"
           />
         }
         onPressEnter={(values) => {
