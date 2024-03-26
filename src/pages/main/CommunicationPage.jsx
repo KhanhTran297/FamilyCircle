@@ -58,7 +58,7 @@ const CommunicationPage = (props) => {
           <CarouselItem key={index} item={item} />
         ))}
       </Carousel>
-      <div className=" flex xl:flex-row flex-col items-center gap-12 justify-center mt-6">
+      <div className="flex flex-col flex-wrap items-center justify-center max-w-full gap-12 mt-6 xl:flex-row">
         {/* {listCommunity !== undefined &&
           listCommunity.map((item, index) => (
             <CommunityItem key={index} item={item} />

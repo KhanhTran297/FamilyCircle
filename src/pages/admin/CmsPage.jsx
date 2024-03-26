@@ -39,12 +39,16 @@ const CmsPage = () => {
       case "posts":
         navigate(`/admin/${data.key}`);
         break;
+      case "community":
+        navigate(`/admin/${data.key}`);
+        break;
       case "rpposts":
         navigate(`/report/posts`);
         break;
       case "rpcomments":
         navigate(`/report/comments`);
         break;
+
       default:
         break;
     }
@@ -65,6 +69,7 @@ const CmsPage = () => {
     getItem("Manage category", "sub2", <FileOutlined />, [
       getItem("Hospital", "hospital"),
       getItem("Department", "department"),
+      getItem("Community", "community"),
     ]),
     getItem("Moderate posts", "posts", <ContainerOutlined />),
     getItem("Manage Report", "sub4", <FlagOutlined />, [
@@ -107,7 +112,7 @@ const CmsPage = () => {
           <img
             src="../../logo.jpg"
             alt=""
-            className="absolute w-3/4 rounded-full  h-4/4"
+            className="absolute w-3/4 rounded-full h-4/4"
           />
         </div>
         <Menu
@@ -152,7 +157,7 @@ const CmsPage = () => {
                   xxl: 50,
                 }}
                 src="https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_tB5idnWvVj.jpg"
-                className=" cursor-pointer hover:opacity-60"
+                className="cursor-pointer hover:opacity-60"
               />
             </a>
           </Dropdown>
@@ -161,6 +166,7 @@ const CmsPage = () => {
         <Content
           style={{
             margin: "24px 16px 0",
+            overflow: "scroll",
           }}
         >
           {/* {params.id === "1" && <UsersContent bg={colorBgContainer} />}
