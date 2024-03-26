@@ -1,3 +1,4 @@
+import CommunityContent from "../components/admin/CommunityContent";
 import DepartmentContent from "../components/admin/DepartmentContent";
 import ExpertsContent from "../components/admin/ExpertsContent";
 import HospitalContent from "../components/admin/HospitalContent";
@@ -41,6 +42,10 @@ export default function init(routes) {
           {
             path: "posts",
             element: <PostsContent />,
+          },
+          {
+            path: "community/",
+            element: <CommunityContent />,
           },
         ],
       },
