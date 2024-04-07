@@ -4,17 +4,21 @@ import AvtUser from "../shared/AvtUser";
 import QuillEditor from "../shared/QuillEditor";
 import { useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
-import { Form, Input, Modal } from "antd";
+import { Form, Input, Modal, Select } from "antd";
 import usePostMutate from "../../hooks/useMutate/usePostMutate";
-
+import { useQuery } from "@tanstack/react-query";
+import { getListCategoryApi } from "../../api/category";
 const CreatePostModal = (props) => {
   const { createPost, updatePost } = usePostMutate();
   const [isClosing, setIsClosing] = useState(false);
+  const [listCommunity, setListCommunity] = useState([]);
+  const [listTopic, setListTopic] = useState([]);
+  const [listTopicSelected, setListTopicSelected] = useState([]);
   const [contentError, setContentError] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tempContent, setTempContent] = useState("");
   const [tempTitle, setTempTitle] = useState("Untitled");
-
+  const [communityId, setCommunityId] = useState(props.community?.id || null);
   const [editState, setEditState] = useState(0); // 0: không chỉnh sửa, 1: đã nhấn, 2: đang chỉnh sửa
   const [title, setTitle] = useState("Untitled");
   const [hover, setHover] = useState(false);
@@ -28,6 +32,45 @@ const CreatePostModal = (props) => {
     },
     mode: "onSubmit",
   });
+  const { refetch: getListCommunity } = useQuery({
+    queryKey: ["getListCommunity", props.open],
+    queryFn: () =>
+      getListCategoryApi({ kind: 5 }).then((res) => {
+        const newData = res.data.content.map((item) => {
+          return { value: item.id, label: item.categoryName };
+        });
+        setListCommunity(newData);
+        return res.data.content;
+      }),
+  });
+
+  const { data } = useQuery({
+    queryKey: ["getListTopic", communityId],
+    queryFn: () =>
+      getListCategoryApi({ parentId: communityId }).then((res) => {
+        if (res?.data?.totalElements !== 0 && communityId !== null) {
+          const newData = res?.data?.content?.map((item) => {
+            return { value: item.id, label: item.categoryName };
+          });
+          setListTopic(newData);
+          return res.data.content;
+        } else {
+          setListTopic([]);
+          return [];
+        }
+      }),
+  });
+
+  const onChange = (value) => {
+    setCommunityId(value);
+  };
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
+
+  // Filter `option.label` match the user type `input`
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
   const handleMouseEnter = () => {
     setHover(true);
   };
@@ -66,12 +109,15 @@ const CreatePostModal = (props) => {
       return getValues("title") === "Untitled" || contentError;
     }
 
-    if (props.selectedKind === "1") {
-      return title === "Untitled" || contentError;
+    // if (props.selectedKind === "1") {
+    //   return title === "Untitled" || contentError;
+    // }
+    if (communityId === null) {
+      return true;
     }
+
     return contentError;
   };
-
   const formRef = useRef();
   const showModal = () => {
     setIsModalOpen(true);
@@ -89,12 +135,7 @@ const CreatePostModal = (props) => {
 
       // You can now use this character count as needed
       setWordCount(characterCount);
-      if (
-        !textOnlyContent.trim() ||
-        ((props.kind === 2 ||
-          (props.kind === 3 && props.selectedKind === "2")) &&
-          characterCount > 250)
-      ) {
+      if (!textOnlyContent.trim()) {
         setContentError(true);
       } else {
         setContentError(false);
@@ -113,36 +154,36 @@ const CreatePostModal = (props) => {
         setContentError(true); // Đặt lại trạng thái contentError
         setValue("title", tempTitle);
       }, 300);
-      console.log("close");
     }
   };
 
   const handleCreatePost = (value) => {
-    console.log(props.selectedKind);
-
-    if (props.kind === 2) {
-      const data = { ...value, kind: 2, privacy: 1, status: 1 };
-      createPost(data);
-    }
-    if (props.kind === 3) {
-      if (props.selectedKind === "1") {
-        const data = {
-          ...value,
-          kind: 1,
-          privacy: 1,
-          status: 0,
-        };
-        createPost(data);
-      } else {
-        const data = {
-          ...value,
-          kind: 2,
-          privacy: 1,
-          status: 1,
-        };
-        createPost(data);
-      }
-    }
+    // if (props.kind === 2) {
+    //   const data = { ...value, kind: 2, privacy: 1, status: 1 };
+    //   createPost(data);
+    // }
+    // console.log("value:", value);
+    // const data = { ...value, kind: 2, privacy: 1, status: 1 };
+    createPost(value);
+    // if (props.kind === 3) {
+    //   if (props.selectedKind === "1") {
+    //     const data = {
+    //       ...value,
+    //       kind: 1,
+    //       privacy: 1,
+    //       status: 0,
+    //     };
+    //     createPost(data);
+    //   } else {
+    //     const data = {
+    //       ...value,
+    //       kind: 2,
+    //       privacy: 1,
+    //       status: 1,
+    //     };
+    //     createPost(data);
+    //   }
+    // }
   };
   const handleUpdatePost = (id, value) => {
     const data = { ...value, id: id };
@@ -150,28 +191,31 @@ const CreatePostModal = (props) => {
     updatePost(data);
   };
   const onSubmit = (values) => {
-    if (
-      (props.selectedKind === "2" && contentError) ||
-      isClosing ||
-      (props.selectedKind === "1" && title === "Untitled" && contentError)
-    ) {
-      return;
-    }
+    // if (
+    //   (props.selectedKind === "2" && contentError) ||
+    //   isClosing ||
+    //   (props.selectedKind === "1" && title === "Untitled" && contentError)
+    // ) {
+    //   return;
+    // }
 
     if (props.isUpdate === true) {
-      const data = { ...values };
+      const data = {
+        ...values,
+        // communityId: communityId,
+        topics: listTopicSelected,
+      };
       handleUpdatePost(props.id, data);
       handleClose();
       setIsModalOpen(false);
-    } else if (props.isUpdate === false && props.kind === 2) {
-      const data = { ...values, kind: 2, privacy: 1 };
-      handleCreatePost(data);
-
-      handleClose();
-      setIsModalOpen(false);
-      reset();
-    } else if (props.isUpdate === false && props.kind === 3) {
-      const data = { ...values, kind: props.selectedKind, privacy: 1 };
+    } else {
+      const data = {
+        ...values,
+        status: 0,
+        communityId: communityId,
+        privacy: 1,
+        topics: listTopicSelected,
+      };
       handleCreatePost(data);
       handleClose();
       setIsModalOpen(false);
@@ -197,16 +241,20 @@ const CreatePostModal = (props) => {
       ""
     );
     const initialCharacterCount = initialTextOnlyContent.trim().length;
-
-    if (
-      initialCharacterCount === 0 ||
-      (props.selectedKind === "2" && initialCharacterCount > 250)
-    ) {
+    if (initialCharacterCount === 0) {
       setContentError(true);
     } else {
       setContentError(false);
     }
-  }, [props.content, props.selectedKind]);
+    // if (
+    //   initialCharacterCount === 0 ||
+    //   (props.selectedKind === "2" && initialCharacterCount > 250)
+    // ) {
+    //   setContentError(true);
+    // } else {
+    //   setContentError(false);
+    // }
+  }, [props.content]);
   if (typeof document === "undefined")
     return <div className="createpostdetail"></div>;
   return ReactDOM.createPortal(
@@ -248,11 +296,7 @@ const CreatePostModal = (props) => {
                   </div>
                 </div>
                 <p className="font-normal tex-2xl text-light_surface_on_surface font-roboto">
-                  {props.isUpdate
-                    ? "Edit Post"
-                    : props.selectedKind === "1"
-                    ? "New post to Home"
-                    : "New post to Forum"}
+                  {props.isUpdate ? "Edit Post" : "New post to Home"}
                 </p>
               </div>
               <div className="w-full h-[1px] bg-[#F1DEE4] desktop:hidden"></div>
@@ -276,6 +320,44 @@ const CreatePostModal = (props) => {
                   Please note that the post must be valid, free from profanity,
                   profanity, or images
                 </div>
+                <div className="flex flex-row justify-around gap-2">
+                  <div className="flex flex-row items-center flex-1 gap-2">
+                    <div className="">
+                      <p className="text-sm font-roboto"> Post to community:</p>
+                    </div>
+                    <div className="w-full">
+                      <Select
+                        showSearch
+                        placeholder="Select community"
+                        optionFilterProp="children"
+                        value={communityId || undefined}
+                        onChange={onChange}
+                        onSearch={onSearch}
+                        filterOption={filterOption}
+                        options={listCommunity}
+                        style={{ width: "100%" }}
+                        disabled={props.isUpdate}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-row items-center flex-1 gap-2">
+                    <div className="">
+                      <p className="text-sm font-roboto">Choose topics :</p>
+                    </div>
+                    <div className="w-full ">
+                      <Select
+                        mode="multiple"
+                        placeholder="Select Topics"
+                        onChange={(value) => setListTopicSelected(value)}
+                        style={{
+                          width: "100%",
+                        }}
+                        options={listTopic}
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
@@ -319,25 +401,26 @@ const CreatePostModal = (props) => {
                 <div className="text-sm text-gray-600 ">
                   {titleCharCount}/120
                 </div>
-                {props.selectedKind === "1" && title === "Untitled" && (
+                {/* Ham check phai co title  */}
+                {/* {props.selectedKind === "1" && title === "Untitled" && (
                   <div className="text-left text-red-500 ">
                     Title cannot be empty.
                   </div>
-                )}
+                )} */}
 
                 <div className="relative w-full min-h-[350px] max-h-[400px]">
                   <QuillEditor
                     name="content"
                     value={getValues("content")}
                     onChange={handleContentChange}
-                    selectedKind={props.selectedKind}
+                    // selectedKind={props.selectedKind}
                   />
                 </div>
-                {(props.kind === 2 || props.selectedKind === "2") && (
+                {/* {(props.kind === 2 || props.selectedKind === "2") && (
                   <div className="relative mt-10 text-sm text-gray-600">
                     {wordCount}/250 (Limit 250)
                   </div>
-                )}
+                )} */}
               </div>
               <div className="fixed z-50 flex items-center self-end  gap-2 mt-3 bottom-3 desktop:bottom-auto desktop:mt-0  right-6 desktop:right-0 desktop:top-[0.5px] desktop:items-start desktop:absolute ">
                 <button
@@ -406,7 +489,8 @@ CreatePostModal.propTypes = {
   handleClose: PropTypes.func.isRequired,
   fullname: PropTypes.string,
   kind: PropTypes.number,
-  selectedKind: PropTypes.string,
+  // community: PropTypes.object,
+  // selectedKind: PropTypes.string,
 };
 
 export default CreatePostModal;

@@ -6,24 +6,6 @@ import { Skeleton } from "antd";
 import PostDetail from "../../components/post/Postdetail";
 
 const PostDetailPage = () => {
-  // const param = useParams();
-  // const {
-  //   data: post,
-  //   refetch: getPost,
-  //   isLoading,
-  // } = useQuery({
-  //   queryKey: ["post", param.id],
-  //   queryFn: () => getPostApi(param.id),
-  //   enabled: false,
-  //   retry: 0,
-  //   onSuccess: () => {
-  //     // message.success("get post success");
-  //   },
-  // });
-
-  // useEffect(() => {
-  //   getPost();
-  // }, []);
   const { id } = useParams();
   const { data: postDetail, isLoading } = useQuery({
     queryKey: ["postDetail", id],
@@ -35,6 +17,7 @@ const PostDetailPage = () => {
     },
   });
   // const { post, isLoading } = UsePost();
+  console.log(postDetail?.data?.topics);
   return (
     <div className="w-full xl:w-[760px]   ">
       <div className="flex flex-col w-full">
@@ -68,7 +51,9 @@ const PostDetailPage = () => {
               avatar={postDetail?.data?.owner?.avatar}
               kindPost={postDetail?.data?.kind}
               title={postDetail?.data?.title}
+              community={postDetail?.data?.community || undefined}
               countComment={postDetail?.data?.commentList?.length || 0}
+              topics={postDetail?.data?.topics || undefined}
             />
           )}
         </div>

@@ -37,7 +37,7 @@ const MainLayout = () => {
       >
         <LeftSideBar />
 
-        <div className=" flex-grow">
+        <div className="flex-grow ">
           <Outlet />
         </div>
 

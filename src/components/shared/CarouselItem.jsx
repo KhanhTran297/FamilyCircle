@@ -9,12 +9,12 @@ const CarouselItem = (props) => {
         <img
           src={props.item.categoryImage}
           alt=""
-          className=" w-[250px] h-[250px]"
+          className=" w-[250px] h-[250px] object-cover"
         />
       </div>
       <div className="flex flex-col gap-2 pl-2 pr-2 xl:mt-10 xl:w-full xl:pr-8">
-        <div className=" text-3xl font-roboto">{props.item.categoryName}</div>
-        <div className=" whitespace-normal font-roboto text-lg">
+        <div className="text-3xl font-roboto">{props.item.categoryName}</div>
+        <div className="text-lg whitespace-normal font-roboto">
           {props.item.categoryDescription}
         </div>
         <div className="flex items-center xl:justify-end xl:mt-4">

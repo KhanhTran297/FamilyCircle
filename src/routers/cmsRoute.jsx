@@ -1,10 +1,13 @@
+import AcademicDegree from "../components/admin/AcademicDegree";
 import CommunityContent from "../components/admin/CommunityContent";
 import DepartmentContent from "../components/admin/DepartmentContent";
 import ExpertsContent from "../components/admin/ExpertsContent";
 import HospitalContent from "../components/admin/HospitalContent";
+import HospitalRoleContent from "../components/admin/HospitalRoleContent";
 import PostsContent from "../components/admin/PostsContent";
 import ReportCommentContent from "../components/admin/ReportCommentContent";
 import ReportPostContent from "../components/admin/ReportPostContent";
+import TopicContent from "../components/admin/TopicContent";
 import UsersContent from "../components/admin/UsersContent";
 import CmsLayout from "../layouts/CmsLayout";
 import CmsPage from "../pages/admin/CmsPage";
@@ -36,6 +39,14 @@ export default function init(routes) {
             element: <HospitalContent />,
           },
           {
+            path: "hospitalrole",
+            element: <HospitalRoleContent />,
+          },
+          {
+            path: "academicdegree",
+            element: <AcademicDegree />,
+          },
+          {
             path: "department",
             element: <DepartmentContent />,
           },
@@ -45,7 +56,17 @@ export default function init(routes) {
           },
           {
             path: "community/",
-            element: <CommunityContent />,
+
+            children: [
+              {
+                path: ":id",
+                element: <TopicContent />,
+              },
+              {
+                path: "",
+                element: <CommunityContent />,
+              },
+            ],
           },
         ],
       },
