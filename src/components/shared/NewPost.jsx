@@ -51,7 +51,7 @@ const NewPost = () => {
         open={showCreatePost}
         handleClose={() => setShowCreatePost(false)}
         isUpdate={false}
-        selectedKind={selectedKind} // Fixed: removed colon
+        // selectedKind={selectedKind} // Fixed: removed colon
         avatar={accountProfile?.data?.avatar}
       />
       <div

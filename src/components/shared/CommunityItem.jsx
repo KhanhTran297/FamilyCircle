@@ -4,9 +4,27 @@ import { ILocalFollowProfile } from "../svg/followprofile";
 import { ILocalCircle } from "../svg/circle";
 import { useNavigate } from "react-router-dom";
 import useCommunityMutate from "../../hooks/useMutate/useCommunityMutate";
+import { useQuery } from "@tanstack/react-query";
+import { ListUserCommunityApi } from "../../api/community";
+import { getListCategoryApi } from "../../api/category";
 
 const CommunityItem = (props) => {
   const navigate = useNavigate();
+  const { data: listMember, refetch: refetchListMember } = useQuery({
+    queryKey: ["getListMemberCommunity", props?.item?.id],
+    queryFn: () =>
+      ListUserCommunityApi({ communityId: props?.item?.id }).then((res) => {
+        return res?.data;
+      }),
+  });
+  const { data: listTopics } = useQuery({
+    queryKey: ["getListTopic", props?.item?.id],
+    queryFn: () =>
+      getListCategoryApi({ parentId: props?.item?.id }).then((res) => {
+        return res?.data?.content;
+      }),
+  });
+
   const [text, setText] = useState("Following");
   const [color, setColor] = useState("#A73574");
   const { unFollowCommunity, followCommunity } = useCommunityMutate();
@@ -20,21 +38,35 @@ const CommunityItem = (props) => {
       >
         <img src={props.item.categoryImage} alt="" className="h-full" />
       </div>
-      <div className=" relative h-full flex flex-col gap-2 pl-3 pr-3 pt-2 pb-2">
-        <div className=" flex flex-col gap-2">
-          <p className=" font-roboto text-xl font-medium">
+      <div className="relative flex flex-col h-full gap-2 pt-2 pb-2 pl-3 pr-3 ">
+        <div className="flex flex-col gap-2 ">
+          <p className="text-xl font-medium font-roboto">
             {props.item.categoryName}
           </p>
-          <div className=" flex items-center flex-row gap-1">
-            <p className=" font-roboto text-sm">3 topics</p>
+          <div className="flex flex-row items-center gap-1 ">
+            <p className="text-sm font-roboto">
+              {" "}
+              {listTopics
+                ? listTopics?.length > 1
+                  ? listTopics?.length + " topics"
+                  : listTopics?.length + " topic"
+                : "0 topic"}
+            </p>
             <ILocalCircle fill="#ccc" />
-            <p className=" font-roboto text-sm">3 followers</p>
+            <p className="text-sm font-roboto">
+              {" "}
+              {listMember
+                ? listMember?.totalElements > 1
+                  ? listMember?.totalElements + " followers"
+                  : listMember?.totalElements + " follower"
+                : "0 follower"}
+            </p>
             {/* <circle />
-            <p className=" font-roboto text-sm"></p> */}
+            <p className="text-sm font-roboto"></p> */}
           </div>
         </div>
-        <div className=" absolute bottom-3 left-0 right-0 w-full pl-2 pr-2 ">
-          <div className="flex items-center  w-full">
+        <div className="absolute left-0 right-0 w-full pl-2 pr-2 bottom-3">
+          <div className="flex items-center w-full">
             {/* <div className=" flex h-10 pr-4 pl-4 justify-center items-center gap-[7px] w-full  rounded-[36px] bg-button-submit-light hover:bg-button-hover-light cursor-pointer hover:shadow-buttonHover">
               <ILocalFollowProfile
                 className=" w-[16px] h-[16px]"
@@ -48,7 +80,9 @@ const CommunityItem = (props) => {
               <div
                 // onClick={() => unFollow({ accountId: profileId })}
                 onClick={() =>
-                  unFollowCommunity({ communityId: props.item.id })
+                  unFollowCommunity({ communityId: props.item.id }).then(() =>
+                    refetchListMember()
+                  )
                 }
                 onMouseEnter={() => {
                   setText("Unfollow"), setColor("red");
@@ -67,7 +101,11 @@ const CommunityItem = (props) => {
             ) : (
               <div
                 // onClick={() => createFollow({ accountId: profileId })}
-                onClick={() => followCommunity({ communityId: props.item.id })}
+                onClick={() =>
+                  followCommunity({ communityId: props.item.id }).then(() =>
+                    refetchListMember()
+                  )
+                }
                 className=" flex h-10 pr-4 pl-4 w-full justify-center items-center gap-[7px] rounded-[36px] bg-button-submit-light hover:bg-button-hover-light cursor-pointer hover:shadow-buttonHover"
               >
                 <ILocalFollowProfile

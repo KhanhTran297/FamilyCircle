@@ -21,7 +21,7 @@ const HomePage = () => {
     //     <RightSiderBar />
     //   </div>
     // </div>
-    <div className="w-full">
+    <div className="flex justify-center w-full">
       <div className="flex self-stretch justify-center w-full desktop:w-[760px]">
         <Tab kind="1" />
       </div>

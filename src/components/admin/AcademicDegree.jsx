@@ -8,7 +8,7 @@ import {
   updateCategoryApi,
 } from "../../api/category";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-const DepartmentContent = () => {
+const AcademicDegree = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [check, setCheck] = useState(1);
@@ -16,12 +16,12 @@ const DepartmentContent = () => {
   const [form] = Form.useForm();
   const columns = [
     {
-      title: "Department name",
+      title: "Academic degree name",
       dataIndex: "categoryName",
       key: "categoryName",
     },
     {
-      title: "Department description",
+      title: "Academic degree description",
       dataIndex: "categoryDescription",
       key: "categoryDescription",
     },
@@ -43,8 +43,8 @@ const DepartmentContent = () => {
             </Button>
 
             <Popconfirm
-              title="Delete this department ?"
-              description="Are you sure to delete this department?"
+              title="Delete this academic degree?"
+              description="Are you sure to delete this academic degree?"
               icon={
                 <QuestionCircleOutlined
                   style={{
@@ -66,21 +66,21 @@ const DepartmentContent = () => {
   const { mutate: handleDeleteCategory } = useMutation({
     mutationFn: deleteCategoryApi,
     onSuccess: () => {
-      message.success("Delete department success");
+      message.success("Delete academic degree success");
       handleGetListCategory();
     },
     onError: () => {
-      message.error("Delete department failed");
+      message.error("Delete academic degree failed");
     },
   });
   const { mutate: handleUpdateCategory } = useMutation({
     mutationFn: updateCategoryApi,
     onSuccess: () => {
-      message.success("Update department success");
+      message.success("Update academic degree success");
       handleGetListCategory();
     },
     onError: () => {
-      message.error("Update department failed");
+      message.error("Update academic degree failed");
     },
   });
   const {
@@ -89,7 +89,7 @@ const DepartmentContent = () => {
     isLoading,
   } = useQuery({
     queryKey: ["getListCategory"],
-    queryFn: () => getListCategoryApi({ kind: 2 }),
+    queryFn: () => getListCategoryApi({ kind: 3 }),
     enabled: false,
     retry: 0,
     onSuccess: () => {},
@@ -101,11 +101,11 @@ const DepartmentContent = () => {
     mutationKey: ["createCategory"],
     mutationFn: createHospitalApi,
     onSuccess: () => {
-      message.success("Create department successfully");
+      message.success("Create academic degree successfully");
       handleGetListCategory();
     },
     onError: () => {
-      message.error("Create department failed");
+      message.error("Create academic degree failed");
     },
   });
   const handleCancel = () => {
@@ -128,7 +128,7 @@ const DepartmentContent = () => {
     const newvalues = {
       ...values,
       categoryImage: "",
-      categoryKind: 2,
+      categoryKind: 3,
       categoryOrdering: 1,
       parentId: null,
       status: 1,
@@ -170,7 +170,9 @@ const DepartmentContent = () => {
       <div className=" pb-2 mb-2 border-b-[1px] border-solid border-black flex flex-row-reverse">
         <Button onClick={() => handleSetForm(1)}>Create</Button>
         <Modal
-          title={check === 1 ? "Create new department" : "Edit department"}
+          title={
+            check === 1 ? "Create new academic degree" : "Edit academic degree"
+          }
           open={open}
           confirmLoading={confirmLoading}
           onCancel={handleCancel}
@@ -192,12 +194,12 @@ const DepartmentContent = () => {
             autoComplete="off"
           >
             <Form.Item
-              label="Department name"
+              label="Academic degree name"
               name="categoryName"
               rules={[
                 {
                   required: true,
-                  message: "Please input department name!",
+                  message: "Please input academic degree name!",
                 },
               ]}
             >
@@ -205,12 +207,12 @@ const DepartmentContent = () => {
             </Form.Item>
 
             <Form.Item
-              label="Department description"
+              label="Academic Degree description"
               name="categoryDescription"
               rules={[
                 {
                   required: true,
-                  message: "Please input department description!",
+                  message: "Please input academic degree description!",
                 },
               ]}
             >
@@ -248,4 +250,4 @@ const DepartmentContent = () => {
   );
 };
 
-export default DepartmentContent;
+export default AcademicDegree;

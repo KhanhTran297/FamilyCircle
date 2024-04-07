@@ -8,7 +8,7 @@ import {
   updateCategoryApi,
 } from "../../api/category";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-const DepartmentContent = () => {
+const HospitalRoleContent = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [check, setCheck] = useState(1);
@@ -16,12 +16,12 @@ const DepartmentContent = () => {
   const [form] = Form.useForm();
   const columns = [
     {
-      title: "Department name",
+      title: "Hospital role name",
       dataIndex: "categoryName",
       key: "categoryName",
     },
     {
-      title: "Department description",
+      title: "Hospital role description",
       dataIndex: "categoryDescription",
       key: "categoryDescription",
     },
@@ -43,8 +43,8 @@ const DepartmentContent = () => {
             </Button>
 
             <Popconfirm
-              title="Delete this department ?"
-              description="Are you sure to delete this department?"
+              title="Delete this hospital role?"
+              description="Are you sure to delete this hospital role?"
               icon={
                 <QuestionCircleOutlined
                   style={{
@@ -66,21 +66,21 @@ const DepartmentContent = () => {
   const { mutate: handleDeleteCategory } = useMutation({
     mutationFn: deleteCategoryApi,
     onSuccess: () => {
-      message.success("Delete department success");
+      message.success("Delete hospital role success");
       handleGetListCategory();
     },
     onError: () => {
-      message.error("Delete department failed");
+      message.error("Delete hospital role failed");
     },
   });
   const { mutate: handleUpdateCategory } = useMutation({
     mutationFn: updateCategoryApi,
     onSuccess: () => {
-      message.success("Update department success");
+      message.success("Update hospital role success");
       handleGetListCategory();
     },
     onError: () => {
-      message.error("Update department failed");
+      message.error("Update hospital role failed");
     },
   });
   const {
@@ -89,7 +89,7 @@ const DepartmentContent = () => {
     isLoading,
   } = useQuery({
     queryKey: ["getListCategory"],
-    queryFn: () => getListCategoryApi({ kind: 2 }),
+    queryFn: () => getListCategoryApi({ kind: 4 }),
     enabled: false,
     retry: 0,
     onSuccess: () => {},
@@ -101,11 +101,11 @@ const DepartmentContent = () => {
     mutationKey: ["createCategory"],
     mutationFn: createHospitalApi,
     onSuccess: () => {
-      message.success("Create department successfully");
+      message.success("Create hospital role successfully");
       handleGetListCategory();
     },
     onError: () => {
-      message.error("Create department failed");
+      message.error("Create hospital role failed");
     },
   });
   const handleCancel = () => {
@@ -128,7 +128,7 @@ const DepartmentContent = () => {
     const newvalues = {
       ...values,
       categoryImage: "",
-      categoryKind: 2,
+      categoryKind: 4,
       categoryOrdering: 1,
       parentId: null,
       status: 1,
@@ -170,7 +170,9 @@ const DepartmentContent = () => {
       <div className=" pb-2 mb-2 border-b-[1px] border-solid border-black flex flex-row-reverse">
         <Button onClick={() => handleSetForm(1)}>Create</Button>
         <Modal
-          title={check === 1 ? "Create new department" : "Edit department"}
+          title={
+            check === 1 ? "Create new hospital role" : "Edit hospital role"
+          }
           open={open}
           confirmLoading={confirmLoading}
           onCancel={handleCancel}
@@ -180,10 +182,13 @@ const DepartmentContent = () => {
             name="basic"
             form={form}
             labelCol={{
-              span: 11,
+              span: 9,
             }}
             wrapperCol={{
               span: 20,
+            }}
+            style={{
+              maxWidth: 600,
             }}
             initialValues={{
               remember: true,
@@ -192,12 +197,12 @@ const DepartmentContent = () => {
             autoComplete="off"
           >
             <Form.Item
-              label="Department name"
+              label="Hospital role name"
               name="categoryName"
               rules={[
                 {
                   required: true,
-                  message: "Please input department name!",
+                  message: "Please input hospital role name!",
                 },
               ]}
             >
@@ -205,26 +210,32 @@ const DepartmentContent = () => {
             </Form.Item>
 
             <Form.Item
-              label="Department description"
+              label="Hospital role description"
               name="categoryDescription"
               rules={[
                 {
                   required: true,
-                  message: "Please input department description!",
+                  message: "Please input hospital role description!",
                 },
               ]}
             >
               <Input.TextArea />
             </Form.Item>
 
-            <Form.Item className="w-full ">
-              <div className="flex flex-row justify-end w-full gap-2">
+            <Form.Item
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
+              className=""
+            >
+              <div className="flex flex-row justify-end gap-2">
                 <Button type="default" htmlType="submit">
                   {check === 1 ? "Create" : "Edit"}
                 </Button>
                 <Button
                   type="default"
-                  className="  bg-red-500 text-white hover:!border-none hover:!text-white"
+                  className=" ml-2 bg-red-500 text-white hover:!border-none hover:!text-white"
                   onClick={handleCancel}
                 >
                   Cancel
@@ -248,4 +259,4 @@ const DepartmentContent = () => {
   );
 };
 
-export default DepartmentContent;
+export default HospitalRoleContent;
