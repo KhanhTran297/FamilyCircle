@@ -180,7 +180,7 @@ const Post = (props) => {
           {...props}
           reactCount={reactCount}
           handleActionReact={() =>
-            getReact({ kind: props.kindPost, postId: props.id })
+            getReact({ kind: 1, postId: props.id })
               .then((res) => {
                 if (res.data.ownerPostId != accountProfileId) {
                   const content = ` react your post`;
@@ -222,9 +222,7 @@ const Post = (props) => {
                 console.error("Lỗi khi tạo thông báo:", error);
               })
           }
-          handleActionUnreact={() =>
-            getReact({ kind: props.kindPost, postId: props.id })
-          }
+          handleActionUnreact={() => getReact({ kind: 1, postId: props.id })}
           PostId={props.id}
           isLike={isLike}
         />

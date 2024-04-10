@@ -2,18 +2,35 @@ import ReadMoreReadLess from "../shared/ReadMoreReadLess";
 import PropTypes from "prop-types";
 
 const PostItem = (props) => {
-  const extractImageUrl = (htmlContent) => {
+  // const extractImageUrl = (htmlContent) => {
+  //   const parser = new DOMParser();
+  //   const doc = parser.parseFromString(htmlContent, "text/html");
+  //   const imageElement = doc.querySelector("img");
+
+  //   if (imageElement) {
+  //     return imageElement.getAttribute("src");
+  //   }
+
+  //   return null;
+  // };
+  const extractImageUrlAndContent = (htmlContent) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
     const imageElement = doc.querySelector("img");
 
+    let imageUrl = null;
     if (imageElement) {
-      return imageElement.getAttribute("src");
+      imageUrl = imageElement.getAttribute("src");
+      imageElement.parentNode.removeChild(imageElement);
     }
 
-    return null;
+    const updatedContent = doc.body.innerHTML;
+    return { imageUrl, updatedContent };
   };
-  const imageUrl = extractImageUrl(props?.item?.content);
+  // const imageUrl = extractImageUrl(props?.item?.content);
+  const { imageUrl, updatedContent } = extractImageUrlAndContent(
+    props?.item?.content
+  );
 
   return (
     <div className="flex flex-row items-start self-stretch w-full gap-6 border border-gray-300 rounded-[25px] hover:opacity-50 cursor-pointer pt-2 ">
@@ -52,7 +69,7 @@ const PostItem = (props) => {
           </div>
         </div>
 
-        <ReadMoreReadLess limit={250}>{props?.item?.content}</ReadMoreReadLess>
+        <ReadMoreReadLess limit={250}>{updatedContent}</ReadMoreReadLess>
         {/* <div className="flex flex-col gap-[10px] self-stretch items-end">
           <button
             className="flex flex-row items-center self-end gap-2 px-3 rounded-[36px]"
