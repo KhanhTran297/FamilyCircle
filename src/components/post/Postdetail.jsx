@@ -153,7 +153,7 @@ const PostDetail = (props) => {
     }
     return false;
   };
-  console.log("listTopics", props.topics);
+
   return (
     <div className="flex flex-col items-start xl:gap-6 gap-6 p-6 pt-3  rounded-[24px] w-full  bg-[#FFF8F8] cursor-pointer">
       <div className="flex flex-row items-start self-stretch gap-2">
@@ -206,7 +206,7 @@ const PostDetail = (props) => {
         reactCount={reactCount}
         commentCount={count}
         handleActionReact={() =>
-          getReact({ kind: props.kindPost, postId: props.id })
+          getReact({ kind: 1, postId: props.id })
             .then((res) => {
               if (res.data.ownerPostId != accountProfileId) {
                 const content = ` react your post`;
@@ -248,9 +248,7 @@ const PostDetail = (props) => {
               console.error("Lỗi khi tạo thông báo:", error);
             })
         }
-        handleActionUnreact={() =>
-          getReact({ kind: props.kindPost, postId: props.id })
-        }
+        handleActionUnreact={() => getReact({ kind: 1, postId: props.id })}
         isLike={isLike}
         PostId={props.id}
       />
