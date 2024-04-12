@@ -109,14 +109,23 @@ const GirlWeight = ({ zScore, predictedAge, predictedWeight, min }) => {
   const exactPosition = findExactPosition(initialLabels, predictedAge);
   const predictedLabel = exactPosition;
 
-  
+  // const predictedDataset = {
+  //   label: "Weight of baby",
+  //   data: [{ x: predictedLabel, y: predictedWeight }],
+
+  //   pointStyle: "circle",
+  //   pointRadius: 20,
+  //   pointBackgroundColor: "red",
+  // };
+
+  const pointImage = new Image(50, 50);
+  pointImage.src =
+    "https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_YzyTFUOUD8.png";
   const predictedDataset = {
     label: "Weight of baby",
     data: [{ x: predictedLabel, y: predictedWeight }],
 
-    pointStyle: "circle",
-    pointRadius: 20,
-    pointBackgroundColor: "red",
+    pointStyle: [pointImage, "circle"],
   };
 
   interpolatedData.unshift(predictedDataset);
