@@ -10,6 +10,8 @@ const MainLayout = () => {
     if (
       path === "/message" ||
       path === "/community" ||
+      path === "/babyhealth" ||
+      path === "/motherhealth" ||
       params.communityName !== undefined
     ) {
       return true;
@@ -37,7 +39,7 @@ const MainLayout = () => {
       >
         <LeftSideBar />
 
-        <div className=" flex-grow">
+        <div className="flex-grow ">
           <Outlet />
         </div>
 

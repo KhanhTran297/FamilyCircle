@@ -1,10 +1,12 @@
 import MainLayout from "../layouts/MainLayout";
+import BabyHealthPage from "../pages/main/BabyHealthPage";
 import BookmarkPage from "../pages/main/BookmarkPage";
 import CommunicationPage from "../pages/main/CommunicationPage";
 import CommunityDetailPage from "../pages/main/CommunityDetailPage";
 import ForumPage from "../pages/main/ForumPage";
 import HomePage from "../pages/main/HomePage";
 import MessagePage from "../pages/main/MessagePage";
+import MotherHealthPage from "../pages/main/MotherHealthPage";
 import NotificationPage from "../pages/main/NotificationPage";
 import PostDetailPage from "../pages/main/PostDetailPage";
 import ProfilePage from "../pages/main/ProfilePage";
@@ -89,6 +91,22 @@ export default function init(routes) {
         element: (
           <GuardRoute path="/message">
             <MessagePage />
+          </GuardRoute>
+        ),
+      },
+      {
+        path: "/babyhealth",
+        element: (
+          <GuardRoute path="/babyhealth">
+            <BabyHealthPage />
+          </GuardRoute>
+        ),
+      },
+      {
+        path: "/motherhealth",
+        element: (
+          <GuardRoute path="/motherhealth">
+            <MotherHealthPage />
           </GuardRoute>
         ),
       },

@@ -33,11 +33,11 @@ const Menu = () => {
   return (
     <nav className="fixed desktop:z-0 bottom-0 left-0 right-0 flex flex-col text-black dark:bg-[#000] desktop:border-y-0 desktop:flex-col desktop:top-0 desktop:left-0 desktop:relative shadow-mobile desktop:shadow-none desktop:w-[196px] bg-white">
       {params.id !== undefined && (
-        <div className="xl:hidden px-2 pt-3 xl:px-0 xl:pt-0">
+        <div className="px-2 pt-3 xl:hidden xl:px-0 xl:pt-0">
           <CommentForm id={params.id} parentId={""} />
         </div>
       )}
-      <div className="bottom-0 left-0 right-0 flex flex-row xl:flex-col justify-around">
+      <div className="bottom-0 left-0 right-0 flex flex-row justify-around xl:flex-col">
         <button
           className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark "
           onClick={() => handleRouter("/index")}
@@ -177,6 +177,44 @@ const Menu = () => {
             } font-roboto`}
           >
             Profile
+          </p>
+        </button>
+        <button
+          className="hidden desktop:flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
+          onClick={() => handleRouter("/babyhealth")}
+        >
+          {path === "/babyhealth" ? (
+            <ILocalBookmarkSelected fill={textColorSelected} />
+          ) : (
+            <ILocalBookmark fill={textColor} />
+          )}
+          <p
+            className={` text-sm font-medium text-center  ${
+              path === "/babyhealth"
+                ? "text-[#A73574] dark:text-[#FFAFD5]"
+                : "text-[#1F1A1C] dark:text-[#CEC4C6]"
+            } font-roboto`}
+          >
+            Baby's Health
+          </p>
+        </button>
+        <button
+          className="hidden desktop:flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
+          onClick={() => handleRouter("/motherhealth")}
+        >
+          {path === "/motherhealth" ? (
+            <ILocalBookmarkSelected fill={textColorSelected} />
+          ) : (
+            <ILocalBookmark fill={textColor} />
+          )}
+          <p
+            className={` text-sm font-medium text-center  ${
+              path === "/motherhealth"
+                ? "text-[#A73574] dark:text-[#FFAFD5]"
+                : "text-[#1F1A1C] dark:text-[#CEC4C6]"
+            } font-roboto`}
+          >
+            Mother's Health
           </p>
         </button>
       </div>
