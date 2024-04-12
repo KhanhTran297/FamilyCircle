@@ -109,13 +109,14 @@ const GirlWeight = ({ zScore, predictedAge, predictedWeight, min }) => {
   const exactPosition = findExactPosition(initialLabels, predictedAge);
   const predictedLabel = exactPosition;
 
-  const pointImage = new Image(50, 50);
-  pointImage.src = "/src/assets/—Pngtree—baby icon_4490466.png";
+  
   const predictedDataset = {
     label: "Weight of baby",
     data: [{ x: predictedLabel, y: predictedWeight }],
 
-    pointStyle: [pointImage, "circle"],
+    pointStyle: "circle",
+    pointRadius: 20,
+    pointBackgroundColor: "red",
   };
 
   interpolatedData.unshift(predictedDataset);
@@ -140,7 +141,9 @@ const GirlWeight = ({ zScore, predictedAge, predictedWeight, min }) => {
       />
       <div className="flex flex-col items-center pt-6 ml-4 border  rounded-xl px-3 w-[400px] h-[450px] ">
         <h3 className="text-2xl font-bold text-red-600">Evaluation:</h3>
-        <p className="text-xl font-bold text-center">{evaluateZScore(zScore)}</p>
+        <p className="text-xl font-bold text-center">
+          {evaluateZScore(zScore)}
+        </p>
         <h4 className="text-lg font-semibold text-center underline">
           How to interpret the chart
         </h4>
