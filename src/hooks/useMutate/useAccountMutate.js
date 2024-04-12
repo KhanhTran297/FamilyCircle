@@ -66,8 +66,9 @@ function useAccountMutate() {
           navigate("/index");
         });
     },
-    onError: () => {
+    onError: (error) => {
       message.error("Wrong password or email");
+      console.log(error);
     },
   });
   const { mutateAsync: authSignup, isLoading: loadingSignup } = useMutation({
