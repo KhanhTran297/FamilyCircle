@@ -92,9 +92,7 @@ const HospitalContent = () => {
     queryFn: () => getListCategoryApi({ kind: 1 }),
     enabled: false,
     retry: 0,
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    onSuccess: () => {},
     onError: () => {
       console.log("error");
     },
@@ -167,7 +165,7 @@ const HospitalContent = () => {
         minHeight: 360,
         background: "white",
       }}
-      className=" flex flex-col"
+      className="flex flex-col "
     >
       <div className=" pb-2 mb-2 border-b-[1px] border-solid border-black flex flex-row-reverse">
         <Button onClick={() => handleSetForm(1)}>Create</Button>
@@ -227,7 +225,7 @@ const HospitalContent = () => {
                 offset: 8,
                 span: 16,
               }}
-              className=" flex flex-col "
+              className="flex flex-col "
             >
               <Button type="default" htmlType="submit">
                 {check === 1 ? "Create" : "Edit"}
@@ -243,11 +241,14 @@ const HospitalContent = () => {
           </Form>
         </Modal>
       </div>
-      <div className="">
+      <div className="h-full ">
         <Table
           loading={isLoading}
           dataSource={listHospital?.data?.content}
           columns={columns}
+          scroll={{
+            y: 400,
+          }}
         ></Table>
       </div>
     </div>

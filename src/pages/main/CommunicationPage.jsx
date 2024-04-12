@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getListCategoryApi } from "../../api/category";
 import { ListUserCommunityApi } from "../../api/community";
 import { useEffect, useState } from "react";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 
 const CommunicationPage = (props) => {
   const [finalCommunity, setFinalCommunity] = useState([]);
@@ -12,38 +13,46 @@ const CommunicationPage = (props) => {
     queryKey: ["getListCommunity"],
     queryFn: () =>
       getListCategoryApi({ kind: 5 }).then((res) => {
-        return res.data.content;
+        return res?.data?.content;
       }),
   });
-  const user = JSON.parse(localStorage.getItem("user"));
-  const { data: myCommunity } = useQuery({
-    queryKey: ["ListUserCommunity", user[0].accountId],
+  const accountId = useGetFetchQuery(["accountProfile"]);
+
+  const { data: myCommunity, refetch: fetchmyCommunity } = useQuery({
+    queryKey: ["ListUserCommunity", accountId?.data?.id],
     queryFn: () =>
-      ListUserCommunityApi({ accountId: user[0].accountId }).then((res) =>
-        res.data.content.map((item) => {
-          return item["community"];
-        })
-      ),
-    enabled: !!user[0].accountId,
+      ListUserCommunityApi({ accountId: accountId?.data?.id }).then((res) => {
+        if (res?.data?.totalElements > 0) {
+          const newData = res?.data?.content?.map((item) => {
+            return item["community"];
+          });
+          return newData;
+        }
+        return [];
+      }),
+    enabled: !!accountId?.data?.id,
   });
+  const currentPromise = new Promise((resolve, reject) => {
+    fetchmyCommunity().then((res) => {
+      resolve(res);
+    });
+  });
+
   useEffect(() => {
-    const handleCombinedCommunity = async () => {
-      const combinedCommunity = await Promise.all(
-        listCommunity?.map(async (community) => {
-          const joined = myCommunity?.find((item) => item.id === community.id);
-          return { ...community, joined: joined ? true : false };
-        })
-      );
-
+    currentPromise.then((res) => {
+      const combinedCommunity = listCommunity?.map((community) => {
+        const joined = res?.data?.find((item) => {
+          return item?.id === community?.id;
+        });
+        return { ...community, joined: joined ? true : false };
+      });
       setFinalCommunity(combinedCommunity);
-    };
-
-    handleCombinedCommunity();
+    });
   }, [listCommunity, myCommunity]);
   return (
     <div className=" xl:mt-0  w-full flex flex-col gap-3 h-screen border-l-[1px] border-l-solid border-l-[#F1DEE4] xl:pl-4 xl:pt-4 xl:pr-4 overflow-y-scroll ">
       <div className="">
-        <p className="font-medium text-title font-roboto">Communication</p>
+        <p className="font-medium text-title font-roboto">Community</p>
       </div>
       <Carousel
         fade
@@ -54,7 +63,7 @@ const CommunicationPage = (props) => {
           listCommunity.map((item, index) => (
             <CarouselItem key={index} item={item} />
           ))} */}
-        {finalCommunity.map((item, index) => (
+        {finalCommunity?.map((item, index) => (
           <CarouselItem key={index} item={item} />
         ))}
       </Carousel>
@@ -63,7 +72,7 @@ const CommunicationPage = (props) => {
           listCommunity.map((item, index) => (
             <CommunityItem key={index} item={item} />
           ))} */}
-        {finalCommunity.map((item, index) => (
+        {finalCommunity?.map((item, index) => (
           <CommunityItem key={index} item={item} />
         ))}
       </div>

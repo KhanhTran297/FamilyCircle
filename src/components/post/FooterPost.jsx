@@ -30,6 +30,7 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     borderRadius: "15px",
+    transition: "all 0.5s ease-in-out",
   },
 };
 const FooterPost = (props) => {
@@ -37,13 +38,11 @@ const FooterPost = (props) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
   const [copyStatus, setCopyStatus] = useState(false);
-  let subtitle;
   function openModal() {
     setIsOpen(true);
   }
   function afterOpenModal() {
     setUrl(window.location.origin + `/post/${props.PostId}`);
-    console.log("modal is open");
   }
 
   function closeModal() {
@@ -110,10 +109,10 @@ const FooterPost = (props) => {
         contentLabel="Example Modal"
       >
         <div className=" flex flex-col gap-4 w-[300px] h-[150px]">
-          <div className=" flex border-b border-gray-500">
-            <p className=" text-base font-roboto">Share to:</p>
+          <div className="flex border-b border-gray-500 ">
+            <p className="text-base font-roboto">Share to:</p>
           </div>
-          <div className=" flex flex-row gap-2 justify-around">
+          <div className="flex flex-row justify-around gap-2 ">
             <div className="">
               <FacebookShareButton url={url}>
                 <FacebookIcon size={32} round={true} />
@@ -135,7 +134,7 @@ const FooterPost = (props) => {
               </TelegramShareButton>
             </div>
           </div>
-          <div className=" flex flex-row justify-around">
+          <div className="flex flex-row justify-around ">
             <div className="">
               <input
                 type="text"
@@ -153,12 +152,12 @@ const FooterPost = (props) => {
               }}
             >
               {copyStatus ? (
-                <CheckCircleOutlined className=" text-green-400 " />
+                <CheckCircleOutlined className="text-green-400 " />
               ) : (
                 <CopyOutlined />
               )}
               {/* <CopyOutlined /> */}
-              {/* <CheckCircleOutlined className=" text-green-400" /> */}
+              {/* <CheckCircleOutlined className="text-green-400 " /> */}
             </CopyToClipboard>
           </div>
         </div>

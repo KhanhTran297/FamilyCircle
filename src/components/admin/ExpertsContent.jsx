@@ -292,7 +292,7 @@ const ExpertsContent = () => {
         minHeight: 360,
         background: "white",
       }}
-      className=" flex flex-col"
+      className="flex flex-col "
     >
       <div className=" pb-2 mb-2 border-solid border-black border-b-[1px] flex flex-row justify-between">
         <div className="">
@@ -377,7 +377,7 @@ const ExpertsContent = () => {
               }}
               onFinish={onFinish}
               autoComplete="off"
-              className=" relative"
+              className="relative "
             >
               <Form.Item
                 hasFeedback
@@ -388,12 +388,12 @@ const ExpertsContent = () => {
                     message: "Please input your username!",
                   },
                 ]}
-                className=" relative w-full"
+                className="relative w-full "
               >
                 <Input
                   prefix={<UserOutlined className="site-form-item-icon" />}
                   placeholder="Input your username"
-                  className=" pt-2 pb-2 rounded-xl text-base "
+                  className="pt-2 pb-2 text-base rounded-xl"
                 />
               </Form.Item>
               <Form.Item
@@ -409,12 +409,12 @@ const ExpertsContent = () => {
                     message: "Please input your email!",
                   },
                 ]}
-                className=" relative w-full"
+                className="relative w-full "
               >
                 <Input
                   prefix={<MailOutlined className="site-form-item-icon" />}
                   placeholder="Input your email"
-                  className=" pt-2 pb-2 rounded-xl text-base "
+                  className="pt-2 pb-2 text-base rounded-xl"
                 />
               </Form.Item>
               <Form.Item
@@ -435,12 +435,12 @@ const ExpertsContent = () => {
                     message: "Please input your phonenumber!",
                   },
                 ]}
-                className=" relative w-full"
+                className="relative w-full "
               >
                 <Input
                   prefix={<PhoneOutlined className="site-form-item-icon" />}
                   placeholder="Input your phonenumber"
-                  className=" pt-2 pb-2 rounded-xl text-base "
+                  className="pt-2 pb-2 text-base rounded-xl"
                 />
               </Form.Item>
               <Form.Item
@@ -466,11 +466,11 @@ const ExpertsContent = () => {
                     },
                   }),
                 ]}
-                className=" relative w-full"
+                className="relative w-full "
               >
                 <DatePicker
                   prefix={<CalendarOutlined className="site-form-item-icon" />}
-                  className=" w-full pt-2 pb-2 rounded-xl text-base"
+                  className="w-full pt-2 pb-2 text-base rounded-xl"
                   placeholder="Select date of birth"
                   format={dateFormatList}
                 />
@@ -554,11 +554,11 @@ const ExpertsContent = () => {
                 <Input.Password
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Input your password"
-                  className=" pt-2 pb-2 rounded-xl text-base"
+                  className="pt-2 pb-2 text-base rounded-xl"
                 />
               </Form.Item>
 
-              <Form.Item className=" mb-2">
+              <Form.Item className="mb-2 ">
                 <SubmitButton
                   form={form}
                   content="Sign up"
@@ -569,11 +569,14 @@ const ExpertsContent = () => {
           </Modal>
         </div>
       </div>
-      <div className="">
+      <div className="h-full ">
         <Table
           loading={isLoading}
           dataSource={listExpert}
           columns={columns}
+          scroll={{
+            y: 400,
+          }}
         ></Table>
       </div>
     </div>

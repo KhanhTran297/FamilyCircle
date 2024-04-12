@@ -1,25 +1,62 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { TeamOutlined } from "@ant-design/icons";
 import { ILocalFollowProfile } from "../../components/svg/followprofile";
 import { ILocalMore } from "../../components/svg/more";
 import TopicItem from "../../components/shared/TopicItem";
 import { Skeleton } from "antd";
-import UsePost from "../../hooks/UsePost";
+
 import InfiniteScroll from "react-infinite-scroll-component";
 import Post from "../../components/post/Post";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { CloseOutlined } from "@ant-design/icons";
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import Modal from "react-modal";
 import { getListCategoryApi } from "../../api/category";
 import { ListUserCommunityApi } from "../../api/community";
 import { useEffect, useState } from "react";
 import useCommunityMutate from "../../hooks/useMutate/useCommunityMutate";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
+import { getListPostNewApi } from "../../api/post";
+
+const customStyles = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 
 const CommunityDetailPage = (props) => {
   const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [checkFollow, setCheckFollow] = useState(false);
   const { unFollowCommunity, followCommunity } = useCommunityMutate();
   const queryClient = useQueryClient();
   const [text, setText] = useState("Following");
   const [color, setColor] = useState("#A73574");
+  const [isOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
   const { data: detailCommunity } = useQuery({
     queryKey: ["getDetailCommunity", params.communityName],
     queryFn: () =>
@@ -27,42 +64,62 @@ const CommunityDetailPage = (props) => {
         return res?.data?.content[0];
       }),
   });
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { data: listTopics } = useQuery({
+    queryKey: ["getListTopic", detailCommunity?.id],
+    queryFn: () =>
+      getListCategoryApi({ parentId: detailCommunity?.id }).then((res) => {
+        return res?.data?.content;
+      }),
+    enabled: !!detailCommunity?.id,
+  });
+  const { data: listMember, refetch: refetchListMember } = useQuery({
+    queryKey: ["getListMemberCommunity", detailCommunity?.id],
+    queryFn: () =>
+      ListUserCommunityApi({ communityName: params.communityName }).then(
+        (res) => {
+          return res?.data;
+        }
+      ),
+  });
+  const accountId = useGetFetchQuery(["accountProfile"]);
+  const {
+    data: listPostCommunity,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+  } = useInfiniteQuery({
+    queryKey: [
+      `getListPostCommunity`,
+      searchParams.get("topicId"),
+      detailCommunity?.id,
+    ],
+    queryFn: ({ pageParam = 0 }) =>
+      getListPostNewApi({
+        size: 5,
+        page: pageParam,
+        status: 1,
+        topicId: searchParams.get("topicId"),
+        communityId: detailCommunity?.id,
+      }),
+    enabled: !!detailCommunity?.id,
+    getNextPageParam: (lastPage, allPages) => {
+      if (allPages.length < lastPage.data.totalPages) {
+        return allPages.length + 1;
+      } else {
+        return undefined;
+      }
+    },
+  });
   const { data: datacheckFollow } = useQuery({
     queryKey: ["checkFollow"],
     queryFn: () =>
       ListUserCommunityApi({
-        accountId: user[0].accountId,
+        accountId: accountId?.data?.id,
         communityName: params.communityName,
       }).then((res) => {
         return res?.data?.totalElements === 0 ? false : true;
       }),
   });
-  const {
-    listPostExpert,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = UsePost(0, 0, 0, false);
-  const topicItems = [
-    {
-      img: "https://cdn-together.marrybaby.vn/communities/1st-trimester.png",
-      name: "3 tháng đầu",
-    },
-    {
-      img: "https://cdn-together.marrybaby.vn/communities/1st-trimester.png",
-      name: "3 tháng giữa",
-    },
-    {
-      img: "https://cdn-together.marrybaby.vn/communities/1st-trimester.png",
-      name: "3 tháng cuối",
-    },
-    {
-      img: "https://cdn-together.marrybaby.vn/communities/twins-multiples.png",
-      name: "Song thai",
-    },
-  ];
   useEffect(() => {
     setCheckFollow(datacheckFollow);
   }, [datacheckFollow]);
@@ -76,37 +133,51 @@ const CommunityDetailPage = (props) => {
             className="h-full xl:w-[350px]"
           />
         </div>
-        <div className=" flex xl:flex-row flex-col gap-3 xl:gap-0 pl-3 pr-3 pb-3 xl:justify-between">
-          <div className="flex xl:flex-row flex-col xl:gap-3 gap-2">
+        <div className="flex flex-col gap-3 pb-3 pl-3 pr-3 xl:flex-row xl:gap-0 xl:justify-between">
+          <div className="flex flex-col gap-2 xl:flex-row xl:gap-3">
             <div className="">
               {/* <img
                 src="https://cdn-together.marrybaby.vn/communities/getting-pregnant.png"
                 alt=""
               /> */}
             </div>
-            <div className="flex  flex-col xl:gap-2 xl:justify-center">
-              <div className=" font-roboto xl:text-lg font-normal">
+            <div className="flex flex-col xl:gap-2 xl:justify-center">
+              <div className="font-normal font-roboto xl:text-lg">
                 {detailCommunity?.categoryName}
               </div>
-              <div className=" flex flex-row gap-4">
-                <p className=" font-roboto text-base font-normal">4 topics</p>
-                <div className=" flex flex-row gap-2">
+              <div className="flex flex-row gap-4 ">
+                <p className="text-base font-normal font-roboto">
+                  {listTopics
+                    ? listTopics?.length > 1
+                      ? listTopics?.length + " topics"
+                      : listTopics?.length + " topic"
+                    : "0 topic"}
+                </p>
+                <div className="flex flex-row gap-2 ">
                   <TeamOutlined style={{ fontSize: "16px", color: `black` }} />
-                  <p className="font-roboto text-base font-normal">
+                  <p
+                    className="text-base font-normal cursor-pointer font-roboto"
+                    onClick={() => openModal()}
+                  >
                     {" "}
-                    5.2k followers
+                    {listMember
+                      ? listMember?.totalElements > 1
+                        ? listMember?.totalElements + " followers"
+                        : listMember?.totalElements + " follower"
+                      : "0 follower"}
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          <div className=" flex flex-row items-center ">
+          <div className="flex flex-row items-center ">
             {checkFollow ? (
               <div
                 onClick={() =>
                   unFollowCommunity({ communityId: detailCommunity?.id }).then(
                     () => {
                       queryClient.invalidateQueries(["checkFollow"]);
+                      refetchListMember();
                     }
                   )
                 }
@@ -130,6 +201,7 @@ const CommunityDetailPage = (props) => {
                   followCommunity({ communityId: detailCommunity?.id }).then(
                     () => {
                       queryClient.invalidateQueries(["checkFollow"]);
+                      refetchListMember();
                     }
                   )
                 }
@@ -145,7 +217,7 @@ const CommunityDetailPage = (props) => {
               </div>
             )}
             {checkFollow && (
-              <div className=" ">
+              <div className="">
                 <ILocalMore fill="black" />
               </div>
             )}
@@ -153,15 +225,18 @@ const CommunityDetailPage = (props) => {
         </div>
       </div>
       <div className=" xl:grid xl:grid-flow-col flex flex-col-reverse mt-3 xl:mt-0  xl:gap-10 xl:grid-cols-[75%_calc(25%-40px)] pl-2 pr-2 xl:h-full">
-        <div className="  xl:h-full w-full">
-          {
-            <InfiniteScroll
-              dataLength={listPostExpert?.pages?.length || 0}
-              next={() => {
-                setTimeout(() => {
-                  fetchNextPage();
-                }, 1000);
+        <div className="w-full xl:h-full">
+          {isLoading ? (
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
               }}
+            />
+          ) : (
+            <InfiniteScroll
+              dataLength={listPostCommunity?.pages?.length || 0}
+              next={fetchNextPage}
               hasMore={hasNextPage}
               loader={
                 <Skeleton
@@ -171,77 +246,59 @@ const CommunityDetailPage = (props) => {
                   }}
                 />
               }
-              className=""
+              endMessage={
+                <p style={{ textAlign: "center" }}>
+                  <b>Yay! You have seen it all</b>
+                </p>
+              }
+              className="gap-6"
             >
-              {listPostExpert &&
-                listPostExpert.pages &&
-                listPostExpert.pages.map((page, pageIndex) => (
-                  <div key={pageIndex}>
-                    <div className="flex flex-col gap-6 overflow-y-auto desktop:mt-6 mt-6 max-h-100vh desktop:mb-6 w-full ">
-                      {Array.isArray(page?.data?.content) && // Kiểm tra xem page.data là mảng
-                        page?.data?.content
-                          // .filter((post) => post.kind === 1)
-                          .map((post, index) => (
-                            <Post
-                              key={index}
-                              id={post.id}
-                              content={post.content}
-                              fullname={post.owner.fullName}
-                              kind={post.owner.kind}
-                              modifiedDate={post.modifiedDate}
-                              createdDate={post.createdDate}
-                              idowner={post.owner.id}
-                              kindPost={post.kind}
-                              avatar={post.owner.avatar}
-                              title={post.title}
-                              countComment={post?.commentList?.length || 0}
-                            />
-                          ))}
-                    </div>
-                  </div>
-                ))}
-              {isFetchingNextPage ? (
-                <Skeleton
-                  avatar
-                  paragraph={{
-                    rows: 4,
-                  }}
-                />
-              ) : hasNextPage ? (
-                <Skeleton
-                  avatar
-                  paragraph={{
-                    rows: 4,
-                  }}
-                />
-              ) : null}
-              {isFetching && !isFetchingNextPage ? (
-                <Skeleton
-                  avatar
-                  paragraph={{
-                    rows: 4,
-                  }}
-                />
-              ) : null}
+              {listPostCommunity?.pages?.map((page, pageIndex) => (
+                <div
+                  className="flex flex-col gap-6 overflow-y-auto desktop:mt-6 mt-[72px] max-h-100vh desktop:mb-6 w-full "
+                  key={pageIndex}
+                >
+                  {Array.isArray(page?.data?.content) && // Kiểm tra xem page.data là mảng
+                    page?.data?.content
+                      // .filter((post) => post.kind === 1)
+                      .map((post, index) => (
+                        <Post
+                          key={index}
+                          id={post.id}
+                          content={post.content}
+                          fullname={post.owner.fullName}
+                          kind={post.owner.kind}
+                          modifiedDate={post.modifiedDate}
+                          createdDate={post.createdDate}
+                          idowner={post.owner.id}
+                          kindPost={post.kind}
+                          avatar={post.owner.avatar}
+                          title={post.title}
+                          countComment={post?.commentList?.length || 0}
+                          community={post?.community || "undefined"}
+                        />
+                      ))}
+                </div>
+              ))}
             </InfiniteScroll>
-          }
+          )}
         </div>
-        <div className="  h-full w-full flex flex-col xl:gap-4">
+        <div className="flex flex-col w-full h-full xl:gap-4">
           <div className="">
-            <p className=" font-roboto text-lg font-normal">Description:</p>
-            <p className=" font-roboto text-sm font-light">
+            <p className="text-lg font-normal font-roboto">Description:</p>
+            <p className="text-sm font-light font-roboto">
               {detailCommunity?.categoryDescription}
             </p>
           </div>
-          <div className=" xl:flex xl:flex-col xl:gap-2 hidden">
+          <div className="hidden xl:flex xl:flex-col xl:gap-2">
             <div className="">
               <p className=" font-roboto text-lg font-normal border-b-solid border-b-[3px] border-b-[#ffd8e8]">
                 {" "}
                 Topics
               </p>
             </div>
-            <div className=" xl:flex xl:flex-col xl:gap-1  ">
-              {topicItems.map((item, index) => (
+            <div className=" xl:flex xl:flex-col xl:gap-1">
+              {listTopics?.map((item, index) => (
                 <TopicItem key={index} item={item} />
               ))}
             </div>

@@ -88,11 +88,13 @@ const HeaderPost = (props) => {
     <Fragment>
       <CreatePostModal
         id={props.id}
+        avatar={accountProfile?.data?.avatar}
         fullname={accountProfile?.data?.fullName}
         kind={accountProfile?.data?.kind}
         open={showCreatePost}
         handleClose={() => setShowCreatePost(false)}
         isUpdate={true}
+        community={props.community || undefined}
         content={props.content}
         title={props.title}
       />
@@ -126,6 +128,13 @@ const HeaderPost = (props) => {
               {props.createdDate === props.modifiedDate
                 ? calculateTimeAgo(props.createdDate) // Sử dụng hàm tính toán thời gian
                 : "Edited on " + calculateTimeAgo(props.modifiedDate)}
+            </p>
+          </div>
+          <div className=" flex items-center bg-[#a73574] px-2 py-3 rounded-lg shadow-sm">
+            <p className="text-sm font-normal text-white font-roboto">
+              {props.community !== undefined
+                ? props?.community?.categoryName
+                : ""}
             </p>
           </div>
         </div>

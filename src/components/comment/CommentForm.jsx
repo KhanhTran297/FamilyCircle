@@ -61,7 +61,7 @@ const CommentForm = (props) => {
   );
 };
 CommentForm.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.any,
   parentId: PropTypes.any,
   depth: PropTypes.any,
 };

@@ -33,6 +33,12 @@ const CmsPage = () => {
       case "hospital":
         navigate(`/admin/${data.key}`);
         break;
+      case "hospitalrole":
+        navigate(`/admin/${data.key}`);
+        break;
+      case "academicdegree":
+        navigate(`/admin/${data.key}`);
+        break;
       case "department":
         navigate(`/admin/${data.key}`);
         break;
@@ -68,7 +74,9 @@ const CmsPage = () => {
     ]),
     getItem("Manage category", "sub2", <FileOutlined />, [
       getItem("Hospital", "hospital"),
+      getItem("Hospital Role", "hospitalrole"),
       getItem("Department", "department"),
+      getItem("Academic Degree", "academicdegree"),
       getItem("Community", "community"),
     ]),
     getItem("Moderate posts", "posts", <ContainerOutlined />),
@@ -166,7 +174,7 @@ const CmsPage = () => {
         <Content
           style={{
             margin: "24px 16px 0",
-            overflow: "scroll",
+            // overflow: "scroll",
           }}
         >
           {/* {params.id === "1" && <UsersContent bg={colorBgContainer} />}
@@ -174,13 +182,6 @@ const CmsPage = () => {
           {params.id === "3" && <HospitalContent bg={colorBgContainer} />} */}
           <Outlet />
         </Content>
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
       </Layout>
     </Layout>
   );
