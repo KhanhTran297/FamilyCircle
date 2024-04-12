@@ -111,13 +111,13 @@ const GirlHeight = ({ zScore, predictedAge, predictedHeight, min }) => {
   const exactPosition = findExactPosition(initialLabels, predictedAge);
   const predictedLabel = exactPosition;
 
-  const pointImage = new Image(50, 50);
-  pointImage.src = "/src/assets/—Pngtree—baby icon_4490466.png";
   const predictedDataset = {
     label: "Height of baby",
     data: [{ x: predictedLabel, y: predictedHeight }],
 
-    pointStyle: [pointImage, "circle"],
+    pointStyle: "circle",
+    pointRadius: 20,
+    pointBackgroundColor: "red",
   };
 
   interpolatedData.unshift(predictedDataset);
