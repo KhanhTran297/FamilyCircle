@@ -20,9 +20,12 @@
     "antd": "^5.11.5",
     "antd-img-crop": "^4.13.0",
     "axios": "^1.6.2",
-    "chart.js": "^4.4.2",
+
     "chartjs-adapter-date-fns": "^3.0.0",
     "date-fns": "^3.6.0",
+
+    "chartjs": "^0.3.24",
+
     "dayjs": "^1.11.9",
     "dompurify": "^3.0.6",
     "js-cookie": "^3.0.5",

@@ -146,11 +146,14 @@ const UsersContent = () => {
           </Form.Item>
         </Form>
       </div>
-      <div className="">
+      <div className="h-full ">
         <Table
           loading={isLoading}
           dataSource={listUserAccounts?.data?.content}
           columns={columns}
+          scroll={{
+            y: 400,
+          }}
         ></Table>
       </div>
     </div>

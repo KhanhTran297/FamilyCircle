@@ -1,43 +1,35 @@
 import { useState } from "react";
 import Post from "../post/Post";
-import UsePost from "../../hooks/UsePost";
 import { Skeleton } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
-
-import useFollow from "../../hooks/useFollow";
-
-import useBookmark from "../../hooks/useBookmark";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getListPostNewApi } from "../../api/post";
 
 const Tab = (props) => {
+  const [isFollowingPage, setIsFollowingPage] = useState(false);
   const {
-    listPostExpert,
-    fetchNextPage,
+    data: listPostHome,
+    fetchNextPage: fetchNewPost,
     hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    listPostAccount,
-    accountFetchNextPage,
-    accountHasNextPage,
-    accountIsFetching,
-    accountIsFetchingNextPage,
-    listPostExpertFollowing,
-    listPostAccountFollowing,
-    expertHasNextPageFollowing,
-    accountHasNextPageFollowing,
-    accountIsFetchingFollowing,
-    expertIsFetchingFollowing,
-    accountIsFetchingNextPageFollowing,
-    expertIsFetchingNextPageFollowing,
-    expertFetchNextPageFollowing,
-    accountFetchNextPageFollowing,
-  } = UsePost(0, 0, 0, false);
-  const { listBookmark } = useBookmark();
-  const { listFollowing } = useFollow();
-  const [activeTab, setActiveTab] = useState("tab1");
+    isLoading,
+  } = useInfiniteQuery({
+    queryKey: ["GetListPostHome", isFollowingPage],
+    queryFn: ({ pageParam = 0 }) =>
+      getListPostNewApi({
+        page: pageParam,
+        size: 5,
+        status: 1,
+        following: isFollowingPage,
+      }),
+    getNextPageParam: (LastPage, allPages) => {
+      if (allPages.length < LastPage.data.totalPages) {
+        return allPages.length + 1;
+      } else {
+        return undefined;
+      }
+    },
+  });
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
   return (
     <div className="flex flex-col w-full">
       <div className="flex flex-col backdrop-blur-[32px] sticky top-14 desktop:top-0 z-20">
@@ -49,7 +41,7 @@ const Tab = (props) => {
         <div className="flex flex-row items-center w-full h-12 border-b-[1px] z-20 ">
           <div
             className="w-[50%] h-12 justify-center cursor-pointer flex hover:bg-tab hover:bg-opacity-[8%]"
-            onClick={() => handleTabClick("tab1")}
+            onClick={() => setIsFollowingPage(false)}
           >
             <button className="w-[54px] h-12 justify-between flex-col flex">
               <div className="h-[3px]  w-full rounded-t-[3px] justify-items-end"></div>
@@ -59,14 +51,14 @@ const Tab = (props) => {
               </div>
               <div
                 className={`${
-                  activeTab === "tab1" ? "bg-[#A73574]" : ""
+                  isFollowingPage === false ? "bg-[#A73574]" : ""
                 } h-[3px]   w-full rounded-t-[3px] justify-items-end`}
               ></div>
             </button>
           </div>
           <div
             className="w-[50%] h-12 justify-center flex hover:bg-tab hover:bg-opacity-[8%] cursor-pointer"
-            onClick={() => handleTabClick("tab2")}
+            onClick={() => setIsFollowingPage(true)}
           >
             <button className="w-[54px] h-12 justify-between flex-col flex">
               <div className="h-[3px]  w-full rounded-t-[3px] justify-items-end"></div>
@@ -76,14 +68,65 @@ const Tab = (props) => {
               </div>
               <div
                 className={`${
-                  activeTab === "tab2" ? "bg-[#A73574]" : ""
+                  isFollowingPage === true ? "bg-[#A73574]" : ""
                 } h-[3px]   w-full rounded-t-[3px] justify-items-end`}
               ></div>
             </button>
           </div>
         </div>
       </div>
-      {props.kind === "1" && activeTab === "tab1" && (
+      {isLoading ? (
+        <Skeleton
+          avatar
+          paragraph={{
+            rows: 4,
+          }}
+        />
+      ) : (
+        <InfiniteScroll
+          dataLength={listPostHome?.pages?.length || 0}
+          next={fetchNewPost}
+          hasMore={hasNextPage}
+          loader={
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 4,
+              }}
+            />
+          }
+          className="gap-6"
+        >
+          {listPostHome?.pages?.map((page, pageIndex) => (
+            <div
+              className="flex flex-col gap-6 overflow-y-auto desktop:mt-6 mt-[72px] max-h-100vh desktop:mb-6 w-full "
+              key={pageIndex}
+            >
+              {Array.isArray(page?.data?.content) && // Kiểm tra xem page.data là mảng
+                page?.data?.content
+                  // .filter((post) => post.kind === 1)
+                  .map((post, index) => (
+                    <Post
+                      key={index}
+                      id={post.id}
+                      content={post.content}
+                      fullname={post.owner.fullName}
+                      kind={post.owner.kind}
+                      modifiedDate={post.modifiedDate}
+                      createdDate={post.createdDate}
+                      idowner={post.owner.id}
+                      kindPost={post.kind}
+                      avatar={post.owner.avatar}
+                      title={post.title}
+                      countComment={post?.commentList?.length || 0}
+                      community={post?.community || "undefined"}
+                    />
+                  ))}
+            </div>
+          ))}
+        </InfiniteScroll>
+      )}
+      {/* {props.kind === "1" && activeTab === "tab1" && (
         <InfiniteScroll
           dataLength={listPostExpert?.pages?.length || 0}
           next={() => {
@@ -369,7 +412,7 @@ const Tab = (props) => {
             />
           ) : null}
         </InfiniteScroll>
-      )}
+      )} */}
       {/* {props.kind === "1" && activeTab === "tab2" && <div>Hello</div>} */}
     </div>
   );

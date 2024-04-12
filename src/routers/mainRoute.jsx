@@ -3,7 +3,6 @@ import BabyHealthPage from "../pages/main/BabyHealthPage";
 import BookmarkPage from "../pages/main/BookmarkPage";
 import CommunicationPage from "../pages/main/CommunicationPage";
 import CommunityDetailPage from "../pages/main/CommunityDetailPage";
-import ForumPage from "../pages/main/ForumPage";
 import HomePage from "../pages/main/HomePage";
 import MessagePage from "../pages/main/MessagePage";
 import MotherHealthPage from "../pages/main/MotherHealthPage";
@@ -35,14 +34,6 @@ export default function init(routes) {
         element: (
           <GuardRoute path="/post/:id">
             <PostDetailPage />
-          </GuardRoute>
-        ),
-      },
-      {
-        path: "/forum",
-        element: (
-          <GuardRoute path="/forum">
-            <ForumPage />
           </GuardRoute>
         ),
       },

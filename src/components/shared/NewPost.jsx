@@ -51,26 +51,17 @@ const NewPost = () => {
         open={showCreatePost}
         handleClose={() => setShowCreatePost(false)}
         isUpdate={false}
-        selectedKind={selectedKind} // Fixed: removed colon
+        // selectedKind={selectedKind} // Fixed: removed colon
         avatar={accountProfile?.data?.avatar}
       />
       <div
-        className={` fixed bottom-[56px] right-0 m-4  desktop:m-0 desktop:top-0 z-auto desktop:left-0 desktop:relative ${
-          accountProfile?.data?.kind === 3
-            ? "desktop:w-[164px]"
-            : "desktop:w-[136px]"
-        } h-14 w-14 rounded-[28px]  desktop:pl-4 desktop:pt-[10px] desktop:pb-[10px] bg-[#FFD8E8] dark:bg-[#772956]  `}
-        {...(accountProfile?.data?.kind === 2
-          ? { onClick: checkAccount }
-          : { onClick: toggleDropdown })}
+        className={` fixed bottom-[56px] desktop:w-[136px] right-0 m-4  desktop:m-0 desktop:top-0 z-auto desktop:left-0 desktop:relative } h-14 w-14 rounded-[28px]  desktop:pl-4 desktop:pt-[10px] desktop:pb-[10px] bg-[#FFD8E8] dark:bg-[#772956]  `}
         ref={nodeRef}
-        // onClick={checkAccount}
+        onClick={checkAccount}
       >
         <div
           className=" desktop:width-[96px] desktop:h-9 flex items-center desktop:gap-3 justify-center desktop:justify-normal cursor-pointer"
-          {...(accountProfile?.data?.kind === 3
-            ? { onClick: toggleDropdown }
-            : { onClick: checkAccount })}
+          onClick={checkAccount}
         >
           <div className="flex flex-col items-center justify-center w-6 h-6 desktop:justify-normal ">
             <ILocalPost fill={postColor} />
@@ -83,38 +74,8 @@ const NewPost = () => {
               New Post
             </p>
           </div>
-
-          {accountProfile?.data?.kind === 3 ? (
-            <div
-              onClick={toggleDropdown}
-              className="hidden desktop:block"
-              ref={nodeRef}
-            >
-              <ILocalArrowDropDown fill="#1F1F1F" />
-            </div>
-          ) : (
-            ""
-          )}
         </div>
       </div>
-      {show && (
-        <div className="fixed w-[176px]  z-50 bottom-[144px] right-6 desktop:right-auto desktop:top-[175px] h-[112px] py-2 rounded-lg shadow-modal inline-flex flex-col items-start bg-[#FFF] transition-all   ">
-          <div
-            onClick={() => handleOptionClick("1")}
-            className="flex flex-row items-center w-full h-12 gap-4 px-4 hover:bg-menuOption"
-          >
-            <ILocalHome fill={textColor} />
-            <p className="text-sm font-medium font-roboto">Post to Home</p>
-          </div>
-          <div
-            className="flex flex-row items-center w-full h-12 gap-4 px-4 hover:bg-menuOption"
-            onClick={() => handleOptionClick("2")}
-          >
-            <ILocalForum fill={textColor} />
-            <p className="text-sm font-medium font-roboto ">Post to Forum</p>
-          </div>
-        </div>
-      )}
     </Fragment>
   );
 };

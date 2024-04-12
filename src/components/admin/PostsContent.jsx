@@ -1,44 +1,82 @@
-import { Button, Form, Modal, Pagination, Spin } from "antd";
+import { Button, Form, Modal, Pagination, Select, Spin } from "antd";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import PostItem from "./PostItem";
 import { useQuery } from "@tanstack/react-query";
-import { getListPostApi } from "../../api/post";
+import { getListPostNewApi } from "../../api/post";
 import usePostMutate from "../../hooks/useMutate/usePostMutate";
+import { getListCategoryApi } from "../../api/category";
 
+const roleOptions = [
+  { label: "Expert", value: 1 },
+  { label: "User", value: 2 },
+];
 const PostsContent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [communityId, setCommunityId] = useState(null);
+  const [role, setRole] = useState(null);
+  const [title, setTitle] = useState(null);
   const defaultPage = parseInt(searchParams.get("page")) - 1 || 0;
   const [page, setPage] = useState(defaultPage);
   const [postId, setPostId] = useState(null);
-  // const {
-  //   getListPost,
-  //   listPost,
-  //   getListSuccess,
-  //   getListLoading,
-  //   approvePost,
-  //   rejectPost,
-  //   loadingApprove,
-  //   loadingReject,
-  // } = UsePost(0, 3, page);
   const { approvePost, rejectPost } = usePostMutate();
-  const {
-    data: listPost,
-    refetch: getListPost,
-    isSuccess: getListSuccess,
-    isLoading: getListLoading,
-  } = useQuery({
-    queryKey: ["listPost"],
-    queryFn: () => getListPostApi(0, 3, page),
-    enabled: true,
-    retry: 0,
-    onSuccess: (listPost) => {
-      // dispatch(setListPost(listPost.data));
-    },
+  const { data: listPost, isLoading } = useQuery({
+    queryKey: ["listPost", page, communityId, role],
+    queryFn: () =>
+      getListPostNewApi({
+        status: 0,
+        size: 3,
+        page: page,
+        ...(communityId && { communityId: communityId }),
+        // communityId: communityId || undefined,
+        kind: role,
+      }),
   });
+  const { data: listCommunity } = useQuery({
+    queryKey: ["listCommunity"],
+    queryFn: () =>
+      getListCategoryApi({ kind: 5 }).then((res) => {
+        const newData = res?.data?.content?.map((item) => {
+          return {
+            label: item.categoryName,
+            value: item.id,
+          };
+        });
+        return newData;
+      }),
+  });
+  const handleClear = () => {
+    setCommunityId(null);
+    setPage(0);
+  };
+  const onChange = (value, item) => {
+    setSearchParams((prevParams) => ({
+      ...prevParams,
+      community: item?.label,
+    }));
+    setPage(0);
+    setCommunityId(value);
+  };
+  const onChangeRole = (value, item) => {
+    setSearchParams((prevParams) => ({
+      ...prevParams,
+      role: item?.label,
+    }));
+    setPage(0);
+    setRole(value);
+  };
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
+
+  // Filter `option.label` match the user type `input`
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [content, setContent] = useState("");
-  const showModal = (content, postId) => {
+  const showModal = (content, postId, title) => {
+    setTitle(title);
     setContent(content);
     setPostId(postId);
     setIsModalOpen(true);
@@ -52,151 +90,7 @@ const PostsContent = () => {
   const handlePagination2 = async (page) => {
     setPage(page);
   };
-  // const handleConvertData = (rawdata) => {
-  //   var data = [];
-  //   if (rawdata) {
-  //     rawdata.map((item) => {
-  //       data.push({
-  //         key: item.id,
-  //         expertId: item.owner.id,
-  //         expertName: item.owner.fullName,
-  //         avatar: item.owner.avatar,
-  //         postId: item.id,
-  //         content: item.content,
-  //         createdDate: item.createdDate,
-  //         status: item.status,
-  //       });
-  //     });
-  //   }
 
-  //   return data;
-  // };
-
-  // const newdata = getListSuccess
-  //   ? handleConvertData(listPost.data.content)
-  //   : [];
-  // const columns = [
-  //   {
-  //     title: "Avatar",
-  //     dataIndex: "avatar",
-  //     key: "avatar",
-  //     align: "center",
-  //     render: (_, record) => <Avatar src={record.avatar} />,
-  //   },
-  //   {
-  //     title: "Expert name",
-  //     dataIndex: "expertName",
-  //     key: "expertName",
-  //     align: "center",
-  //   },
-  //   {
-  //     title: "Post ID",
-  //     dataIndex: "postId",
-  //     key: "postId",
-  //     align: "center",
-  //   },
-  //   {
-  //     title: "Created date",
-  //     dataIndex: "createdDate",
-  //     key: "createdDate",
-  //     align: "center",
-  //     render: (_, record) => {
-  //       const rawtime = dayjs(record.createdDate, "DD/MM/YYYY");
-  //       const formatTime = dayjs(rawtime["$d"]).format("DD/MM/YYYY");
-  //       return <p>{formatTime}</p>;
-  //     },
-  //   },
-  //   {
-  //     title: "Status",
-  //     dataIndex: "status",
-  //     key: "status",
-  //     align: "center",
-  //     width: 100,
-  //     render: (_, record) => {
-  //       var color = "green";
-  //       var status = "availabel";
-  //       if (record.status === 0) {
-  //         color = "yellow";
-  //         status = "pending";
-  //       }
-  //       return (
-  //         <div
-  //           className={`bg-${color}-500 p-[1px] text-center rounded-[5px] text-[14px]`}
-  //         >
-  //           {status}
-  //         </div>
-  //       );
-  //     },
-  //   },
-  //   {
-  //     title: "Action",
-  //     dataIndex: "action",
-  //     key: "action",
-
-  //     align: "center",
-  //     render: (_, record) => {
-  //       var check = false;
-  //       if (record.status === 0) {
-  //         check = true;
-  //       }
-  //       return (
-  //         <div className="flex flex-row gap-2 items-center justify-center">
-  //           <EyeOutlined
-  //             style={{ fontSize: "20px" }}
-  //             className=" cursor-pointer hover:text-blue-400"
-  //             onClick={() => {
-  //               showModal(record.content);
-  //             }}
-  //           />
-  //           {check && (
-  //             <div className="flex flex-row gap-2">
-  //               <Popconfirm
-  //                 title="Approve this post?"
-  //                 description="Are you sure to approve this post?"
-  //                 onConfirm={() => {
-  //                   handleApprove(record.postId);
-  //                 }}
-  //                 onCancel={cancel}
-  //                 okText="Yes"
-  //                 cancelText="No"
-  //                 okType="default"
-  //                 okButtonProps={{ loading: loadingApprove }}
-  //               >
-  //                 <CheckOutlined
-  //                   style={{ color: "green", fontSize: "20px" }}
-  //                   className=" cursor-pointer hover:opacity-60"
-  //                   // onClick={() => {
-  //                   //   approvePost({ id: record.postId });
-  //                   // }}
-  //                 />
-  //               </Popconfirm>
-  //               <Popconfirm
-  //                 title="Reject this post?"
-  //                 description="Are you sure to Reject this post?"
-  //                 onConfirm={() => {
-  //                   handleReject(record.postId);
-  //                 }}
-  //                 onCancel={cancel}
-  //                 okText="Yes"
-  //                 cancelText="No"
-  //                 okType="default"
-  //                 okButtonProps={{ loading: loadingReject }}
-  //               >
-  //                 <CloseOutlined
-  //                   style={{ color: "red", fontSize: "20px" }}
-  //                   className=" cursor-pointer hover:opacity-60"
-  //                   // onClick={() => {
-  //                   //   rejectPost({ id: record.postId });
-  //                   // }}
-  //                 />
-  //               </Popconfirm>
-  //             </div>
-  //           )}
-  //         </div>
-  //       );
-  //     },
-  //   },
-  // ];
   return (
     <div
       style={{
@@ -204,39 +98,59 @@ const PostsContent = () => {
         minHeight: 360,
         background: "white",
       }}
-      className=" flex flex-col"
+      className="flex flex-col "
     >
       <div
-        className=" border-b-black border-b-[1px] border-b-solid"
-        onClick={() => setIsModalOpen(true)}
+        className=" border-b-black border-b-[1px] border-b-solid "
+        // onClick={() => setIsModalOpen(true)}
       >
-        <Form>
-          <Form.Item label="Title"></Form.Item>
+        <Form className=" flex flex-row gap-2">
+          <Form.Item label="Community">
+            <Select
+              options={listCommunity}
+              showSearch
+              placeholder="Select a community"
+              optionFilterProp="children"
+              onSearch={onSearch}
+              onChange={onChange}
+              filterOption={filterOption}
+              allowClear
+              onClear={() => handleClear()}
+            ></Select>
+          </Form.Item>
+          <Form.Item label="Role">
+            <Select
+              options={roleOptions}
+              showSearch
+              placeholder="Select a role"
+              optionFilterProp="children"
+              onSearch={onSearch}
+              onChange={onChangeRole}
+              filterOption={filterOption}
+              allowClear
+              onClear={() => handleClear()}
+            ></Select>
+          </Form.Item>
         </Form>
       </div>
-      <div className=" flex flex-col gap-2 mt-2">
-        {!getListLoading ? (
-          listPost?.data?.content.map((item) => {
-            return (
-              <div
-                className=""
-                key={item.id}
-                onClick={() => showModal(item.content, item.id)}
-              >
-                <PostItem
-                  content={item.content}
-                  avt={item.owner.avatar}
-                  fullname={item.owner.fullName}
-                  idpost={item.id}
-                  
-                />
-              </div>
-            );
-          })
-        ) : (
-          <Spin />
-        )}
-        {/* <Table
+      <div className="flex flex-col overflow-y-scroll h-[500px]">
+        <div className="flex flex-col gap-2 mt-2 ">
+          {!isLoading ? (
+            listPost?.data?.content?.map((item) => {
+              return (
+                <div
+                  className=""
+                  key={item.id}
+                  onClick={() => showModal(item.content, item.id, item.title)}
+                >
+                  <PostItem item={item} />
+                </div>
+              );
+            })
+          ) : (
+            <Spin />
+          )}
+          {/* <Table
           columns={columns}
           dataSource={newdata}
           loading={getListLoading}
@@ -251,18 +165,21 @@ const PostsContent = () => {
             },
           }}
         ></Table> */}
-      </div>
-      <div className=" flex flex-row justify-end mt-3">
-        <Pagination
-          defaultCurrent={defaultPage + 1}
-          total={listPost?.data?.totalElements}
-          pageSize={3}
-          onChange={async (page) => {
-            await handlePagination2(page - 1);
-            await getListPost(0, 5, page - 1);
-            setSearchParams({ page: page });
-          }}
-        />
+        </div>
+        <div className="flex flex-row justify-end mt-3 ">
+          <Pagination
+            current={defaultPage + 1}
+            defaultCurrent={1}
+            total={listPost?.data?.totalElements}
+            pageSize={3}
+            onChange={async (page) => {
+              await handlePagination2(page - 1);
+              // await fetchNextPage();
+
+              setSearchParams({ page: page });
+            }}
+          />
+        </div>
       </div>
 
       <Modal
@@ -298,7 +215,13 @@ const PostsContent = () => {
         width={1000}
         bodyStyle={{ overflowY: "scroll", height: "600px" }}
       >
-        <div className=" " dangerouslySetInnerHTML={{ __html: content }}></div>
+        <div className="flex flex-col">
+          <div className="flex flex-row gap-2 items-center">
+            <p className=" font-roboto text-lg">Title:</p>
+            <p className=" font-roboto font-medium text-lg">{title}</p>
+          </div>
+          <div className="" dangerouslySetInnerHTML={{ __html: content }}></div>
+        </div>
       </Modal>
     </div>
   );

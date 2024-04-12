@@ -151,12 +151,14 @@ const LoginPage = () => {
               />
             </Form.Item>
             <Form.Item className="">
-              <div
-                className=" self-stretch text-right font-roboto text-base font-normal text-[#1F1A1c] cursor-pointer"
-                onClick={() => navigate("/forgotpassword")}
-              >
+              <div className=" self-stretch flex justify-end">
                 {" "}
-                Forgot password?
+                <p
+                  className=" font-roboto text-base font-normal text-[#1F1A1c] cursor-pointer"
+                  onClick={() => navigate("/forgotpassword")}
+                >
+                  Forgot password
+                </p>
               </div>
             </Form.Item>
 

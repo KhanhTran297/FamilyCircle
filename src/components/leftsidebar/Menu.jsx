@@ -57,7 +57,7 @@ const Menu = () => {
             Home
           </p>
         </button>
-        <button
+        {/* <button
           className="flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
           onClick={() => handleRouter("/forum")}
         >
@@ -75,7 +75,7 @@ const Menu = () => {
           >
             Forum
           </p>
-        </button>
+        </button> */}
         <button
           className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark "
           onClick={() => handleRouter("/community")}

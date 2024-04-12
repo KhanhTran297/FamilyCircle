@@ -4,11 +4,13 @@ import MyCommunityItem from "../shared/MyCommunityItem";
 import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "antd";
-import { useState } from "react";
-import { ExclamationCircleFilled } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
 import useCommunityMutate from "../../hooks/useMutate/useCommunityMutate";
+import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 const Community = (props) => {
-  const accountProfile = JSON.parse(localStorage.getItem("user"));
+  const accountId = useGetFetchQuery(["accountProfile"]);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [communityId, setCommunityId] = useState("");
@@ -17,7 +19,6 @@ const Community = (props) => {
     setCommunityId(id);
     setIsModalOpen(true);
   };
-
   const handleOk = () => {
     unFollowCommunity({ communityId: communityId }).then(() =>
       setIsModalOpen(false)
@@ -28,11 +29,12 @@ const Community = (props) => {
     setIsModalOpen(false);
   };
 
-  const { data: listCommunity } = useQuery({
-    queryKey: ["ListUserCommunity", accountProfile[0].accountId],
-    queryFn: () =>
-      ListUserCommunityApi({ accountId: accountProfile[0].accountId }),
+  const { data: listCommunity, isLoading } = useQuery({
+    queryKey: ["ListUserCommunity", accountId?.data?.id],
+    queryFn: () => ListUserCommunityApi({ accountId: accountId?.data?.id }),
+    retry: 0,
   });
+
   return (
     <div className=" desktop:bg-[#FFF8F8] desktop:flex desktop:flex-col desktop:w-[300px] pt-3 pb-3 pl-6 pr-6 rounded-3xl hidden ">
       <div className=" pb-2 border-b-black border-b-solid border-b-[1px]">
@@ -40,10 +42,21 @@ const Community = (props) => {
           My Community
         </p>
       </div>
-      <div className=" flex flex-col gap-2 mt-2">
-        {listCommunity?.data?.totalElements === 0 ? (
+      <div className="flex flex-col gap-2 mt-2 ">
+        {isLoading ? (
+          <Spin
+            indicator={
+              <LoadingOutlined
+                style={{
+                  fontSize: 24,
+                }}
+                spin
+              />
+            }
+          />
+        ) : listCommunity?.data?.totalElements === 0 ? (
           <div className=" flex items-center justify-end h-[150px] w-full">
-            <p className=" text-center w-full font-roboto text-sm font-normal">
+            <p className="w-full text-sm font-normal text-center font-roboto">
               Not yet
             </p>
           </div>
@@ -53,9 +66,9 @@ const Community = (props) => {
           ))
         )}
 
-        <div className=" flex flex-row gap-2 items-center ">
+        <div className="flex flex-row items-center gap-2 ">
           <p
-            className=" font-roboto text-sm opacity-40 cursor-pointer hover:opacity-100"
+            className="text-sm cursor-pointer font-roboto opacity-40 hover:opacity-100"
             onClick={() => navigate("/community")}
           >
             Find more

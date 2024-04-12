@@ -90,6 +90,7 @@ const PostDetail = (props) => {
       objectId: accountProfileId,
       kind: 5,
     };
+
     createNotification(data2)
       .then((response) => {
         if (socket && socket.connected) {
@@ -186,13 +187,26 @@ const PostDetail = (props) => {
           </div>
         </div>
       </div>
+      <div className="flex flex-row gap-2">
+        {props.topics !== undefined &&
+          props.topics.map((item, index) => (
+            <div
+              key={index}
+              className="text-xs font-roboto font-normal text-[#828282]"
+            >
+              <p className="text-sm font-normal font-roboto">
+                {"#" + item.nameTopic}
+              </p>
+            </div>
+          ))}
+      </div>
       <div className="border-t-[1px] border-b-[1px] border-[#F1DEE4] h-[1px] w-full"></div>
       <FooterPost
         {...props}
         reactCount={reactCount}
         commentCount={count}
         handleActionReact={() =>
-          getReact({ kind: props.kindPost, postId: props.id })
+          getReact({ kind: 1, postId: props.id })
             .then((res) => {
               if (res.data.ownerPostId != accountProfileId) {
                 const content = ` react your post`;
@@ -234,9 +248,7 @@ const PostDetail = (props) => {
               console.error("Lỗi khi tạo thông báo:", error);
             })
         }
-        handleActionUnreact={() =>
-          getReact({ kind: props.kindPost, postId: props.id })
-        }
+        handleActionUnreact={() => getReact({ kind: 1, postId: props.id })}
         isLike={isLike}
         PostId={props.id}
       />
@@ -270,19 +282,20 @@ const PostDetail = (props) => {
             ))}
         </InfiniteScroll>
       </div>
-      <div className=" w-full hidden xl:block">
+      <div className="hidden w-full xl:block">
         <CommentForm id={props.id} parentId={""} />
       </div>
     </div>
   );
 };
 PostDetail.propTypes = {
-  content: PropTypes.string.isRequired,
-  author: PropTypes.object.isRequired,
-  createdAt: PropTypes.string.isRequired,
-  likes: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
-  idowner: PropTypes.any.isRequired,
+  content: PropTypes.string,
+  author: PropTypes.object,
+  createdAt: PropTypes.string,
+  likes: PropTypes.number,
+  id: PropTypes.number,
+  idowner: PropTypes.any,
   kindPost: PropTypes.string,
+  topics: PropTypes.array,
 };
 export default PostDetail;
