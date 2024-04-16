@@ -189,6 +189,44 @@ const Menu = () => {
             Profile
           </p>
         </button>
+        <button
+          className="hidden desktop:flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
+          onClick={() => handleRouter("/babyhealth")}
+        >
+          {path === "/babyhealth" ? (
+            <ILocalBookmarkSelected fill={textColorSelected} />
+          ) : (
+            <ILocalBookmark fill={textColor} />
+          )}
+          <p
+            className={` text-sm font-medium text-center  ${
+              path === "/babyhealth"
+                ? "text-[#A73574] dark:text-[#FFAFD5]"
+                : "text-[#1F1A1C] dark:text-[#CEC4C6]"
+            } font-roboto`}
+          >
+            Baby's Health
+          </p>
+        </button>
+        <button
+          className="hidden desktop:flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
+          onClick={() => handleRouter("/motherhealth")}
+        >
+          {path === "/motherhealth" ? (
+            <ILocalBookmarkSelected fill={textColorSelected} />
+          ) : (
+            <ILocalBookmark fill={textColor} />
+          )}
+          <p
+            className={` text-sm font-medium text-center  ${
+              path === "/motherhealth"
+                ? "text-[#A73574] dark:text-[#FFAFD5]"
+                : "text-[#1F1A1C] dark:text-[#CEC4C6]"
+            } font-roboto`}
+          >
+            Mother's Health
+          </p>
+        </button>
       </div>
     </nav>
   );
