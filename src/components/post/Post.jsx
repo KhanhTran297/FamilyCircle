@@ -12,7 +12,9 @@ import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
 import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
 import useNotificationSocket from "../../hooks/useNotificationSocket";
 import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getListFollowingApi } from "../../api/follow";
+import { getListBookmarkApi } from "../../api/bookmark";
 
 // import { ILocalDot } from "../svg/Dot";
 // import { ILocalMore } from "../svg/more";
@@ -21,9 +23,7 @@ const Post = (props) => {
   const { getReact, listReaction } = useReact(props.id);
   const { getFollow, getUnfollow } = useFollowMutate();
   const { createNotification, createAnnounce } = useNotificationMutate();
-  const listFollowing = useGetFetchQuery(["listFollowing"]);
   const { getBookmark } = useBookmarkMutate();
-  const listBookmark = useGetFetchQuery(["listBookmark"]);
   const { deletePost } = usePostMutate();
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const accountProfileId = accountProfile?.data?.id;
@@ -40,6 +40,14 @@ const Post = (props) => {
   } else {
     content = props.content;
   }
+  const { data: listBookmark } = useQuery({
+    queryKey: ["listBookmark"],
+    queryFn: () => getListBookmarkApi().then((res) => res.data),
+  });
+  const { data: listFollowing } = useQuery({
+    queryKey: ["listFollowing"],
+    queryFn: () => getListFollowingApi().then((res) => res.data),
+  });
 
   const handleActionFollow = (accountId) => {
     const data = { accountId: accountId };
@@ -89,16 +97,13 @@ const Post = (props) => {
     }
   };
   const listReactionPost = listReaction?.data?.content;
-  const listBookmarkPost = listBookmark?.data?.content;
-
-  const listFollowingPerson = listFollowing?.data?.content;
 
   const userId = accountProfile?.data?.id; // Lấy userId từ userAccount hoặc userExpert
   // const isBookmark = userId && listBookmarkPost.some((bookmark) => bookmark.)
 
   const isBookmark = (postId) => {
-    if (listBookmarkPost && Array.isArray(listBookmarkPost)) {
-      const bookmark = listBookmarkPost.find(
+    if (listBookmark?.totalElements > 1) {
+      const bookmark = listBookmark?.content?.find(
         (bookmark) => bookmark.postDto.id === postId
       );
       return bookmark !== undefined;
@@ -111,8 +116,8 @@ const Post = (props) => {
       : false;
 
   const isFollow = (accountId) => {
-    if (listFollowingPerson && Array.isArray(listFollowingPerson)) {
-      const follow = listFollowingPerson.find(
+    if (listFollowing?.totalElements >= 1) {
+      const follow = listFollowing?.content?.find(
         (follow) => follow.account.id === accountId
       );
       return follow !== undefined;

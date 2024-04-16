@@ -4,10 +4,23 @@ import NewPost from "../shared/NewPost";
 import { ILocalLogo } from "../svg/svg";
 import useAccount from "../../hooks/useAccount";
 import { useParams } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 const LeftSideBar = () => {
   const { accountProfile } = useAccount();
   const params = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const checkPage = () => {
+    if (location.pathname === "/message") {
+      return false;
+    }
+    return true;
+  };
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
   return (
     // <nav className="desktop:top-0 w-full desktop:left-0 desktop:sticky text-black block   desktop:max-w-[280px] dark:bg-black   desktop:h-[100vh]">
     //   <div
@@ -31,13 +44,18 @@ const LeftSideBar = () => {
         className="flex justify-between  w-full p-2 dark:bg-black  text-left h-14 desktop:h-[100vh] desktop:p-6 desktop:gap-6 desktop:flex-col fixed top-0 desktop:relative
       shadow-mobile desktop:shadow-none bg-white z-10"
       >
-        <div className="w-[46.337px] h-10 desktop:w-[74.139px] desktop:h-16 ml-4 desktop:ml-0 ">
+        <div
+          className="w-[46.337px] h-10 desktop:w-[74.139px] desktop:h-16 ml-4 desktop:ml-0 "
+          onClick={() => navigate("/index")}
+        >
           <ILocalLogo className="w-[46.337px] h-10 desktop:w-[74.139px] desktop:h-16" />
         </div>
         {params.id !== undefined ? "" : <NewPost />}
-        <div className="h-[615px]">
+        {/* <div className="h-[615px]">
           <Menu />
-        </div>
+        </div> */}
+        {isDesktopOrLaptop ? <Menu /> : checkPage() ? <Menu /> : ""}
+
         <UserSetting />
         {/* <div className="w-[232px] h-[1px] bg-[#F1DEE4] hidden desktop:inline-block"></div>
       <SwitchMode /> */}

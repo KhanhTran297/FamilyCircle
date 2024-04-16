@@ -44,3 +44,8 @@ export const getListfollowingByIdApi = (params) => {
   const url = `/v1/relationship/list-following-by-account-id/${params?.queryKey[1]}`;
   return UseGet({ url, requiredToken: true });
 };
+export const getListfollowerByIdApi2 = (params) => {
+  console.log("params", params);
+  const url = `/v1/relationship/list-follower-by-account-id`;
+  return UseGet({ url, requiredToken: true, params });
+};

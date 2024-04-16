@@ -425,7 +425,7 @@ const CreatePostModal = (props) => {
               <div className="fixed z-50 flex items-center self-end  gap-2 mt-3 bottom-3 desktop:bottom-auto desktop:mt-0  right-6 desktop:right-0 desktop:top-[0.5px] desktop:items-start desktop:absolute ">
                 <button
                   className="flex items-center h-10 px-3 rounded-[36px] hover:bg-buttonHoverLight"
-                  onClick={handleClose}
+                  onClick={() => handleClose()}
                 >
                   <p className="text-sm font-medium font-roboto text-[#A73574] ">
                     Cancel

@@ -18,25 +18,7 @@ function usePostMutate() {
     mutationFn: deletePostApi,
     onSuccess: (respone) => {
       if (respone.result) {
-        if (respone.result) {
-          {
-            profileId &&
-              queryClient.invalidateQueries([
-                "listOwnPostinfinitie",
-                profileId,
-              ]);
-            queryClient.invalidateQueries(["listOwnPost", profileId]);
-          }
-          if (accountProfile?.data?.kind === 2) {
-            queryClient.invalidateQueries(["listPostUserAccounts"]);
-            queryClient.invalidateQueries(["listPostAccountFollowing"]);
-          } else {
-            queryClient.invalidateQueries(["listPostExpert"]);
-            queryClient.invalidateQueries(["listPostUserAccounts"]);
-            queryClient.invalidateQueries(["listPostAccountFollowing"]);
-            queryClient.invalidateQueries(["listPostExpertFollowing"]);
-          }
-        }
+        queryClient.invalidateQueries(["GetListPostHome"]);
         // useSuccess("Delete post success!");
       } else {
         // useError("Delete post fail!");
@@ -50,15 +32,7 @@ function usePostMutate() {
     mutationFn: createPostApi,
     onSuccess: (respone) => {
       if (respone.result) {
-        if (accountProfile?.data?.kind === 2) {
-          queryClient.invalidateQueries(["listPostUserAccounts"]);
-          queryClient.invalidateQueries(["listPostAccountFollowing"]);
-        } else {
-          queryClient.invalidateQueries(["listPostExpert"]);
-          queryClient.invalidateQueries(["listPostUserAccounts"]);
-          queryClient.invalidateQueries(["listPostAccountFollowing"]);
-          queryClient.invalidateQueries(["listPostExpertFollowing"]);
-        }
+        message.success("Create post success!");
       } else {
         // useError("Create post fail!");
       }
@@ -71,20 +45,8 @@ function usePostMutate() {
     mutationFn: updatePostApi,
     onSuccess: (respone) => {
       if (respone.result) {
-        {
-          profileId &&
-            queryClient.invalidateQueries(["listOwnPost", profileId]);
-          queryClient.invalidateQueries(["listOwnPostinfinitie", profileId]);
-        }
-        if (accountProfile?.data?.kind === 2) {
-          queryClient.invalidateQueries(["listPostUserAccounts"]);
-          queryClient.invalidateQueries(["listPostAccountFollowing"]);
-        } else {
-          queryClient.invalidateQueries(["listPostExpert"]);
-          queryClient.invalidateQueries(["listPostUserAccounts"]);
-          queryClient.invalidateQueries(["listPostAccountFollowing"]);
-          queryClient.invalidateQueries(["listPostExpertFollowing"]);
-        }
+        queryClient.invalidateQueries(["GetListPostHome"]);
+        // useSuccess("Update post success!");
       } else {
         // useError("Update post fail!");
       }

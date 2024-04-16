@@ -45,6 +45,7 @@ const PostDetail = (props) => {
     },
     enabled: true,
   });
+
   var countListComment = 0;
   const { data: listcommentForCount } = useQuery({
     queryKey: ["listcommentForCount"],
@@ -52,16 +53,28 @@ const PostDetail = (props) => {
     onSuccess: (result) => {
       countListComment = result?.data?.totalElements;
       // countListComment.push(result.data.content);
-      Promise?.all(
-        result?.data?.content?.map(async (item) => {
-          const res = await getListChildCommentApi(id, item.id);
-          if (res?.data?.content) {
-            countListComment = countListComment + res?.data?.content?.length;
-          }
+      Promise?.resolve(result?.data?.content)
+        .then((res) => {
+          res?.map(async (item) => {
+            const tempData = await getListChildCommentApi(id, item.id);
+            if (tempData?.data?.content) {
+              countListComment = countListComment + res?.data?.content?.length;
+            }
+          });
         })
-      ).then(() => {
-        setCountComments(countListComment);
-      });
+        .finally(() => {
+          setCountComments(countListComment);
+        });
+      // Promise?.all(
+      //   result?.data?.content?.map(async (item) => {
+      //     const res = await getListChildCommentApi(id, item.id);
+      //     if (res?.data?.content) {
+      //       countListComment = countListComment + res?.data?.content?.length;
+      //     }
+      //   })
+      // ).then(() => {
+      //   setCountComments(countListComment);
+      // });
     },
   });
   const { getReact } = useReactMutate(props.id);
@@ -276,14 +289,25 @@ const PostDetail = (props) => {
               <div className="flex flex-col" key={index}>
                 {Array.isArray(page.data.content) &&
                   page.data.content.map((comment) => (
-                    <Comment key={comment.id} data={comment} root={true} />
+                    <Comment
+                      idowner={props.idowner}
+                      key={comment.id}
+                      data={comment}
+                      root={true}
+                      socket={socket}
+                    />
                   ))}
               </div>
             ))}
         </InfiniteScroll>
       </div>
-      <div className="hidden w-full xl:block">
-        <CommentForm id={props.id} parentId={""} />
+      <div className="hidden w-full max-w-full xl:block">
+        <CommentForm
+          id={props.id}
+          idowner={props.idowner}
+          parentId={""}
+          socket={socket}
+        />
       </div>
     </div>
   );

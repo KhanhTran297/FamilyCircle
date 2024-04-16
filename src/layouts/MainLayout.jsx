@@ -31,7 +31,7 @@ const MainLayout = () => {
 
     <div className=" w-full dark:bg-[#000]">
       <div
-        className={`flex flex-col self-stretch w-full xl:gap-10 xl:grid xl:grid-flow-col ${
+        className={`flex flex-col self-stretch  w-full xl:gap-10 xl:grid xl:grid-flow-col ${
           checkPage(location.pathname)
             ? "xl:grid-cols-[calc(25%-40px)_75%]"
             : "xl:grid-cols-[calc(25%-40px)_50%_calc(25%-40px)]"

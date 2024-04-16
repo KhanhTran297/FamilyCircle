@@ -1,0 +1,101 @@
+@mentionsPrefixCls: rc-mentions;
+
+.@{mentionsPrefixCls} {
+  display: inline-block;
+  position: relative;
+  white-space: pre-wrap;
+  height: 50px;
+
+  // ================= Input Area =================
+  > textarea,
+  &-measure {
+    font-size: 14px;
+    font-size-adjust: inherit;
+    font-style: inherit;
+    font-variant: inherit;
+    font-stretch: inherit;
+    font-weight: 400;
+    font-family: roboto;
+    padding: 8px;
+    margin: 0;
+    line-height: inherit;
+    vertical-align: top;
+    overflow: inherit;
+    word-break: inherit;
+    white-space: inherit;
+    word-wrap: break-word;
+    overflow-x: initial;
+    overflow-y: auto;
+    text-align: inherit;
+    letter-spacing: inherit;
+    white-space: inherit;
+    tab-size: inherit;
+    direction: inherit;
+  }
+
+  > textarea {
+    padding-left: 8px;
+    padding-right: 8px;
+    max-height: 100px;
+    height: 50px !important;
+    // border: none;
+    border-radius: 12px;
+    width: 100%;
+  }
+
+  &-measure {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    // color: rgba(255, 0, 0, 0.3);
+    color: transparent;
+    z-index: -1;
+  }
+
+  // ================== Dropdown ==================
+  &-dropdown {
+    position: absolute;
+
+    &-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      &-item {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// Customize style
+.@{mentionsPrefixCls} {
+  font-size: 20px;
+  border: 1px solid #999;
+  border-radius: 12px;
+  overflow: hidden;
+
+  &-dropdown {
+    border: 1px solid #999;
+    border-radius: 3px;
+    background: #fff;
+
+    &-menu {
+      &-item {
+        padding: 8px 16px;
+
+        &-active {
+          background: #e6f7ff;
+          //   background: black;
+        }
+
+        &-disabled {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}

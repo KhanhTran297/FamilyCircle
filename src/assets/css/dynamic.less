@@ -1,0 +1,25 @@
+.dynamic-option {
+  img {
+    vertical-align: middle;
+
+    transition: all 0.3s;
+  }
+
+  span {
+    vertical-align: middle;
+    display: inline-block;
+    transition: all 0.3s;
+    margin-right: 8px;
+  }
+
+  &.rc-mentions-dropdown-menu-item-active {
+    img {
+      transform: scale(1.8);
+    }
+
+    span {
+      margin-left: 8px;
+      margin-right: 0;
+    }
+  }
+}

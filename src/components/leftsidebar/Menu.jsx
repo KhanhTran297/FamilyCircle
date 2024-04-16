@@ -17,6 +17,9 @@ import { ILocalProfileSelected } from "../svg/profile_selected";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import { TeamOutlined } from "@ant-design/icons";
 import CommentForm from "../comment/CommentForm";
+import { useQuery } from "@tanstack/react-query";
+import { getListNotificationApi } from "../../api/notification";
+import { Badge } from "antd";
 const Menu = () => {
   const accountprofile = useGetFetchQuery(["accountProfile"]);
   const { theme } = useTheme({});
@@ -29,9 +32,14 @@ const Menu = () => {
   const handleRouter = (path) => {
     navigate(path);
   };
+  const { data: listNotification } = useQuery({
+    queryKey: ["listNotification"],
+    queryFn: () => getListNotificationApi().then((res) => res?.data?.content),
+    enabled: true,
+  });
   const params = useParams();
   return (
-    <nav className="fixed desktop:z-0 bottom-0 left-0 right-0 flex flex-col text-black dark:bg-[#000] desktop:border-y-0 desktop:flex-col desktop:top-0 desktop:left-0 desktop:relative shadow-mobile desktop:shadow-none desktop:w-[196px] bg-white">
+    <nav className="xl:h-[615px] fixed desktop:z-0 bottom-0 left-0 right-0 flex flex-col text-black dark:bg-[#000] desktop:border-y-0 desktop:flex-col desktop:top-0 desktop:left-0 desktop:relative shadow-mobile desktop:shadow-none desktop:w-[196px] bg-white">
       {params.id !== undefined && (
         <div className="px-2 pt-3 xl:hidden xl:px-0 xl:pt-0">
           <CommentForm id={params.id} parentId={""} />
@@ -106,11 +114,13 @@ const Menu = () => {
           className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
           onClick={() => handleRouter("/notification")}
         >
-          {path === "/notification" ? (
-            <ILocalNotificationSelected fill={textColorSelected} />
-          ) : (
-            <ILocalNotification fill={textColor} />
-          )}
+          <Badge count={listNotification?.length} offset={[0, 0]}>
+            {path === "/notification" ? (
+              <ILocalNotificationSelected fill={textColorSelected} />
+            ) : (
+              <ILocalNotification fill={textColor} />
+            )}
+          </Badge>
           <p
             className={`hidden desktop:block text-sm font-medium text-center  ${
               path === "/notification"
