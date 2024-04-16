@@ -6,6 +6,7 @@ import { ILocalLogo } from "../../components/svg/svg";
 import { ILocalArrowLeft } from "../../components/svg/arrow_left";
 import { ILocalMail } from "../../components/svg/mail";
 import useAccountMutate from "../../hooks/useMutate/useAccountMutate";
+
 const ForgetPassword = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const ForgetPassword = () => {
     successCreateNewPassword,
   } = useAccountMutate();
   const [isCheckOtp, setIsCheckOtp] = useState(false);
+
   const [isChangePassword, setIsChangePassword] = useState(false);
   const [email, setEmail] = useState("");
   const onFinish = (values) => {
@@ -34,9 +36,13 @@ const ForgetPassword = () => {
           otp: values.otp,
           email: email,
         };
+        console.log(newValues);
         checkOtp(newValues).then((data) => {
+          console.log(data);
           if (data.code == "ERROR-ACCOUNT-006") {
-            message.error("incorrect code");
+            message.error("Your Account is locked. Please contact admin!");
+          } else if (data.code == "ERROR-ACCOUNT-004") {
+            message.error("Your OTP is incorrect. Please try again!");
           } else {
             setIsChangePassword(true);
           }
@@ -52,12 +58,12 @@ const ForgetPassword = () => {
   };
   const onFinishFailed = (errorInfo) => {};
   return (
-    <div className=" absolute h-full w-full bg-authen-page dark:bg-black flex justify-center pt-16">
+    <div className="absolute flex justify-center w-full h-full pt-16 bg-authen-page dark:bg-black">
       <div className="flex flex-col shadow-formAuthen justify-evenly gap-6 md:bg-primary md:p-8 md:rounded-2xl xl:bg-white  lg:bg-white lg:w-[500px] lg:p-8 lg:rounded-2xl xl:w-[640px] xl:h-max xl:p-6 xl:gap-6 xl:rounded-2xl lg:dark:bg-white md:dark:bg-white">
         <div className="flex flex-col gap-6">
-          <div className=" justify-center flex flex-col gap-6 items-center ">
+          <div className="flex flex-col items-center justify-center gap-6 ">
             <ILocalLogo className="w-[74px] h-[64px]" />
-            <div className=" flex items-center gap-4 self-stretch relative justify-center">
+            <div className="relative flex items-center self-stretch justify-center gap-4 ">
               <ILocalArrowLeft
                 className=" absolute left-0 flex w-10 h-10 p-[10px] flex-col justify-center items-center gap-[10px] cursor-pointer"
                 fill="#1F1F1F"
@@ -94,7 +100,7 @@ const ForgetPassword = () => {
               : " Enter the email that used to create your account. We will send you a verification code to trigger changing password process."}
           </div>
           {successCreateNewPassword ? (
-            <div className=" flex gap-6 flex-col">
+            <div className="flex flex-col gap-6 ">
               <div className=" self-stretch text-center font-roboto text-base font-normal text-[#1F1A1C]">
                 Your password has been updated. Please retry log in to your
                 account
@@ -126,7 +132,7 @@ const ForgetPassword = () => {
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               // autoComplete="off"
-              className=" relative "
+              className="relative "
             >
               {isCheckOtp ? (
                 isChangePassword ? (
@@ -195,13 +201,16 @@ const ForgetPassword = () => {
                         message: "Please input otp",
                       },
                     ]}
-                    className=" relative  w-full"
+                    className="relative flex justify-center w-full "
                   >
-                    <Input
+                    {/* <Input
                       placeholder="Verification code"
                       className=" flex h-[56px] pt-2 pb-2 pl-3 pr-3  rounded-[12px] border-solid border-[1px] border-[#504348] "
                       size="large"
-                    />
+                      visible={false}
+                      onEnter
+                    ></Input> */}
+                    <Input.OTP length={6} onEnter></Input.OTP>
                   </Form.Item>
                 )
               ) : (
@@ -220,11 +229,11 @@ const ForgetPassword = () => {
                       message: "Please input your email! address",
                     },
                   ]}
-                  className=" relative  w-full"
+                  className="relative w-full "
                 >
                   <Input
                     prefix={
-                      <ILocalMail className=" flex justify-center items-center mr-3" />
+                      <ILocalMail className="flex items-center justify-center mr-3 " />
                     }
                     placeholder="Email"
                     className=" flex h-[56px] pt-2 pb-2 pl-3 pr-3  rounded-[12px] border-solid border-[1px] border-[#504348] "
@@ -252,7 +261,7 @@ const ForgetPassword = () => {
                           : loadingCheckOtp
                         : loadingSentOtp
                     }
-                    className=" w-full xl:h-[40px] xl:pr-4 xl:pl-4 xl:rounded-[36px] bg-button-submit-light text-white font-roboto text-[14px] leading-5 font-medium hover:!border-none hover:!text-white"
+                    className=" w-full xl:h-[40px] xl:pr-4 xl:pl-4 xl:rounded-[36px] bg-button-submit-light text-white font-roboto text-[14px] leading-5 font-medium hover:!border-[#a73574] hover:!text-black"
                   />
                 )}
               </Form.Item>

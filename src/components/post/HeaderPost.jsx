@@ -84,6 +84,7 @@ const HeaderPost = (props) => {
     props.onDelete();
     setIsModalVisible(false);
   };
+
   return (
     <Fragment>
       <CreatePostModal
@@ -116,6 +117,13 @@ const HeaderPost = (props) => {
             <div className="items-center hidden desktop:flex">
               <ILocalDot fill="#F1DEE4" />
             </div>
+            <div className="flex items-center xl:hidden bg-[#a73574] px-2  rounded-lg shadow-sm">
+              <p className="text-sm font-normal text-[white] font-roboto">
+                {props.community !== undefined
+                  ? props?.community?.categoryName
+                  : ""}
+              </p>
+            </div>
           </div>
           <div className="flex flex-row gap-2">
             <p className="text-[#1F1A1C] font-normal text-sm">
@@ -130,7 +138,7 @@ const HeaderPost = (props) => {
                 : "Edited on " + calculateTimeAgo(props.modifiedDate)}
             </p>
           </div>
-          <div className=" flex items-center bg-[#a73574] px-2 py-3 rounded-lg shadow-sm">
+          <div className=" xl:flex items-center bg-[#a73574] px-2 py-3 rounded-lg shadow-sm hidden">
             <p className="text-sm font-normal text-white font-roboto">
               {props.community !== undefined
                 ? props?.community?.categoryName

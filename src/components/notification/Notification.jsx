@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
-import { useParams } from "react-router-dom";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getListfollowingByIdApi } from "../../api/follow";
 import { getPostByIdApi } from "../../api/post";
 import useNotificationSocket from "../../hooks/useNotificationSocket";
 import useAccount from "../../hooks/useAccount";
-import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
 import { getListNotificationApi } from "../../api/notification";
-import { getAccountClientApi } from "../../api/account";
+import { getAccountClientApi2 } from "../../api/account";
 import NotificationCard from "./NotificationCard";
 
 const Notification = () => {
   const { accountProfile } = useAccount();
   const accountId = accountProfile?.data?.id;
   const [notifications, setNotifications] = useState([]);
-  
   const [userEmail, setUserEmail] = useState([]);
-
   const [usersData, setUsersData] = useState([]);
   const [socketNotification, setSocketNotification] = useState(null);
   const { data: listFollowing } = useQuery({
@@ -32,17 +27,13 @@ const Notification = () => {
 
   const { data: listNotification } = useQuery({
     queryKey: ["listNotification"],
-    queryFn: getListNotificationApi,
+    queryFn: () => getListNotificationApi().then((res) => res?.data?.content),
     enabled: true,
   });
 
   useEffect(() => {
-    if (
-      listNotification &&
-      listNotification.data &&
-      listNotification.data.content
-    ) {
-      const createdByEmail = listNotification.data.content.map(
+    if (listNotification.length > 0) {
+      const createdByEmail = listNotification.map(
         (notification) => notification.createdBy
       );
       setUserEmail(createdByEmail);
@@ -50,7 +41,7 @@ const Notification = () => {
   }, [listNotification]);
   const { data: listAccountClient } = useQuery({
     queryKey: ["listAccountClent"],
-    queryFn: getAccountClientApi,
+    queryFn: () => getAccountClientApi2().then((res) => res),
   });
   useEffect(() => {
     if (
@@ -68,22 +59,18 @@ const Notification = () => {
   }, [listAccountClient, userEmail]);
   useEffect(() => {
     if (usersData.length > 0 && listNotification) {
-      const updatedNotifications = listNotification.data.content.map(
-        (notification) => {
-          const user = usersData.find(
-            (u) => u.email === notification.createdBy
-          );
+      const updatedNotifications = listNotification.map((notification) => {
+        const user = usersData.find((u) => u.email === notification.createdBy);
 
-          return {
-            id: notification.id,
-            objectId: notification.objectId,
-            content: notification.content,
-            fullName: user?.fullName,
-            avatar: user?.avatar,
-            createdDate: notification.createdDate,
-          };
-        }
-      );
+        return {
+          id: notification.id,
+          objectId: notification.objectId,
+          content: notification.content,
+          fullName: user?.fullName,
+          avatar: user?.avatar,
+          createdDate: notification.createdDate,
+        };
+      });
 
       setNotifications(updatedNotifications);
     }

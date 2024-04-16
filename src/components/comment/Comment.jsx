@@ -45,7 +45,7 @@ const Comment = (props) => {
   // setCountComments(count + listChildComment?.data?.content?.length);
   return (
     <div className={`xl:flex xl:flex-col  overflow-x-hidden `}>
-      <div className=" flex flex-row gap-2 overflow-x-hidden">
+      <div className="flex flex-row gap-2 overflow-x-hidden ">
         <CommentLeft
           img={data?.owner?.avatar}
           root={true}
@@ -53,7 +53,7 @@ const Comment = (props) => {
           activeCol={active}
         />
         {isEditing ? (
-          <div className=" w-full pb-4">
+          <div className="w-full pb-4 ">
             <TextArea
               defaultValue={data.commentContent}
               onPressEnter={(e) => {
@@ -65,7 +65,7 @@ const Comment = (props) => {
             />
             <p className=" text-[12px] font-roboto text-light_surface_on_surface">
               {" "}
-              Press <span className=" text-blue-400"> Esc</span> to return
+              Press <span className="text-blue-400 "> Esc</span> to return
             </p>
           </div>
         ) : (
@@ -81,7 +81,7 @@ const Comment = (props) => {
       </div>
 
       {showReply && (
-        <div className=" flex flex-col">
+        <div className="flex flex-col ">
           {listChildComment?.data?.content?.map((comment, index, array) => (
             <ChildComment
               key={comment.id}
@@ -95,7 +95,15 @@ const Comment = (props) => {
           ))}
         </div>
       )}
-      {active && <CommentForm id={postDetailId} parentId={data.id} depth={2} />}
+      {active && (
+        <CommentForm
+          id={postDetailId}
+          idowner={props.idowner}
+          parentId={data.id}
+          depth={2}
+          socket={props.socket}
+        />
+      )}
     </div>
   );
 };
@@ -103,5 +111,7 @@ Comment.propTypes = {
   data: PropTypes.object.isRequired,
   id: PropTypes.number,
   root: PropTypes.bool.isRequired,
+  socket: PropTypes.any,
+  idowner: PropTypes.any,
 };
 export default Comment;

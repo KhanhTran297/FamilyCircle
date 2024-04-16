@@ -44,12 +44,11 @@ const LoginPage = () => {
             },
           })
           .then((res) => {
-            console.log(res);
             const content = {
               grant_type: "google",
               google: `{"sub":"${res.data.sub}","name": "${res.data.name}", "email": "${res.data.email}", "picture":"${res.data.picture}"}`,
             };
-            console.log(content);
+
             handleLoginGoogle(content).then((res) => {
               // console.log(res?.user_id);
               socket.connect();
@@ -70,10 +69,10 @@ const LoginPage = () => {
   const [form] = Form.useForm();
 
   return (
-    <div className=" absolute h-full w-full bg-authen-page dark:bg-black flex justify-center items-center">
+    <div className="absolute flex items-center justify-center w-full h-full bg-authen-page dark:bg-black">
       <div className="flex flex-col shadow-formAuthen justify-evenly gap-6 md:bg-primary md:p-8 md:rounded-2xl xl:bg-white  lg:bg-white lg:w-[500px] lg:p-8 lg:rounded-2xl xl:w-[640px] xl:h-max xl:p-6 xl:gap-6 xl:rounded-2xl lg:dark:bg-white md:dark:bg-white">
         <div className="flex flex-col gap-6">
-          <div className=" justify-center flex flex-col gap-6 items-center ">
+          <div className="flex flex-col items-center justify-center gap-6 ">
             <ILocalLogo className="w-[74px] h-[64px]" />
             <p className=" text-2xl  dark:text-white lg:dark:text-black md:dark:text-black font-roboto xl:text-[32px] xl:leading-10 xl:font-normal">
               Sign in
@@ -98,7 +97,7 @@ const LoginPage = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             // autoComplete="off"
-            className=" relative "
+            className="relative "
           >
             <Form.Item
               hasFeedback
@@ -114,11 +113,11 @@ const LoginPage = () => {
                   message: "Please input your email! address",
                 },
               ]}
-              className=" relative  w-full"
+              className="relative w-full "
             >
               <Input
                 prefix={
-                  <ILocalMail className=" flex justify-center items-center mr-3" />
+                  <ILocalMail className="flex items-center justify-center mr-3 " />
                 }
                 placeholder="Email"
                 className=" flex h-[56px] pt-2 pb-2 pl-3 pr-3  rounded-[12px] border-solid border-[1px] border-[#504348] "
@@ -143,7 +142,7 @@ const LoginPage = () => {
             >
               <Input.Password
                 prefix={
-                  <ILocalKey className=" flex justify-center items-center mr-3" />
+                  <ILocalKey className="flex items-center justify-center mr-3 " />
                 }
                 placeholder="Input your password"
                 className=" flex h-[56px] pt-2 pb-2 pl-3 pr-3  rounded-[12px] border-solid border-[1px] border-[#504348] "
@@ -151,7 +150,7 @@ const LoginPage = () => {
               />
             </Form.Item>
             <Form.Item className="">
-              <div className=" self-stretch flex justify-end">
+              <div className="flex self-stretch justify-end ">
                 {" "}
                 <p
                   className=" font-roboto text-base font-normal text-[#1F1A1c] cursor-pointer"
@@ -167,11 +166,11 @@ const LoginPage = () => {
                 form={form}
                 content="Sign in"
                 isLoading={loadingLogin}
-                className=" w-full xl:h-[40px] xl:pr-4 xl:pl-4 xl:rounded-[36px] bg-button-submit-light text-white font-roboto text-[14px] leading-5 font-medium hover:!border-none hover:!text-white"
+                className=" w-full xl:h-[40px] xl:pr-4 xl:pl-4 xl:rounded-[36px] bg-button-submit-light text-white font-roboto text-[14px] leading-5 font-medium hover:!border-[#a73574] hover:!text-black"
               />
             </Form.Item>
           </Form>
-          <div className="flex flex-row gap-6 justify-center items-center">
+          <div className="flex flex-row items-center justify-center gap-6">
             <div className=" ml-[27px] w-full h-[1px] bg-[#F1DEE4]"></div>
             <div className="font-roboto text-base font-normal text-[#1F1A1C]">
               Or
@@ -199,7 +198,7 @@ const LoginPage = () => {
             ></GoogleLogin>
           </GoogleOAuthProvider> */}
           </div>
-          <div className="flex flex-row gap-6 justify-center items-center">
+          <div className="flex flex-row items-center justify-center gap-6">
             <div className=" ml-[27px] w-1/2 h-[1px] bg-[#F1DEE4]"></div>
             <div className=" font-roboto text-base font-normal text-[#1F1A1C] w-2/3 text-center">
               You don't have an account?

@@ -17,7 +17,7 @@ import useMessageMutate from "../../hooks/useMutate/useMessageMutate";
 import { useLocation, useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { socket } from "../../hooks/useSocket";
-
+import { useMediaQuery } from "react-responsive";
 const MessagePage = () => {
   // const socket = useRef(io("ws://localhost:8900"));
   const account = useGetFetchQuery(["accountProfile"]);
@@ -26,12 +26,16 @@ const MessagePage = () => {
   const [isSearch, setIsSearch] = useState(false);
   const [params, setParams] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isDetailMobile, setIsDetailMobile] = useState(false);
   const [listMessageState, setListMessageState] = useState([]);
   const [socketMessage, setSocketMessage] = useState(null);
   const location = useLocation();
   const [listConversationState, setListConversationState] = useState([]);
   const conversationId = location.search.split("=")[1] || null;
   const { sendMesssage } = useMessageMutate();
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
   const { data: listFriend, isLoading: loadListFriend } = useQuery({
     queryKey: ["listFriend", params],
     queryFn: getListAccountClientApi,
@@ -44,7 +48,6 @@ const MessagePage = () => {
       }),
     enabled: conversationId ? true : false,
   });
-  const size = window.innerWidth;
   const { data: listConversation, refetch: refetchListConversation } = useQuery(
     {
       queryKey: ["listConversation"],
@@ -59,8 +62,6 @@ const MessagePage = () => {
     queryKey: ["listMessageinConversation", conversationId],
     queryFn: (queryKey) =>
       listMessageinConversationApi(queryKey).then((res) => {
-        console.log("res", res);
-
         if (res.data.totalElements == 0) {
           setListMessageState([]);
         } else {
@@ -78,6 +79,12 @@ const MessagePage = () => {
   const handleSearch = (e) => {
     if (e.code === "Enter") {
       setParams(e.target.value);
+    }
+  };
+  const handleGetMessage = (id) => {
+    setSearchParams({ id: id });
+    {
+      !isDesktopOrLaptop ? setIsDetailMobile(true) : "";
     }
   };
   const handleSendMessage = (e) => {
@@ -142,20 +149,24 @@ const MessagePage = () => {
     // setOnlineUsers(JSON.parse(listOnlineUsers));
   }, [account]);
   return (
-    <div className="w-full xl:w-full xl:flex xl:flex-row h-screen mt-14 xl:mt-0">
+    <div className="w-full h-screen xl:h-full mt-14 xl:w-full xl:flex xl:flex-row xl:mt-0">
       {/* <Left /> */}
-      <div className=" xl:w-[368px]  w-full flex flex-col items-start gap-4 self-stretch border-r border-l border-solid border-r-[#F1DEE4]">
-        <div className=" xl:h-16 pl-6 pr-6 justify-center items-start self-stretch ">
+      <div
+        className={`xl:w-[368px]  w-full flex flex-col items-start gap-4 self-stretch border-r border-l border-solid border-r-[#F1DEE4] ${
+          isDetailMobile && "hidden"
+        }`}
+      >
+        <div className="items-start self-stretch justify-center pl-6 pr-6 xl:h-16">
           <p className=" font-roboto text-[22px] font-medium leading-7 text-[#1F1A1C]">
             Chat
           </p>
-          <p className=" font-roboto text-sm font-normal text-light_surface_on_surface">
+          <p className="text-sm font-normal font-roboto text-light_surface_on_surface">
             Select a user to start a chat
           </p>
         </div>
         <div className=" flex flex-row pl-6 pr-6  gap-[10px] self-stretch  items-center">
           {isSearch && (
-            <div onClick={() => setIsSearch(false)} className=" cursor-pointer">
+            <div onClick={() => setIsSearch(false)} className="cursor-pointer ">
               <ILocalArrowLeft fill="#ccc" />
             </div>
           )}
@@ -178,9 +189,9 @@ const MessagePage = () => {
         <div className="flex flex-col items-start self-stretch">
           {isSearch ? (
             loadListFriend ? (
-              <div className="flex pt-3 pb-3 pl-6 pr-6 items-center gap-2 self-stretch">
+              <div className="flex items-center self-stretch gap-2 pt-3 pb-3 pl-6 pr-6">
                 {" "}
-                <Spin className="flex pt-3 pb-3 pl-6 pr-6 items-center gap-2 self-stretch w-full justify-center" />
+                <Spin className="flex items-center self-stretch justify-center w-full gap-2 pt-3 pb-3 pl-6 pr-6" />
               </div>
             ) : (
               listFriend?.data?.content?.map((account) => {
@@ -203,7 +214,7 @@ const MessagePage = () => {
               return (
                 <div
                   key={conservation?.id}
-                  onClick={() => setSearchParams({ id: conservation?.id })}
+                  onClick={() => handleGetMessage(conservation?.id)}
                   className={`w-full `}
                 >
                   <Conservation
@@ -237,86 +248,183 @@ const MessagePage = () => {
         </div>
       </div>
       {/* <Right /> */}
-      {conversationDetail ? (
-        <div className=" hidden xl:flex flex-col items-start flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
-          <div className=" flex pt-3 pb-3 pl-4 pr-4 items-center self-stretch gap-2 border-b border-solid border-b-[#F1DEE4]">
-            <div className=" w-10 h-10 rounded-[20px]">
-              <img
-                src={
-                  conversationDetail?.accountList[0]?.account.id ==
-                  account?.data?.id
-                    ? conversationDetail?.accountList[1]?.account?.avatar
-                    : conversationDetail?.accountList[0]?.account?.avatar
-                }
-                alt=""
-                className=" w-full h-full rounded-[20px]"
-              />
-            </div>
-            <p className=" text-light_surface_on_surface font-roboto text-sm font-medium">
-              {conversationDetail?.accountList[0]?.account.id ==
-              account?.data?.id
-                ? conversationDetail?.accountList[1]?.account?.fullName
-                : conversationDetail?.accountList[0]?.account?.fullName}
-            </p>
-          </div>
-          <div className=" relative flex p-6 flex-col items-start gap-3 self-stretch h-full overflow-y-scroll ">
-            {listMessageState?.map((message) => {
-              return (
-                <Message
-                  key={message?.id}
-                  own={message?.senderId == account?.data?.id}
-                  message={message}
-                />
-              );
-            })}
-          </div>
-          <div className=" h-16 flex pl-6 pr-6 items-center gap-[10px] self-stretch border-t border-solid border-t-[#f1DEE4]">
-            <form className=" w-full" onSubmit={(e) => handleSendMessage(e)}>
-              <input
-                ref={messageRef}
-                placeholder="Text your message..."
-                className=" border-none outline-none flex-[1_0_0] text-[#504348] font-roboto text-sm font-normal w-full "
-                // onKeyDown={(e) => {
-                //   handleSendMessage(e);
-                // }}
-              ></input>
-            </form>
 
-            <div className="flex w-10 h-10 p-[10px] flex-col justify-center items-center gap-[10px] rounded-[20px] hover:bg-bgButtonHover cursor-pointer">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <mask
-                  id="mask0_1169_1014"
-                  style={{ maskType: "alpha" }}
-                  maskUnits="userSpaceOnUse"
-                  x="0"
-                  y="0"
+      {isDesktopOrLaptop ? (
+        conversationDetail ? (
+          <div className=" hidden xl:flex flex-col items-start flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
+            <div className=" flex pt-3 pb-3 pl-4 pr-4 items-center self-stretch gap-2 border-b border-solid border-b-[#F1DEE4]">
+              <div className=" w-10 h-10 rounded-[20px]">
+                <img
+                  src={
+                    conversationDetail?.accountList[0]?.account.id ==
+                    account?.data?.id
+                      ? conversationDetail?.accountList[1]?.account?.avatar
+                      : conversationDetail?.accountList[0]?.account?.avatar
+                  }
+                  alt=""
+                  className=" w-full h-full rounded-[20px]"
+                />
+              </div>
+              <p className="text-sm font-medium text-light_surface_on_surface font-roboto">
+                {conversationDetail?.accountList[0]?.account.id ==
+                account?.data?.id
+                  ? conversationDetail?.accountList[1]?.account?.fullName
+                  : conversationDetail?.accountList[0]?.account?.fullName}
+              </p>
+            </div>
+            <div className="relative flex flex-col items-start self-stretch h-full gap-3 p-6 overflow-y-scroll ">
+              {listMessageState?.map((message) => {
+                return (
+                  <Message
+                    key={message?.id}
+                    own={message?.senderId == account?.data?.id}
+                    message={message}
+                  />
+                );
+              })}
+            </div>
+            <div className=" h-16 flex pl-6 pr-6 items-center gap-[10px] self-stretch border-t border-solid border-t-[#f1DEE4]">
+              <form className="w-full " onSubmit={(e) => handleSendMessage(e)}>
+                <input
+                  ref={messageRef}
+                  placeholder="Text your message..."
+                  className=" border-none outline-none flex-[1_0_0] text-[#504348] font-roboto text-sm font-normal w-full "
+                  // onKeyDown={(e) => {
+                  //   handleSendMessage(e);
+                  // }}
+                ></input>
+              </form>
+
+              <div className="flex w-10 h-10 p-[10px] flex-col justify-center items-center gap-[10px] rounded-[20px] hover:bg-bgButtonHover cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
                 >
-                  <rect width="24" height="24" fill="#D9D9D9" />
-                </mask>
-                <g mask="url(#mask0_1169_1014)">
-                  <path
-                    d="M3 20V4L22 12L3 20ZM5 17L16.85 12L5 7V10.5L11 12L5 13.5V17Z"
-                    fill="#1F1F1F"
-                  />
-                </g>
-              </svg>
+                  <mask
+                    id="mask0_1169_1014"
+                    style={{ maskType: "alpha" }}
+                    maskUnits="userSpaceOnUse"
+                    x="0"
+                    y="0"
+                    width="24"
+                    height="24"
+                  >
+                    <rect width="24" height="24" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_1169_1014)">
+                    <path
+                      d="M3 20V4L22 12L3 20ZM5 17L16.85 12L5 7V10.5L11 12L5 13.5V17Z"
+                      fill="#1F1F1F"
+                    />
+                  </g>
+                </svg>
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="  hidden xl:flex flex-col items-center justify-center flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
-          <div className=" font-roboto text-base font-medium text-light_surface_on_surface_variant">
-            Let's start some conversations
+        ) : (
+          <div className="  hidden xl:flex flex-col items-center justify-center flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
+            <div className="text-base font-medium font-roboto text-light_surface_on_surface_variant">
+              Let's start some conversations
+            </div>
           </div>
-        </div>
+        )
+      ) : isDetailMobile ? (
+        conversationDetail ? (
+          <div className=" h-full   xl:flex flex-col items-start  border-r border-solid border-r-[#F1DEE4]">
+            <div className=" flex flex-row pt-3 pb-3 pl-4 pr-4 items-center self-stretch gap-2 border-b border-solid border-b-[#F1DEE4]">
+              <div
+                className=""
+                onClick={() => {
+                  setIsDetailMobile(false);
+                  history.back();
+                }}
+              >
+                <ILocalArrowLeft fill="#ccc" />
+              </div>
+
+              <div className=" w-10 h-10 rounded-[20px]">
+                <img
+                  src={
+                    conversationDetail?.accountList[0]?.account.id ==
+                    account?.data?.id
+                      ? conversationDetail?.accountList[1]?.account?.avatar
+                      : conversationDetail?.accountList[0]?.account?.avatar
+                  }
+                  alt=""
+                  className=" w-full h-full rounded-[20px]"
+                />
+              </div>
+              <p className="text-sm font-medium text-light_surface_on_surface font-roboto">
+                {conversationDetail?.accountList[0]?.account.id ==
+                account?.data?.id
+                  ? conversationDetail?.accountList[1]?.account?.fullName
+                  : conversationDetail?.accountList[0]?.account?.fullName}
+              </p>
+            </div>
+            <div className="relative flex flex-col items-start self-stretch h-full gap-3 p-6 overflow-y-scroll ">
+              {listMessageState?.map((message) => {
+                return (
+                  <Message
+                    key={message?.id}
+                    own={message?.senderId == account?.data?.id}
+                    message={message}
+                  />
+                );
+              })}
+            </div>
+            <div className=" h-16 flex pl-6 pr-6  items-center gap-[10px] self-stretch border-t border-solid border-t-[#f1DEE4]">
+              <form className="w-full " onSubmit={(e) => handleSendMessage(e)}>
+                <input
+                  ref={messageRef}
+                  placeholder="Text your message..."
+                  className=" border-none outline-none flex-[1_0_0] text-[#504348] font-roboto text-sm font-normal w-full "
+                  // onKeyDown={(e) => {
+                  //   handleSendMessage(e);
+                  // }}
+                ></input>
+              </form>
+
+              <div className="flex w-10 h-10 p-[10px] flex-col justify-center items-center gap-[10px] rounded-[20px] hover:bg-bgButtonHover cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <mask
+                    id="mask0_1169_1014"
+                    style={{ maskType: "alpha" }}
+                    maskUnits="userSpaceOnUse"
+                    x="0"
+                    y="0"
+                    width="24"
+                    height="24"
+                  >
+                    <rect width="24" height="24" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_1169_1014)">
+                    <path
+                      d="M3 20V4L22 12L3 20ZM5 17L16.85 12L5 7V10.5L11 12L5 13.5V17Z"
+                      fill="#1F1F1F"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="  hidden xl:flex flex-col items-center justify-center flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
+            <div className="text-base font-medium font-roboto text-light_surface_on_surface_variant">
+              Let's start some conversations
+            </div>
+          </div>
+        )
+      ) : (
+        <div className=""></div>
       )}
     </div>
   );

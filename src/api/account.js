@@ -77,7 +77,11 @@ export const getListAccountClientApi = (params) => {
   const url = `/v1/account/list-account-client?isClient=true&fullName=${params.queryKey[1]}`;
   return UseGet({ url, requiredToken: true });
 };
-export const getAccountClientApi = () => {
+export const getAccountClientApi = (params) => {
+  const url = `/v1/account/list-account-client?isClient=true`;
+  return UseGet({ url, requiredToken: true, params });
+};
+export const getAccountClientApi2 = () => {
   const url = `/v1/account/list-account-client?isClient=true`;
   return UseGet({ url, requiredToken: true });
 };

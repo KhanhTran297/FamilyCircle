@@ -56,7 +56,7 @@ const CommunicationPage = (props) => {
       </div>
       <Carousel
         fade
-        className=" xl:h-[250px] communityPage  xl:rounded-2xl xl:shadow-xl border-b border-b-solid border-b-[#ccc] xl:border-none xl:bg-[#FFD8E8] "
+        className=" xl:h-[250px] communityPage  xl:rounded-2xl xl:shadow-xl border-b border-b-solid border-b-[#ccc] xl:border-none xl:bg-[#FFD8E8]  "
         autoplay
       >
         {/* {listCommunity !== undefined &&

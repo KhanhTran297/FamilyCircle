@@ -6,16 +6,18 @@ import {
   unFollowApi,
 } from "../../api/follow";
 import { useParams } from "react-router-dom";
+import { message } from "antd";
 function useFollowMutate() {
   const queryClient = useQueryClient();
   const { profileId } = useParams();
   const { mutate: getFollow } = useMutation({
     mutationFn: getFollowApi,
     onSuccess: (respone) => {
+      console.log("respone", respone);
       if (respone.result) {
-        queryClient.invalidateQueries(["listPostAccountFollowing"]);
-        queryClient.invalidateQueries(["listPostExpertFollowing"]);
+        queryClient.invalidateQueries(["GetListPostHome"]);
         queryClient.invalidateQueries(["listFollowing"]);
+        message.success("Follow success!");
       } else {
         // useError("Create post fail!");
       }
@@ -27,10 +29,11 @@ function useFollowMutate() {
   const { mutate: getUnfollow } = useMutation({
     mutationFn: getUnfollowApi,
     onSuccess: (respone) => {
+      console.log("respone", respone);
       if (respone.result) {
-        queryClient.invalidateQueries(["listPostAccountFollowing"]);
-        queryClient.invalidateQueries(["listPostExpertFollowing"]);
+        queryClient.invalidateQueries(["GetListPostHome"]);
         queryClient.invalidateQueries(["listFollowing"]);
+        message.success("Follow unsuccess!");
       } else {
         // useError("Create post fail!");
       }
