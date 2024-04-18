@@ -90,6 +90,7 @@ const CreatePostModal = (props) => {
     setTitle(event.target.value);
     setTitleCharCount(event.target.value.length);
     setValue("title", event.target.value);
+    setTempTitle(event.target.value);
   };
 
   const handleBlur = () => {
@@ -97,6 +98,7 @@ const CreatePostModal = (props) => {
     if (!title.trim()) {
       setTitle("Untitled");
     }
+    setTempTitle(title);
   };
 
   const handleKeyDown = (event) => {
@@ -142,6 +144,8 @@ const CreatePostModal = (props) => {
       }
       setValue("content", html);
     }
+    setTempContent(html);
+    setTempTitle(getValues("title"));
     // console.log("getValues('content'):", getValues("content"));
   };
   const handleClose = () => {
@@ -208,6 +212,7 @@ const CreatePostModal = (props) => {
       handleUpdatePost(props.id, data);
       handleClose();
       setIsModalOpen(false);
+      console.log("cancel");
     } else {
       const data = {
         ...values,
@@ -423,14 +428,14 @@ const CreatePostModal = (props) => {
                 )} */}
               </div>
               <div className="fixed z-50 flex items-center self-end  gap-2 mt-3 bottom-3 desktop:bottom-auto desktop:mt-0  right-6 desktop:right-0 desktop:top-[0.5px] desktop:items-start desktop:absolute ">
-                <button
-                  className="flex items-center h-10 px-3 rounded-[36px] hover:bg-buttonHoverLight"
+                <div
+                  className="flex items-center h-10 px-3 rounded-[36px] hover:bg-buttonHoverLight hover:cursor-pointer"
                   onClick={() => handleClose()}
                 >
                   <p className="text-sm font-medium font-roboto text-[#A73574] ">
                     Cancel
                   </p>
-                </button>
+                </div>
                 <button
                   className={`flex items-center h-10 px-4 gap-[7px] rounded-[36px]  hover:buttonHover hover:shadow-buttonHover ${
                     checkIsSubmitDisabled()
