@@ -1,6 +1,8 @@
 import AcademicDegree from "../components/admin/AcademicDegree";
 import CommunityContent from "../components/admin/CommunityContent";
 import DepartmentContent from "../components/admin/DepartmentContent";
+import EventDetailContent from "../components/admin/EventDetailContent";
+import EventsContent from "../components/admin/EventsContent";
 import ExpertsContent from "../components/admin/ExpertsContent";
 import HospitalContent from "../components/admin/HospitalContent";
 import HospitalRoleContent from "../components/admin/HospitalRoleContent";
@@ -81,6 +83,20 @@ export default function init(routes) {
           {
             path: "comments",
             element: <ReportCommentContent />,
+          },
+        ],
+      },
+      {
+        path: "/events/",
+        element: <CmsPage />,
+        children: [
+          {
+            path: "",
+            element: <EventsContent />,
+          },
+          {
+            path: ":id",
+            element: <EventDetailContent />,
           },
         ],
       },

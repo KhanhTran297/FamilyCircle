@@ -12,6 +12,6 @@ export const createAnnounceApi = (params) => {
 };
 
 export const getListNotificationApi = () => {
-  const url = `/v1/notification/list`;
+  const url = `/v2/notification/list`;
   return UseGet({ url, requiredToken: true });
 };

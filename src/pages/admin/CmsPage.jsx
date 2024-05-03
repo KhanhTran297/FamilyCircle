@@ -48,6 +48,9 @@ const CmsPage = () => {
       case "community":
         navigate(`/admin/${data.key}`);
         break;
+      case "events":
+        navigate("/events");
+        break;
       case "rpposts":
         navigate(`/report/posts`);
         break;
@@ -84,6 +87,7 @@ const CmsPage = () => {
       getItem("Posts", "rpposts"),
       getItem("Comments", "rpcomments"),
     ]),
+    getItem("Moderate events", "events", <ContainerOutlined />),
     // getItem("", "5", <FileOutlined />),
   ];
   const onClick = ({ key }) => {

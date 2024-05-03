@@ -50,16 +50,16 @@ const SignupPage = () => {
   };
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   return (
-    <div className="absolute flex bg-authen-page pt-16 justify-center w-full h-full bg-white  dark:bg-black">
+    <div className="absolute flex items-center justify-center w-full h-full bg-white bg-authen-page dark:bg-black">
       <div className="flex flex-col gap-6 xl:w-[640px] rounded-3xl bg-white shadow-formAuthen md:p-8  lg:w-[500px] lg:p-8  xl:h-max xl:p-8  lg:dark:bg-white md:dark:bg-white">
         <div className="flex flex-col gap-6">
-          <div className="justify-center flex flex-col gap-6 items-center">
+          <div className="flex flex-col items-center justify-center gap-6">
             <ILocalLogo className="w-[74px] h-[64px]" />
 
             <div className=" text-2xl relative flex justify-center items-center w-full  dark:text-white lg:dark:text-black md:dark:text-black font-roboto xl:text-[32px] xl:leading-10 xl:font-normal">
               <ILocalArrowLeft
                 fill="#1F1F1F"
-                className=" absolute left-0 w-6 h-6 cursor-pointer"
+                className="absolute left-0 w-6 h-6 cursor-pointer "
                 eventClick={handleBack}
               />
               Create an account
@@ -98,14 +98,14 @@ const SignupPage = () => {
               className="relative w-full "
             >
               <Input
-                prefix={<ILocalProfile className=" mr-3" fill="#504348" />}
+                prefix={<ILocalProfile className="mr-3 " fill="#504348" />}
                 placeholder="Username"
                 className=" flex h-[56px] pt-2 pb-2 pl-3 pr-3  rounded-[12px] border-solid border-[1px] border-[#504348] "
                 size="large"
               />
             </Form.Item>
-            <Form.Item className=" relative mb-0">
-              <div className=" flex flex-row gap-3 ">
+            <Form.Item className="relative mb-0 ">
+              <div className="flex flex-row gap-3 ">
                 <Form.Item
                   hasFeedback
                   name="dateOfBirth"

@@ -27,10 +27,10 @@ const Notification = () => {
 
   const { data: listNotification } = useQuery({
     queryKey: ["listNotification"],
-    queryFn: () => getListNotificationApi().then((res) => res?.data?.content),
+    queryFn: () => getListNotificationApi().then((res) => res?.data),
     enabled: true,
   });
-
+  console.log(listNotification);
   useEffect(() => {
     if (listNotification.length > 0) {
       const createdByEmail = listNotification.map(
