@@ -3,12 +3,14 @@ import BabyHealthPage from "../pages/main/BabyHealthPage";
 import BookmarkPage from "../pages/main/BookmarkPage";
 import CommunicationPage from "../pages/main/CommunicationPage";
 import CommunityDetailPage from "../pages/main/CommunityDetailPage";
+import EventDetailPage from "../pages/main/EventDetailPage";
 import HomePage from "../pages/main/HomePage";
 import MessagePage from "../pages/main/MessagePage";
 import MotherHealthPage from "../pages/main/MotherHealthPage";
 import NotificationPage from "../pages/main/NotificationPage";
 import PostDetailPage from "../pages/main/PostDetailPage";
 import ProfilePage from "../pages/main/ProfilePage";
+import SchedulerPage from "../pages/main/SchedulerPage";
 import GuardRoute from "./GuardRoute";
 
 // Xem cấu trúc routes ở https://reactrouter.com/en/main/routers/create-browser-router#routes
@@ -100,6 +102,18 @@ export default function init(routes) {
             <MotherHealthPage />
           </GuardRoute>
         ),
+      },
+      {
+        path: "/schedule",
+        element: (
+          <GuardRoute path="/schedule">
+            <SchedulerPage />
+          </GuardRoute>
+        ),
+      },
+      {
+        path: "/schedule/:id",
+        element: <EventDetailPage />,
       },
     ],
   };
