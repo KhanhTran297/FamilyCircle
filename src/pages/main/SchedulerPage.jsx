@@ -12,7 +12,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getListCategoryApi } from "../../api/category";
 import useEventMutate from "../../hooks/useMutate/useEventMutate";
 import { getEventApi } from "../../api/event";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import moment from "moment";
+import ReactQuill from "react-quill";
 
 const customStyles = {
   overlay: {
@@ -27,16 +29,24 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     borderRadius: "15px",
+    overflowY: "scroll",
+    maxHeight: "100vh",
   },
 };
 
 const SchedulerPage = (props) => {
   const account = useGetFetchQuery(["accountProfile"]);
+  const [value, setValue] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { createEvent } = useEventMutate();
   const { RangePicker } = DatePicker;
+  function debouncedSetValue(value) {
+    setTimeout(() => {
+      setValue(value);
+    }, 3000);
+  }
   function openModal() {
     setIsOpen(true);
   }
@@ -81,12 +91,10 @@ const SchedulerPage = (props) => {
               event_id: item.id,
               title: item.title,
               description: item.description,
-              start: new Date(
-                dayjs(item.startDate).format("DD/MM/YYYY HH:mm:ss")
-              ),
-              end: new Date(dayjs(item.endDate).format("DD/MM/YYYY HH:mm:ss")),
-              startTime: new Date(item.startDate),
-              endTime: new Date(item.endDate),
+              start: dayjs(item.startDate, "DD/MM/YYYY HH:mm:ss").toDate(),
+              end: dayjs(item.endDate, "DD/MM/YYYY HH:mm:ss").toDate(),
+              startTime: dayjs(item.startDate, "DD/MM/YYYY HH:mm:ss").toDate(),
+              endTime: dayjs(item.endDate, "DD/MM/YYYY HH:mm:ss").toDate(),
               slots: item.slots,
               fee: item.fee,
               expertName: item.expert.expertFullName,
@@ -97,7 +105,8 @@ const SchedulerPage = (props) => {
           });
           return tempData;
         }
-        return res.data;
+        console.log("res.data: ", res.data);
+        return [];
       }),
   });
 
@@ -256,7 +265,12 @@ const SchedulerPage = (props) => {
                   },
                 ]}
               >
-                <TextArea rows={2} placeholder=" Description" allowClear />
+                {/* <TextArea rows={2} placeholder=" Description" allowClear /> */}
+                <ReactQuill
+                  theme="snow"
+                  value={value}
+                  onChange={(value) => debouncedSetValue(value)}
+                />
               </Form.Item>
               <Form.Item
                 label="Slots"
@@ -301,6 +315,25 @@ const SchedulerPage = (props) => {
                     required: true,
                     message: "Please input start date - end date!",
                   },
+                  () => ({
+                    validator(_, value) {
+                      const [startDate, endDate] = value;
+                      const today = moment().startOf("day");
+
+                      if (
+                        startDate.isBefore(today) ||
+                        endDate.isBefore(today)
+                      ) {
+                        return Promise.reject(
+                          new Error(
+                            "Start date and end date must be equal to or bigger than today!"
+                          )
+                        );
+                      }
+
+                      return Promise.resolve();
+                    },
+                  }),
                 ]}
               >
                 <RangePicker

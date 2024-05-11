@@ -16,12 +16,12 @@ import dayjs from "dayjs";
 const EventDetailPage = (props) => {
   const navigate = useNavigate();
   const param = useParams();
-  console.log(param);
+
   const { data: eventDetail } = useQuery({
     queryKey: ["eventDetail"],
     queryFn: () => getEventDetailApi({ id: param.id }).then((res) => res.data),
   });
-  console.log(eventDetail);
+
   return (
     <div className="flex flex-col gap-8 py-3 ">
       <div className="flex flex-row items-center ">
@@ -57,16 +57,22 @@ const EventDetailPage = (props) => {
               <CalendarOutlined />
               <p className="text-base font-medium font-roboto">Date: </p>
               <p className="text-base font-normal font-roboto">
-                {dayjs(eventDetail?.startDate).format("DD/MM/YYYY")}
+                {dayjs(eventDetail?.startDate, "DD/MM/YYYY HH:mm:ss").format(
+                  "DD/MM/YYYY"
+                )}
               </p>
             </div>
             <div className="grid grid-flow-col grid-cols-[10%_20%_70%]  w-[250px] right-0">
               <ClockCircleOutlined />
               <p className="text-base font-medium font-roboto">Time: </p>
               <p className="text-base font-normal font-roboto">
-                {dayjs(eventDetail?.startDate).format("HH:mm") +
+                {dayjs(eventDetail?.startDate, "DD/MM/YYYY HH:mm:ss").format(
+                  "HH:mm a"
+                ) +
                   " - " +
-                  dayjs(eventDetail?.endDate).format("HH:mm")}
+                  dayjs(eventDetail?.endDate, "DD/MM/YYYY HH:mm:ss").format(
+                    "HH:mm a"
+                  )}
               </p>
             </div>
             <div className="grid grid-flow-col grid-cols-[10%_20%_70%]  w-[250px] right-0 ">
@@ -103,7 +109,10 @@ const EventDetailPage = (props) => {
             </p>
           </div>
         </div>
-        <div className="px-2 py-2 ">{eventDetail?.description}</div>
+        <div
+          className="px-4 py-2 "
+          dangerouslySetInnerHTML={{ __html: eventDetail?.description }}
+        ></div>
       </div>
     </div>
   );

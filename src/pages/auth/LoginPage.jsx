@@ -8,35 +8,68 @@ import useAccountMutate from "../../hooks/useMutate/useAccountMutate";
 import { useGoogleLogin } from "@react-oauth/google";
 import { ILocalGoogle } from "../../components/svg/google";
 import axios from "axios";
-import { useRef } from "react";
-import { io } from "socket.io-client";
 import { socket } from "../../hooks/useSocket";
+import {
+  EmailAuthProvider,
+  GoogleAuthProvider,
+  linkWithCredential,
+  linkWithPopup,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth, provider } from "../../notifications/firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const LoginPage = () => {
   const { handleLogin, handleLoginGoogle, loadingLogin } = useAccountMutate();
   const navigate = useNavigate();
-
   const onFinish = (values) => {
     const newValues = {
       grant_type: "password",
       username: values.email,
       password: values.password,
     };
-    handleLogin(newValues).then((res) => {
-      socket.connect();
-      socket.emit("addUserOnline", res?.user_id);
-      socket.on("getUsersOnline", (user) => {
-        localStorage.setItem("user", JSON.stringify(user));
+    handleLogin(newValues)
+      .then((res) => {
+        socket.connect();
+        socket.emit("addUserOnline", res?.user_id);
+        socket.on("getUsersOnline", (user) => {
+          localStorage.setItem("user", JSON.stringify(user));
+        });
+      })
+      .then(() => {
+        signInWithEmailAndPassword(auth, newValues.username, newValues.password)
+          .then((userCredential) => {
+            // Signed in
+
+            const user = userCredential.user;
+
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+          });
+        // const credential = EmailAuthProvider.credential(
+        //   newValues.username,
+        //   newValues.password
+        // );
+        // linkWithCredential(auth.currentUser, credential)
+        //   .then((usercred) => {
+        //     const user = usercred.user;
+        //     console.log("Account linking success", user);
+        //   })
+        //   .catch((error) => {
+        //     console.log("Account linking error", error);
+        //   });
       });
-    });
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
+        console.log(tokenResponse.access_token);
         const data = await axios
           .get("https://www.googleapis.com/oauth2/v3/userinfo", {
             headers: {
@@ -66,6 +99,55 @@ const LoginPage = () => {
     },
     onError: (errorResponse) => console.log(errorResponse),
   });
+
+  const handleLoginByGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log("result", result);
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        console.log("Accesstoken", token);
+        // The signed-in user info.
+        const user = result.user;
+        console.log("user", user);
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+        linkWithPopup(auth.currentUser, provider);
+        const data = axios
+          .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            const content = {
+              grant_type: "google",
+              google: `{"sub":"${res.data.sub}","name": "${res.data.name}", "email": "${res.data.email}", "picture":"${res.data.picture}"}`,
+            };
+
+            handleLoginGoogle(content).then((res) => {
+              // console.log(res?.user_id);
+              socket.connect();
+              socket.emit("addUserOnline", res?.user_id);
+              socket.on("getUsersOnline", (user) => {
+                localStorage.setItem("user", JSON.stringify(user));
+              });
+            });
+          });
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        console.log("error", error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        // const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
   const [form] = Form.useForm();
 
   return (
@@ -178,7 +260,7 @@ const LoginPage = () => {
             <div className=" mr-[27px] w-full h-[1px] bg-[#F1DEE4]"></div>
           </div>
           <div
-            onClick={() => googleLogin()}
+            onClick={() => handleLoginByGoogle()}
             className=" hover:bg-secondary  flex flex-row gap-[7px] cursor-pointer content-center items-center justify-center place-items-center xl:h-[40px] xl:pt-0 xl:pb-0 xl:pl-4 xl:pr-4 self-stretch rounded-[36px] border-[1px] border-solid border-button-submit-light "
           >
             {" "}

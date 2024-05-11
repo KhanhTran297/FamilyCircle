@@ -1,4 +1,8 @@
-import { instance, instanceFile } from "../api/instance";
+import {
+  instance,
+  instanceFile,
+  instancePushNotification,
+} from "../api/instance";
 import UseCookie from "./UseCookie";
 
 function UseCallApi() {
@@ -164,7 +168,7 @@ function UseCallApi() {
     let fullHeader = { ...headers };
     // If required TOKEN -> Get Access Token from Cookies
     // console.log("requireToken post", requiredToken);
-    const Username = "google";
+    const Username = "goole";
     const Password = "abc123";
     const credentials = `${Username}:${Password}`;
     // Mã hóa thành base64
@@ -189,6 +193,36 @@ function UseCallApi() {
       );
     return usedPost();
   };
-  return { UseGet, UsePost, UseDelete, UseEdit, UsePostFile, UsePostGoogle };
+  const UsePostPushNotification = ({
+    url = "",
+    params = {},
+    headers = {},
+  } = {}) => {
+    // Get all header
+    let fullHeader = { ...headers };
+    // If required TOKEN -> Get Access Token from Cookies
+    // console.log("requireToken post", requiredToken);
+    const usedPostPushNotification = () =>
+      instancePushNotification.post(
+        url,
+        { ...params },
+        {
+          headers: {
+            ...instancePushNotification.defaults.headers,
+            ...fullHeader,
+          },
+        }
+      );
+    return usedPostPushNotification();
+  };
+  return {
+    UseGet,
+    UsePost,
+    UseDelete,
+    UseEdit,
+    UsePostFile,
+    UsePostGoogle,
+    UsePostPushNotification,
+  };
 }
 export default UseCallApi;

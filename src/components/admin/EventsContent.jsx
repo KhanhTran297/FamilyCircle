@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Scheduler } from "@aldabil/react-scheduler";
 import { useQuery } from "@tanstack/react-query";
@@ -7,13 +7,16 @@ import dayjs from "dayjs";
 import useEventMutate from "../../hooks/useMutate/useEventMutate";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-
+import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
+import { getDatabase, ref, child, get } from "firebase/database";
 const EventsContent = (props) => {
   const [listEventState, setListEventState] = useState([]);
   const [idEvent, setIdEvent] = useState(null);
+  const [eventDetail, setEventDetail] = useState();
   const navigate = useNavigate();
   const { approveEvent, deleteEvent, rejectEvent } = useEventMutate();
-
+  const { pushNotification } = useNotificationMutate();
+  const dbRef = ref(getDatabase());
   const { data: listEvent } = useQuery({
     queryKey: ["listEvent"],
     queryFn: async () =>
@@ -24,17 +27,16 @@ const EventsContent = (props) => {
               event_id: item.id,
               title: item.title,
               description: item.description,
-              start: new Date(
-                dayjs(item.startDate).format("DD/MM/YYYY HH:mm:ss")
-              ),
+              start: dayjs(item.startDate, "DD/MM/YYYY HH:mm:ss").toDate(),
               status: item.status,
               fee: item.fee,
-              end: new Date(dayjs(item.endDate).format("DD/MM/YYYY HH:mm:ss")),
-              startTime: new Date(item.startDate),
-              endTime: new Date(item.endDate),
+              end: dayjs(item.endDate, "DD/MM/YYYY HH:mm:ss").toDate(),
+              startTime: dayjs(item.startDate, "DD/MM/YYYY HH:mm:ss").toDate(),
+              endTime: dayjs(item.endDate, "DD/MM/YYYY HH:mm:ss").toDate(),
               slots: item.slots,
               expertName: item.expert.expertFullName,
               expertAvatar: item.expert.expertAvatar,
+              expertId: item.expert.id,
               color: item.status === 1 ? "pink" : "red",
               textColor: "white",
             };
@@ -63,8 +65,20 @@ const EventsContent = (props) => {
     // });
     approveEvent({ id: id }).then((res) => {
       setListEventState((prevState) =>
-        prevState.map((item) =>
-          item.event_id === id ? { ...item, status: 1, color: "pink" } : item
+        prevState.map(
+          (item) => {
+            if (item.event_id === id) {
+              setEventDetail(item);
+              return {
+                ...item,
+                status: 1,
+                color: "pink",
+              };
+            } else {
+              return item;
+            }
+          }
+          // item.event_id === id ? { ...item, status: 1, color: "pink" } : item
         )
       );
     });
@@ -83,6 +97,38 @@ const EventsContent = (props) => {
       ); // Update state using callback
     });
   };
+  useEffect(() => {
+    if (eventDetail !== null) {
+      get(child(dbRef, `users/${eventDetail?.expertId}`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log(snapshot.val());
+            pushNotification({
+              message: {
+                token: snapshot.val().token,
+                notification: {
+                  title: "Your event has been approved",
+                  body: `Your event ${eventDetail?.title} has been approved by admin`,
+                },
+                // webpush: {
+                //   fcm_options: {
+                //     link: "http://localhost:5173.com",
+                //   },
+                // },
+              },
+            });
+          } else {
+            console.log("No data available");
+          }
+        })
+        .then(() => {
+          setEventDetail(null);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [eventDetail]);
   return (
     <div
       style={{
