@@ -54,6 +54,7 @@ function useAccountMutate() {
   const { mutateAsync: handleLoginGoogle } = useMutation({
     mutationFn: authLoginGoogleApi,
     onSuccess: (data) => {
+      console.log("data", data);
       removeToken();
       saveToken(data?.access_token, data?.refresh_token);
 

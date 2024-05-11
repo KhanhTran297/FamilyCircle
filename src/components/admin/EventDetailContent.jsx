@@ -15,7 +15,9 @@ import {
   DollarOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import useEventMutate from "../../hooks/useMutate/useEventMutate";
+dayjs.extend(customParseFormat);
 const EventDetailContent = (props) => {
   const params = useParams();
   const { approveEvent, rejectEvent } = useEventMutate();
@@ -42,7 +44,10 @@ const EventDetailContent = (props) => {
       navigate("/events");
     });
   };
-
+  console.log(eventDetail);
+  console.log(
+    dayjs(eventDetail?.startDate, "DD/MM/YYYY HH:mm:ss").format("DD/MM/YYYY")
+  );
   return (
     <div
       style={{
@@ -126,16 +131,22 @@ const EventDetailContent = (props) => {
                 <CalendarOutlined />
                 <p className="text-base font-medium font-roboto">Date: </p>
                 <p className="text-base font-normal font-roboto">
-                  {dayjs(eventDetail?.startDate).format("DD/MM/YYYY")}
+                  {dayjs(eventDetail.startDate, "DD/MM/YYYY HH:mm:ss").format(
+                    "DD/MM/YYYY"
+                  )}
                 </p>
               </div>
               <div className="grid grid-flow-col grid-cols-[10%_20%_70%]  w-[250px] right-0">
                 <ClockCircleOutlined />
                 <p className="text-base font-medium font-roboto">Time: </p>
                 <p className="text-base font-normal font-roboto">
-                  {dayjs(eventDetail?.startDate).format("HH:mm") +
+                  {dayjs(eventDetail?.startDate, "DD/MM/YYYY HH:mm:ss").format(
+                    "HH:mm a"
+                  ) +
                     " - " +
-                    dayjs(eventDetail?.endDate).format("HH:mm")}
+                    dayjs(eventDetail?.endDate, "DD/MM/YYYY HH:mm:ss").format(
+                      "HH:mm a"
+                    )}
                 </p>
               </div>
               <div className="grid grid-flow-col grid-cols-[10%_20%_70%]  w-[250px] right-0 ">

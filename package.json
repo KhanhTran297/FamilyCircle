@@ -29,6 +29,8 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.9",
     "dompurify": "^3.0.6",
+    "firebase": "^10.11.1",
+    "firebase-admin": "^12.1.0",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",

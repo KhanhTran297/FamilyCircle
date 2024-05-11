@@ -1,7 +1,6 @@
 // src/components/Menu.js
 // import React from "react";
 import { ILocalHome } from "../svg/home";
-import { ILocalForum } from "../svg/forum";
 import { ILocalNotification } from "../svg/notification";
 import { ILocalMess } from "../svg/mess";
 import { ILocalBookmark } from "../svg/bookmark";
@@ -9,7 +8,6 @@ import { ILocalProfile } from "../svg/profile";
 import useTheme from "../../hooks/useTheme";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ILocalHomeSelected } from "../svg/home_selected";
-import { ILocalForumSelected } from "../svg/forum_selected";
 import { ILocalNotificationSelected } from "../svg/noti_selected";
 import { ILocalMessSelected } from "../svg/mess_selected";
 import { ILocalBookmarkSelected } from "../svg/bookmark_selected";
@@ -18,8 +16,12 @@ import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import { TeamOutlined } from "@ant-design/icons";
 import CommentForm from "../comment/CommentForm";
 import { useQuery } from "@tanstack/react-query";
-import { getListNotificationApi } from "../../api/notification";
+import { getListMyNotificationApi } from "../../api/notification";
 import { Badge } from "antd";
+import { ILocalCalender } from "../svg/calender";
+import { ILocalBaby } from "../svg/baby";
+import { ILocalMom } from "../svg/mom";
+
 const Menu = () => {
   const accountprofile = useGetFetchQuery(["accountProfile"]);
   const { theme } = useTheme({});
@@ -33,10 +35,11 @@ const Menu = () => {
     navigate(path);
   };
   const { data: listNotification } = useQuery({
-    queryKey: ["listNotification"],
-    queryFn: () => getListNotificationApi().then((res) => res?.data?.content),
-    enabled: true,
+    queryKey: ["listNotification", "menu"],
+    queryFn: () =>
+      getListMyNotificationApi({ state: 0 }).then((res) => res?.data),
   });
+
   const params = useParams();
   return (
     <nav className="xl:h-[615px] fixed desktop:z-0 bottom-0 left-0 right-0 flex flex-col text-black dark:bg-[#000] desktop:border-y-0 desktop:flex-col desktop:top-0 desktop:left-0 desktop:relative shadow-mobile desktop:shadow-none desktop:w-[196px] bg-white">
@@ -65,25 +68,6 @@ const Menu = () => {
             Home
           </p>
         </button>
-        {/* <button
-          className="flex items-center cursor-pointer flex-shrink-0 gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
-          onClick={() => handleRouter("/forum")}
-        >
-          {path === "/forum" ? (
-            <ILocalForumSelected fill={textColorSelected} />
-          ) : (
-            <ILocalForum fill={textColor} />
-          )}
-          <p
-            className={`hidden desktop:block text-sm font-medium text-center  ${
-              path === "/forum"
-                ? "text-[#A73574] dark:text-[#FFAFD5]"
-                : "text-[#1F1A1C] dark:text-[#CEC4C6]"
-            } font-roboto`}
-          >
-            Forum
-          </p>
-        </button> */}
         <button
           className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark "
           onClick={() => handleRouter("/community")}
@@ -114,7 +98,7 @@ const Menu = () => {
           className="flex items-center flex-shrink-0 cursor-pointer gap-4 h-14 desktop:h-[48px] px-4 hover:bg-menu dark:hover:bg-buttonHoverDark"
           onClick={() => handleRouter("/notification")}
         >
-          <Badge count={listNotification?.length} offset={[0, 0]}>
+          <Badge count={listNotification?.totalElements} offset={[0, 0]}>
             {path === "/notification" ? (
               <ILocalNotificationSelected fill={textColorSelected} />
             ) : (
@@ -194,9 +178,9 @@ const Menu = () => {
           onClick={() => handleRouter("/babyhealth")}
         >
           {path === "/babyhealth" ? (
-            <ILocalBookmarkSelected fill={textColorSelected} />
+            <ILocalBaby fill={textColorSelected} />
           ) : (
-            <ILocalBookmark fill={textColor} />
+            <ILocalBaby fill={textColor} />
           )}
           <p
             className={` text-sm font-medium text-center  ${
@@ -213,9 +197,9 @@ const Menu = () => {
           onClick={() => handleRouter("/motherhealth")}
         >
           {path === "/motherhealth" ? (
-            <ILocalBookmarkSelected fill={textColorSelected} />
+            <ILocalMom fill={textColorSelected} />
           ) : (
-            <ILocalBookmark fill={textColor} />
+            <ILocalMom fill={textColor} />
           )}
           <p
             className={` text-sm font-medium text-center  ${
@@ -232,13 +216,13 @@ const Menu = () => {
           onClick={() => handleRouter("/schedule")}
         >
           {path === "/schedule" ? (
-            <ILocalBookmarkSelected fill={textColorSelected} />
+            <ILocalCalender fill={textColorSelected} />
           ) : (
-            <ILocalBookmark fill={textColor} />
+            <ILocalCalender fill={textColor} />
           )}
           <p
             className={` text-sm font-medium text-center  ${
-              path === "/motherhealth"
+              path === "/schedule"
                 ? "text-[#A73574] dark:text-[#FFAFD5]"
                 : "text-[#1F1A1C] dark:text-[#CEC4C6]"
             } font-roboto`}

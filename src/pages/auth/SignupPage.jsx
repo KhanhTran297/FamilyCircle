@@ -10,6 +10,8 @@ import { ILocalPhone } from "../../components/svg/phone";
 import { ILocalCalender } from "../../components/svg/calender";
 import { ILocalKey } from "../../components/svg/key";
 import useAccountMutate from "../../hooks/useMutate/useAccountMutate";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../notifications/firebase";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -31,6 +33,18 @@ const SignupPage = () => {
     data.dateOfBirth = formatUserDayOfBirth;
     if (handleCheckValidBirth(values.dateOfBirth["$y"])) {
       authSignup(data);
+      createUserWithEmailAndPassword(auth, data.email, data.password)
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log("user", user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
     } else {
       message.error("invalid year");
     }

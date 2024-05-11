@@ -7,6 +7,8 @@ import { Dropdown } from "antd";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import { io } from "socket.io-client";
 import { socket } from "../../hooks/useSocket";
+import { signOut } from "firebase/auth";
+import { auth } from "../../notifications/firebase";
 
 const UserSetting = () => {
   const { removeToken } = UseCookie();
@@ -15,9 +17,16 @@ const UserSetting = () => {
   //methods
   const handleLogout = () => {
     removeToken();
-    navigate("/");
-    socket.disconnect();
-    localStorage.removeItem("user");
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        navigate("/");
+        socket.disconnect();
+        localStorage.removeItem("user");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
 
   const onClick = ({ key }) => {

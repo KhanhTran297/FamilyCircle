@@ -54,10 +54,10 @@ const SearchingUsers = (props) => {
     refetch();
   }, [searchParams]);
   return (
-    <div className="w-full ">
+    <div className=" w-max ">
       <Select
         allowClear
-        className="w-[300px] "
+        className="w-[250px] "
         showSearch
         value={null}
         // value={value}

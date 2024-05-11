@@ -8,6 +8,7 @@ import HomePage from "../pages/main/HomePage";
 import MessagePage from "../pages/main/MessagePage";
 import MotherHealthPage from "../pages/main/MotherHealthPage";
 import NotificationPage from "../pages/main/NotificationPage";
+import NotificationPage2 from "../pages/main/NotificationPage2";
 import PostDetailPage from "../pages/main/PostDetailPage";
 import ProfilePage from "../pages/main/ProfilePage";
 import SchedulerPage from "../pages/main/SchedulerPage";
@@ -75,7 +76,7 @@ export default function init(routes) {
         path: "/notification",
         element: (
           <GuardRoute path="/notification">
-            <NotificationPage />
+            <NotificationPage2 />
           </GuardRoute>
         ),
       },
