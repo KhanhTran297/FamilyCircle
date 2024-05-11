@@ -3,15 +3,43 @@ import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { CheckCircleOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useQueryClient } from "@tanstack/react-query";
+import { getProfileAccountByIdApi } from "../../api/account";
 
 const NotificationCard2 = (props) => {
   dayjs.extend(relativeTime);
-
+  const [tempdata, setTempData] = useState();
+  const queryClient = useQueryClient();
   const contentEvent = JSON.parse(props.event.content);
   const [content, setContent] = useState("");
   let newContent = "";
+
   useEffect(() => {
     switch (props.event.kind) {
+      case 5:
+        queryClient
+          .fetchQuery({
+            queryKey: ["profileUserById", contentEvent.userFollowingId],
+            queryFn: (params) => getProfileAccountByIdApi(params),
+          })
+          .then((res) => {
+            setTempData(res?.data);
+            return res?.data;
+          });
+
+        if (props.kind === 1) {
+          setContent(contentEvent.userFollowingName + " has followed you");
+        } else {
+          newContent = contentEvent.userFollowingName + " has followed you";
+
+          if (newContent.length > 15) {
+            newContent = newContent.substring(0, 30) + "...";
+          }
+          setContent(newContent);
+        }
+
+        break;
+
       case 6:
         if (props.kind === 1) {
           setContent(
@@ -33,7 +61,6 @@ const NotificationCard2 = (props) => {
       // code block
     }
   }, []);
-
   return (
     <div className="flex flex-row justify-between hover:bg-[#fff8f8] py-2 cursor-pointer border-b border-[#ccc]">
       <div className="flex flex-row gap-3">
@@ -46,10 +73,14 @@ const NotificationCard2 = (props) => {
             <div className="w-2 h-2 bg-white rounded-full "></div>
           </div>
         )}
-        <div className="flex flex-row gap-3 items-center ">
+        <div className="flex flex-row items-center gap-3 ">
           <div className="w-10 h-10 ">
             <img
-              src="https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_j7ZNkaSCeT.png"
+              src={`${
+                props.event.kind === 6
+                  ? "https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_j7ZNkaSCeT.png"
+                  : tempdata?.avatar
+              }`}
               alt=""
               className="object-cover w-full h-full rounded-full "
             />
