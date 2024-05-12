@@ -15,6 +15,8 @@ import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
 import { useQuery } from "@tanstack/react-query";
 import { getListFollowingApi } from "../../api/follow";
 import { getListBookmarkApi } from "../../api/bookmark";
+import { child, get, getDatabase, ref } from "firebase/database";
+import { pushNotificationApi } from "../../api/notification";
 
 // import { ILocalDot } from "../svg/Dot";
 // import { ILocalMore } from "../svg/more";
@@ -29,17 +31,18 @@ const Post = (props) => {
   const accountProfileId = accountProfile?.data?.id;
   const accountProfileFullname = accountProfile?.data?.fullName;
   const accountProfileAvatar = accountProfile?.data?.avatar;
-
   const socket = useNotificationSocket();
   const reactCount = listReaction?.data?.totalElements;
   const navigate = useNavigate();
   let limit = 1000;
   let content;
+  const dbRef = ref(getDatabase());
   if (props.content.length > limit) {
     content = props.content.slice(0, limit) + "...";
   } else {
     content = props.content;
   }
+
   const { data: listBookmark } = useQuery({
     queryKey: ["listBookmark"],
     queryFn: () => getListBookmarkApi().then((res) => res.data),
@@ -48,42 +51,75 @@ const Post = (props) => {
     queryKey: ["listFollowing"],
     queryFn: () => getListFollowingApi().then((res) => res.data),
   });
-
-  const handleActionFollow = (accountId) => {
-    const data = { accountId: accountId };
-    getFollow(data);
-    const content = ` started following you`;
-    const data2 = {
-      content: content,
-      objectId: accountProfileId,
-      kind: 5,
-    };
-    createNotification(data2)
-      .then((response) => {
-        if (socket && socket.connected) {
-          socket.emit("send-notification-new-follower", {
-            accountId: accountProfileId,
-            followerId: accountId,
-            id: response.data.id,
-            status: response.data.status,
-            createdDate: response.data.createdDate,
-            content: response.data.content,
-            kind: response.data.kind,
-            avatar: accountProfileAvatar,
-            fullname: accountProfileFullname,
+  const handlePushNotification = (type) => {
+    get(child(dbRef, `users/${props?.idowner}`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          pushNotificationApi({
+            message: {
+              token: snapshot.val().token,
+              notification: {
+                title: accountProfile?.data?.fullName,
+                body:
+                  type === "follow"
+                    ? `${accountProfile?.data?.fullName} has followed you`
+                    : `${accountProfile?.data?.fullName} has liked your post`,
+                image: accountProfile?.data?.avatar,
+              },
+              webpush: {
+                fcm_options: {
+                  link:
+                    type === "follow"
+                      ? `https://familycircle.vercel.app/profile/${props?.idowner}`
+                      : `https://familycircle.vercel.app/post/${props.id}`,
+                },
+              },
+            },
           });
         } else {
-          console.error("Socket not connected");
+          console.log("No data available");
         }
-        const dataAnnounce = {
-          notificationId: response.data.id,
-          receivers: [accountId],
-        };
-        createAnnounce(dataAnnounce);
       })
       .catch((error) => {
-        console.error("Lỗi khi tạo thông báo:", error);
+        console.error(error);
       });
+  };
+  const handleActionFollow = (accountId) => {
+    getFollow({ accountId: accountId }).then(() =>
+      handlePushNotification("follow")
+    );
+    // const content = ` started following you`;
+    // const data2 = {
+    //   content: content,
+    //   objectId: accountProfileId,
+    //   kind: 5,
+    // };
+    // createNotification(data2)
+    //   .then((response) => {
+    //     if (socket && socket.connected) {
+    //       socket.emit("send-notification-new-follower", {
+    //         accountId: accountProfileId,
+    //         followerId: accountId,
+    //         id: response.data.id,
+    //         status: response.data.status,
+    //         createdDate: response.data.createdDate,
+    //         content: response.data.content,
+    //         kind: response.data.kind,
+    //         avatar: accountProfileAvatar,
+    //         fullname: accountProfileFullname,
+    //       });
+    //     } else {
+    //       console.error("Socket not connected");
+    //     }
+    //     const dataAnnounce = {
+    //       notificationId: response.data.id,
+    //       receivers: [accountId],
+    //     };
+    //     createAnnounce(dataAnnounce);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Lỗi khi tạo thông báo:", error);
+    //   });
   };
 
   const handleActionUnfollow = (accountId) => {
@@ -194,6 +230,7 @@ const Post = (props) => {
                     objectId: props.id,
                     kind: 3,
                   };
+                  handlePushNotification();
                   createNotification(data2)
                     .then((response) => {
                       if (socket && socket.connected) {
