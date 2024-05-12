@@ -168,7 +168,7 @@ function UseCallApi() {
     let fullHeader = { ...headers };
     // If required TOKEN -> Get Access Token from Cookies
     // console.log("requireToken post", requiredToken);
-    const Username = "goole";
+    const Username = "google";
     const Password = "abc123";
     const credentials = `${Username}:${Password}`;
     // Mã hóa thành base64

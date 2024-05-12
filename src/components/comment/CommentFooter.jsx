@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { ILocalEmptyHeart } from "../svg/empty_heart";
 import useCommentMutate from "../../hooks/useMutate/useCommentMutate";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
+import { child, get, getDatabase, ref } from "firebase/database";
+import { pushNotificationApi } from "../../api/notification";
 const CommentFooter = ({
   eventReply,
   data,
@@ -17,8 +19,42 @@ const CommentFooter = ({
 }) => {
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const { reactcomment } = useCommentMutate(data?.id, parentId);
-  const handleReactComment = () => {
-    reactcomment({ commentId: data?.id, kind: 1 });
+  const dbRef = ref(getDatabase());
+  const handleReactComment = (check) => {
+    reactcomment({ commentId: data?.id, kind: 1 }).then(() => {
+      if (data?.owner?.id !== accountProfile?.data?.id && check === false) {
+        handlePushNotification();
+      }
+    });
+  };
+  console.log("data", data);
+  const handlePushNotification = () => {
+    get(child(dbRef, `users/${data?.owner?.id}`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          pushNotificationApi({
+            message: {
+              token: snapshot.val().token,
+              notification: {
+                title: accountProfile?.data?.fullName,
+                body:
+                  accountProfile?.data?.fullName + " has liked your comment",
+                image: accountProfile?.data?.avatar,
+              },
+              webpush: {
+                fcm_options: {
+                  link: `https://familycircle.vercel.app/post/${data?.post?.id}`,
+                },
+              },
+            },
+          });
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   const checkReact = () => {
     // if (profileAccount) {
@@ -53,11 +89,11 @@ const CommentFooter = ({
     checkReact();
   }, []);
   return (
-    <div className=" flex flex-row gap-4 mt-1 pb-4">
+    <div className="flex flex-row gap-4 pb-4 mt-1 ">
       <IconFooter
         check={true}
         count={data.commentReactions?.length || 0}
-        handleClick={() => handleReactComment()}
+        handleClick={() => handleReactComment(checkReact())}
       >
         {checkReact() ? (
           <ILocalHeartComment fill="#A73574" className="" />

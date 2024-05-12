@@ -5,6 +5,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { CheckCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useQueryClient } from "@tanstack/react-query";
 import { getProfileAccountByIdApi } from "../../api/account";
+import { useNavigate } from "react-router-dom";
 
 const NotificationCard2 = (props) => {
   dayjs.extend(relativeTime);
@@ -13,9 +14,73 @@ const NotificationCard2 = (props) => {
   const contentEvent = JSON.parse(props.event.content);
   const [content, setContent] = useState("");
   let newContent = "";
-
+  const navigate = useNavigate();
+  const handleNavigate = (kind) => {
+    if (kind === 3) {
+      navigate(`/post/${contentEvent.postId}`);
+    } else if (kind === 4) {
+      navigate(`/post/${contentEvent.postId}`);
+    } else if (kind === 5) {
+      navigate(`/profile/${contentEvent.userFollowingId}`);
+    } else if (kind === 6) {
+      navigate(`/schedule/${contentEvent.courseId}`);
+    }
+  };
   useEffect(() => {
     switch (props.event.kind) {
+      case 3:
+        queryClient
+          .fetchQuery({
+            queryKey: ["profileUserById", contentEvent.accountId],
+            queryFn: (params) => getProfileAccountByIdApi(params),
+          })
+          .then((res) => {
+            setTempData(res?.data);
+            return res?.data;
+          });
+
+        if (props.kind === 1) {
+          setContent(contentEvent.accountName + " has liked your post");
+        } else {
+          newContent = contentEvent.accountName + " has liked your post";
+
+          if (newContent.length > 15) {
+            newContent = newContent.substring(0, 30) + "...";
+          }
+          setContent(newContent);
+        }
+
+        break;
+      case 4:
+        queryClient
+          .fetchQuery({
+            queryKey: ["profileUserById", contentEvent.accountId],
+            queryFn: (params) => getProfileAccountByIdApi(params),
+          })
+          .then((res) => {
+            setTempData(res?.data);
+            return res?.data;
+          });
+
+        if (props.kind === 1) {
+          setContent(
+            contentEvent.accountName +
+              " has liked your comment: " +
+              contentEvent.commentContent
+          );
+        } else {
+          newContent =
+            contentEvent.accountName +
+            " has liked your comment: " +
+            contentEvent.commentContent;
+
+          if (newContent.length > 15) {
+            newContent = newContent.substring(0, 30) + "...";
+          }
+          setContent(newContent);
+        }
+
+        break;
       case 5:
         queryClient
           .fetchQuery({
@@ -63,7 +128,10 @@ const NotificationCard2 = (props) => {
   }, []);
   return (
     <div className="flex flex-row justify-between hover:bg-[#fff8f8] py-2 cursor-pointer border-b border-[#ccc]">
-      <div className="flex flex-row gap-3">
+      <div
+        className="flex flex-row gap-3"
+        onClick={() => handleNavigate(props?.event?.kind)}
+      >
         {props.event.state === 0 ? (
           <div className="flex items-center justify-center">
             <div className="w-2 h-2 bg-blue-500 rounded-full "></div>

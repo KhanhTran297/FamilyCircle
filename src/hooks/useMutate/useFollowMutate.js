@@ -10,10 +10,9 @@ import { message } from "antd";
 function useFollowMutate() {
   const queryClient = useQueryClient();
   const { profileId } = useParams();
-  const { mutate: getFollow } = useMutation({
+  const { mutateAsync: getFollow } = useMutation({
     mutationFn: getFollowApi,
     onSuccess: (respone) => {
-      console.log("respone", respone);
       if (respone.result) {
         queryClient.invalidateQueries(["GetListPostHome"]);
         queryClient.invalidateQueries(["listFollowing"]);
@@ -26,10 +25,9 @@ function useFollowMutate() {
       // useError("Save fail!!!!");
     },
   });
-  const { mutate: getUnfollow } = useMutation({
+  const { mutateAsync: getUnfollow } = useMutation({
     mutationFn: getUnfollowApi,
     onSuccess: (respone) => {
-      console.log("respone", respone);
       if (respone.result) {
         queryClient.invalidateQueries(["GetListPostHome"]);
         queryClient.invalidateQueries(["listFollowing"]);

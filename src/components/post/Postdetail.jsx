@@ -24,6 +24,8 @@ import { useRecoilState } from "recoil";
 import { countComments } from "../../uilts/atom";
 import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
 import useNotificationSocket from "../../hooks/useNotificationSocket";
+import { child, get, getDatabase, ref } from "firebase/database";
+import { pushNotificationApi } from "../../api/notification";
 const PostDetail = (props) => {
   const { id } = useParams();
   const [count, setCountComments] = useRecoilState(countComments);
@@ -94,9 +96,43 @@ const PostDetail = (props) => {
   const listReactionPost = postDetail?.data?.postReactions;
   const listBookmarkPost = listBookmark?.data?.content;
   const listFollowingPerson = listFollowing?.data?.content;
+  const dbRef = ref(getDatabase());
+  const handlePushNotification = (type) => {
+    get(child(dbRef, `users/${props?.idowner}`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          pushNotificationApi({
+            message: {
+              token: snapshot.val().token,
+              notification: {
+                title: accountProfile?.data?.fullName,
+                body:
+                  type === "follow"
+                    ? `${accountProfile?.data?.fullName} has followed you`
+                    : `${accountProfile?.data?.fullName} has liked your post`,
+                image: accountProfile?.data?.avatar,
+              },
+              webpush: {
+                fcm_options: {
+                  link:
+                    type === "follow"
+                      ? `https://familycircle.vercel.app/profile/${props?.idowner}`
+                      : `https://familycircle.vercel.app/post/${props.id}`,
+                },
+              },
+            },
+          });
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const handleActionFollow = (accountId) => {
     const data = { accountId: accountId };
-    getFollow(data);
+    getFollow(data).then(() => handlePushNotification("follow"));
     const content = ` started following you`;
     const data2 = {
       content: content,

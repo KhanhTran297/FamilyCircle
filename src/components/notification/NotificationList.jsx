@@ -61,7 +61,7 @@ const NotificationList = (props) => {
       : setListNotificationState([]);
   }, [listNotification]);
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col ">
       {loading === true ? (
         <LoadingPage css=" h-screen flex justify-center items-center" />
       ) : listNotificationState?.length === 0 ? (

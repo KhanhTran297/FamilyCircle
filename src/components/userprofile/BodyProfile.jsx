@@ -17,6 +17,8 @@ import { editExpertAccountApi } from "../../api/expert";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
 import "./img.css";
+import { child, get, getDatabase, ref } from "firebase/database";
+import { pushNotificationApi } from "../../api/notification";
 // import EditingModal from "../shared/EditingModal";
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -57,6 +59,34 @@ const BodyProfile = () => {
       return true;
     }
     return false;
+  };
+  const dbRef = ref(getDatabase());
+  const handlePushNotification = () => {
+    get(child(dbRef, `users/${profileId}`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          pushNotificationApi({
+            message: {
+              token: snapshot.val().token,
+              notification: {
+                title: myAccountProfile?.data?.fullName,
+                body: `${myAccountProfile?.data?.fullName} has followed you`,
+                image: myAccountProfile?.data?.avatar,
+              },
+              // webpush: {
+              //   fcm_options: {
+              //     link: "http://localhost:5173.com",
+              //   },
+              // },
+            },
+          });
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   const handleOpenEditingModal = (value, type) => {
     handleSetInitvalue(value)
@@ -157,10 +187,10 @@ const BodyProfile = () => {
   );
   return (
     <div className=" flex flex-col pl-6 pr-6 gap-4 items-start self-stretch mt-[-64px]">
-      <div className="ava flex justify-between items-end self-stretch">
+      <div className="flex items-end self-stretch justify-between ava">
         {/* <div className=" bg-[url('https://i.pinimg.com/236x/9b/b1/b9/9bb1b9aa5182b06836642a5f737fc5ea.jpg')] w-[128px] h-[128px] rounded-[1000px] bg-cover bg-no-repeat "></div> */}
 
-        <div className=" w-32 h-32">
+        <div className="w-32 h-32 ">
           {" "}
           {checkAccount() ? (
             <ImgCrop cropShape="round" modalOk="save">
@@ -178,7 +208,7 @@ const BodyProfile = () => {
               >
                 {accountProfile?.data?.avatar ? (
                   <Avatar
-                    className=" w-full h-full"
+                    className="w-full h-full "
                     src={accountProfile?.data?.avatar}
                   />
                 ) : (
@@ -188,7 +218,7 @@ const BodyProfile = () => {
             </ImgCrop>
           ) : (
             <Avatar
-              className=" w-full h-full"
+              className="w-full h-full "
               src={accountProfile?.data?.avatar}
             />
           )}
@@ -200,16 +230,16 @@ const BodyProfile = () => {
               className="flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] border border-solid border-button-submit-light cursor-pointer hover:bg-buttonHoverLight hover:border-button-submit-light"
             >
               <ILocalEdit fill="#A73574" className=" w-[18px] h-[18px]" />
-              <p className=" font-roboto text-sm font-medium text-button-submit-light">
+              <p className="text-sm font-medium  font-roboto text-button-submit-light">
                 Edit Profile
               </p>
             </div>
           </div>
         ) : (
-          <div className="flex h-10 items-start gap-4 ">
+          <div className="flex items-start h-10 gap-4 ">
             <div className=" flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] border border-solid border-button-submit-light cursor-pointer hover:bg-buttonHoverLight hover:border-button-submit-light">
               <ILocalMessProfile className=" w-[18px] h-[18px]" />
-              <p className=" text-button-submit-light font-roboto text-sm font-medium">
+              <p className="text-sm font-medium  text-button-submit-light font-roboto">
                 Message
               </p>
             </div>
@@ -232,7 +262,11 @@ const BodyProfile = () => {
               </div>
             ) : (
               <div
-                onClick={() => createFollow({ accountId: profileId })}
+                onClick={() =>
+                  createFollow({ accountId: profileId }).then(() =>
+                    handlePushNotification()
+                  )
+                }
                 className=" flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] bg-button-submit-light hover:bg-button-hover-light cursor-pointer hover:shadow-buttonHover"
               >
                 <ILocalFollowProfile className=" w-[18px] h-[18px]" />
@@ -249,7 +283,7 @@ const BodyProfile = () => {
           {accountProfile?.data?.fullName}
         </p>
         {accountProfile?.data?.kind === 3 && (
-          <div className=" flex flex-col items-start">
+          <div className="flex flex-col items-start ">
             <p>
               {accountProfile?.data?.hospitalRole?.categoryName +
                 " of " +
@@ -261,27 +295,27 @@ const BodyProfile = () => {
         )}
       </div>
       <div className="">
-        <p className=" self-stretch text-light_surface_on_surface font-roboto text-sm font-normal">
+        <p className="self-stretch text-sm font-normal  text-light_surface_on_surface font-roboto">
           {accountProfile?.data?.bio}
         </p>
       </div>
-      <div className=" flex flex-row items-start gap-2">
-        <div className=" flex flex-row gap-2">
-          <p className=" text-center font-roboto text-sm font-extrabold text-light_surface_on_surface">
+      <div className="flex flex-row items-start gap-2 ">
+        <div className="flex flex-row gap-2 ">
+          <p className="text-sm font-extrabold text-center  font-roboto text-light_surface_on_surface">
             {listFollowing?.data?.totalElements}
           </p>
-          <p className=" text-sm text-light_surface_on_surface font-roboto font-normal">
+          <p className="text-sm font-normal  text-light_surface_on_surface font-roboto">
             {listFollowing?.data?.totalElements <= 1
               ? "following"
               : "followings"}
           </p>
         </div>
         <div className=" w-[1px] h-5 bg-[#F1DEE4]"></div>
-        <div className=" flex flex-row gap-2">
-          <p className=" text-center font-roboto text-sm font-extrabold text-light_surface_on_surface">
+        <div className="flex flex-row gap-2 ">
+          <p className="text-sm font-extrabold text-center  font-roboto text-light_surface_on_surface">
             {listFollower?.data?.totalElements}
           </p>
-          <p className=" text-sm text-light_surface_on_surface font-roboto font-normal">
+          <p className="text-sm font-normal  text-light_surface_on_surface font-roboto">
             {listFollower?.data?.totalElements <= 1 ? "follower" : "followers"}
           </p>
         </div>
@@ -294,7 +328,7 @@ const BodyProfile = () => {
               className="flex flex-col items-start gap-4"
               onClick={showModal}
             >
-              <p className=" font-roboto text-2xl font-normal text-light_surface_on_surface">
+              <p className="text-2xl font-normal  font-roboto text-light_surface_on_surface">
                 Edit Profile
               </p>
             </div>
@@ -312,10 +346,10 @@ const BodyProfile = () => {
                 handleOpenEditingModal={handleOpenEditingModal}
               />
             )}
-            {/* <div className="flex flex-col gap-6 w-full">
-              <div className=" flex items-center gap-4">
+            {/* <div className="flex flex-col w-full gap-6">
+              <div className="flex items-center gap-4 ">
                 <ILocalProfileButton className=" flex w-10 h-10 p-[10px] flex-col justify-center gap-[10px]" />
-                <p className=" text-light_surface_on_surface font-roboto text-base font-medium">
+                <p className="text-base font-medium  text-light_surface_on_surface font-roboto">
                   Edit full name
                 </p>
               </div>
@@ -329,12 +363,12 @@ const BodyProfile = () => {
                 />
               </div>
               <div className=" w-full h-[1px] bg-[#F1DEE4]"></div>
-              <div className=" flex justify-end items-center gap-2 self-stretch">
+              <div className="flex items-center self-stretch justify-end gap-2 ">
                 <div
                   className="flex h-10 pl-3 pr-3 items-center rounded-[36px] cursor-pointer hover:bg-menu"
                   onClick={handleCancel}
                 >
-                  <p className=" font-roboto text-sm font-medium text-button-submit-light">
+                  <p className="text-sm font-medium  font-roboto text-button-submit-light">
                     back
                   </p>
                 </div>
@@ -342,7 +376,7 @@ const BodyProfile = () => {
                   className="flex h-10 pl-3 pr-3 items-center rounded-[36px] cursor-pointer hover:bg-menu "
                   onClick={handleCancel}
                 >
-                  <p className=" font-roboto text-sm font-medium text-button-submit-light">
+                  <p className="text-sm font-medium  font-roboto text-button-submit-light">
                     Save
                   </p>
                 </div>

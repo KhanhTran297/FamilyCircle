@@ -47,6 +47,9 @@ const TabPosts = () => {
                       idowner={post.owner.id}
                       kindPost={post.kind}
                       avatar={post.owner.avatar}
+                      community={post?.community || "undefined"}
+                      title={post.title}
+                      countComment={post?.commentList?.length || 0}
                     />
                   ))}
             </div>
