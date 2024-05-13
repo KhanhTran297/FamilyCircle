@@ -12,6 +12,7 @@ import NotificationPage2 from "../pages/main/NotificationPage2";
 import PostDetailPage from "../pages/main/PostDetailPage";
 import ProfilePage from "../pages/main/ProfilePage";
 import SchedulerPage from "../pages/main/SchedulerPage";
+import SearchPage from "../pages/main/SearchPage";
 import GuardRoute from "./GuardRoute";
 
 // Xem cấu trúc routes ở https://reactrouter.com/en/main/routers/create-browser-router#routes
@@ -25,13 +26,14 @@ export default function init(routes) {
     // Xem thêm ở https://reactrouter.com/en/main/components/outlet
     children: [
       {
-        path: "/index",
+        path: "/index/",
         element: (
           <GuardRoute path="/index">
             <HomePage />
           </GuardRoute>
         ),
       },
+
       {
         path: "/post/:id",
         element: (

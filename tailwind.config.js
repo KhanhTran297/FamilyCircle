@@ -63,6 +63,9 @@ export default {
         light_surface_on_surface: "#1F1A1C",
         disableButton: "rgba(0, 0, 0, 0.38)",
         light_surface_on_surface_variant: "#504348",
+        search: "rgb(131, 128, 128)",
+        seacrhFill: "rgb(91, 107, 255)",
+        inputFocus: "rgb(91, 107, 255)",
       },
       textColor: {
         light: "#1F1A1C",
