@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./FlowerButton.css";
+import "./flowerButton.css";
 const FlowerButton = (props) => {
   return (
     <button className="btn">
