@@ -1,20 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import { ILocalNotification } from "../svg/notification";
 import Community from "./Community";
-import SearchingUsers from "./SearchingUsers";
 import { Badge, Input } from "antd";
 import { getListMyNotificationApi } from "../../api/notification";
 import React, { useEffect, useState } from "react";
 import NotificationDropDown from "../notification/NotificationDropDown";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setSearchParamsRedux } from "../../redux/slice/search";
 import "./rightSiderBar.css";
+import BellButton from "../shared/BellButton";
 const RightSiderBar = () => {
   const [active, setActive] = useState(false);
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams("");
-
   const dispatch = useDispatch();
   const { data: listNotification } = useQuery({
     queryKey: ["listNotification", "menu"],
@@ -88,8 +86,7 @@ const RightSiderBar = () => {
                 className=""
                 onClick={() => setActive((prev) => (prev = !prev))}
               >
-                {" "}
-                <ILocalNotification fill="black" />
+                <BellButton />
               </div>
             </Badge>
             <div

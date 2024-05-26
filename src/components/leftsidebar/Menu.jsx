@@ -100,9 +100,15 @@ const Menu = () => {
         >
           <Badge count={listNotification?.totalElements} offset={[0, 0]}>
             {path === "/notification" ? (
-              <ILocalNotificationSelected fill={textColorSelected} />
+              <ILocalNotificationSelected
+                fill={textColorSelected}
+                check={listNotification?.totalElements > 0 ? true : false}
+              />
             ) : (
-              <ILocalNotification fill={textColor} />
+              <ILocalNotification
+                fill={textColor}
+                check={listNotification?.totalElements > 0 ? true : false}
+              />
             )}
           </Badge>
           <p

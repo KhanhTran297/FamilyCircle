@@ -23,6 +23,7 @@ const Comment = (props) => {
     queryKey: ["listChildComment", data.id],
     queryFn: () => getListChildCommentApi(id, data.id),
   });
+  console.log("data", data);
   const { editComment } = useCommentMutate(data.id, null);
   const handleEdit = async (values) => {
     editComment({
@@ -100,6 +101,7 @@ const Comment = (props) => {
           id={postDetailId}
           idowner={props.idowner}
           parentId={data.id}
+          parentUser={data.owner.id}
           depth={2}
           socket={props.socket}
         />

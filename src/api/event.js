@@ -28,3 +28,19 @@ export const getEventDetailApi = (params) => {
   const url = `/v1/courses/get/${params.id}`;
   return UseGet({ url, requiredToken: true, params });
 };
+export const registerEventApi = (params) => {
+  const url = "/v1/course-request/create";
+  return UsePost({ url, requiredToken: true, params });
+};
+export const getEventRequestApi = (params) => {
+  const url = `/v1/course-request/get/${params.id}`;
+  return UseGet({ url, requiredToken: true });
+};
+export const listEventRequestApi = () => {
+  const url = "/v1/course-request/list";
+  return UseGet({ url, requiredToken: true });
+};
+export const deleteEventRequestApi = (params) => {
+  const url = `/v1/course-request/delete/${params.id}`;
+  return UseDelete({ url, requiredToken: true });
+};

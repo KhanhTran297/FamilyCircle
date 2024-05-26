@@ -1,11 +1,14 @@
 import { Button, Form, Modal, Pagination, Select, Spin } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import PostItem from "./PostItem";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getListPostNewApi } from "../../api/post";
 import usePostMutate from "../../hooks/useMutate/usePostMutate";
 import { getListCategoryApi } from "../../api/category";
+import { child, get, getDatabase, ref } from "firebase/database";
+import { pushNotificationApi } from "../../api/notification";
+import { ListUserCommunityApi } from "../../api/community";
 
 const roleOptions = [
   { label: "Expert", value: 1 },
@@ -16,10 +19,45 @@ const PostsContent = () => {
   const [communityId, setCommunityId] = useState(null);
   const [role, setRole] = useState(null);
   const [title, setTitle] = useState(null);
+  const [postDetail, setPostDetail] = useState(null);
   const defaultPage = parseInt(searchParams.get("page")) - 1 || 0;
   const [page, setPage] = useState(defaultPage);
   const [postId, setPostId] = useState(null);
+  const [listAccountPushNotification, setListAccountPushNotification] =
+    useState([]);
   const { approvePost, rejectPost } = usePostMutate();
+  const dbRef = ref(getDatabase());
+  const queryClient = useQueryClient();
+  console.log(postDetail);
+  const handlePushNotification = () => {
+    listAccountPushNotification.map((item) => {
+      get(child(dbRef, `users/${item}`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            pushNotificationApi({
+              message: {
+                token: snapshot.val().token,
+                notification: {
+                  title: postDetail?.community?.categoryName + " has new post",
+                  body: postDetail?.title,
+                  image: postDetail?.community?.categoryImage,
+                },
+                webpush: {
+                  fcm_options: {
+                    link: `https://familycircle.vercel.app/post/${postDetail?.id}`,
+                  },
+                },
+              },
+            });
+          } else {
+            console.log("No data available");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+  };
   const { data: listPost, isLoading } = useQuery({
     queryKey: ["listPost", page, communityId, role],
     queryFn: () =>
@@ -75,11 +113,32 @@ const PostsContent = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [content, setContent] = useState("");
-  const showModal = (content, postId, title) => {
+  const showModal = (content, postId, title, item) => {
     setTitle(title);
     setContent(content);
     setPostId(postId);
     setIsModalOpen(true);
+    setPostDetail(item);
+    queryClient.fetchQuery({
+      queryKey: ["listAccountPushNotification"],
+      queryFn: () =>
+        ListUserCommunityApi({ communityId: item?.community?.id }).then(
+          (res) => {
+            if (res?.data?.totalElements > 0) {
+              res?.data?.content?.map((community) => {
+                if (community.account.id !== item.owner.id) {
+                  setListAccountPushNotification((prevState) => [
+                    ...prevState,
+                    community.account.id,
+                  ]);
+                }
+              });
+              return res?.data;
+            }
+            return res?.data;
+          }
+        ),
+    });
   };
   const handleOk = () => {
     setIsModalOpen(false);
@@ -90,7 +149,11 @@ const PostsContent = () => {
   const handlePagination2 = async (page) => {
     setPage(page);
   };
-
+  useEffect(() => {
+    if (isModalOpen === false) {
+      setListAccountPushNotification([]);
+    }
+  }, [isModalOpen]);
   return (
     <div
       style={{
@@ -104,7 +167,7 @@ const PostsContent = () => {
         className=" border-b-black border-b-[1px] border-b-solid "
         // onClick={() => setIsModalOpen(true)}
       >
-        <Form className=" flex flex-row gap-2">
+        <Form className="flex flex-row gap-2 ">
           <Form.Item label="Community">
             <Select
               options={listCommunity}
@@ -141,7 +204,9 @@ const PostsContent = () => {
                 <div
                   className=""
                   key={item.id}
-                  onClick={() => showModal(item.content, item.id, item.title)}
+                  onClick={() =>
+                    showModal(item.content, item.id, item.title, item)
+                  }
                 >
                   <PostItem item={item} />
                 </div>
@@ -205,6 +270,7 @@ const PostsContent = () => {
             type="default"
             onClick={() =>
               approvePost({ id: postId }).then(() => {
+                handlePushNotification();
                 setIsModalOpen(false);
               })
             }
@@ -216,9 +282,9 @@ const PostsContent = () => {
         bodyStyle={{ overflowY: "scroll", height: "600px" }}
       >
         <div className="flex flex-col">
-          <div className="flex flex-row gap-2 items-center">
-            <p className=" font-roboto text-lg">Title:</p>
-            <p className=" font-roboto font-medium text-lg">{title}</p>
+          <div className="flex flex-row items-center gap-2">
+            <p className="text-lg font-roboto">Title:</p>
+            <p className="text-lg font-medium font-roboto">{title}</p>
           </div>
           <div className="" dangerouslySetInnerHTML={{ __html: content }}></div>
         </div>

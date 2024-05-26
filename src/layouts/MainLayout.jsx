@@ -10,11 +10,13 @@ import { message } from "antd";
 import { auth, database, messaging } from "../notifications/firebase";
 import { useGetFetchQuery } from "../hooks/useGetFetchQuery";
 import { child, get, getDatabase, ref, set } from "firebase/database";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchParamsRedux } from "../redux/slice/search";
+import SearchPage from "../pages/main/SearchPage";
 const MainLayout = () => {
   const location = useLocation();
   const params = useParams();
   const accountProfile = useGetFetchQuery(["accountProfile"]);
-  console.log("accountProfile", accountProfile);
   const checkPage = (path) => {
     if (
       path === "/message" ||
@@ -27,6 +29,15 @@ const MainLayout = () => {
     }
     return false;
   };
+  const dispatch = useDispatch();
+
+  const selector = useSelector((state) => state.search);
+  const searchParamsState = selector.searchParams;
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchValue = searchParams.get("search");
+    dispatch(setSearchParamsRedux({ search: searchValue }));
+  }, [location.search]);
   useEffect(() => {
     // requestPermission()
     Notification.requestPermission()
@@ -87,7 +98,11 @@ const MainLayout = () => {
         <LeftSideBar />
 
         <div className="flex-grow ">
-          <Outlet />
+          {searchParamsState?.search ? (
+            <SearchPage searchParams={searchParamsState?.search} />
+          ) : (
+            <Outlet />
+          )}
         </div>
 
         {checkPage(location.pathname) ? "" : <RightSiderBar />}

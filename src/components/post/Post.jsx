@@ -17,6 +17,7 @@ import { getListFollowingApi } from "../../api/follow";
 import { getListBookmarkApi } from "../../api/bookmark";
 import { child, get, getDatabase, ref } from "firebase/database";
 import { pushNotificationApi } from "../../api/notification";
+import ViewMoreButton from "../shared/ViewMoreButton";
 
 // import { ILocalDot } from "../svg/Dot";
 // import { ILocalMore } from "../svg/more";
@@ -203,7 +204,7 @@ const Post = (props) => {
           )}
         </div>
         {props.content.length > limit ? (
-          <div
+          /* <div
             onClick={() => navigate(`/post/${props.id}`)}
             className="flex flex-col items-center justify-center self-stretch gap-[10px] cursor-pointer"
           >
@@ -213,6 +214,12 @@ const Post = (props) => {
                 View more
               </p>
             </button>
+          </div> */
+          <div
+            className="flex flex-col items-center justify-center self-stretch gap-[10px] cursor-pointer"
+            onClick={() => navigate(`/post/${props.id}`)}
+          >
+            <ViewMoreButton />
           </div>
         ) : (
           ""
