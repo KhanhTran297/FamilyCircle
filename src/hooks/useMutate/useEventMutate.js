@@ -4,6 +4,7 @@ import {
   createEventApi,
   deleteEventApi,
   editEventApi,
+  registerEventApi,
   rejectEventApi,
 } from "../../api/event";
 import { message } from "antd";
@@ -38,6 +39,16 @@ function useEventMutate() {
       message.success("Reject event success");
     },
   });
+  const { mutateAsync: registerEvent } = useMutation({
+    mutationKey: ["registerEvent"],
+    mutationFn: registerEventApi,
+    onSuccess: () => {
+      message.success("Register event success");
+    },
+    onError: () => {
+      message.error("This email has been registered for this event");
+    },
+  });
   const { mutateAsync: editEvent } = useMutation({
     mutationKey: ["editEvent"],
     mutationFn: editEventApi,
@@ -45,6 +56,7 @@ function useEventMutate() {
       message.success("Edit event success");
     },
   });
+
   return {
     createEvent,
     approveEvent,
@@ -52,6 +64,7 @@ function useEventMutate() {
     deleteEvent,
     rejectEvent,
     editEvent,
+    registerEvent,
   };
 }
 export default useEventMutate;

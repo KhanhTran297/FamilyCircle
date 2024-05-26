@@ -342,6 +342,8 @@ const PostDetail = (props) => {
           id={props.id}
           idowner={props.idowner}
           parentId={""}
+          parentUser={""}
+          depth={1}
           socket={socket}
         />
       </div>

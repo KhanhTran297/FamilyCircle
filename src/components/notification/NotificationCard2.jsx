@@ -15,8 +15,16 @@ const NotificationCard2 = (props) => {
   const [content, setContent] = useState("");
   let newContent = "";
   const navigate = useNavigate();
+  const time = dayjs(props.event.createdDate, "DD/MM/YYYY HH:mm:ss ").toDate();
   const handleNavigate = (kind) => {
-    if (kind === 3) {
+    if (
+      kind === 3 ||
+      kind === 2 ||
+      kind === 1 ||
+      kind === 9 ||
+      kind === 7 ||
+      kind === 8
+    ) {
       navigate(`/post/${contentEvent.postId}`);
     } else if (kind === 4) {
       navigate(`/post/${contentEvent.postId}`);
@@ -26,8 +34,84 @@ const NotificationCard2 = (props) => {
       navigate(`/schedule/${contentEvent.courseId}`);
     }
   };
+  const handleImage = (kind) => {
+    if (kind === 6) {
+      return "https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_j7ZNkaSCeT.png";
+    } else if (kind === 1) {
+      return contentEvent?.communityImage;
+    } else {
+      return tempdata?.avatar;
+    }
+  };
+
   useEffect(() => {
     switch (props.event.kind) {
+      case 1:
+        queryClient
+          .fetchQuery({
+            queryKey: ["profileUserById", contentEvent.accountId],
+            queryFn: (params) => getProfileAccountByIdApi(params),
+          })
+          .then((res) => {
+            setTempData(res?.data);
+            return res?.data;
+          });
+
+        if (props.kind === 1) {
+          setContent(
+            contentEvent.accountName +
+              " posted in " +
+              contentEvent.communityName +
+              " : " +
+              contentEvent.postTitle
+          );
+        } else {
+          newContent =
+            contentEvent.accountName +
+            " posted in " +
+            contentEvent.communityName +
+            " : " +
+            contentEvent.postTitle;
+
+          if (newContent.length > 15) {
+            newContent = newContent.substring(0, 30) + "...";
+          }
+          setContent(newContent);
+        }
+
+        break;
+      case 2:
+        queryClient
+          .fetchQuery({
+            queryKey: ["profileUserById", contentEvent.accountId],
+            queryFn: (params) => getProfileAccountByIdApi(params),
+          })
+          .then((res) => {
+            setTempData(res?.data);
+            return res?.data;
+          });
+
+        if (props.kind === 1) {
+          setContent(
+            contentEvent.accountName +
+              " has comment " +
+              contentEvent.commentContent +
+              " on your post "
+          );
+        } else {
+          newContent =
+            contentEvent.accountName +
+            " has comment " +
+            contentEvent.commentContent +
+            " on your post ";
+
+          if (newContent.length > 15) {
+            newContent = newContent.substring(0, 30) + "...";
+          }
+          setContent(newContent);
+        }
+
+        break;
       case 3:
         queryClient
           .fetchQuery({
@@ -121,7 +205,75 @@ const NotificationCard2 = (props) => {
         }
 
         break;
+      case 7:
+        if (props.kind === 1) {
+          setContent(
+            contentEvent.accountName +
+              " mentioned you in a comment in their post"
+          );
+        } else {
+          newContent =
+            contentEvent.accountName +
+            " mentioned you in a comment in their post";
 
+          if (newContent.length > 15) {
+            newContent = newContent.substring(0, 30) + "...";
+          }
+          setContent(newContent);
+        }
+
+        break;
+      case 8:
+        if (props.kind === 1) {
+          setContent(
+            contentEvent.accountName + " replied you in a comment in their post"
+          );
+        } else {
+          newContent =
+            contentEvent.accountName +
+            " replied you in a comment in their post";
+
+          if (newContent.length > 15) {
+            newContent = newContent.substring(0, 30) + "...";
+          }
+          setContent(newContent);
+        }
+
+        break;
+      case 9:
+        queryClient
+          .fetchQuery({
+            queryKey: ["profileUserById", contentEvent.accountId],
+            queryFn: (params) => getProfileAccountByIdApi(params),
+          })
+          .then((res) => {
+            setTempData(res?.data);
+            return res?.data;
+          });
+
+        if (props.kind === 1) {
+          setContent(
+            contentEvent.accountName +
+              " posted in " +
+              contentEvent.communityName +
+              " : " +
+              contentEvent.postTitle
+          );
+        } else {
+          newContent =
+            contentEvent.accountName +
+            " posted in " +
+            contentEvent.communityName +
+            " : " +
+            contentEvent.postTitle;
+
+          if (newContent.length > 15) {
+            newContent = newContent.substring(0, 30) + "...";
+          }
+          setContent(newContent);
+        }
+
+        break;
       default:
       // code block
     }
@@ -144,11 +296,7 @@ const NotificationCard2 = (props) => {
         <div className="flex flex-row items-center gap-3 ">
           <div className="w-10 h-10 ">
             <img
-              src={`${
-                props.event.kind === 6
-                  ? "https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_j7ZNkaSCeT.png"
-                  : tempdata?.avatar
-              }`}
+              src={handleImage(props?.event?.kind)}
               alt=""
               className="object-cover w-full h-full rounded-full "
             />
@@ -159,9 +307,9 @@ const NotificationCard2 = (props) => {
             </div>
             <div className="">
               <p className="text-sm font-normal font-roboto ">
-                {dayjs(props.event.createdDate).format("DD MMM YYYY") +
+                {dayjs(time).format("DD MMM YYYY") +
                   " at " +
-                  dayjs(props.event.createdDate).format("HH:mm a")}
+                  dayjs(time).format("HH:mm a")}
               </p>
             </div>
           </div>

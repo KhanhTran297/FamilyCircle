@@ -1,13 +1,12 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { Form, Input, InputNumber, DatePicker, Select } from "antd";
+import { Form, Input, InputNumber, DatePicker, Select, Radio } from "antd";
 import dayjs from "dayjs";
 import { Scheduler } from "@aldabil/react-scheduler";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import { ILocalArrowLeft } from "../../components/svg/arrow_left";
 import Modal from "react-modal";
 import { CloseOutlined } from "@ant-design/icons";
-import TextArea from "antd/es/input/TextArea";
 import { useQuery } from "@tanstack/react-query";
 import { getListCategoryApi } from "../../api/category";
 import useEventMutate from "../../hooks/useMutate/useEventMutate";
@@ -15,7 +14,7 @@ import { getEventApi } from "../../api/event";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import ReactQuill from "react-quill";
-
+import bgSchedule from "../../../public/bgSchedule1.png";
 const customStyles = {
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -37,7 +36,9 @@ const customStyles = {
 const SchedulerPage = (props) => {
   const account = useGetFetchQuery(["accountProfile"]);
   const [value, setValue] = useState("");
+  const [valueCourse, setValueCourse] = useState(1); // 1: Free, 2: Fee
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [activeFee, setActiveFee] = useState(1);
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { createEvent } = useEventMutate();
@@ -99,7 +100,7 @@ const SchedulerPage = (props) => {
               fee: item.fee,
               expertName: item.expert.expertFullName,
               expertAvatar: item.expert.expertAvatar,
-              color: "pink",
+              color: item.fee === 0 ? "green" : "pink",
               textColor: "white",
             };
           });
@@ -117,21 +118,26 @@ const SchedulerPage = (props) => {
   function closeModal() {
     setIsOpen(false);
   }
-
+  const handleSwitchKindOfCourse = (e) => {
+    if (e.target.value === 2) {
+      setActiveFee(false);
+      setValueCourse(2);
+    } else {
+      setActiveFee(true);
+      setValueCourse(1);
+      form.setFieldsValue({ fee: 0 });
+    }
+  };
   const onOk = (value) => {
     console.log("onOk: ", value);
   };
   const onFinish = (values) => {
-    // console.log(
-    //   "Success:",
-    //   // dayjs(values.date[0]["$d"]).format("dd/MM/yyyy HH:mm:ss")
-    //   values.date[0]
-    // );
     const data = {
       title: values.title,
       description: values.description,
       slots: values.slot,
-      fee: values.fee,
+      fee: valueCourse === 1 ? 0 : values.fee,
+      joinUrl: values.joinUrl,
       startDate: dayjs(values.date[0]).format("DD/MM/YYYY HH:mm:ss"),
       endDate: dayjs(values.date[1]).format("DD/MM/YYYY HH:mm:ss"),
       topicId: values.topic,
@@ -160,6 +166,9 @@ const SchedulerPage = (props) => {
             Create
           </div>
         )}
+      </div>
+      <div className="">
+        <img src={bgSchedule} alt="" className="w-full h-full rounded-xl" />
       </div>
       <Scheduler
         ref={calendarRefMU}
@@ -202,6 +211,18 @@ const SchedulerPage = (props) => {
             </div>
           );
         }}
+        view="month"
+        agenda={false}
+        week={{
+          startHour: 6,
+          endHour: 22,
+          step: 60,
+        }}
+        day={{
+          startHour: 6,
+          endHour: 22,
+          step: 60,
+        }}
         editable={false}
         deletable={false}
         events={listEvent || []}
@@ -209,6 +230,16 @@ const SchedulerPage = (props) => {
       >
         {" "}
       </Scheduler>
+      <div className="flex flex-row items-center justify-center gap-4">
+        <div className="flex flex-row items-center gap-2">
+          <div className="w-3 h-3 bg-green-400 rounded-full "></div>
+          <p className="text-base font-normal font-roboto">Free</p>
+        </div>
+        <div className="flex flex-row items-center gap-2">
+          <div className="w-3 h-3 bg-[#ffc0cb] rounded-full "></div>
+          <p className="text-base font-normal font-roboto">Fee</p>
+        </div>
+      </div>
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
@@ -275,12 +306,12 @@ const SchedulerPage = (props) => {
               <Form.Item
                 label="Slots"
                 name="slot"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input slots!",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please input slots!",
+                //   },
+                // ]}
               >
                 <InputNumber
                   label="Slots"
@@ -290,22 +321,43 @@ const SchedulerPage = (props) => {
                   className="w-full py-1"
                 />
               </Form.Item>
+              <Form.Item>
+                <Radio.Group
+                  onChange={(e) => handleSwitchKindOfCourse(e)}
+                  value={valueCourse}
+                >
+                  <Radio value={1}>Free</Radio>
+                  <Radio value={2}>Fee</Radio>
+                </Radio.Group>
+              </Form.Item>
               <Form.Item
                 label="Fee"
                 name="fee"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input fee!",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please input fee!",
+                //   },
+                // ]}
               >
                 <InputNumber
                   label="Fee"
                   placeholder="fee"
-                  min={50000}
+                  disabled={activeFee}
                   className="w-full py-1"
                 />
+              </Form.Item>
+              <Form.Item
+                label="Link online"
+                name="joinUrl"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input link online for course!",
+                  },
+                ]}
+              >
+                <Input placeholder=" link online" />
               </Form.Item>
               <Form.Item
                 label="Start Date - End Date"

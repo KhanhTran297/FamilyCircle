@@ -27,7 +27,7 @@ const CommentFooter = ({
       }
     });
   };
-  console.log("data", data);
+
   const handlePushNotification = () => {
     get(child(dbRef, `users/${data?.owner?.id}`))
       .then((snapshot) => {
@@ -57,26 +57,6 @@ const CommentFooter = ({
       });
   };
   const checkReact = () => {
-    // if (profileAccount) {
-    //   const check = data.commentReactions?.filter(
-    //     (item) => item?.id === profileAccount?.data?.id
-    //   );
-
-    //   if (check) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // } else {
-    //   const check = data.commentReactions?.filter(
-    //     (item) => item?.id === profileExpertAccount?.data?.id
-    //   );
-    //   if (check) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
     const check = data.commentReactions?.filter((item) => {
       item?.id === accountProfile?.data?.id;
     });

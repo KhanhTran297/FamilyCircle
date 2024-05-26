@@ -6,6 +6,7 @@ export const ILocalViewMore = ({ fill }) => (
     height="18"
     viewBox="0 0 18 18"
     fill="none"
+    className=" animate-bounce"
   >
     <mask
       id="mask0_450_4753"

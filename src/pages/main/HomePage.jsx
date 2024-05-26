@@ -21,11 +21,9 @@ const HomePage = () => {
   const location = useLocation();
   const selector = useSelector((state) => state.search);
   const searchParamsState = selector.searchParams;
-  console.log("searchParamsState", searchParamsState?.search);
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const searchValue = searchParams.get("search");
-    console.log("searchValue", JSON.stringify(searchValue));
     dispatch(setSearchParamsRedux({ search: searchValue }));
   }, [location.search]);
   return (
@@ -38,11 +36,7 @@ const HomePage = () => {
     // </div>
     <div className="flex justify-center w-full">
       <div className="flex self-stretch justify-center w-full desktop:w-[760px]">
-        {searchParamsState?.search ? (
-          <SearchPage searchParams={searchParamsState?.search} />
-        ) : (
-          <Tab kind={1} />
-        )}
+        <Tab kind={1} />
       </div>
     </div>
   );

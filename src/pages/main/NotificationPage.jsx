@@ -2,7 +2,7 @@ import Notification from "../../components/notification/Notification";
 
 const NotificationPage = () => {
   return (
-    <div className="w-full">
+    <div className="w-full h-screen overflow-y-scroll">
       <div className="flex self-stretch justify-center w-full desktop:w-[760px]">
         <div className="flex flex-col w-full">
           <div className="flex flex-col backdrop-blur-[32px] sticky top-14 desktop:top-0 z-20">

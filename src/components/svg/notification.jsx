@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 
-export const ILocalNotification = ({fill}) => (
+export const ILocalNotification = ({ fill, check }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
     height="24"
     viewBox="0 0 24 24"
     fill="none"
+    className={` ${check && " animate-bounce"}`}
   >
     <mask
       id="mask0_221_2198"
@@ -29,5 +30,5 @@ export const ILocalNotification = ({fill}) => (
 );
 ILocalNotification.propTypes = {
   fill: PropTypes.string.isRequired,
+  check: PropTypes.bool.isRequired,
 };
-
