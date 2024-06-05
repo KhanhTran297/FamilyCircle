@@ -103,18 +103,17 @@ const EventDetailPage = (props) => {
             Back to schedule
           </div>
         </div>
-        {account?.data?.kind === 2 && (
-          <div className="" onClick={() => openModal()}>
-            <FlowerButton />
-          </div>
-        )}
+
+        <div className="" onClick={() => openModal()}>
+          <FlowerButton />
+        </div>
       </div>
       <div className="flex flex-row justify-center text-center">
         <p className="text-base font-medium font-roboto">
           {eventDetail?.title}
         </p>
       </div>
-      <div className="flex flex-col justify-center gap-6 pb-4 border shadow-modal rounded-xl">
+      <div className="flex flex-col justify-center gap-6 pb-4 border shadow-modal rounded-xl bg-[#fff8f8]">
         <div className="flex flex-row justify-center">
           <div className="flex flex-row px-6 py-2 text-center bg-green-400 rounded-bl-xl rounded-br-xl">
             <p className="text-base font-normal font-roboto">
@@ -172,8 +171,8 @@ const EventDetailPage = (props) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-6 pb-4 border rounded-xl shadow-modal ">
-        <div className="flex flex-row justify-center">
+      <div className="flex flex-col gap-6 pb-4 border rounded-xl shadow-modal bg-[#fff8f8] ">
+        <div className="flex flex-row justify-center bg-[#fff8f8]">
           <div className="flex flex-row px-6 py-2 text-center bg-pink-300 rounded-bl-xl rounded-br-xl">
             <p className="text-base font-medium text-black font-roboto">
               Class details

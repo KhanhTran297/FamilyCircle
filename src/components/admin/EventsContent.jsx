@@ -17,6 +17,7 @@ const EventsContent = (props) => {
   const { approveEvent, deleteEvent, rejectEvent } = useEventMutate();
   const { pushNotification } = useNotificationMutate();
   const dbRef = ref(getDatabase());
+
   const { data: listEvent } = useQuery({
     queryKey: ["listEvent"],
     queryFn: async () =>
