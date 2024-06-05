@@ -135,7 +135,7 @@ const SchedulerPage = (props) => {
     const data = {
       title: values.title,
       description: values.description,
-      slots: values.slot,
+      slots: valueCourse === 1 ? 0 : values.slot,
       fee: valueCourse === 1 ? 0 : values.fee,
       joinUrl: values.joinUrl,
       startDate: dayjs(values.date[0]).format("DD/MM/YYYY HH:mm:ss"),
@@ -319,6 +319,7 @@ const SchedulerPage = (props) => {
                   min={1}
                   max={30}
                   className="w-full py-1"
+                  disabled={activeFee}
                 />
               </Form.Item>
               <Form.Item>
