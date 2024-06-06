@@ -7,7 +7,7 @@ import { Skeleton } from "antd";
 import PostDetail from "../../components/post/Postdetail";
 import ReadMoreReadLess from "../../components/shared/ReadMoreReadLess";
 import { ILocalDot } from "../../components/svg/Dot";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const PostDetailPage = () => {
   const { id } = useParams();
@@ -23,6 +23,13 @@ const PostDetailPage = () => {
       // message.success("get post success");
     },
   });
+  const windowTopRef = useRef(null);
+  const scrollToTop = (windowTopRef) => {
+    windowTopRef.current?.scrollIntoView({
+      behavior: "smooth",
+      alignToTop: true,
+    });
+  };
   function randomIntFromInterval(min, max) {
     // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -61,8 +68,12 @@ const PostDetailPage = () => {
   const { imageUrl, updatedContent } = extractImageUrlAndContent(
     postRelate?.content
   );
+  useEffect(() => {
+    // scrollToTop(windowTopRef);
+    window.scrollTo(0, 0);
+  }, [id]);
   return (
-    <div className="w-full xl:w-[760px]   ">
+    <div className="w-full xl:w-[760px]" ref={windowTopRef}>
       <div className="flex flex-col w-full">
         <div className="flex flex-col backdrop-blur-[32px] sticky top-14 xl:top-0 z-20">
           <div
@@ -106,7 +117,7 @@ const PostDetailPage = () => {
               Bài Viết liên quan
             </p>
           </div>
-          {postRelated !== undefined && (
+          {postRelated !== undefined ? (
             <div
               className="grid grid-flow-col grid-cols-[40%_60%] gap-3 cursor-pointer "
               onClick={() => navigate(`/post/${postRelated?.id}`)}
@@ -145,6 +156,8 @@ const PostDetailPage = () => {
                 </ReadMoreReadLess>
               </div>
             </div>
+          ) : (
+            <div className=""></div>
           )}
         </div>
       </div>

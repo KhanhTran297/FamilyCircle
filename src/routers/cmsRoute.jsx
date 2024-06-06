@@ -1,5 +1,6 @@
 import AcademicDegree from "../components/admin/AcademicDegree";
 import CommunityContent from "../components/admin/CommunityContent";
+import CourseRequestContent from "../components/admin/CourseRequestContent";
 import DepartmentContent from "../components/admin/DepartmentContent";
 import EventDetailContent from "../components/admin/EventDetailContent";
 import EventsContent from "../components/admin/EventsContent";
@@ -93,6 +94,20 @@ export default function init(routes) {
           {
             path: "",
             element: <EventsContent />,
+          },
+          {
+            path: ":id",
+            element: <EventDetailContent />,
+          },
+        ],
+      },
+      {
+        path: "/courserequests",
+        element: <CmsPage />,
+        children: [
+          {
+            path: "",
+            element: <CourseRequestContent />,
           },
           {
             path: ":id",
