@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   CalendarOutlined,
@@ -42,6 +42,23 @@ const customStyles = {
 };
 const EventDetailPage = (props) => {
   const navigate = useNavigate();
+  const payOSConfig = {
+    RETURN_URL: "https://familycircle.vercel.app/", // required
+    ELEMENT_ID: "test", // required
+    CHECKOUT_URL: "https://familycircle.vercel.app/schedule", // required
+    onSuccess: (event) => {
+      console.log("onSuccess: ", event);
+      //TODO: Hành động sau khi người dùng thanh toán đơn hàng thành công
+    },
+    onCancel: (event) => {
+      console.log("onCancel: ", event);
+      //TODO: Hành động sau khi người dùng Hủy đơn hàng
+    },
+    onExit: (event) => {
+      console.log("onExit: ", event);
+      //TODO: Hành động sau khi người dùng tắt Pop up
+    },
+  };
   const account = useGetFetchQuery(["accountProfile"]);
   const param = useParams();
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -272,6 +289,7 @@ const EventDetailPage = (props) => {
           </div>
         </div>
       </Modal>
+      <div className="" id="test"></div>
     </div>
   );
 };

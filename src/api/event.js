@@ -44,3 +44,7 @@ export const deleteEventRequestApi = (params) => {
   const url = `/v1/course-request/delete/${params.id}`;
   return UseDelete({ url, requiredToken: true });
 };
+export const listCourseRequestApi = (params) => {
+  const url = "/v1/course-request/list";
+  return UseGet({ url, requiredToken: true, params });
+};

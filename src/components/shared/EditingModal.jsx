@@ -72,10 +72,10 @@ const EditingModal = ({
   };
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   return (
-    <div className="flex flex-col gap-6 w-full">
-      <div className=" flex items-center gap-4">
+    <div className="flex flex-col w-full gap-6">
+      <div className="flex items-center gap-4 ">
         <ILocalProfileButton className=" flex w-10 h-10 p-[10px] flex-col justify-center gap-[10px]" />
-        <p className=" text-light_surface_on_surface font-roboto text-base font-medium">
+        <p className="text-base font-medium text-light_surface_on_surface font-roboto">
           Edit {type}
         </p>
       </div>
@@ -160,8 +160,8 @@ const EditingModal = ({
               <DatePicker
                 //   defaultPickerValue={initValue}
                 //   defaultValue={initValue}
-                prefix={<ILocalCalender className="mr-3" />}
-                suffixIcon={<ILocalCalender className="mr-3" />}
+                prefix={<ILocalCalender className="mr-3" fill={"black"} />}
+                suffixIcon={<ILocalCalender className="mr-3" fill={"black"} />}
                 allowClear
                 size="large"
                 className="flex h-[56px] pt-2 pb-2 pl-3 pr-3 w-full  rounded-[12px] border-solid border-[1px] border-[#504348]"
@@ -180,12 +180,12 @@ const EditingModal = ({
         /> */}
       </div>
       <div className=" w-full h-[1px] bg-[#F1DEE4]"></div>
-      <div className=" flex justify-end items-center gap-2 self-stretch">
+      <div className="flex items-center self-stretch justify-end gap-2 ">
         <div
           className="flex h-10 pl-3 pr-3 items-center rounded-[36px] cursor-pointer hover:bg-menu"
           onClick={() => handleCloseEditingModal()}
         >
-          <p className=" font-roboto text-sm font-medium text-button-submit-light">
+          <p className="text-sm font-medium font-roboto text-button-submit-light">
             back
           </p>
         </div>
@@ -193,7 +193,7 @@ const EditingModal = ({
           className="flex h-10 pl-3 pr-3 items-center rounded-[36px] cursor-pointer hover:bg-menu "
           onClick={() => form.submit()}
         >
-          <p className=" font-roboto text-sm font-medium text-button-submit-light">
+          <p className="text-sm font-medium font-roboto text-button-submit-light">
             Save
           </p>
         </div>

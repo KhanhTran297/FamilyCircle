@@ -146,6 +146,17 @@ const EventsContent = (props) => {
           view="month"
           events={listEventState || []}
           editable={false}
+          agenda={false}
+          week={{
+            startHour: 6,
+            endHour: 22,
+            step: 60,
+          }}
+          day={{
+            startHour: 6,
+            endHour: 22,
+            step: 60,
+          }}
           viewerExtraComponent={(fields, event) => {
             return (
               <div className="flex flex-col gap-2 pb-4">

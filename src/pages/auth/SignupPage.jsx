@@ -146,8 +146,10 @@ const SignupPage = () => {
                   rootClassName="w-full"
                 >
                   <DatePicker
-                    prefix={<ILocalCalender className="mr-3" />}
-                    suffixIcon={<ILocalCalender className="mr-3" />}
+                    prefix={<ILocalCalender className="mr-3" fill={"black"} />}
+                    suffixIcon={
+                      <ILocalCalender className="mr-3" fill={"black"} />
+                    }
                     className=" flex h-[56px] pt-2 pb-2 pl-3 pr-3 w-full  rounded-[12px] border-solid border-[1px] border-[#504348] "
                     size="large"
                     placeholder="Date of birth"
