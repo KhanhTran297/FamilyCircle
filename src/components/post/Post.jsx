@@ -46,7 +46,10 @@ const Post = (props) => {
 
   const { data: listBookmark } = useQuery({
     queryKey: ["listBookmark"],
-    queryFn: () => getListBookmarkApi().then((res) => res.data),
+    queryFn: () =>
+      getListBookmarkApi().then((res) => {
+        return res.data;
+      }),
   });
   const { data: listFollowing } = useQuery({
     queryKey: ["listFollowing"],
@@ -139,7 +142,7 @@ const Post = (props) => {
   // const isBookmark = userId && listBookmarkPost.some((bookmark) => bookmark.)
 
   const isBookmark = (postId) => {
-    if (listBookmark?.totalElements > 1) {
+    if (listBookmark?.totalElements > 0) {
       const bookmark = listBookmark?.content?.find(
         (bookmark) => bookmark.postDto.id === postId
       );
