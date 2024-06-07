@@ -10,10 +10,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Comment from "../comment/Comment";
 import useBookmark from "../../hooks/useBookmark";
 import useFollow from "../../hooks/useFollow";
-
 import usePostMutate from "../../hooks/useMutate/usePostMutate";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
-
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getListChildCommentApi, getListCommentApi } from "../../api/comment";
 import { useParams } from "react-router-dom";
@@ -22,8 +20,6 @@ import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
 import useReactMutate from "../../hooks/useMutate/useReactMutate";
 import { useRecoilState } from "recoil";
 import { countComments } from "../../uilts/atom";
-import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
-import useNotificationSocket from "../../hooks/useNotificationSocket";
 import { child, get, getDatabase, ref } from "firebase/database";
 import { pushNotificationApi } from "../../api/notification";
 const PostDetail = (props) => {
@@ -82,16 +78,12 @@ const PostDetail = (props) => {
   const { getReact } = useReactMutate(props.id);
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const postDetail = useGetFetchQuery(["postDetail", id]);
-  const { createNotification, createAnnounce } = useNotificationMutate();
-  const socket = useNotificationSocket();
   const { listBookmark } = useBookmark();
   const { getBookmark } = useBookmarkMutate();
   const { listFollowing } = useFollow();
   const { getFollow, getUnfollow } = useFollowMutate();
   const { deletePost } = usePostMutate();
   const accountProfileId = accountProfile?.data?.id;
-  const accountProfileFullname = accountProfile?.data?.fullName;
-  const accountProfileAvatar = accountProfile?.data?.avatar;
   const reactCount = postDetail?.data?.postReactions?.length;
   const listReactionPost = postDetail?.data?.postReactions;
   const listBookmarkPost = listBookmark?.data?.content;
@@ -133,50 +125,10 @@ const PostDetail = (props) => {
   const handleActionFollow = (accountId) => {
     const data = { accountId: accountId };
     getFollow(data).then(() => handlePushNotification("follow"));
-    const content = ` started following you`;
-    const data2 = {
-      content: content,
-      objectId: accountProfileId,
-      kind: 5,
-    };
-
-    createNotification(data2)
-      .then((response) => {
-        if (socket && socket.connected) {
-          socket.emit("send-notification-new-follower", {
-            accountId: accountProfileId,
-            followerId: accountId,
-            id: response.data.id,
-            status: response.data.status,
-            createdDate: response.data.createdDate,
-            content: response.data.content,
-            kind: response.data.kind,
-            avatar: accountProfileAvatar,
-            fullname: accountProfileFullname,
-          });
-        } else {
-          console.error("Socket not connected");
-        }
-        const dataAnnounce = {
-          notificationId: response.data.id,
-          receivers: [accountId],
-        };
-        createAnnounce(dataAnnounce);
-      })
-      .catch((error) => {
-        console.error("Lỗi khi tạo thông báo:", error);
-      });
   };
 
   const handleActionUnfollow = (accountId) => {
     getUnfollow(accountId);
-    if (socket && socket.connected) {
-      socket.emit("send-notification-unfollow", {
-        followingId: accountId,
-      });
-    } else {
-      console.error("Socket not connected");
-    }
   };
   const isBookmark = (postId) => {
     if (listBookmarkPost && Array.isArray(listBookmarkPost)) {
@@ -258,39 +210,7 @@ const PostDetail = (props) => {
           getReact({ kind: 1, postId: props.id })
             .then((res) => {
               if (res.data.ownerPostId != accountProfileId) {
-                const content = ` react your post`;
-                const data2 = {
-                  content: content,
-                  objectId: props.id,
-                  kind: 3,
-                };
-                createNotification(data2)
-                  .then((response) => {
-                    if (socket && socket.connected) {
-                      socket.emit("send-notification-new-reaction-post", {
-                        accountId: accountProfileId,
-                        followerId: res.data.ownerPostId,
-                        id: response.data.id,
-                        status: response.data.status,
-                        createdDate: response.data.createdDate,
-                        content: response.data.content,
-                        kind: response.data.kind,
-                        avatar: accountProfileAvatar,
-                        fullname: accountProfileFullname,
-                        postId: props.id,
-                      });
-                    } else {
-                      console.error("Socket not connected");
-                    }
-                    const dataAnnounce = {
-                      notificationId: response.data.id,
-                      receivers: [res.data.ownerPostId],
-                    };
-                    createAnnounce(dataAnnounce);
-                  })
-                  .catch((error) => {
-                    console.error("Lỗi khi tạo thông báo:", error);
-                  });
+                handlePushNotification("like");
               }
             })
             .catch((error) => {
@@ -330,7 +250,6 @@ const PostDetail = (props) => {
                       key={comment.id}
                       data={comment}
                       root={true}
-                      socket={socket}
                     />
                   ))}
               </div>
@@ -344,7 +263,6 @@ const PostDetail = (props) => {
           parentId={""}
           parentUser={""}
           depth={1}
-          socket={socket}
         />
       </div>
     </div>

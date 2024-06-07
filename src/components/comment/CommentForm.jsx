@@ -41,7 +41,6 @@ const CommentForm = (props) => {
     ]);
   };
   const handlePushNotification = (id, body, kind) => {
-    console.log("id", id);
     get(child(dbRef, `users/${id}`))
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -72,10 +71,8 @@ const CommentForm = (props) => {
         console.error(error);
       });
   };
-  console.log("listTagUser", listTagUser);
   const handleCreateComment = (values, listTag) => {
     const parentId = props.parentId ? props.parentId : "";
-
     const data = {
       postId: props.id,
       commentContent: values,
@@ -103,7 +100,7 @@ const CommentForm = (props) => {
             });
           }
         }
-        console.log("pushUserId", pushUserId);
+
         // handlePushNotification(pushUserId, contentBody, 1);
       })
       .catch((error) => {
@@ -196,7 +193,6 @@ CommentForm.propTypes = {
   idowner: PropTypes.any,
   parentId: PropTypes.any,
   depth: PropTypes.any,
-  socket: PropTypes.any,
   parentUser: PropTypes.any,
 };
 export default CommentForm;

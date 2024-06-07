@@ -30,6 +30,7 @@ const LoginPage = () => {
     };
     handleLogin(newValues)
       .then((res) => {
+        localStorage.setItem("userId", JSON.stringify(res.user_id));
         socket.connect();
         socket.emit("addUserOnline", res?.user_id);
         socket.on("getUsersOnline", (user) => {
@@ -40,14 +41,19 @@ const LoginPage = () => {
         signInWithEmailAndPassword(auth, newValues.username, newValues.password)
           .then((userCredential) => {
             // Signed in
-
-            const user = userCredential.user;
+            console.log("userCredential", userCredential);
+            localStorage.setItem(
+              "userCredential",
+              JSON.stringify(userCredential.user)
+            );
 
             // ...
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            console.log("errorCode", errorCode);
+            console.log("error", errorMessage);
           });
         // const credential = EmailAuthProvider.credential(
         //   newValues.username,
@@ -110,10 +116,13 @@ const LoginPage = () => {
         console.log("Accesstoken", token);
         // The signed-in user info.
         const user = result.user;
+        console.log("auth", auth.currentUser);
         console.log("user", user);
         // IdP data available using getAdditionalUserInfo(result)
         // ...
-        linkWithPopup(auth.currentUser, provider);
+        linkWithCredential(user, credential).then(() => {
+          console.log("link success");
+        });
         const data = axios
           .get("https://www.googleapis.com/oauth2/v3/userinfo", {
             headers: {

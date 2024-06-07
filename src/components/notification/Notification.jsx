@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getListfollowingByIdApi } from "../../api/follow";
 import { getPostByIdApi } from "../../api/post";
-import useNotificationSocket from "../../hooks/useNotificationSocket";
 import useAccount from "../../hooks/useAccount";
 import { getListNotificationApi } from "../../api/notification";
 import { getAccountClientApi2 } from "../../api/account";
@@ -14,7 +13,7 @@ const Notification = () => {
   const [notifications, setNotifications] = useState([]);
   const [userEmail, setUserEmail] = useState([]);
   const [usersData, setUsersData] = useState([]);
-  const [socketNotification, setSocketNotification] = useState(null);
+  // const [socketNotification, setSocketNotification] = useState(null);
   const { data: listFollowing } = useQuery({
     queryKey: ["listFollowingById", accountId],
     queryFn: getListfollowingByIdApi,
@@ -23,14 +22,11 @@ const Notification = () => {
     queryKey: ["listOwnPost", accountId],
     queryFn: () => getPostByIdApi(accountId),
   });
-  const socket = useNotificationSocket();
-
   const { data: listNotification } = useQuery({
     queryKey: ["listNotification"],
     queryFn: () => getListNotificationApi().then((res) => res?.data),
     enabled: true,
   });
-  console.log(listNotification);
   useEffect(() => {
     if (listNotification.length > 0) {
       const createdByEmail = listNotification.map(
@@ -75,82 +71,39 @@ const Notification = () => {
       setNotifications(updatedNotifications);
     }
   }, [usersData, listNotification]);
-  useEffect(() => {
-    const newPostOfFollowingNotificationRooms =
-      listFollowing?.data?.content?.map((following) => following.account.id);
-    const myPostNotificationRooms = listOwnPost?.data?.content?.map(
-      (post) => post.id
-    );
+  // useEffect(() => {
+  //   const newPostOfFollowingNotificationRooms =
+  //     listFollowing?.data?.content?.map((following) => following.account.id);
+  //   const myPostNotificationRooms = listOwnPost?.data?.content?.map(
+  //     (post) => post.id
+  //   );
 
-    if (
-      socket &&
-      newPostOfFollowingNotificationRooms &&
-      myPostNotificationRooms
-    ) {
-      socket.emit("join-notification-room", {
-        myPostNotificationRooms,
-        newPostOfFollowingNotificationRooms,
-      });
-    }
-  }, [listFollowing, listOwnPost, socket]);
+  // }, [listFollowing, listOwnPost]);
 
-  useEffect(() => {
-    if (socket) {
-      socket.on("get-notification-new-follower", (data) => {
-        if (data.kind === 5) {
-          setSocketNotification({
-            id: data.id,
-            objectId: data.accountId,
-            content: data.content,
-            fullName: data.fullname,
-            avatar: data.avatar,
-            createdDate: data.createdDate,
-          });
-        }
-      });
-      socket.on("get-notification-new-reaction-post", (data) => {
-        if (data.kind === 3) {
-          setSocketNotification({
-            id: data.id,
-            objectId: data.postId,
-            content: data.content,
-            fullName: data.fullname,
-            avatar: data.avatar,
-            createdDate: data.createdDate,
-          });
-        }
-      });
-      return () => {
-        socket.off("get-notification-new-follower");
-        socket.off("get-notification-new-reaction-post");
-      };
-    }
-  }, [socket]);
+  // useEffect(() => {
+  //   if (socketNotification) {
+  //     const user = usersData.find(
+  //       (u) => u.email === socketNotification.createdBy
+  //     );
+  //     setNotifications((prevNotifications) => {
+  //       const isExisting = prevNotifications.some(
+  //         (notification) => notification.id === socketNotification.id
+  //       );
 
-  useEffect(() => {
-    if (socketNotification) {
-      const user = usersData.find(
-        (u) => u.email === socketNotification.createdBy
-      );
-      setNotifications((prevNotifications) => {
-        const isExisting = prevNotifications.some(
-          (notification) => notification.id === socketNotification.id
-        );
+  //       if (!isExisting) {
+  //         const updatedNotification = {
+  //           ...socketNotification,
+  //           fullName: user?.fullName || socketNotification.fullName,
+  //           avatar: user?.avatar || socketNotification.avatar,
+  //         };
 
-        if (!isExisting) {
-          const updatedNotification = {
-            ...socketNotification,
-            fullName: user?.fullName || socketNotification.fullName,
-            avatar: user?.avatar || socketNotification.avatar,
-          };
+  //         return [updatedNotification, ...prevNotifications];
+  //       }
 
-          return [updatedNotification, ...prevNotifications];
-        }
-
-        return prevNotifications;
-      });
-    }
-  }, [socketNotification, usersData]);
+  //       return prevNotifications;
+  //     });
+  //   }
+  // }, [socketNotification, usersData]);
 
   return (
     <div>

@@ -22,7 +22,7 @@ const UserSetting = () => {
         // Sign-out successful.
         navigate("/");
         socket.disconnect();
-        localStorage.removeItem("user");
+        localStorage.clear();
       })
       .catch((error) => {
         // An error happened.

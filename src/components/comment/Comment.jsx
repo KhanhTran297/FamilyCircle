@@ -23,7 +23,6 @@ const Comment = (props) => {
     queryKey: ["listChildComment", data.id],
     queryFn: () => getListChildCommentApi(id, data.id),
   });
-  console.log("data", data);
   const { editComment } = useCommentMutate(data.id, null);
   const handleEdit = async (values) => {
     editComment({
@@ -103,7 +102,6 @@ const Comment = (props) => {
           parentId={data.id}
           parentUser={data.owner.id}
           depth={2}
-          socket={props.socket}
         />
       )}
     </div>
@@ -113,7 +111,6 @@ Comment.propTypes = {
   data: PropTypes.object.isRequired,
   id: PropTypes.number,
   root: PropTypes.bool.isRequired,
-  socket: PropTypes.any,
   idowner: PropTypes.any,
 };
 export default Comment;

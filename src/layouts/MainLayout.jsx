@@ -13,9 +13,12 @@ import { child, get, getDatabase, ref, set } from "firebase/database";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchParamsRedux } from "../redux/slice/search";
 import SearchPage from "../pages/main/SearchPage";
+import { onAuthStateChanged } from "firebase/auth";
 const MainLayout = () => {
   const location = useLocation();
   const params = useParams();
+  const userId = JSON.parse(localStorage.getItem("userId"));
+
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const checkPage = (path) => {
     if (
@@ -38,6 +41,7 @@ const MainLayout = () => {
     const searchValue = searchParams.get("search");
     dispatch(setSearchParamsRedux({ search: searchValue }));
   }, [location.search]);
+
   useEffect(() => {
     // requestPermission()
     Notification.requestPermission()
@@ -48,12 +52,21 @@ const MainLayout = () => {
             vapidKey:
               "BH-nLv3uT1gIDu--kjFf-Gd1u7yaZJlyS4FrrYq9QRSlK5R00Dh9WUH0iVSIKK1gGqgu4gBIUcdD2RmpGy_pgHc",
           }).then((currentToken) => {
-            console.log("uid", auth?.currentUser?.uid);
-            console.log("FCM Token", currentToken);
-            set(ref(database, "users/" + accountProfile?.data?.id), {
-              id: accountProfile?.data?.id,
-              token: currentToken,
+            // console.log("uid", auth?.currentUser?.uid);
+            onAuthStateChanged(auth, (user) => {
+              if (user && accountProfile) {
+                set(ref(database, "users/" + userId), {
+                  id: userId,
+                  token: currentToken,
+                });
+              }
             });
+            // console.log("FCM Token", currentToken);
+            // console.log(accountProfile?.data?.id);
+            // set(ref(database, "users/" + accountProfile?.data?.id), {
+            //   id: accountProfile?.data?.id,
+            //   token: currentToken,
+            // });
           });
         }
       })

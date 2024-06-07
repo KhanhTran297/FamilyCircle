@@ -10,8 +10,12 @@ import { ILocalPhone } from "../../components/svg/phone";
 import { ILocalCalender } from "../../components/svg/calender";
 import { ILocalKey } from "../../components/svg/key";
 import useAccountMutate from "../../hooks/useMutate/useAccountMutate";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../notifications/firebase";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  linkWithPopup,
+} from "firebase/auth";
+import { auth, provider } from "../../notifications/firebase";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -38,6 +42,12 @@ const SignupPage = () => {
           // Signed up
           const user = userCredential.user;
           console.log("user", user);
+          // linkWithPopup(auth?.currentUser, provider).then((result) => {
+          //   const credential =
+          //     GoogleAuthProvider.credentialFromResult(result);
+          //   const user = result.user;
+          //   console.log("Account linking success", user);
+          // });
           // ...
         })
         .catch((error) => {
