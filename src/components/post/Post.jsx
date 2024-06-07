@@ -10,8 +10,6 @@ import usePostMutate from "../../hooks/useMutate/usePostMutate";
 import { useGetFetchQuery } from "../../hooks/useGetFetchQuery";
 import useBookmarkMutate from "../../hooks/useMutate/useBookmarkMutate";
 import useFollowMutate from "../../hooks/useMutate/useFollowMutate";
-import useNotificationSocket from "../../hooks/useNotificationSocket";
-import useNotificationMutate from "../../hooks/useMutate/useNotificationMutate";
 import { useQuery } from "@tanstack/react-query";
 import { getListFollowingApi } from "../../api/follow";
 import { getListBookmarkApi } from "../../api/bookmark";
@@ -25,14 +23,10 @@ import ViewMoreButton from "../shared/ViewMoreButton";
 const Post = (props) => {
   const { getReact, listReaction } = useReact(props.id);
   const { getFollow, getUnfollow } = useFollowMutate();
-  const { createNotification, createAnnounce } = useNotificationMutate();
   const { getBookmark } = useBookmarkMutate();
   const { deletePost } = usePostMutate();
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const accountProfileId = accountProfile?.data?.id;
-  const accountProfileFullname = accountProfile?.data?.fullName;
-  const accountProfileAvatar = accountProfile?.data?.avatar;
-  const socket = useNotificationSocket();
   const reactCount = listReaction?.data?.totalElements;
   const navigate = useNavigate();
   let limit = 1000;
@@ -128,13 +122,6 @@ const Post = (props) => {
 
   const handleActionUnfollow = (accountId) => {
     getUnfollow(accountId);
-    if (socket && socket.connected) {
-      socket.emit("send-notification-unfollow", {
-        followingId: accountId,
-      });
-    } else {
-      console.error("Socket not connected");
-    }
   };
   const listReactionPost = listReaction?.data?.content;
 
@@ -234,40 +221,7 @@ const Post = (props) => {
             getReact({ kind: 1, postId: props.id })
               .then((res) => {
                 if (res.data.ownerPostId != accountProfileId) {
-                  const content = ` react your post`;
-                  const data2 = {
-                    content: content,
-                    objectId: props.id,
-                    kind: 3,
-                  };
-                  handlePushNotification();
-                  createNotification(data2)
-                    .then((response) => {
-                      if (socket && socket.connected) {
-                        socket.emit("send-notification-new-reaction-post", {
-                          accountId: accountProfileId,
-                          followerId: res.data.ownerPostId,
-                          id: response.data.id,
-                          status: response.data.status,
-                          createdDate: response.data.createdDate,
-                          content: response.data.content,
-                          kind: response.data.kind,
-                          avatar: accountProfileAvatar,
-                          fullname: accountProfileFullname,
-                          postId: props.id,
-                        });
-                      } else {
-                        console.error("Socket not connected");
-                      }
-                      const dataAnnounce = {
-                        notificationId: response.data.id,
-                        receivers: [res.data.ownerPostId],
-                      };
-                      createAnnounce(dataAnnounce);
-                    })
-                    .catch((error) => {
-                      console.error("Lỗi khi tạo thông báo:", error);
-                    });
+                  handlePushNotification("like");
                 }
               })
               .catch((error) => {

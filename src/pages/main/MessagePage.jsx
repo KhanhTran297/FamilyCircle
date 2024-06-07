@@ -33,6 +33,10 @@ const MessagePage = () => {
   const [listConversationState, setListConversationState] = useState([]);
   const conversationId = location.search.split("=")[1] || null;
   const { sendMesssage } = useMessageMutate();
+  const windowEndRef = useRef();
+  const scrollToBottom = (windowEndRef) => {
+    windowEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
   });
@@ -140,6 +144,7 @@ const MessagePage = () => {
   }, [socketMessage]);
   useEffect(() => {
     refetchListConversation();
+    scrollToBottom(windowEndRef);
   }, [listMessageState]);
   useEffect(() => {
     socket.emit("addUserOnline", account?.data?.id);
@@ -148,8 +153,9 @@ const MessagePage = () => {
     });
     // setOnlineUsers(JSON.parse(listOnlineUsers));
   }, [account]);
+
   return (
-    <div className="w-full h-screen xl:h-full mt-14 xl:w-full xl:flex xl:flex-row xl:mt-0">
+    <div className="w-full h-screen max-h-screen xl:h-full mt-14 xl:w-full xl:flex xl:flex-row xl:mt-0">
       {/* <Left /> */}
       <div
         className={`xl:w-[368px]  w-full flex flex-col items-start gap-4 self-stretch border-r border-l border-solid border-r-[#F1DEE4] ${
@@ -251,7 +257,7 @@ const MessagePage = () => {
 
       {isDesktopOrLaptop ? (
         conversationDetail ? (
-          <div className=" hidden xl:flex flex-col items-start flex-[1_1_0] self-stretch border-r border-solid border-r-[#F1DEE4]">
+          <div className=" hidden xl:flex flex-col items-start w-full self-stretch border-r border-solid border-r-[#F1DEE4]">
             <div className=" flex pt-3 pb-3 pl-4 pr-4 items-center self-stretch gap-2 border-b border-solid border-b-[#F1DEE4]">
               <div className=" w-10 h-10 rounded-[20px]">
                 <img
@@ -272,7 +278,7 @@ const MessagePage = () => {
                   : conversationDetail?.accountList[0]?.account?.fullName}
               </p>
             </div>
-            <div className="relative flex flex-col items-start self-stretch h-full gap-3 p-6 overflow-y-scroll ">
+            <div className="relative flex flex-col items-start self-stretch h-full max-h-full gap-3 p-6 overflow-y-scroll">
               {listMessageState?.map((message) => {
                 return (
                   <Message
@@ -282,6 +288,7 @@ const MessagePage = () => {
                   />
                 );
               })}
+              <div className="" ref={windowEndRef}></div>
             </div>
             <div className=" h-16 flex pl-6 pr-6 items-center gap-[10px] self-stretch border-t border-solid border-t-[#f1DEE4]">
               <form className="w-full " onSubmit={(e) => handleSendMessage(e)}>
