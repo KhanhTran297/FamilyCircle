@@ -114,7 +114,7 @@ const PostDetailPage = () => {
         <div className="flex flex-col gap-4 px-2 pb-6">
           <div className="flex border-b-[2px] border-solid border-[#a73574] pb-3">
             <p className="text-base font-normal font-roboto text-title">
-              Bài Viết liên quan
+              Post relate
             </p>
           </div>
           {postRelated !== undefined ? (

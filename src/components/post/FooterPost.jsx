@@ -118,11 +118,11 @@ const FooterPost = (props) => {
                 <FacebookIcon size={32} round={true} />
               </FacebookShareButton>
             </div>
-            <div className="">
+            {/* <div className="">
               <FacebookMessengerShareButton url={url}>
                 <FacebookMessengerIcon size={32} round={true} color="pink" />
               </FacebookMessengerShareButton>
-            </div>
+            </div> */}
             <div className="">
               <TwitterShareButton url={url}>
                 <TwitterIcon size={32} round={true} />
