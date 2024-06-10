@@ -135,8 +135,8 @@ const SchedulerPage = (props) => {
     const data = {
       title: values.title,
       description: values.description,
-      slots: valueCourse === 1 ? 0 : values.slot,
-      fee: valueCourse === 1 ? 0 : values.fee,
+      slots: 0,
+      fee: 0,
       joinUrl: values.joinUrl,
       startDate: dayjs(values.date[0]).format("DD/MM/YYYY HH:mm:ss"),
       endDate: dayjs(values.date[1]).format("DD/MM/YYYY HH:mm:ss"),
@@ -303,15 +303,9 @@ const SchedulerPage = (props) => {
                   onChange={(value) => debouncedSetValue(value)}
                 />
               </Form.Item>
-              <Form.Item
+              {/* <Form.Item
                 label="Slots"
                 name="slot"
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: "Please input slots!",
-                //   },
-                // ]}
               >
                 <InputNumber
                   label="Slots"
@@ -321,8 +315,8 @@ const SchedulerPage = (props) => {
                   className="w-full py-1"
                   disabled={activeFee}
                 />
-              </Form.Item>
-              <Form.Item>
+              </Form.Item> */}
+              {/* <Form.Item>
                 <Radio.Group
                   onChange={(e) => handleSwitchKindOfCourse(e)}
                   value={valueCourse}
@@ -330,8 +324,8 @@ const SchedulerPage = (props) => {
                   <Radio value={1}>Free</Radio>
                   <Radio value={2}>Fee</Radio>
                 </Radio.Group>
-              </Form.Item>
-              <Form.Item
+              </Form.Item> */}
+              {/* <Form.Item
                 label="Fee"
                 name="fee"
                 // rules={[
@@ -347,7 +341,7 @@ const SchedulerPage = (props) => {
                   disabled={activeFee}
                   className="w-full py-1"
                 />
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item
                 label="Link online"
                 name="joinUrl"
