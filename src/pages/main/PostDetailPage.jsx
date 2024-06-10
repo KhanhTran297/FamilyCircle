@@ -37,18 +37,19 @@ const PostDetailPage = () => {
   const { data: postRelate, refetch } = useQuery({
     queryKey: ["postRelate", postDetail?.data?.community?.id],
     queryFn: () =>
-      getListPostNewApi({ communityId: postDetail?.data?.community?.id }).then(
-        (res) => {
-          // const index = randomIntFromInterval(0, res?.data?.content.length - 1);
-          // return res?.data?.content[index];
-          const tempdata = res?.data?.content.filter(
-            (item) => item.id !== postDetail?.data?.id
-          );
-          const index = randomIntFromInterval(0, tempdata.length - 1);
-          setPostRelated(tempdata[index]);
-          return tempdata[index];
-        }
-      ),
+      getListPostNewApi({
+        communityId: postDetail?.data?.community?.id,
+        status: 1,
+      }).then((res) => {
+        // const index = randomIntFromInterval(0, res?.data?.content.length - 1);
+        // return res?.data?.content[index];
+        const tempdata = res?.data?.content.filter(
+          (item) => item.id !== postDetail?.data?.id
+        );
+        const index = randomIntFromInterval(0, tempdata.length - 1);
+        setPostRelated(tempdata[index]);
+        return tempdata[index];
+      }),
   });
   const extractImageUrlAndContent = (htmlContent) => {
     const parser = new DOMParser();

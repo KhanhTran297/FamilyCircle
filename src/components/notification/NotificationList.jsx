@@ -34,6 +34,7 @@ const NotificationList = (props) => {
         return res?.data;
       }),
   });
+  console.log("listNotification", listNotification);
   const handleDeleteNotification = (id) => {
     deleteNotificationApi({ id: id }).then((res) => {
       setListNotificationState((prev) => prev.filter((item) => item.id !== id));
