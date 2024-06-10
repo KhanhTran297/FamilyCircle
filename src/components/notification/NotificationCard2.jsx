@@ -12,6 +12,7 @@ const NotificationCard2 = (props) => {
   const [tempdata, setTempData] = useState();
   const queryClient = useQueryClient();
   const contentEvent = JSON.parse(props.event.content);
+  console.log("contentEvent", props.event.content);
   const [content, setContent] = useState("");
   let newContent = "";
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const NotificationCard2 = (props) => {
     } else if (kind === 1) {
       return contentEvent?.communityImage;
     } else {
-      return tempdata?.avatar;
+      return contentEvent.accountAvatar;
     }
   };
 
@@ -94,14 +95,14 @@ const NotificationCard2 = (props) => {
         if (props.kind === 1) {
           setContent(
             contentEvent.accountName +
-              " has comment " +
+              " commented " +
               contentEvent.commentContent +
               " on your post "
           );
         } else {
           newContent =
             contentEvent.accountName +
-            " has comment " +
+            " commented " +
             contentEvent.commentContent +
             " on your post ";
 
@@ -124,9 +125,9 @@ const NotificationCard2 = (props) => {
           });
 
         if (props.kind === 1) {
-          setContent(contentEvent.accountName + " has liked your post");
+          setContent(contentEvent.accountName + "  liked your post");
         } else {
-          newContent = contentEvent.accountName + " has liked your post";
+          newContent = contentEvent.accountName + "  liked your post";
 
           if (newContent.length > 15) {
             newContent = newContent.substring(0, 30) + "...";
@@ -149,13 +150,13 @@ const NotificationCard2 = (props) => {
         if (props.kind === 1) {
           setContent(
             contentEvent.accountName +
-              " has liked your comment: " +
+              "  liked your comment: " +
               contentEvent.commentContent
           );
         } else {
           newContent =
             contentEvent.accountName +
-            " has liked your comment: " +
+            "  liked your comment: " +
             contentEvent.commentContent;
 
           if (newContent.length > 15) {
@@ -177,9 +178,9 @@ const NotificationCard2 = (props) => {
           });
 
         if (props.kind === 1) {
-          setContent(contentEvent.userFollowingName + " has followed you");
+          setContent(contentEvent.userFollowingName + "  followed you");
         } else {
-          newContent = contentEvent.userFollowingName + " has followed you";
+          newContent = contentEvent.userFollowingName + "  followed you";
 
           if (newContent.length > 15) {
             newContent = newContent.substring(0, 30) + "...";

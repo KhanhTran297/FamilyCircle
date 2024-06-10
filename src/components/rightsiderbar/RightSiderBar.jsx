@@ -80,7 +80,7 @@ const RightSiderBar = () => {
               </g>
             </svg>
           </div>
-          <div className="relative flex items-center cursor-pointer">
+          {/* <div className="relative flex items-center cursor-pointer">
             <Badge count={listNotification?.totalElements}>
               <div
                 className=""
@@ -96,7 +96,7 @@ const RightSiderBar = () => {
             >
               <NotificationDropDown />
             </div>
-          </div>
+          </div> */}
         </div>
 
         <Community />
