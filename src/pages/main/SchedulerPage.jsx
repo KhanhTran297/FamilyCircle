@@ -230,7 +230,7 @@ const SchedulerPage = (props) => {
       >
         {" "}
       </Scheduler>
-      <div className="flex flex-row items-center justify-center gap-4">
+      {/* <div className="flex flex-row items-center justify-center gap-4">
         <div className="flex flex-row items-center gap-2">
           <div className="w-3 h-3 bg-green-400 rounded-full "></div>
           <p className="text-base font-normal font-roboto">Free</p>
@@ -239,7 +239,7 @@ const SchedulerPage = (props) => {
           <div className="w-3 h-3 bg-[#ffc0cb] rounded-full "></div>
           <p className="text-base font-normal font-roboto">Fee</p>
         </div>
-      </div>
+      </div> */}
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
