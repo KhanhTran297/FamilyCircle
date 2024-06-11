@@ -115,6 +115,7 @@ const DepartmentContent = () => {
     if (checkValue === 1) {
       setCheck(1);
       setOpen(true);
+      form.resetFields();
     } else {
       setCheck(2);
       setCategoryId(values.id);
@@ -224,7 +225,8 @@ const DepartmentContent = () => {
                 </Button>
                 <Button
                   type="default"
-                  className="  bg-red-500 text-white hover:!border-none hover:!text-white"
+                  className="bg-red-500 "
+                  danger
                   onClick={handleCancel}
                 >
                   Cancel
