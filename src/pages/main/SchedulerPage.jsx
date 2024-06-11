@@ -14,7 +14,7 @@ import { getEventApi } from "../../api/event";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import ReactQuill from "react-quill";
-import bgSchedule from "../../../public/bgSchedule1.png";
+
 const customStyles = {
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -168,7 +168,11 @@ const SchedulerPage = (props) => {
         )}
       </div>
       <div className="">
-        <img src={bgSchedule} alt="" className="w-full h-full rounded-xl" />
+        <img
+          src="https://socialavatar.s3.ap-southeast-1.amazonaws.com/AVATAR_fQB7ERlVUX.png"
+          alt=""
+          className="w-full h-full rounded-xl"
+        />
       </div>
       <Scheduler
         ref={calendarRefMU}

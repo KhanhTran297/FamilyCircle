@@ -115,6 +115,7 @@ const HospitalRoleContent = () => {
     if (checkValue === 1) {
       setCheck(1);
       setOpen(true);
+      form.resetFields();
     } else {
       setCheck(2);
       setCategoryId(values.id);
@@ -235,7 +236,8 @@ const HospitalRoleContent = () => {
                 </Button>
                 <Button
                   type="default"
-                  className=" ml-2 bg-red-500 text-white hover:!border-none hover:!text-white"
+                  className="ml-2 "
+                  danger
                   onClick={handleCancel}
                 >
                   Cancel

@@ -272,7 +272,7 @@ const SignupPage = () => {
                 form={form}
                 content="Submit"
                 isLoading={loadingSignup}
-                className=" w-full xl:h-[40px] xl:pr-4 xl:pl-4 xl:rounded-[36px] bg-button-submit-light text-white font-roboto text-[14px] leading-5 font-medium hover:!border-none hover:!text-white"
+                className=" w-full xl:h-[40px] xl:pr-4 xl:pl-4 xl:rounded-[36px] bg-button-submit-light text-white font-roboto text-[14px] leading-5 font-medium hover:!border-pink-500 hover:!text-button-submit-light"
               />
             </Form.Item>
           </Form>
