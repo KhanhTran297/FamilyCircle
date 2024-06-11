@@ -1,6 +1,6 @@
 import axios from "axios";
-// const baseURL = "https://social-networking-api.up.railway.app";
-const baseURL = "http://localhost:8888";
+const baseURL = "https://social-networking-api.up.railway.app";
+// const baseURL = "http://localhost:8888";
 const basePushNotificationURL =
   "https://familycircle-firebaseserver.onrender.com";
 export const instance = axios.create({
