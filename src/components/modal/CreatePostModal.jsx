@@ -157,6 +157,7 @@ const CreatePostModal = (props) => {
         setValue("content", tempContent); // Đặt lại giá trị của content
         setContentError(true); // Đặt lại trạng thái contentError
         setValue("title", tempTitle);
+        setTitle("Untitled");
         reset();
         setListTopicSelected([]);
         setCommunityId(null);
