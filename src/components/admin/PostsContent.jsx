@@ -11,8 +11,8 @@ import { pushNotificationApi } from "../../api/notification";
 import { ListUserCommunityApi } from "../../api/community";
 
 const roleOptions = [
-  { label: "Expert", value: 1 },
-  { label: "User", value: 2 },
+  { label: "Expert", value: 4 },
+  { label: "User", value: 3 },
 ];
 const PostsContent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -58,6 +58,7 @@ const PostsContent = () => {
         });
     });
   };
+  console.log(role);
   const { data: listPost, isLoading } = useQuery({
     queryKey: ["listPost", page, communityId, role],
     queryFn: () =>
@@ -179,6 +180,7 @@ const PostsContent = () => {
               filterOption={filterOption}
               allowClear
               onClear={() => handleClear()}
+              className=" min-w-[150px]"
             ></Select>
           </Form.Item>
           <Form.Item label="Role">
@@ -192,11 +194,12 @@ const PostsContent = () => {
               filterOption={filterOption}
               allowClear
               onClear={() => handleClear()}
+              className=" min-w-[100px]"
             ></Select>
           </Form.Item>
         </Form>
       </div>
-      <div className="flex flex-col overflow-y-scroll h-[500px]">
+      <div className="flex flex-col overflow-y-scroll h-[460px] mb-4">
         <div className="flex flex-col gap-2 mt-2 ">
           {!isLoading ? (
             listPost?.data?.content?.map((item) => {
@@ -231,22 +234,21 @@ const PostsContent = () => {
           }}
         ></Table> */}
         </div>
-        <div className="flex flex-row justify-end mt-3 ">
-          <Pagination
-            current={defaultPage + 1}
-            defaultCurrent={1}
-            total={listPost?.data?.totalElements}
-            pageSize={3}
-            onChange={async (page) => {
-              await handlePagination2(page - 1);
-              // await fetchNextPage();
-
-              setSearchParams({ page: page });
-            }}
-          />
-        </div>
       </div>
+      <div className="flex flex-row justify-end mt-3 ">
+        <Pagination
+          current={defaultPage + 1}
+          defaultCurrent={1}
+          total={listPost?.data?.totalElements}
+          pageSize={3}
+          onChange={async (page) => {
+            await handlePagination2(page - 1);
+            // await fetchNextPage();
 
+            setSearchParams({ page: page });
+          }}
+        />
+      </div>
       <Modal
         title="Post detail"
         open={isModalOpen}

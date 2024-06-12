@@ -220,7 +220,7 @@ const HospitalRoleContent = () => {
                 },
               ]}
             >
-              <Input.TextArea />
+              <Input.TextArea allowClear className=" h-[100px]" />
             </Form.Item>
 
             <Form.Item

@@ -215,7 +215,7 @@ const DepartmentContent = () => {
                 },
               ]}
             >
-              <Input.TextArea />
+              <Input.TextArea allowClear className=" h-[100px]" />
             </Form.Item>
 
             <Form.Item className="w-full ">
@@ -225,7 +225,7 @@ const DepartmentContent = () => {
                 </Button>
                 <Button
                   type="default"
-                  className="bg-red-500 "
+                  className="ml-2"
                   danger
                   onClick={handleCancel}
                 >
