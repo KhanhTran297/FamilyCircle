@@ -157,6 +157,7 @@ const CreatePostModal = (props) => {
         setValue("content", tempContent); // Đặt lại giá trị của content
         setContentError(true); // Đặt lại trạng thái contentError
         setValue("title", tempTitle);
+        reset();
       }, 300);
     }
   };
@@ -224,7 +225,6 @@ const CreatePostModal = (props) => {
       handleCreatePost(data);
       handleClose();
       setIsModalOpen(false);
-      reset();
     }
   };
   useEffect(() => {

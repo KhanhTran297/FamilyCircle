@@ -72,7 +72,7 @@ const MotherHealthPage = () => {
     <div className="w-full max-h-screen overflow-x-hidden overflow-y-auto">
       <div className="flex flex-col self-stretch w-full gap-8 mt-6 ">
         <div className="flex w-full">
-          <div className="flex flex-row xl:w-[1160px] xl:h-[293px] border border-solid rounded-xl shadow-lg px-4 ">
+          <div className="flex flex-row lg:w-[1160px] lg:h-[330px] border border-solid rounded-xl shadow-lg px-4 ">
             <div className="flex flex-col gap-4 justify-center items-center p-4 w-[360px] border-r-2">
               <img
                 src="https://dinhduongmevabe.com.vn/_nuxt/img/icon-mother.ca4295a.svg"
@@ -225,9 +225,13 @@ const MotherHealthPage = () => {
                 className="w-[70px] h-[70px]"
               />
               {bmiData && (
-                <p className="text-sm font-normal">
+                <p className="text-sm font-normal text-center">
                   Her nutritional status before pregnancy is categorized as{" "}
-                  {bmiData.level}.
+                  <br />
+                  <br />
+                  <span className="text-2xl font-bold text-center text-pink-800 uppercase">
+                    {bmiData.level}
+                  </span>
                 </p>
               )}
             </div>
@@ -274,11 +278,13 @@ const MotherHealthPage = () => {
                   {bmiData && (
                     <p className="font-normal text-center ">
                       Recommended weight increase based on pre-pregnancy BMI:{" "}
-                      {calculateRecommendedWeightIncrease(
-                        parseFloat(bmiData.bmi),
-                        parseFloat(weightPre)
-                      )}{" "}
-                      kg
+                      <span className="text-2xl font-bold text-center text-pink-800 uppercase">
+                        {calculateRecommendedWeightIncrease(
+                          parseFloat(bmiData.bmi),
+                          parseFloat(weightPre)
+                        )}{" "}
+                        kg
+                      </span>
                     </p>
                   )}
                 </div>
