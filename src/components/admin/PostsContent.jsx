@@ -11,8 +11,8 @@ import { pushNotificationApi } from "../../api/notification";
 import { ListUserCommunityApi } from "../../api/community";
 
 const roleOptions = [
-  { label: "Expert", value: 4 },
-  { label: "User", value: 3 },
+  { label: "Expert", value: 3 },
+  { label: "User", value: 2 },
 ];
 const PostsContent = () => {
   const [searchParams, setSearchParams] = useSearchParams();

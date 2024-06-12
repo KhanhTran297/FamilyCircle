@@ -158,6 +158,8 @@ const CreatePostModal = (props) => {
         setContentError(true); // Đặt lại trạng thái contentError
         setValue("title", tempTitle);
         reset();
+        setListTopicSelected([]);
+        setCommunityId(null);
       }, 300);
     }
   };
@@ -353,6 +355,7 @@ const CreatePostModal = (props) => {
                       <Select
                         mode="multiple"
                         placeholder="Select Topics"
+                        value={listTopicSelected}
                         onChange={(value) => setListTopicSelected(value)}
                         style={{
                           width: "100%",
