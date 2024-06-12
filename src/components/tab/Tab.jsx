@@ -34,9 +34,7 @@ const Tab = (props) => {
     <div className="flex flex-col w-full">
       <div className="flex flex-col backdrop-blur-[32px] sticky top-14 desktop:top-0 z-20">
         <div className="flex items-start self-stretch px-6 py-2 ">
-          <p className="font-medium text-title font-roboto">
-            {props.kind === "1" ? "Home" : "Forum"}
-          </p>
+          <p className="font-medium text-title font-roboto">Home</p>
         </div>
         <div className="flex flex-row items-center w-full h-12 border-b-[1px] z-20 ">
           <div

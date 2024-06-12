@@ -157,7 +157,10 @@ const CreatePostModal = (props) => {
         setValue("content", tempContent); // Đặt lại giá trị của content
         setContentError(true); // Đặt lại trạng thái contentError
         setValue("title", tempTitle);
+        setTitle("Untitled");
         reset();
+        setListTopicSelected([]);
+        setCommunityId(null);
       }, 300);
     }
   };
@@ -353,6 +356,7 @@ const CreatePostModal = (props) => {
                       <Select
                         mode="multiple"
                         placeholder="Select Topics"
+                        value={listTopicSelected}
                         onChange={(value) => setListTopicSelected(value)}
                         style={{
                           width: "100%",
