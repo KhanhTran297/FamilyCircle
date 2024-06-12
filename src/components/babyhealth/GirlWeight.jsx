@@ -150,7 +150,7 @@ const GirlWeight = ({ zScore, predictedAge, predictedWeight, min }) => {
       />
       <div className="flex flex-col items-center pt-6 ml-4 border  rounded-xl px-3 w-[400px] h-[450px] ">
         <h3 className="text-2xl font-bold text-red-600">Evaluation:</h3>
-        <p className="text-xl font-bold text-center">
+        <p className="text-xl font-bold text-center text-pink-800">
           {evaluateZScore(zScore)}
         </p>
         <h4 className="text-lg font-semibold text-center underline">
