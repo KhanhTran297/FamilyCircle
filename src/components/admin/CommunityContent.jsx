@@ -373,7 +373,7 @@ const CommunityContent = (props) => {
                   autoComplete="off"
                 >
                   <Form.Item
-                    label="community Name"
+                    label="Community Name"
                     name="categoryName"
                     className="items-center w-full "
                     rules={[
@@ -400,7 +400,7 @@ const CommunityContent = (props) => {
                     <Input.TextArea
                       className=" w-[300px]"
                       allowClear
-                      style={{ width: "300px" }}
+                      style={{ width: "300px", height: "150px" }}
                     />
                   </Form.Item>
                 </Form>
@@ -595,7 +595,7 @@ const CommunityContent = (props) => {
                     ]}
                   >
                     <Input.TextArea
-                      className=" w-[300px]"
+                      className=" w-[300px], h-[400px]"
                       allowClear
                       style={{ width: "300px" }}
                     />

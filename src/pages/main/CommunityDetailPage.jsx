@@ -216,11 +216,11 @@ const CommunityDetailPage = (props) => {
                 </p>
               </div>
             )}
-            {checkFollow && (
+            {/* {checkFollow && (
               <div className="">
                 <ILocalMore fill="black" />
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

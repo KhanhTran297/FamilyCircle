@@ -125,7 +125,7 @@ const CmsPage = () => {
       >
         <div className="demo-logo-vertical flex justify-center place-items-center relative w-full h-[150px] bg-slate-400 rounded-2xl">
           <img
-            src="../../logo.jpg"
+            src="https://socialavatar.s3.ap-southeast-1.amazonaws.com/AVATAR_xRB0dIFCXp.jpg"
             alt=""
             className="absolute w-3/4 rounded-full h-4/4"
           />

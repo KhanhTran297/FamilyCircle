@@ -113,9 +113,10 @@ const HospitalContent = () => {
   };
   const handleSetForm = (checkValue, values) => {
     if (checkValue === 1) {
-      setCheck(1);
-      setOpen(true);
       form.resetFields();
+      setCheck(1);
+      console.log("check", checkValue);
+      setOpen(true);
     } else {
       setCheck(2);
       setCategoryId(values.id);
@@ -218,7 +219,7 @@ const HospitalContent = () => {
                 },
               ]}
             >
-              <Input.Password />
+              <Input.TextArea allowClear className=" h-[100px]" />
             </Form.Item>
 
             <Form.Item
