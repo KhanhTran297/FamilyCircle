@@ -28,7 +28,6 @@
 
 //   self.registration.showNotification(notificationTitle, notificationOptions);
 // });
-<script type="module">
 
 importScripts(
   "https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"
@@ -64,5 +63,3 @@ messaging.onBackgroundMessage((payload) => {
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
-</script>
-
