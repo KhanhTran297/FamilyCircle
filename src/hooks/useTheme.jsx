@@ -27,7 +27,7 @@ function useTheme({ init = false }) {
       (localStorage.theme === "system" && isOSDark)
     ) {
       // Chạy đi đâu
-      document.documentElement.classList.add("dark");
+      // document.documentElement.classList.add("dark");
     } else {
       // console.log('Từ Dark sang System')
       document.documentElement.classList.remove("dark");
