@@ -40,8 +40,10 @@ const NotificationCard2 = (props) => {
       return "https://s3.ap-southeast-1.amazonaws.com/family.circle/avatar/AVATAR_j7ZNkaSCeT.png";
     } else if (kind === 1) {
       return contentEvent?.communityImage;
+    } else if (kind === 5) {
+      return contentEvent?.userFollowingAvatar;
     } else {
-      return contentEvent.accountAvatar;
+      return contentEvent?.accountAvatar;
     }
   };
 

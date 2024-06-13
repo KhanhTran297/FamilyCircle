@@ -70,7 +70,7 @@ const BodyProfile = () => {
               token: snapshot.val().token,
               notification: {
                 title: myAccountProfile?.data?.fullName,
-                body: `${myAccountProfile?.data?.fullName} has followed you`,
+                body: `${myAccountProfile?.data?.fullName}  followed you`,
                 image: myAccountProfile?.data?.avatar,
               },
               // webpush: {

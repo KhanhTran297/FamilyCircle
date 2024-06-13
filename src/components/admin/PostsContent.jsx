@@ -28,7 +28,6 @@ const PostsContent = () => {
   const { approvePost, rejectPost } = usePostMutate();
   const dbRef = ref(getDatabase());
   const queryClient = useQueryClient();
-  console.log(postDetail);
   const handlePushNotification = () => {
     listAccountPushNotification.map((item) => {
       get(child(dbRef, `users/${item}`))
