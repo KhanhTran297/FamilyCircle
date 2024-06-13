@@ -53,20 +53,21 @@ const MainLayout = () => {
               "BH-nLv3uT1gIDu--kjFf-Gd1u7yaZJlyS4FrrYq9QRSlK5R00Dh9WUH0iVSIKK1gGqgu4gBIUcdD2RmpGy_pgHc",
           }).then((currentToken) => {
             // console.log("uid", auth?.currentUser?.uid);
-            onAuthStateChanged(auth, (user) => {
-              if (user && accountProfile) {
-                set(ref(database, "users/" + userId), {
-                  id: userId,
-                  token: currentToken,
-                });
-              }
-            });
+            // onAuthStateChanged(auth, (user) => {
+            //   if (user && accountProfile) {
+            //     set(ref(database, "users/" + userId), {
+            //       id: userId,
+            //       token: currentToken,
+            //     });
+            //   }
+            // });
             // console.log("FCM Token", currentToken);
             // console.log(accountProfile?.data?.id);
-            // set(ref(database, "users/" + accountProfile?.data?.id), {
-            //   id: accountProfile?.data?.id,
-            //   token: currentToken,
-            // });
+            console.log("uid", userId);
+            set(ref(database, "users/" + accountProfile?.data?.id), {
+              id: accountProfile?.data?.id,
+              token: currentToken,
+            });
           });
         }
       })

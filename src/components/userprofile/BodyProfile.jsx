@@ -230,19 +230,19 @@ const BodyProfile = () => {
               className="flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] border border-solid border-button-submit-light cursor-pointer hover:bg-buttonHoverLight hover:border-button-submit-light"
             >
               <ILocalEdit fill="#A73574" className=" w-[18px] h-[18px]" />
-              <p className="text-sm font-medium  font-roboto text-button-submit-light">
+              <p className="text-sm font-medium font-roboto text-button-submit-light">
                 Edit Profile
               </p>
             </div>
           </div>
         ) : (
           <div className="flex items-start h-10 gap-4 ">
-            <div className=" flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] border border-solid border-button-submit-light cursor-pointer hover:bg-buttonHoverLight hover:border-button-submit-light">
+            {/* <div className=" flex h-10 pr-4 pl-4 items-center gap-[7px] rounded-[36px] border border-solid border-button-submit-light cursor-pointer hover:bg-buttonHoverLight hover:border-button-submit-light">
               <ILocalMessProfile className=" w-[18px] h-[18px]" />
-              <p className="text-sm font-medium  text-button-submit-light font-roboto">
+              <p className="text-sm font-medium text-button-submit-light font-roboto">
                 Message
               </p>
-            </div>
+            </div> */}
             {checkFollowAlready() ? (
               <div
                 onClick={() => unFollow({ accountId: profileId })}
@@ -295,16 +295,16 @@ const BodyProfile = () => {
         )}
       </div>
       <div className="">
-        <p className="self-stretch text-sm font-normal  text-light_surface_on_surface font-roboto">
+        <p className="self-stretch text-sm font-normal text-light_surface_on_surface font-roboto">
           {accountProfile?.data?.bio}
         </p>
       </div>
       <div className="flex flex-row items-start gap-2 ">
         <div className="flex flex-row gap-2 ">
-          <p className="text-sm font-extrabold text-center  font-roboto text-light_surface_on_surface">
+          <p className="text-sm font-extrabold text-center font-roboto text-light_surface_on_surface">
             {listFollowing?.data?.totalElements}
           </p>
-          <p className="text-sm font-normal  text-light_surface_on_surface font-roboto">
+          <p className="text-sm font-normal text-light_surface_on_surface font-roboto">
             {listFollowing?.data?.totalElements <= 1
               ? "following"
               : "followings"}
@@ -312,10 +312,10 @@ const BodyProfile = () => {
         </div>
         <div className=" w-[1px] h-5 bg-[#F1DEE4]"></div>
         <div className="flex flex-row gap-2 ">
-          <p className="text-sm font-extrabold text-center  font-roboto text-light_surface_on_surface">
+          <p className="text-sm font-extrabold text-center font-roboto text-light_surface_on_surface">
             {listFollower?.data?.totalElements}
           </p>
-          <p className="text-sm font-normal  text-light_surface_on_surface font-roboto">
+          <p className="text-sm font-normal text-light_surface_on_surface font-roboto">
             {listFollower?.data?.totalElements <= 1 ? "follower" : "followers"}
           </p>
         </div>
@@ -328,7 +328,7 @@ const BodyProfile = () => {
               className="flex flex-col items-start gap-4"
               onClick={showModal}
             >
-              <p className="text-2xl font-normal  font-roboto text-light_surface_on_surface">
+              <p className="text-2xl font-normal font-roboto text-light_surface_on_surface">
                 Edit Profile
               </p>
             </div>
@@ -349,7 +349,7 @@ const BodyProfile = () => {
             {/* <div className="flex flex-col w-full gap-6">
               <div className="flex items-center gap-4 ">
                 <ILocalProfileButton className=" flex w-10 h-10 p-[10px] flex-col justify-center gap-[10px]" />
-                <p className="text-base font-medium  text-light_surface_on_surface font-roboto">
+                <p className="text-base font-medium text-light_surface_on_surface font-roboto">
                   Edit full name
                 </p>
               </div>
@@ -368,7 +368,7 @@ const BodyProfile = () => {
                   className="flex h-10 pl-3 pr-3 items-center rounded-[36px] cursor-pointer hover:bg-menu"
                   onClick={handleCancel}
                 >
-                  <p className="text-sm font-medium  font-roboto text-button-submit-light">
+                  <p className="text-sm font-medium font-roboto text-button-submit-light">
                     back
                   </p>
                 </div>
@@ -376,7 +376,7 @@ const BodyProfile = () => {
                   className="flex h-10 pl-3 pr-3 items-center rounded-[36px] cursor-pointer hover:bg-menu "
                   onClick={handleCancel}
                 >
-                  <p className="text-sm font-medium  font-roboto text-button-submit-light">
+                  <p className="text-sm font-medium font-roboto text-button-submit-light">
                     Save
                   </p>
                 </div>
