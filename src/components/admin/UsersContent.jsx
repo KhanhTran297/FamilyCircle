@@ -137,10 +137,7 @@ const UsersContent = () => {
             <Button htmlType="submit">Search</Button>
           </Form.Item>
           <Form.Item>
-            <Button
-              className=" bg-red-600 text-white hover:!text-white hover:!border-none"
-              onClick={handleReset}
-            >
+            <Button danger className="text-white " onClick={handleReset}>
               Reset
             </Button>
           </Form.Item>

@@ -1,33 +1,19 @@
 // @quokka
-import { useEffect, useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import {
   Button,
   Form,
-  Modal,
-  DatePicker,
+
   Input,
-  Select,
-  Avatar,
-  message,
+ 
+ 
   Table,
 } from "antd";
-import {
-  LockOutlined,
-  UserOutlined,
-  MailOutlined,
-  PhoneOutlined,
-  CalendarOutlined,
-} from "@ant-design/icons";
+
 import dayjs from "dayjs";
-import SubmitButton from "../../components/shared/SubmitButton";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getListCategoryApi } from "../../api/category";
-import {
-  createExpertAccountApi,
-  getListExpertAccountsApi,
-} from "../../api/expert";
-import { useDispatch, useSelector } from "react-redux";
-import { setListExpertAccounts } from "../../redux/slice/expert";
+import { useQuery } from "@tanstack/react-query";
+
+
 import queryString from "query-string";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { listCourseRequestApi } from "../../api/event";
@@ -165,7 +151,8 @@ const CourseRequestContent = () => {
             </Form.Item>
             <Form.Item>
               <Button
-                className=" bg-red-600 text-white hover:!text-white hover:!border-none"
+              danger
+                className="text-white "
                 onClick={handleReset}
               >
                 Reset

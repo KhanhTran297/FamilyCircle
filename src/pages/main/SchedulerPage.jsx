@@ -146,6 +146,7 @@ const SchedulerPage = (props) => {
     };
     createEvent(data).then(() => {
       form.resetFields();
+      setIsOpen(false);
     });
   };
   const onFinishFailed = (errorInfo) => {
