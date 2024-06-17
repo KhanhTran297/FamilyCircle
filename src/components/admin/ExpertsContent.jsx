@@ -139,13 +139,14 @@ const ExpertsContent = () => {
     },
   });
 
-  const { mutate: createExpert } = useMutation({
+  const { mutateAsync: createExpert } = useMutation({
     mutationFn: createExpertAccountApi,
     onSuccess: (res) => {
       if (res.code == "ACCOUNT_ERROR_EMAIL_EXIST") {
         message.error("Email already exists");
       } else {
         message.success("Create expert successfully");
+        setOpen(false);
         getListExpertAccounts();
       }
 
@@ -329,10 +330,7 @@ const ExpertsContent = () => {
             <Button htmlType="submit">Search</Button>
           </Form.Item>
           <Form.Item>
-            <Button
-              className=" bg-red-600 text-white hover:!text-white hover:!border-none"
-              onClick={handleReset}
-            >
+            <Button danger className="text-white " onClick={handleReset}>
               Reset
             </Button>
           </Form.Item>
@@ -545,7 +543,7 @@ const ExpertsContent = () => {
               <SubmitButton
                 form={form}
                 content="Sign up"
-                className="w-full h-max text-base font-semibold pt-2 pb-2 rounded-[30px] xl:bg-white md:bg-white lg:bg-white xl:text-black lg:hover:bg-secondary md:hover:bg-secondary lg:hover:!border-none md:hover:!border-none xl:hover:bg-secondary lg:hover:!text-neutral-800 md:hover:!text-neutral-800 xl:hover:!border-none xl:hover:!text-neutral-800 dark:text-black bg-primary text-black !border-none dark:bg-white lg:dark:bg-slate-500 lg:dark:text-white md:dark:bg-slate-500 md:dark:text-white"
+                className="w-full !border-black hover:!text-white !border h-max text-base font-semibold pt-2 pb-2 rounded-[30px] xl:bg-white md:bg-white lg:bg-white xl:text-black  hover:!bg-red-400    dark:text-black bg-primary text-black dark:bg-white lg:dark:bg-slate-500 lg:dark:text-white md:dark:bg-slate-500 md:dark:text-white"
               />
             </Form.Item>
           </Form>
