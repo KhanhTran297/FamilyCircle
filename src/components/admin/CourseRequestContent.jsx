@@ -1,18 +1,9 @@
 // @quokka
-import {  useMemo, useState } from "react";
-import {
-  Button,
-  Form,
-
-  Input,
- 
- 
-  Table,
-} from "antd";
+import { useMemo, useState } from "react";
+import { Button, Form, Input, Table } from "antd";
 
 import dayjs from "dayjs";
 import { useQuery } from "@tanstack/react-query";
-
 
 import queryString from "query-string";
 import { useLocation, useSearchParams } from "react-router-dom";
@@ -53,6 +44,12 @@ const CourseRequestContent = () => {
       dataIndex: "id",
       key: "id",
       render: (_, record) => <div className="">{record.id}</div>,
+    },
+    {
+      title: "CourseId",
+      dataIndex: "courseId",
+      key: "courseId",
+      render: (_, record) => <div className="">{record.courseId}</div>,
     },
     {
       title: "Title",
@@ -99,6 +96,7 @@ const CourseRequestContent = () => {
           const tempData = res.data.content.map((item) => {
             return {
               id: item.id,
+              courseId: item.course.id,
               title: item.course.title,
               email: item.email,
               fullName: item.fullName,
@@ -129,6 +127,13 @@ const CourseRequestContent = () => {
             form={searchForm}
             // initialValues={searchParams.get("fullName") && ""}
           >
+            <Form.Item label="CourseId" name="courseId">
+              <Input
+                defaultValue={searchParams.get("courseId")}
+                type="number"
+                className=" max-w-[150px]"
+              ></Input>
+            </Form.Item>
             <Form.Item label="Register name" name="fullName">
               <Input defaultValue={searchParams.get("fullName")}></Input>
             </Form.Item>
@@ -142,19 +147,20 @@ const CourseRequestContent = () => {
             <Form.Item
               label="Register phone"
               name="phone"
+
               // initialValue={searchParams.get("email") && ""}
             >
-              <Input defaultValue={searchParams.get("phone")}></Input>
+              <Input
+                defaultValue={searchParams.get("phone")}
+                type="number"
+                className=" max-w-[120px]"
+              ></Input>
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit">Search</Button>
             </Form.Item>
             <Form.Item>
-              <Button
-              danger
-                className="text-white "
-                onClick={handleReset}
-              >
+              <Button danger className="text-white " onClick={handleReset}>
                 Reset
               </Button>
             </Form.Item>
