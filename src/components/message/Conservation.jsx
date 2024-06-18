@@ -17,7 +17,7 @@ const Conservation = (props) => {
     modifiedBy,
   } = props;
   const [active, setActive] = useState(false);
-  let limit = 15;
+  let limit = 5;
   dayjs.extend(relativeTime);
   const accountProfile = useGetFetchQuery(["accountProfile"]);
   const checkOnline = (uid) => {
@@ -64,9 +64,9 @@ const Conservation = (props) => {
           {" "}
           {name}
         </p>
-        <div className="flex items-start gap-2 self-stretch">
+        <div className="flex flex-row flex-wrap justify-between gap-2 ">
           <p
-            className={`h-5 flex-[1_1_0] ${
+            className={`h-5 flex-1 ${
               isActive ? "text-white" : " text-light_surface_on_surface"
             } font-roboto text-sm font-normal`}
             dangerouslySetInnerHTML={{ __html: checkLastMessage() }}

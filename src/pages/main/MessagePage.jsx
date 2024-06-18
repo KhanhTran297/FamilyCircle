@@ -158,7 +158,7 @@ const MessagePage = () => {
     <div className="w-full h-screen max-h-screen xl:h-full mt-14 xl:w-full xl:flex xl:flex-row xl:mt-0">
       {/* <Left /> */}
       <div
-        className={`xl:w-[368px]  w-full flex flex-col items-start gap-4 self-stretch border-r border-l border-solid border-r-[#F1DEE4] ${
+        className={`xl:w-[400px]  w-full flex flex-col items-start gap-4 self-stretch border-r border-l border-solid border-r-[#F1DEE4] ${
           isDetailMobile && "hidden"
         }`}
       >
@@ -302,7 +302,7 @@ const MessagePage = () => {
                 ></input>
               </form>
 
-              <div className="flex w-10 h-10 p-[10px] flex-col justify-center items-center gap-[10px] rounded-[20px] hover:bg-bgButtonHover cursor-pointer">
+              {/* <div className="flex w-10 h-10 p-[10px] flex-col justify-center items-center gap-[10px] rounded-[20px] hover:bg-bgButtonHover cursor-pointer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -328,7 +328,7 @@ const MessagePage = () => {
                     />
                   </g>
                 </svg>
-              </div>
+              </div> */}
             </div>
           </div>
         ) : (
