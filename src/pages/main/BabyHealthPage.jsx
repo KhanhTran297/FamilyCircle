@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getListHeightApi, getListWeightApi } from "../../api/data";
 import GirlWeight from "../../components/babyhealth/GirlWeight";
 import GirlHeight from "../../components/babyhealth/GirlHeight";
-import { min } from "date-fns";
+import { format, min } from "date-fns";
 
 const BabyHealthPage = () => {
   const [name, setName] = useState("");
@@ -24,7 +24,9 @@ const BabyHealthPage = () => {
     const formattedDate = date.toISOString().split("T")[0];
     return formattedDate;
   };
-
+  // const formatDate = (date) => {
+  //   return format(date, "yyyy-MM-dd");
+  // };
   const minBirthDate = new Date();
   minBirthDate.setFullYear(minBirthDate.getFullYear() - 4);
 
@@ -139,9 +141,9 @@ const BabyHealthPage = () => {
   console.log(gender);
   return (
     <div className="w-full max-h-screen overflow-x-hidden overflow-y-auto">
-      <div className="flex flex-col self-stretch w-full gap-8 mt-6 ml-4 ">
+      <div className="flex flex-col self-stretch w-[95%] gap-8 mt-6 ">
         <div className="flex justify-center w-full">
-          <div className="flex flex-row lg:w-[1110px] lg:h-[330px] border border-solid rounded-xl shadow-lg px-4 ">
+          <div className="flex flex-row lg:w-full lg:h-[330px] border border-solid rounded-xl shadow-lg px-4 ">
             <div className="flex flex-col gap-4 justify-center items-center p-4 w-[360px] border-r-2">
               <img
                 src="https://dinhduongmevabe.com.vn/_nuxt/img/icon-banner-baby.cb9ea62.svg"

@@ -70,9 +70,9 @@ const MotherHealthPage = () => {
   console.log("bmi", bmi);
   return (
     <div className="w-full max-h-screen overflow-x-hidden overflow-y-auto">
-      <div className="flex flex-col self-stretch w-full gap-8 mt-6 ">
+      <div className="flex flex-col self-stretch w-[95%] gap-8 mt-6 ">
         <div className="flex w-full">
-          <div className="flex flex-row lg:w-[1160px] lg:h-[330px] border border-solid rounded-xl shadow-lg px-4 ">
+          <div className="flex flex-row lg:w-full lg:h-[330px] border border-solid rounded-xl shadow-lg px-4 ">
             <div className="flex flex-col gap-4 justify-center items-center p-4 w-[360px] border-r-2">
               <img
                 src="https://dinhduongmevabe.com.vn/_nuxt/img/icon-mother.ca4295a.svg"
@@ -187,7 +187,7 @@ const MotherHealthPage = () => {
           </h2>
         </div>
         <div className="flex flex-col w-full h-full ">
-          <div className="flex flex-row xl:w-[1160px] xl:h-[293px] border border-solid rounded-xl shadow-lg px-4 ">
+          <div className="flex flex-row xl:w-full xl:h-[293px] border border-solid rounded-xl shadow-lg px-4 ">
             <div className="flex flex-col gap-4   p-4 w-[800px] border-r-2">
               <h2 className="font-medium text-title font-roboto">
                 Body mass index before pregnancy
@@ -238,7 +238,7 @@ const MotherHealthPage = () => {
           </div>
         </div>
         <div className="flex flex-col w-full h-full ">
-          <div className="flex flex-col xl:w-[1160px] xl:h-auto border border-solid rounded-xl shadow-lg p-4  ">
+          <div className="flex flex-col p-4 border border-solid shadow-lg xl:w-full xl:h-auto rounded-xl ">
             <div className="flex flex-col gap-6">
               <h2 className="font-medium text-center text-title font-roboto">
                 RECOMMENDED WEIGHT INCREASE ACCORDING TO YOUR PRE- PREGNANCY BMI
