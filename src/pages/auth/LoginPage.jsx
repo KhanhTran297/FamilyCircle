@@ -31,6 +31,7 @@ const LoginPage = () => {
     handleLogin(newValues)
       .then((res) => {
         localStorage.setItem("userId", JSON.stringify(res.user_id));
+        localStorage.setItem("userKind", JSON.stringify(res.user_kind));
         socket.connect();
         socket.emit("addUserOnline", res?.user_id);
         socket.on("getUsersOnline", (user) => {
@@ -137,6 +138,7 @@ const LoginPage = () => {
 
             handleLoginGoogle(content).then((res) => {
               // console.log(res?.user_id);
+              localStorage.setItem("userKind", JSON.stringify(res.user_kind));
               socket.connect();
               socket.emit("addUserOnline", res?.user_id);
               socket.on("getUsersOnline", (user) => {

@@ -20,6 +20,7 @@ const CmsPage = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     removeToken();
+    localStorage.clear();
     navigate("/");
   };
   const handleContents = (data) => {

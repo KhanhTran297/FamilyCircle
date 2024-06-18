@@ -118,7 +118,7 @@ const CourseRequestContent = () => {
       listCourseAutoComplete().then((res) => {
         const newData = res?.data?.content?.map((item) => {
           return {
-            label: item.id.toString(),
+            label: item.title,
             value: item.id,
           };
         });
@@ -141,6 +141,7 @@ const CourseRequestContent = () => {
             layout="inline"
             onFinish={handleSearch}
             form={searchForm}
+            className="flex flex-row gap-3"
             // initialValues={searchParams.get("fullName") && ""}
           >
             <Form.Item label="CourseId" name="courseId">
@@ -152,14 +153,14 @@ const CourseRequestContent = () => {
               <Select
                 options={listCourseAuto}
                 showSearch
-                placeholder="Select a courseId"
+                placeholder="Select a courseName"
                 optionFilterProp="children"
                 onSearch={onSearch}
                 onChange={onChange}
                 filterOption={filterOption}
                 allowClear
                 onClear={() => handleClear()}
-                className=" min-w-[160px]"
+                className=" min-w-max max-w-[300px] w-[300px]"
               ></Select>
             </Form.Item>
             <Form.Item label="Register name" name="fullName">
@@ -168,6 +169,7 @@ const CourseRequestContent = () => {
             <Form.Item
               label="Register Email"
               name="email"
+
               // initialValue={searchParams.get("email") && ""}
             >
               <Input defaultValue={searchParams.get("email")}></Input>
@@ -181,7 +183,7 @@ const CourseRequestContent = () => {
               <Input
                 defaultValue={searchParams.get("phone")}
                 type="number"
-                className=" max-w-[120px]"
+                className=" max-w-[160px]"
               ></Input>
             </Form.Item>
             <Form.Item>
