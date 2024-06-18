@@ -197,12 +197,12 @@ const HospitalContent = () => {
             autoComplete="off"
           >
             <Form.Item
-              label="Category name"
+              label="Hospital name"
               name="categoryName"
               rules={[
                 {
                   required: true,
-                  message: "Please input category name!",
+                  message: "Please input hospital name!",
                 },
               ]}
             >
@@ -210,12 +210,12 @@ const HospitalContent = () => {
             </Form.Item>
 
             <Form.Item
-              label="Category description"
+              label="Hospital description"
               name="categoryDescription"
               rules={[
                 {
                   required: true,
-                  message: "Please input category description!",
+                  message: "Please input hospital description!",
                 },
               ]}
             >
