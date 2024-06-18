@@ -69,8 +69,8 @@ const MotherHealthPage = () => {
   };
   console.log("bmi", bmi);
   return (
-    <div className="w-full max-h-screen overflow-x-hidden overflow-y-auto">
-      <div className="flex flex-col self-stretch w-[95%] gap-8 mt-6 ">
+    <div className="w-full max-h-screen pb-6 overflow-x-hidden overflow-y-auto">
+      <div className="flex flex-col self-stretch w-[95%] gap-8 mt-6  ">
         <div className="flex w-full">
           <div className="flex flex-row lg:w-full lg:h-[330px] border border-solid rounded-xl shadow-lg px-4 ">
             <div className="flex flex-col gap-4 justify-center items-center p-4 w-[360px] border-r-2">
@@ -270,11 +270,13 @@ const MotherHealthPage = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="flex flex-col items-center gap-6 ">
-                  <img
-                    src="https://dinhduongmevabe.com.vn/_nuxt/img/icon-doctor-green.79e15b4.svg"
-                    className="w-[70px] h-[70px]"
-                  />
+                <div className="flex flex-col items-center gap-6 w-[395.37px] ">
+                  <div className="flex items-center justify-center w-full">
+                    <img
+                      src="https://dinhduongmevabe.com.vn/_nuxt/img/icon-doctor-green.79e15b4.svg"
+                      className="w-[70px] h-[70px]"
+                    />
+                  </div>
                   {bmiData && (
                     <p className="font-normal text-center ">
                       Recommended weight increase based on pre-pregnancy BMI:{" "}
