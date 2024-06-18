@@ -67,7 +67,7 @@ const PostsContent = () => {
         page: page,
         ...(communityId && { communityId: communityId }),
         // communityId: communityId || undefined,
-        kind: role,
+        accountKind: role,
       }),
   });
   const { data: listCommunity } = useQuery({

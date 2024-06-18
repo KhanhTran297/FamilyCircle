@@ -57,7 +57,7 @@ const PostItem = (props) => {
             }`}
           >
             <p className={` font-roboto font-normal text-sm text-white`}>
-              {props.item.owner.kind === 3 ? "expert" : "user"}
+              {props.item.owner.kind === 3 ? "Expert" : "User"}
             </p>
           </div>
           <div className=" flex items-center bg-[#a73574] px-2 py-1 rounded-lg shadow-sm">
