@@ -570,7 +570,7 @@ const CommunityContent = (props) => {
                   autoComplete="off"
                 >
                   <Form.Item
-                    label="topic Name"
+                    label="Topic name"
                     name="categoryName"
                     className="items-center w-full "
                     rules={[
@@ -584,7 +584,7 @@ const CommunityContent = (props) => {
                   </Form.Item>
 
                   <Form.Item
-                    label="topic Description"
+                    label="Topic description"
                     name="categoryDescription"
                     className="items-center w-full"
                     rules={[
