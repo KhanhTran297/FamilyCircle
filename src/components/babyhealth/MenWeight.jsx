@@ -154,12 +154,12 @@ const MenWeight = ({ zScore, predictedAge, predictedWeight, min }) => {
   };
 
   return (
-    <div className="xl:w-[1160px] flex flex-row h-[500px] items-center ">
+    <div className="flex flex-col items-center gap-6 xl:w-full h-fit ">
       <Line
         options={options}
         data={{ labels: initialLabels, datasets: interpolatedData }}
       />
-      <div className="flex flex-col items-center pt-6 ml-4 border  rounded-xl px-3 w-[400px] h-[450px] ">
+      <div className="flex flex-col items-center pt-6 ml-4 border  rounded-xl px-3 w-full h-[200px] ">
         <h3 className="text-2xl font-bold text-red-600">Evaluation:</h3>
         <p className="text-xl font-bold text-center text-pink-800">
           {evaluateZScore(zScore)}
