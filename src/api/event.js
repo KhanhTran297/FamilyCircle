@@ -48,3 +48,7 @@ export const listCourseRequestApi = (params) => {
   const url = "/v1/course-request/list";
   return UseGet({ url, requiredToken: true, params });
 };
+export const listCourseAutoComplete = (params) => {
+  const url = "/v1/courses/auto-complete";
+  return UseGet({ url, requiredToken: true, params });
+};

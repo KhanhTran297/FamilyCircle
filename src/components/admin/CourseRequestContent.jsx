@@ -1,13 +1,13 @@
 // @quokka
 import { useMemo, useState } from "react";
-import { Button, Form, Input, Table } from "antd";
+import { Button, Form, Input, Select, Table } from "antd";
 
 import dayjs from "dayjs";
 import { useQuery } from "@tanstack/react-query";
 
 import queryString from "query-string";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { listCourseRequestApi } from "../../api/event";
+import { listCourseAutoComplete, listCourseRequestApi } from "../../api/event";
 
 const CourseRequestContent = () => {
   const location = useLocation();
@@ -37,7 +37,11 @@ const CourseRequestContent = () => {
     setSearchParams({});
     searchForm.resetFields();
   };
-
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+  const onChange = (value) => {};
+  const onSearch = (value) => {};
+  const handleClear = () => {};
   const columns = [
     {
       title: "Id",
@@ -108,7 +112,19 @@ const CourseRequestContent = () => {
         }
       }),
   });
-  console.log(listCourseRequest);
+  const { data: listCourseAuto } = useQuery({
+    queryKey: ["listCourseAutoComplete"],
+    queryFn: () =>
+      listCourseAutoComplete().then((res) => {
+        const newData = res?.data?.content?.map((item) => {
+          return {
+            label: item.id.toString(),
+            value: item.id,
+          };
+        });
+        return newData;
+      }),
+  });
 
   return (
     <div
@@ -128,11 +144,23 @@ const CourseRequestContent = () => {
             // initialValues={searchParams.get("fullName") && ""}
           >
             <Form.Item label="CourseId" name="courseId">
-              <Input
+              {/* <Input
                 defaultValue={searchParams.get("courseId")}
                 type="number"
                 className=" max-w-[150px]"
-              ></Input>
+              ></Input> */}
+              <Select
+                options={listCourseAuto}
+                showSearch
+                placeholder="Select a courseId"
+                optionFilterProp="children"
+                onSearch={onSearch}
+                onChange={onChange}
+                filterOption={filterOption}
+                allowClear
+                onClear={() => handleClear()}
+                className=" min-w-[160px]"
+              ></Select>
             </Form.Item>
             <Form.Item label="Register name" name="fullName">
               <Input defaultValue={searchParams.get("fullName")}></Input>
