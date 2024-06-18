@@ -161,6 +161,7 @@ const CourseRequestContent = () => {
                 allowClear
                 onClear={() => handleClear()}
                 className=" min-w-max max-w-[300px] w-[300px]"
+                style={{ width: "250px" }}
               ></Select>
             </Form.Item>
             <Form.Item label="Register name" name="fullName">
