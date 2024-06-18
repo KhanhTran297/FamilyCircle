@@ -12,6 +12,7 @@ const Bookmark = () => {
     isFetching,
     isFetchingNextPage,
   } = useBookmark();
+  console.log(listBookmarkLoad);
   return (
     <div className="w-full px-6 desktop:px-0">
       {listBookmarkLoad?.pages?.length === 0 ? (
@@ -35,7 +36,7 @@ const Bookmark = () => {
           }
           className="gap-6"
         >
-          {listBookmarkLoad?.pages ? (
+          {listBookmarkLoad?.pages[0]?.data.totalElements > 0 ? (
             listBookmarkLoad?.pages.map((page, pageIndex) => (
               <div key={pageIndex}>
                 <div className="flex flex-col gap-6 overflow-y-auto desktop:mt-6 mt-[80px] max-h-100vh desktop:mb-6 w-full ">
