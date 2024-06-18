@@ -140,7 +140,7 @@ const PostDetailPage = () => {
                     <p
                       className={` font-roboto font-normal text-sm text-black`}
                     >
-                      {postRelated?.owner?.kind === 3 ? "expert" : "user"}
+                      {postRelated?.owner?.kind === 3 ? "Expert" : "User"}
                     </p>
                   </div>
                   <ILocalDot fill="#b7b0b1" />
