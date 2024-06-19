@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAccountClientApi } from "../../api/account";
 import { Select } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-const SearchingUsers = (props) => {
+const SearchingUsers = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState("");
   const {
@@ -54,7 +53,7 @@ const SearchingUsers = (props) => {
     refetch();
   }, [searchParams]);
   return (
-    <div className=" w-max ">
+    <div className=" w-max">
       <Select
         allowClear
         className="w-[250px] "

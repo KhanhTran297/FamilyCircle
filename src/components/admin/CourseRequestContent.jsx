@@ -1,5 +1,5 @@
 // @quokka
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Button, Form, Input, Select, Table } from "antd";
 
 import dayjs from "dayjs";
@@ -11,10 +11,10 @@ import { listCourseAutoComplete, listCourseRequestApi } from "../../api/event";
 
 const CourseRequestContent = () => {
   const location = useLocation();
-  const [form] = Form.useForm();
+
   const [searchForm] = Form.useForm();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [confirmLoading, setConfirmLoading] = useState(false);
+
   const queryParam = useMemo(
     () => queryString.parse(location.search),
     [location.search]
@@ -39,8 +39,8 @@ const CourseRequestContent = () => {
   };
   const filterOption = (input, option) =>
     (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-  const onChange = (value) => {};
-  const onSearch = (value) => {};
+  const onChange = () => {};
+  const onSearch = () => {};
   const handleClear = () => {};
   const columns = [
     {
