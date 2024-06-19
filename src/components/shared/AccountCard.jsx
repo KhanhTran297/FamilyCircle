@@ -25,7 +25,7 @@ const AccountCard = (props) => {
           </div>
           <div className="">
             <p className="text-sm font-roboto">
-              {props.account.group.kind === 2 ? "user" : "expert"}
+              {props.account.group.kind === 2 ? "User" : "Expert"}
             </p>
           </div>
         </div>
