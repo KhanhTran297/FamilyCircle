@@ -29,7 +29,7 @@ const CommunityItem = (props) => {
   const [color, setColor] = useState("#A73574");
   const { unFollowCommunity, followCommunity } = useCommunityMutate();
   return (
-    <div className=" flex flex-col shadow-lg rounded-xl xl:h-[300px] h-[300px]">
+    <div className=" flex flex-col shadow-lg rounded-xl xl:h-[300px] h-[300px] w-[300px]">
       <div
         // className=" bg-[#ffeaf1] h-1/2 w-[300px] flex justify-center rounded-xl cursor-pointer"
         className="h-[250px] w-[300px] flex justify-center rounded-xl cursor-pointer px-8 z-30  bg-[#ffeaf1]  text-white relative font-semibold font-sans after:-z-20 after:absolute after:h-1 after:w-1 after:bg-[#a73574] after:left-5 overflow-hidden after:bottom-0 after:translate-y-full after:rounded-md after:hover:scale-[300] after:hover:transition-all after:hover:duration-700 after:transition-all after:duration-700 transition-all duration-700 [text-shadow:3px_5px_2px_#be123c;] hover:[text-shadow:2px_2px_2px_#fda4af] text-2xl"
@@ -40,7 +40,7 @@ const CommunityItem = (props) => {
         <img
           src={props.item.categoryImage}
           alt=""
-          className="object-scale-down h-full "
+          className="object-scale-down w-full h-full "
         />
       </div>
       <div className="relative flex flex-col h-full gap-2 pt-2 pb-2 pl-3 pr-3 ">
