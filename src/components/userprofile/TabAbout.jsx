@@ -40,57 +40,60 @@ const TabAbout = () => {
           {accountProfile?.data?.phone || "N/A"}
         </p>
       </div>
-
-      <div className="flex flex-row items-start justify-around w-full xl:justify-normal">
-        <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
-          Hospital:
-        </p>
-        <p className="text-sm font-medium text-light_surface_on_surface font-roboto">
-          {accountProfile?.data?.hospital?.categoryName +
-            " , " +
-            accountProfile?.data?.hospital?.categoryDescription}
-        </p>
-      </div>
-      <div className="flex flex-col">
-        <div className="flex flex-row items-start justify-around w-full xl:justify-normal">
-          <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
-            Hospital role:
-          </p>
-          <p className="text-sm font-medium text-light_surface_on_surface font-roboto">
-            {accountProfile?.data?.hospitalRole?.categoryName}
-          </p>
+      {accountProfile?.data?.group?.kind === 3 && (
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row items-start justify-around w-full xl:justify-normal">
+            <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
+              Hospital:
+            </p>
+            <p className="text-sm font-medium text-light_surface_on_surface font-roboto">
+              {accountProfile?.data?.hospital?.categoryName +
+                " , " +
+                accountProfile?.data?.hospital?.categoryDescription}
+            </p>
+          </div>
+          <div className="flex flex-col">
+            <div className="flex flex-row items-start justify-around w-full xl:justify-normal">
+              <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
+                Hospital role:
+              </p>
+              <p className="text-sm font-medium text-light_surface_on_surface font-roboto">
+                {accountProfile?.data?.hospitalRole?.categoryName}
+              </p>
+            </div>
+            <div className="">
+              <p className="text-[14px]">
+                {accountProfile?.data?.hospitalRole?.categoryDescription}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-row items-start justify-around w-full xl:justify-normal">
+            <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
+              Academic degree:
+            </p>
+            <p className="text-sm font-medium text-light_surface_on_surface font-roboto">
+              {accountProfile?.data?.academicDegree?.categoryName +
+                " , " +
+                accountProfile?.data?.academicDegree?.categoryDescription}
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-row items-start justify-around w-full xl:justify-normal">
+              <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
+                Department:
+              </p>
+              <p className="text-sm font-medium text-light_surface_on_surface font-roboto">
+                {accountProfile?.data?.department?.categoryName}
+              </p>
+            </div>
+            <div className="">
+              <p className=" text-[14px]">
+                {accountProfile?.data?.department?.categoryDescription}
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="">
-          <p className="text-[14px]">
-            {accountProfile?.data?.hospitalRole?.categoryDescription}
-          </p>
-        </div>
-      </div>
-      <div className="flex flex-row items-start justify-around w-full xl:justify-normal">
-        <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
-          Academic degree:
-        </p>
-        <p className="text-sm font-medium text-light_surface_on_surface font-roboto">
-          {accountProfile?.data?.academicDegree?.categoryName +
-            " , " +
-            accountProfile?.data?.academicDegree?.categoryDescription}
-        </p>
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-row items-start justify-around w-full xl:justify-normal">
-          <p className=" xl:w-[240px] font-roboto text-sm font-normal text-light_surface_on_surface">
-            Department:
-          </p>
-          <p className="text-sm font-medium text-light_surface_on_surface font-roboto">
-            {accountProfile?.data?.department?.categoryName}
-          </p>
-        </div>
-        <div className="">
-          <p className=" text-[14px]">
-            {accountProfile?.data?.department?.categoryDescription}
-          </p>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
