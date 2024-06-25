@@ -89,7 +89,7 @@ const DepartmentContent = () => {
     isLoading,
   } = useQuery({
     queryKey: ["getListCategory"],
-    queryFn: () => getListCategoryApi({ kind: 2 }),
+    queryFn: () => getListCategoryApi({ kind: 3 }),
     enabled: false,
     retry: 0,
     onSuccess: () => {},
@@ -129,7 +129,7 @@ const DepartmentContent = () => {
     const newvalues = {
       ...values,
       categoryImage: "",
-      categoryKind: 2,
+      categoryKind: 3,
       categoryOrdering: 1,
       parentId: null,
       status: 1,

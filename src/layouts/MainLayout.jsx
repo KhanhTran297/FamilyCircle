@@ -90,7 +90,6 @@ const MainLayout = () => {
         } `}
       >
         <LeftSideBar />
-
         <div className="flex-grow ">
           {searchParamsState?.search ? (
             <SearchPage searchParams={searchParamsState?.search} />
@@ -98,7 +97,6 @@ const MainLayout = () => {
             <Outlet />
           )}
         </div>
-
         {checkPage(location.pathname) ? "" : <RightSiderBar />}
       </div>
     </div>
