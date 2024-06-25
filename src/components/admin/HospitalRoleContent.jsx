@@ -89,7 +89,7 @@ const HospitalRoleContent = () => {
     isLoading,
   } = useQuery({
     queryKey: ["getListCategory"],
-    queryFn: () => getListCategoryApi({ kind: 4 }),
+    queryFn: () => getListCategoryApi({ kind: 2 }),
     enabled: false,
     retry: 0,
     onSuccess: () => {},
@@ -129,7 +129,7 @@ const HospitalRoleContent = () => {
     const newvalues = {
       ...values,
       categoryImage: "",
-      categoryKind: 4,
+      categoryKind: 2,
       categoryOrdering: 1,
       parentId: null,
       status: 1,

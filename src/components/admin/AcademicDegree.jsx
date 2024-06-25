@@ -89,7 +89,7 @@ const AcademicDegree = () => {
     isLoading,
   } = useQuery({
     queryKey: ["getListCategory"],
-    queryFn: () => getListCategoryApi({ kind: 3 }),
+    queryFn: () => getListCategoryApi({ kind: 4 }),
     enabled: false,
     retry: 0,
     onSuccess: () => {},
@@ -129,7 +129,7 @@ const AcademicDegree = () => {
     const newvalues = {
       ...values,
       categoryImage: "",
-      categoryKind: 3,
+      categoryKind: 4,
       categoryOrdering: 1,
       parentId: null,
       status: 1,

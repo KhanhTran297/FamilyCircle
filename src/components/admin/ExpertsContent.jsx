@@ -110,6 +110,7 @@ const ExpertsContent = () => {
     enabled: false,
     retry: 0,
     onSuccess: (data) => {
+      console.log(data);
       optionsDepartment = [];
       for (let i = 0; i < data.data.content.length; i++) {
         const item = data.data.content[i];
@@ -127,6 +128,7 @@ const ExpertsContent = () => {
     enabled: false,
     retry: 0,
     onSuccess: (data) => {
+      console.log(data);
       optionsAcademicDegree = [];
       for (let i = 0; i < data.data.content.length; i++) {
         const item = data.data.content[i];
