@@ -26,7 +26,7 @@ Password: 12345678
 Email: admin@gmail.com
 Password: 12345678
 ## Contact
-Trần Minh Gia Khánh - Email: khanhtmg29072002@gmail.com
-Back-end Project Link: https://github.com/zakushi2002/social-networking-api
-Figma Design: https://www.figma.com/design/iXu1duPqYVoDj3Ve14eyI5/FamilyCircle?node-id=12-1668&t=f2zV18x7n4BPW3Lp-1
+- Trần Minh Gia Khánh - Email: khanhtmg29072002@gmail.com
+- Back-end Project Link: https://github.com/zakushi2002/social-networking-api
+- Figma Design: https://www.figma.com/design/iXu1duPqYVoDj3Ve14eyI5/FamilyCircle?node-id=12-1668&t=f2zV18x7n4BPW3Lp-1
 
